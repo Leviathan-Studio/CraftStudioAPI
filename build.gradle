@@ -1,0 +1,128 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = "0.1"
+group= "com.leviathanstudio"
+archivesBaseName = "Game"
+compileJava.options.encoding = 'UTF-8'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+minecraft {
+    version = "1.9.4-12.17.0.1940"
+    runDir = "run"
+    mappings = "snapshot_20160602"
+}
+
+repositories {
+   maven {
+        name = "ourten"
+        url = "http://maven.ferenyr.info/artifactory/Ourten/"
+   }
+}
+
+ext.map = [:]
+map["core"] = ['com/leviathanstudio/module/core/**', 'assets/game_core/**']
+
+sourceSets {
+    main {
+        java {
+        	srcDirs = []
+        	map.keySet().each {
+        		srcDir "src/main/java/${it}"
+        	}
+        	println srcDirs
+        }
+        resources {
+        	srcDirs = []
+        	map.keySet().each {
+        		srcDir "src/main/resources/${it}"
+        	}
+        }
+    }
+}
+
+dependencies {
+	compileOnly "org.projectlombok:lombok:1.16.6"
+    compile(group: 'fr.ourten.brokkgui', name: 'BrokkGui', version: '1.9-1.0.1')
+}
+
+processResources
+{
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
+
+jar
+{
+    includes.addAll('lib/craftstudio/asm/**')
+//  includes.addAll('assets/**')
+    includes.addAll('mcmod.info')
+//  includes.addAll('LICENSE.txt')
+	
+	 manifest {
+        attributes 'FMLCorePlugin': 'fr.zeamateis.tesm.AnimationLoadingPlugin', 'FMLCorePluginContainsFMLMod': 'true'
+    }
+}
+
+def moveMcModInfo(artifactName) {
+    return tasks.create("move${artifactName}McmodInfo", Copy) {
+    	dependsOn reobf
+    	from(zipTree(project.ext.coreJar))
+    	from 'src/main/resources/'+artifactName+'/mcmod.info'
+    	into 'temporary'
+    }
+}
+
+def rePackAllJar(artifactName) {
+	return tasks.create("rePackAllJar${artifactName}", Jar) {
+		dependsOn moveMcModInfo(artifactName)
+		from 'temporary'
+	}
+}
+
+def packJar(artifactName) {
+	return tasks.create("pack${artifactName}Jar", Jar) {
+		dependsOn rePackAllJar(artifactName)
+    	outputs.upToDateWhen {false}
+
+    	from(zipTree(project.ext.coreJar))
+    	{
+    	   	includes.addAll(project.map["${artifactName}"])
+ 	   	    includes.addAll('mcmod.info')
+    	    includes.addAll('LICENSE.txt')
+    	}
+    	baseName = "TESM-"+artifactName.capitalize()
+	}
+}
+
+task cleanExtra(type: Delete, dependsOn: "buildAllJars") {
+    delete project.ext.coreJar
+    delete 'temporary'
+}
+
+task buildAllJars {
+	map.keySet().each {
+        dependsOn packJar("${it}")
+    }
+}
