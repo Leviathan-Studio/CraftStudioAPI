@@ -1,5 +1,6 @@
 package fr.zeamateis.test.anim.common;
 
+import fr.zeamateis.test.anim.common.animations.AnimationHandlerTest;
 import lib.craftstudio.common.IAnimated;
 import lib.craftstudio.common.animation.AnimationHandler;
 import net.minecraft.entity.EntityCreature;
@@ -7,7 +8,7 @@ import net.minecraft.world.World;
 
 public class EntityTest extends EntityCreature implements IAnimated
 {
-    protected AnimationHandler animHandler = new Mod_Test.AnimationHandlerTest(this);
+    protected AnimationHandler animHandler = new AnimationHandlerTest(this);
 
     public EntityTest(World par1World) {
         super(par1World);

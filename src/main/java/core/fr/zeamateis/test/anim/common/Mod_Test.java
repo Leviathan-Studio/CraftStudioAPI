@@ -1,15 +1,9 @@
 package fr.zeamateis.test.anim.common;
 
 import java.awt.Color;
-import java.util.HashMap;
 
-import fr.zeamateis.test.anim.common.animations.ChannelBlockAnimation;
-import fr.zeamateis.test.anim.common.animations.ChannelIdleAnimation;
 import fr.zeamateis.test.proxy.CommonProxy;
 import lib.craftstudio.CraftStudioApi;
-import lib.craftstudio.common.IAnimated;
-import lib.craftstudio.common.animation.AnimationHandler;
-import lib.craftstudio.common.animation.Channel;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -54,35 +48,4 @@ public class Mod_Test
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    /**
-     * The Animation handler class to register all animations you want in static
-     * method <br>
-     * (The class is in Mod_Test class but it could be independent)
-     */
-    public static class AnimationHandlerTest extends AnimationHandler
-    {
-        public AnimationHandlerTest(IAnimated entity) {
-            super(entity);
-        }
-
-        /** Map with all the animations. */
-        public static HashMap<String, Channel> animChannels = new HashMap<>();
-
-        /** Register the animation(s) */
-        static {
-            AnimationHandlerTest.animChannels.put("block", new ChannelBlockAnimation("block", 30.0F));
-            AnimationHandlerTest.animChannels.put("idle", new ChannelIdleAnimation("idle", 30.0F));
-        }
-
-        @Override
-        public void executeAnimation(String name, float startingFrame) {
-            super.executeAnimation(AnimationHandlerTest.animChannels, name, startingFrame);
-        }
-
-        @Override
-        public void stopAnimation(String name) {
-            super.stopAnimation(AnimationHandlerTest.animChannels, name);
-        }
-
-    }
 }
