@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 @Mod(name = "TestMod", modid = "testmod")
 public class Mod_Test
 {
-    @SidedProxy(clientSide = "fr.zeamateis.tesm.proxy.ClientProxy", serverSide = "fr.zeamateis.tesm.proxy.CommonProxy")
+    @SidedProxy(clientSide = "fr.zeamateis.test.proxy.ClientProxy", serverSide = "fr.zeamateis.test.proxy.CommonProxy")
     private static CommonProxy proxy;
 
     @Instance("testmod")
