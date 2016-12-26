@@ -1,6 +1,5 @@
-package fr.zeamateis.test.anim.client;
+package fr.zeamateis.test.anim.common;
 
-import fr.zeamateis.test.anim.common.Mod_Test;
 import lib.craftstudio.common.IAnimated;
 import lib.craftstudio.common.animation.AnimationHandler;
 import net.minecraft.tileentity.TileEntity;

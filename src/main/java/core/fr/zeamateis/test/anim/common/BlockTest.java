@@ -1,6 +1,5 @@
 package fr.zeamateis.test.anim.common;
 
-import fr.zeamateis.test.anim.client.TileEntityBlockTest;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;

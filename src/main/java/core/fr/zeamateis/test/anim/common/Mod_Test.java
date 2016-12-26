@@ -3,7 +3,6 @@ package fr.zeamateis.test.anim.common;
 import java.awt.Color;
 import java.util.HashMap;
 
-import fr.zeamateis.test.anim.client.TileEntityBlockTest;
 import fr.zeamateis.test.anim.common.animations.ChannelBlockAnimation;
 import fr.zeamateis.test.anim.common.animations.ChannelIdleAnimation;
 import fr.zeamateis.test.proxy.CommonProxy;
