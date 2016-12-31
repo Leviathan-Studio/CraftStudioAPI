@@ -172,4 +172,4 @@ fabric.properties
 
 ### Other ###
 run
-src/main/java/core/lib/*
+# src/main/java/core/lib/*
