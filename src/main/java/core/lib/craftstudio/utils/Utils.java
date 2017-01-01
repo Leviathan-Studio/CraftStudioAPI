@@ -27,9 +27,9 @@ public class Utils
      * @return The newly created FloatBuffer
      */
     public static FloatBuffer makeFloatBuffer(float[] arr) {
-        ByteBuffer bb = ByteBuffer.allocateDirect(arr.length * 4);
+        final ByteBuffer bb = ByteBuffer.allocateDirect(arr.length * 4);
         bb.order(ByteOrder.nativeOrder());
-        FloatBuffer fb = bb.asFloatBuffer();
+        final FloatBuffer fb = bb.asFloatBuffer();
         fb.put(arr);
         fb.position(0);
         return fb;
@@ -43,7 +43,7 @@ public class Utils
      * @return The newly created FloatBuffer
      */
     public static ByteBuffer makeByteBuffer(byte[] arr) {
-        ByteBuffer bb = ByteBuffer.allocateDirect(arr.length);
+        final ByteBuffer bb = ByteBuffer.allocateDirect(arr.length);
         bb.order(ByteOrder.nativeOrder());
         bb.put(arr);
         bb.position(0);
@@ -52,15 +52,15 @@ public class Utils
 
     /** Get the quaternion from a matrix. We need to transpose the matrix. */
     public static Quaternion getQuaternionFromMatrix(Matrix4f matrix) {
-        Matrix4f copy = new Matrix4f(matrix);
+        final Matrix4f copy = new Matrix4f(matrix);
         return new Quaternion(copy.transpose());
     }
 
     /** Get the quaternion from euler angles. Minecraft eulers order is XYZ. */
     public static Quaternion getQuaternionFromEulers(float x, float y, float z) {
-        Quaternion quatX = new Quaternion(Vector3f.UNIT_X, (float) Math.toRadians(x));
-        Quaternion quatY = new Quaternion(Vector3f.UNIT_Y, (float) Math.toRadians(y));
-        Quaternion quatZ = new Quaternion(Vector3f.UNIT_Z, (float) Math.toRadians(z));
+        final Quaternion quatX = new Quaternion(Vector3f.UNIT_X, (float) Math.toRadians(x));
+        final Quaternion quatY = new Quaternion(Vector3f.UNIT_Y, (float) Math.toRadians(y));
+        final Quaternion quatZ = new Quaternion(Vector3f.UNIT_Z, (float) Math.toRadians(z));
         quatY.mul(quatY, quatX);
         quatZ.mul(quatZ, quatY);
         return quatZ;
@@ -84,11 +84,11 @@ public class Utils
 
     public static void readTextureFileSize(ResourceLocation textureLocation) {
         try {
-            BufferedImage bimg = ImageIO
+            final BufferedImage bimg = ImageIO
                     .read(new BufferedInputStream(Minecraft.getMinecraft().getResourceManager().getResource(textureLocation).getInputStream()));
-            setTextureWidth(bimg.getWidth());
-            setTextureHeight(bimg.getHeight());
-        } catch (IOException e) {
+            Utils.setTextureWidth(bimg.getWidth());
+            Utils.setTextureHeight(bimg.getHeight());
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }

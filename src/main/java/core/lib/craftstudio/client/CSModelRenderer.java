@@ -1,11 +1,5 @@
 package lib.craftstudio.client;
 
-import static lib.craftstudio.utils.GlHelper.callList;
-import static lib.craftstudio.utils.GlHelper.multMatrix;
-import static lib.craftstudio.utils.GlHelper.popMatrix;
-import static lib.craftstudio.utils.GlHelper.pushMatrix;
-import static lib.craftstudio.utils.GlHelper.translate;
-
 import java.nio.FloatBuffer;
 
 import lib.craftstudio.common.math.Matrix4f;
@@ -23,27 +17,27 @@ import net.minecraft.client.renderer.VertexBuffer;
 public class CSModelRenderer extends ModelRenderer
 {
     /** Custom version, as parent variable is PRIVATE */
-    private int        textureOffsetX;
+    private int            textureOffsetX;
 
     /** Custom version, as parent variable is PRIVATE */
-    private int        textureOffsetY;
+    private int            textureOffsetY;
 
     /** Custom version, as parent variable is PRIVATE */
-    private boolean    compiled;
+    private boolean        compiled;
 
     /** Custom version, as parent variable is PRIVATE */
-    private int        displayList;
+    private int            displayList;
 
-    private Matrix4f   rotationMatrix        = new Matrix4f();
+    private final Matrix4f rotationMatrix        = new Matrix4f();
     /** Previous value of the matrix */
-    private Matrix4f   prevRotationMatrix    = new Matrix4f();
+    private Matrix4f       prevRotationMatrix    = new Matrix4f();
 
     /** Default informations for un-animated models */
-    private float      defaultRotationPointX;
-    private float      defaultRotationPointY;
-    private float      defaultRotationPointZ;
-    private Matrix4f   defaultRotationMatrix = new Matrix4f();
-    private Quaternion defaultRotationAsQuaternion;
+    private float          defaultRotationPointX;
+    private float          defaultRotationPointY;
+    private float          defaultRotationPointZ;
+    private Matrix4f       defaultRotationMatrix = new Matrix4f();
+    private Quaternion     defaultRotationAsQuaternion;
 
     public CSModelRenderer(ModelBase modelbase, String partName, int xTextureOffset, int yTextureOffset) {
         super(modelbase, partName);
@@ -93,12 +87,12 @@ public class CSModelRenderer extends ModelRenderer
                     this.compileDisplayList(scale);
 
                 // pushMatrix();
-                translate(this.offsetX, this.offsetY, this.offsetZ);
+                GlHelper.translate(this.offsetX, this.offsetY, this.offsetZ);
                 int i;
 
                 if (this.rotationMatrix.isEmptyRotationMatrix()) {
                     if (this.rotationPointX == 0.0F && this.rotationPointY == 0.0F && this.rotationPointZ == 0.0F) {
-                        callList(this.displayList);
+                        GlHelper.callList(this.displayList);
 
                         if (this.childModels != null)
                             for (i = 0; i < this.childModels.size(); ++i)
@@ -106,33 +100,33 @@ public class CSModelRenderer extends ModelRenderer
                     }
                     else {
                         // pushMatrix();
-                        translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
-                        callList(this.displayList);
+                        GlHelper.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+                        GlHelper.callList(this.displayList);
 
                         if (this.childModels != null)
                             for (i = 0; i < this.childModels.size(); ++i)
                                 this.childModels.get(i).render(scale);
 
-                        translate(-this.rotationPointX * scale, -this.rotationPointY * scale, -this.rotationPointZ * scale);
+                        GlHelper.translate(-this.rotationPointX * scale, -this.rotationPointY * scale, -this.rotationPointZ * scale);
                         // popMatrix();
                     }
                 }
                 else {
-                    pushMatrix();
-                    translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
-                    FloatBuffer buf = Utils.makeFloatBuffer(this.rotationMatrix.intoArray());
-                    multMatrix(buf);
+                    GlHelper.pushMatrix();
+                    GlHelper.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+                    final FloatBuffer buf = Utils.makeFloatBuffer(this.rotationMatrix.intoArray());
+                    GlHelper.multMatrix(buf);
 
-                    callList(this.displayList);
+                    GlHelper.callList(this.displayList);
 
                     if (this.childModels != null)
                         for (i = 0; i < this.childModels.size(); ++i)
                             this.childModels.get(i).render(scale);
 
-                    popMatrix();
+                    GlHelper.popMatrix();
                 }
 
-                translate(-this.offsetX, -this.offsetY, -this.offsetZ);
+                GlHelper.translate(-this.offsetX, -this.offsetY, -this.offsetZ);
                 // popMatrix();
 
                 this.prevRotationMatrix = this.rotationMatrix;
@@ -155,12 +149,12 @@ public class CSModelRenderer extends ModelRenderer
 
                 if (this.rotationMatrix.equals(this.prevRotationMatrix)) {
                     if (this.rotationPointX != 0.0F || this.rotationPointY != 0.0F || this.rotationPointZ != 0.0F)
-                        translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+                        GlHelper.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
                 }
                 else {
-                    translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+                    GlHelper.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
 
-                    multMatrix(FloatBuffer.wrap(this.rotationMatrix.intoArray()));
+                    GlHelper.multMatrix(FloatBuffer.wrap(this.rotationMatrix.intoArray()));
                 }
             }
     }
@@ -269,7 +263,7 @@ public class CSModelRenderer extends ModelRenderer
     public void compileDisplayList(float par1) {
         this.displayList = GLAllocation.generateDisplayLists(1);
         GlHelper.glNewList(this.displayList, 4864);
-        VertexBuffer vertexbuffer = Tessellator.getInstance().getBuffer();
+        final VertexBuffer vertexbuffer = Tessellator.getInstance().getBuffer();
 
         for (int i = 0; i < this.cubeList.size(); ++i)
             this.cubeList.get(i).render(vertexbuffer, par1);

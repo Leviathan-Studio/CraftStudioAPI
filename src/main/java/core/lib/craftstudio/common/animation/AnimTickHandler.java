@@ -13,8 +13,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AnimTickHandler
 {
-    private LinkedList<IAnimated> activeEntities    = new LinkedList<>();
-    private LinkedList<IAnimated> removableEntities = new LinkedList<>();
+    private final LinkedList<IAnimated> activeEntities    = new LinkedList<IAnimated>();
+    private final LinkedList<IAnimated> removableEntities = new LinkedList<IAnimated>();
 
     public AnimTickHandler() {
         MinecraftForge.EVENT_BUS.register(this);
@@ -37,10 +37,10 @@ public class AnimTickHandler
                         if (((Entity) entity).isDead)
                             this.removableEntities.add(entity);
                 }
-                for (final IAnimated entity : this.removableEntities)
-                    this.activeEntities.remove(entity);
-                this.removableEntities.clear();
             }
+        for (final IAnimated entity : this.removableEntities)
+            this.activeEntities.remove(entity);
+        this.removableEntities.clear();
     }
 
     // Called when the server ticks. Usually 20 ticks a second.

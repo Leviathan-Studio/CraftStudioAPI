@@ -210,8 +210,8 @@ public class Matrix3d implements java.io.Serializable, Cloneable
      */
     public final void setScale(double scale) {
 
-        double[] tmp_rot = new double[9]; // scratch matrix
-        double[] tmp_scale = new double[3]; // scratch matrix
+        final double[] tmp_rot = new double[9]; // scratch matrix
+        final double[] tmp_scale = new double[3]; // scratch matrix
 
         this.getScaleRotate(tmp_scale, tmp_rot);
 
@@ -684,11 +684,11 @@ public class Matrix3d implements java.io.Serializable, Cloneable
      */
     public final double getScale() {
 
-        double[] tmp_scale = new double[3]; // scratch matrix
-        double[] tmp_rot = new double[9]; // scratch matrix
+        final double[] tmp_scale = new double[3]; // scratch matrix
+        final double[] tmp_rot = new double[9]; // scratch matrix
         this.getScaleRotate(tmp_scale, tmp_rot);
 
-        return max3(tmp_scale);
+        return Matrix3d.max3(tmp_scale);
     }
 
     /**
@@ -908,16 +908,16 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         }
         else {
             mag = 1.0 / mag;
-            double ax = a1.x * mag;
-            double ay = a1.y * mag;
-            double az = a1.z * mag;
-            double sinTheta = Math.sin(a1.angle);
-            double cosTheta = Math.cos(a1.angle);
-            double t = 1.0 - cosTheta;
+            final double ax = a1.x * mag;
+            final double ay = a1.y * mag;
+            final double az = a1.z * mag;
+            final double sinTheta = Math.sin(a1.angle);
+            final double cosTheta = Math.cos(a1.angle);
+            final double t = 1.0 - cosTheta;
 
-            double xz = ax * az;
-            double xy = ax * ay;
-            double yz = ay * az;
+            final double xz = ax * az;
+            final double xy = ax * ay;
+            final double yz = ay * az;
 
             this.m00 = t * ax * ax + cosTheta;
             this.m01 = t * xy - sinTheta * az;
@@ -1024,10 +1024,11 @@ public class Matrix3d implements java.io.Serializable, Cloneable
      * allocating a little bit of garbage.
      */
     private final void invertGeneral(Matrix3d m1) {
-        double result[] = new double[9];
-        int row_perm[] = new int[3];
-        int i, r, c;
-        double[] tmp = new double[9]; // scratch matrix
+        final double result[] = new double[9];
+        final int row_perm[] = new int[3];
+        int i;
+        final int r, c;
+        final double[] tmp = new double[9]; // scratch matrix
 
         // Use LU decomposition and backsubstitution code specifically
         // for floating-point 3x3 matrices.
@@ -1046,11 +1047,11 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         tmp[8] = m1.m22;
 
         // Calculate LU decomposition: Is the matrix singular?
-        if (!luDecomposition(tmp, row_perm))
+        if (!Matrix3d.luDecomposition(tmp, row_perm))
             // Matrix has no inverse
             try {
             throw new Exception("PROBLEM!!! Matrix3d12");
-            } catch (Exception e) {
+            } catch (final Exception e) {
             e.printStackTrace();
             }
 
@@ -1060,7 +1061,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         result[0] = 1.0;
         result[4] = 1.0;
         result[8] = 1.0;
-        luBacksubstitution(tmp, row_perm, result);
+        Matrix3d.luBacksubstitution(tmp, row_perm, result);
 
         this.m00 = result[0];
         this.m01 = result[1];
@@ -1097,7 +1098,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
     //
     static boolean luDecomposition(double[] matrix0, int[] row_perm) {
 
-        double row_scale[] = new double[3];
+        final double row_scale[] = new double[3];
 
         // Determine implicit scaling information by looping over rows
         {
@@ -1539,9 +1540,9 @@ public class Matrix3d implements java.io.Serializable, Cloneable
      */
     public final void mulNormalize(Matrix3d m1) {
 
-        double[] tmp = new double[9]; // scratch matrix
-        double[] tmp_rot = new double[9]; // scratch matrix
-        double[] tmp_scale = new double[3]; // scratch matrix
+        final double[] tmp = new double[9]; // scratch matrix
+        final double[] tmp_rot = new double[9]; // scratch matrix
+        final double[] tmp_scale = new double[3]; // scratch matrix
 
         tmp[0] = this.m00 * m1.m00 + this.m01 * m1.m10 + this.m02 * m1.m20;
         tmp[1] = this.m00 * m1.m01 + this.m01 * m1.m11 + this.m02 * m1.m21;
@@ -1555,7 +1556,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         tmp[7] = this.m20 * m1.m01 + this.m21 * m1.m11 + this.m22 * m1.m21;
         tmp[8] = this.m20 * m1.m02 + this.m21 * m1.m12 + this.m22 * m1.m22;
 
-        compute_svd(tmp, tmp_scale, tmp_rot);
+        Matrix3d.compute_svd(tmp, tmp_scale, tmp_rot);
 
         this.m00 = tmp_rot[0];
         this.m01 = tmp_rot[1];
@@ -1582,9 +1583,9 @@ public class Matrix3d implements java.io.Serializable, Cloneable
      */
     public final void mulNormalize(Matrix3d m1, Matrix3d m2) {
 
-        double[] tmp = new double[9]; // scratch matrix
-        double[] tmp_rot = new double[9]; // scratch matrix
-        double[] tmp_scale = new double[3]; // scratch matrix
+        final double[] tmp = new double[9]; // scratch matrix
+        final double[] tmp_rot = new double[9]; // scratch matrix
+        final double[] tmp_scale = new double[3]; // scratch matrix
 
         tmp[0] = m1.m00 * m2.m00 + m1.m01 * m2.m10 + m1.m02 * m2.m20;
         tmp[1] = m1.m00 * m2.m01 + m1.m01 * m2.m11 + m1.m02 * m2.m21;
@@ -1598,7 +1599,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         tmp[7] = m1.m20 * m2.m01 + m1.m21 * m2.m11 + m1.m22 * m2.m21;
         tmp[8] = m1.m20 * m2.m02 + m1.m21 * m2.m12 + m1.m22 * m2.m22;
 
-        compute_svd(tmp, tmp_scale, tmp_rot);
+        Matrix3d.compute_svd(tmp, tmp_scale, tmp_rot);
 
         this.m00 = tmp_rot[0];
         this.m01 = tmp_rot[1];
@@ -1772,8 +1773,8 @@ public class Matrix3d implements java.io.Serializable, Cloneable
      * Performs singular value decomposition normalization of this matrix.
      */
     public final void normalize() {
-        double[] tmp_rot = new double[9]; // scratch matrix
-        double[] tmp_scale = new double[3]; // scratch matrix
+        final double[] tmp_rot = new double[9]; // scratch matrix
+        final double[] tmp_scale = new double[3]; // scratch matrix
 
         this.getScaleRotate(tmp_scale, tmp_rot);
 
@@ -1800,9 +1801,9 @@ public class Matrix3d implements java.io.Serializable, Cloneable
      */
     public final void normalize(Matrix3d m1) {
 
-        double[] tmp = new double[9]; // scratch matrix
-        double[] tmp_rot = new double[9]; // scratch matrix
-        double[] tmp_scale = new double[3]; // scratch matrix
+        final double[] tmp = new double[9]; // scratch matrix
+        final double[] tmp_rot = new double[9]; // scratch matrix
+        final double[] tmp_scale = new double[3]; // scratch matrix
 
         tmp[0] = m1.m00;
         tmp[1] = m1.m01;
@@ -1816,7 +1817,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         tmp[7] = m1.m21;
         tmp[8] = m1.m22;
 
-        compute_svd(tmp, tmp_scale, tmp_rot);
+        Matrix3d.compute_svd(tmp, tmp_scale, tmp_rot);
 
         this.m00 = tmp_rot[0];
         this.m01 = tmp_rot[1];
@@ -1886,7 +1887,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         try {
             return this.m00 == m1.m00 && this.m01 == m1.m01 && this.m02 == m1.m02 && this.m10 == m1.m10 && this.m11 == m1.m11 && this.m12 == m1.m12
                     && this.m20 == m1.m20 && this.m21 == m1.m21 && this.m22 == m1.m22;
-        } catch (NullPointerException e2) {
+        } catch (final NullPointerException e2) {
             return false;
         }
 
@@ -1904,12 +1905,12 @@ public class Matrix3d implements java.io.Serializable, Cloneable
     @Override
     public boolean equals(Object t1) {
         try {
-            Matrix3d m2 = (Matrix3d) t1;
+            final Matrix3d m2 = (Matrix3d) t1;
             return this.m00 == m2.m00 && this.m01 == m2.m01 && this.m02 == m2.m02 && this.m10 == m2.m10 && this.m11 == m2.m11 && this.m12 == m2.m12
                     && this.m20 == m2.m20 && this.m21 == m2.m21 && this.m22 == m2.m22;
-        } catch (ClassCastException e1) {
+        } catch (final ClassCastException e1) {
             return false;
-        } catch (NullPointerException e2) {
+        } catch (final NullPointerException e2) {
             return false;
         }
 
@@ -2031,7 +2032,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
      */
     final void getScaleRotate(double scales[], double rots[]) {
 
-        double[] tmp = new double[9]; // scratch matrix
+        final double[] tmp = new double[9]; // scratch matrix
 
         tmp[0] = this.m00;
         tmp[1] = this.m01;
@@ -2044,31 +2045,34 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         tmp[6] = this.m20;
         tmp[7] = this.m21;
         tmp[8] = this.m22;
-        compute_svd(tmp, scales, rots);
+        Matrix3d.compute_svd(tmp, scales, rots);
 
         return;
     }
 
     static void compute_svd(double[] m, double[] outScale, double[] outRot) {
-        int i, j;
-        double g, scale;
-        double[] u1 = new double[9];
-        double[] v1 = new double[9];
-        double[] t1 = new double[9];
-        double[] t2 = new double[9];
+        int i;
+        final int j;
+        double g;
+        final double scale;
+        final double[] u1 = new double[9];
+        final double[] v1 = new double[9];
+        final double[] t1 = new double[9];
+        final double[] t2 = new double[9];
 
-        double[] tmp = t1;
-        double[] single_values = t2;
+        final double[] tmp = t1;
+        final double[] single_values = t2;
 
-        double[] rot = new double[9];
-        double[] e = new double[3];
-        double[] scales = new double[3];
+        final double[] rot = new double[9];
+        final double[] e = new double[3];
+        final double[] scales = new double[3];
 
-        int converged, negCnt = 0;
-        double cs, sn;
+        final int converged;
+        int negCnt = 0;
+        final double cs, sn;
         double c1, c2, c3, c4;
         double s1, s2, s3, s4;
-        double cl1, cl2, cl3;
+        final double cl1, cl2, cl3;
 
         for (i = 0; i < 9; i++)
             rot[i] = m[i];
@@ -2316,7 +2320,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
 
         }
         else
-            compute_qr(single_values, e, u1, v1);
+            Matrix3d.compute_qr(single_values, e, u1, v1);
 
         scales[0] = single_values[0];
         scales[1] = single_values[1];
@@ -2324,7 +2328,8 @@ public class Matrix3d implements java.io.Serializable, Cloneable
 
         // Do some optimization here. If scale is unity, simply return the
         // rotation matric.
-        if (almostEqual(Math.abs(scales[0]), 1.0) && almostEqual(Math.abs(scales[1]), 1.0) && almostEqual(Math.abs(scales[2]), 1.0)) {
+        if (Matrix3d.almostEqual(Math.abs(scales[0]), 1.0) && Matrix3d.almostEqual(Math.abs(scales[1]), 1.0)
+                && Matrix3d.almostEqual(Math.abs(scales[2]), 1.0)) {
             // System.out.println("Scale components almost to 1.0");
 
             for (i = 0; i < 3; i++)
@@ -2341,8 +2346,8 @@ public class Matrix3d implements java.io.Serializable, Cloneable
             }
         }
 
-        transpose_mat(u1, t1);
-        transpose_mat(v1, t2);
+        Matrix3d.transpose_mat(u1, t1);
+        Matrix3d.transpose_mat(v1, t2);
 
         /*
          * System.out.println("t1 is \n" + t1);
@@ -2356,17 +2361,17 @@ public class Matrix3d implements java.io.Serializable, Cloneable
          * System.out.println("t2="+t2[6]+" "+t2[7]+" "+t2[8]);
          */
 
-        svdReorder(m, t1, t2, scales, outRot, outScale);
+        Matrix3d.svdReorder(m, t1, t2, scales, outRot, outScale);
 
     }
 
     static void svdReorder(double[] m, double[] t1, double[] t2, double[] scales, double[] outRot, double[] outScale) {
 
-        int[] out = new int[3];
-        int[] in = new int[3];
+        final int[] out = new int[3];
+        final int[] in = new int[3];
         int in0, in1, in2, index, i;
-        double[] mag = new double[3];
-        double[] rot = new double[9];
+        final double[] mag = new double[3];
+        final double[] rot = new double[9];
 
         // check for rotation information in the scales
         if (scales[0] < 0.0) { // move the rotation info to rotation matrix
@@ -2388,10 +2393,10 @@ public class Matrix3d implements java.io.Serializable, Cloneable
             t2[8] = -t2[8];
         }
 
-        mat_mul(t1, t2, rot);
+        Matrix3d.mat_mul(t1, t2, rot);
 
         // check for equal scales case and do not reorder
-        if (almostEqual(Math.abs(scales[0]), Math.abs(scales[1])) && almostEqual(Math.abs(scales[1]), Math.abs(scales[2]))) {
+        if (Matrix3d.almostEqual(Math.abs(scales[0]), Math.abs(scales[1])) && Matrix3d.almostEqual(Math.abs(scales[1]), Math.abs(scales[2]))) {
             for (i = 0; i < 9; i++)
                 outRot[i] = rot[i];
             for (i = 0; i < 3; i++)
@@ -2533,14 +2538,17 @@ public class Matrix3d implements java.io.Serializable, Cloneable
 
     static int compute_qr(double[] s, double[] e, double[] u, double[] v) {
 
-        int i, j, k;
+        final int i, j;
+        int k;
         boolean converged;
-        double shift, ssmin, ssmax, r;
-        double[] cosl = new double[2];
-        double[] cosr = new double[2];
-        double[] sinl = new double[2];
-        double[] sinr = new double[2];
-        double[] m = new double[9];
+        double shift;
+        final double ssmin, ssmax;
+        double r;
+        final double[] cosl = new double[2];
+        final double[] cosr = new double[2];
+        final double[] sinl = new double[2];
+        final double[] sinr = new double[2];
+        final double[] m = new double[9];
 
         double utemp, vtemp;
         double f, g;
@@ -2548,8 +2556,8 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         final int MAX_INTERATIONS = 10;
         final double CONVERGE_TOL = 4.89E-15;
 
-        double c_b48 = 1.;
-        double c_b71 = -1.;
+        final double c_b48 = 1.;
+        final double c_b71 = -1.;
         int first;
         converged = false;
 
@@ -2559,16 +2567,16 @@ public class Matrix3d implements java.io.Serializable, Cloneable
             converged = true;
 
         for (k = 0; k < MAX_INTERATIONS && !converged; k++) {
-            shift = compute_shift(s[1], e[1], s[2]);
-            f = (Math.abs(s[0]) - shift) * (d_sign(c_b48, s[0]) + shift / s[0]);
+            shift = Matrix3d.compute_shift(s[1], e[1], s[2]);
+            f = (Math.abs(s[0]) - shift) * (Matrix3d.d_sign(c_b48, s[0]) + shift / s[0]);
             g = e[0];
-            r = compute_rot(f, g, sinr, cosr, 0, first);
+            r = Matrix3d.compute_rot(f, g, sinr, cosr, 0, first);
             f = cosr[0] * s[0] + sinr[0] * e[0];
             e[0] = cosr[0] * e[0] - sinr[0] * s[0];
             g = sinr[0] * s[1];
             s[1] = cosr[0] * s[1];
 
-            r = compute_rot(f, g, sinl, cosl, 0, first);
+            r = Matrix3d.compute_rot(f, g, sinl, cosl, 0, first);
             first = 0;
             s[0] = r;
             f = cosl[0] * e[0] + sinl[0] * s[1];
@@ -2576,14 +2584,14 @@ public class Matrix3d implements java.io.Serializable, Cloneable
             g = sinl[0] * e[1];
             e[1] = cosl[0] * e[1];
 
-            r = compute_rot(f, g, sinr, cosr, 1, first);
+            r = Matrix3d.compute_rot(f, g, sinr, cosr, 1, first);
             e[0] = r;
             f = cosr[1] * s[1] + sinr[1] * e[1];
             e[1] = cosr[1] * e[1] - sinr[1] * s[1];
             g = sinr[1] * s[2];
             s[2] = cosr[1] * s[2];
 
-            r = compute_rot(f, g, sinl, cosl, 1, first);
+            r = Matrix3d.compute_rot(f, g, sinl, cosl, 1, first);
             s[1] = r;
             f = cosl[1] * e[1] + sinl[1] * s[2];
             s[2] = cosl[1] * s[2] - sinl[1] * e[1];
@@ -2647,7 +2655,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         }
 
         if (Math.abs(e[1]) < CONVERGE_TOL) {
-            compute_2X2(s[0], e[0], s[1], s, sinl, cosl, sinr, cosr, 0);
+            Matrix3d.compute_2X2(s[0], e[0], s[1], s, sinl, cosl, sinr, cosr, 0);
 
             utemp = u[0];
             u[0] = cosl[0] * utemp + sinl[0] * u[3];
@@ -2672,7 +2680,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
             v[7] = -sinr[0] * vtemp + cosr[0] * v[7];
         }
         else {
-            compute_2X2(s[1], e[1], s[2], s, sinl, cosl, sinr, cosr, 1);
+            Matrix3d.compute_2X2(s[1], e[1], s[2], s, sinl, cosl, sinr, cosr, 1);
 
             utemp = u[3];
             u[3] = cosl[0] * utemp + sinl[0] * u[6];
@@ -2728,13 +2736,13 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         fa = Math.abs(f);
         ga = Math.abs(g);
         ha = Math.abs(h);
-        fhmn = min(fa, ha);
-        fhmx = max(fa, ha);
+        fhmn = Matrix3d.min(fa, ha);
+        fhmx = Matrix3d.max(fa, ha);
         if (fhmn == 0.) {
             ssmin = 0.;
             if (fhmx == 0.) {}
             else
-                d__1 = min(fhmx, ga) / max(fhmx, ga);
+                d__1 = Matrix3d.min(fhmx, ga) / Matrix3d.max(fhmx, ga);
         }
         else if (ga < fhmx) {
             as = fhmn / fhmx + 1.;
@@ -2764,8 +2772,8 @@ public class Matrix3d implements java.io.Serializable, Cloneable
 
     static int compute_2X2(double f, double g, double h, double[] single_values, double[] snl, double[] csl, double[] snr, double[] csr, int index) {
 
-        double c_b3 = 2.;
-        double c_b4 = 1.;
+        final double c_b3 = 2.;
+        final double c_b4 = 1.;
 
         double d__1;
         int pmax;
@@ -2903,9 +2911,9 @@ public class Matrix3d implements java.io.Serializable, Cloneable
                     if (mm == 0.) {
 
                         if (l == 0.)
-                            t = d_sign(c_b3, ft) * d_sign(c_b4, gt);
+                            t = Matrix3d.d_sign(c_b3, ft) * Matrix3d.d_sign(c_b4, gt);
                         else
-                            t = gt / d_sign(d, ft) + m / t;
+                            t = gt / Matrix3d.d_sign(d, ft) + m / t;
                     }
                     else
                         t = (m / (s + t) + m / (r + l)) * (a + 1.);
@@ -2930,14 +2938,14 @@ public class Matrix3d implements java.io.Serializable, Cloneable
             }
 
             if (pmax == 1)
-                tsign = d_sign(c_b4, csr[0]) * d_sign(c_b4, csl[0]) * d_sign(c_b4, f);
+                tsign = Matrix3d.d_sign(c_b4, csr[0]) * Matrix3d.d_sign(c_b4, csl[0]) * Matrix3d.d_sign(c_b4, f);
             if (pmax == 2)
-                tsign = d_sign(c_b4, snr[0]) * d_sign(c_b4, csl[0]) * d_sign(c_b4, g);
+                tsign = Matrix3d.d_sign(c_b4, snr[0]) * Matrix3d.d_sign(c_b4, csl[0]) * Matrix3d.d_sign(c_b4, g);
             if (pmax == 3)
-                tsign = d_sign(c_b4, snr[0]) * d_sign(c_b4, snl[0]) * d_sign(c_b4, h);
-            single_values[index] = d_sign(ssmax, tsign);
-            d__1 = tsign * d_sign(c_b4, f) * d_sign(c_b4, h);
-            single_values[index + 1] = d_sign(ssmin, d__1);
+                tsign = Matrix3d.d_sign(c_b4, snr[0]) * Matrix3d.d_sign(c_b4, snl[0]) * Matrix3d.d_sign(c_b4, h);
+            single_values[index] = Matrix3d.d_sign(ssmax, tsign);
+            d__1 = tsign * Matrix3d.d_sign(c_b4, f) * Matrix3d.d_sign(c_b4, h);
+            single_values[index + 1] = Matrix3d.d_sign(ssmin, d__1);
 
         }
         return 0;
@@ -2945,7 +2953,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
 
     static double compute_rot(double f, double g, double[] sin, double[] cos, int index, int first) {
         int i__1;
-        double d__1, d__2;
+        final double d__1, d__2;
         double cs, sn;
         int i;
         double scale;
@@ -2968,14 +2976,14 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         else {
             f1 = f;
             g1 = g;
-            scale = max(Math.abs(f1), Math.abs(g1));
+            scale = Matrix3d.max(Math.abs(f1), Math.abs(g1));
             if (scale >= safmx2) {
                 count = 0;
                 while (scale >= safmx2) {
                     ++count;
                     f1 *= safmn2;
                     g1 *= safmn2;
-                    scale = max(Math.abs(f1), Math.abs(g1));
+                    scale = Matrix3d.max(Math.abs(f1), Math.abs(g1));
                 }
                 r = Math.sqrt(f1 * f1 + g1 * g1);
                 cs = f1 / r;
@@ -2990,7 +2998,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
                     ++count;
                     f1 *= safmx2;
                     g1 *= safmx2;
-                    scale = max(Math.abs(f1), Math.abs(g1));
+                    scale = Matrix3d.max(Math.abs(f1), Math.abs(g1));
                 }
                 r = Math.sqrt(f1 * f1 + g1 * g1);
                 cs = f1 / r;
@@ -3033,7 +3041,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
 
     static void mat_mul(double[] m1, double[] m2, double[] m3) {
         int i;
-        double[] tmp = new double[9];
+        final double[] tmp = new double[9];
 
         tmp[0] = m1[0] * m2[0] + m1[1] * m2[3] + m1[2] * m2[6];
         tmp[1] = m1[0] * m2[1] + m1[1] * m2[4] + m1[2] * m2[7];
@@ -3084,10 +3092,10 @@ public class Matrix3d implements java.io.Serializable, Cloneable
 
         final double EPSILON_ABSOLUTE = 1.0e-6;
         final double EPSILON_RELATIVE = 1.0e-4;
-        double diff = Math.abs(a - b);
-        double absA = Math.abs(a);
-        double absB = Math.abs(b);
-        double max = absA >= absB ? absA : absB;
+        final double diff = Math.abs(a - b);
+        final double absA = Math.abs(a);
+        final double absB = Math.abs(b);
+        final double max = absA >= absB ? absA : absB;
 
         if (diff < EPSILON_ABSOLUTE)
             return true;
@@ -3112,7 +3120,7 @@ public class Matrix3d implements java.io.Serializable, Cloneable
         Matrix3d m1 = null;
         try {
             m1 = (Matrix3d) super.clone();
-        } catch (CloneNotSupportedException e) {
+        } catch (final CloneNotSupportedException e) {
             // this shouldn't happen, since we are Cloneable
             throw new InternalError();
         }

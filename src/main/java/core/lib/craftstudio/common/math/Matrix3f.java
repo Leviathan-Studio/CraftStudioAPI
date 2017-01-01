@@ -644,7 +644,7 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
      *            the axis of rotation.
      */
     public void fromAngleAxis(float angle, Vector3f axis) {
-        Vector3f normAxis = axis.normalize();
+        final Vector3f normAxis = axis.normalize();
         this.fromAngleNormalAxis(angle, normAxis);
     }
 
@@ -658,18 +658,18 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
      *            the axis of rotation (already normalized).
      */
     public void fromAngleNormalAxis(float angle, Vector3f axis) {
-        float fCos = FastMath.cos(angle);
-        float fSin = FastMath.sin(angle);
-        float fOneMinusCos = (float) 1.0 - fCos;
-        float fX2 = axis.x * axis.x;
-        float fY2 = axis.y * axis.y;
-        float fZ2 = axis.z * axis.z;
-        float fXYM = axis.x * axis.y * fOneMinusCos;
-        float fXZM = axis.x * axis.z * fOneMinusCos;
-        float fYZM = axis.y * axis.z * fOneMinusCos;
-        float fXSin = axis.x * fSin;
-        float fYSin = axis.y * fSin;
-        float fZSin = axis.z * fSin;
+        final float fCos = FastMath.cos(angle);
+        final float fSin = FastMath.sin(angle);
+        final float fOneMinusCos = (float) 1.0 - fCos;
+        final float fX2 = axis.x * axis.x;
+        final float fY2 = axis.y * axis.y;
+        final float fZ2 = axis.z * axis.z;
+        final float fXYM = axis.x * axis.y * fOneMinusCos;
+        final float fXZM = axis.x * axis.z * fOneMinusCos;
+        final float fYZM = axis.y * axis.z * fOneMinusCos;
+        final float fXSin = axis.x * fSin;
+        final float fYSin = axis.y * fSin;
+        final float fZSin = axis.z * fSin;
 
         this.m00 = fX2 * fOneMinusCos + fCos;
         this.m01 = fXYM - fZSin;
@@ -767,9 +767,9 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
         if (null == product)
             product = new Vector3f();
 
-        float x = vec.x;
-        float y = vec.y;
-        float z = vec.z;
+        final float x = vec.x;
+        final float y = vec.y;
+        final float z = vec.z;
 
         product.x = this.m00 * x + this.m01 * y + this.m02 * z;
         product.y = this.m10 * x + this.m11 * y + this.m12 * z;
@@ -811,8 +811,8 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
     public Vector3f multLocal(Vector3f vec) {
         if (vec == null)
             return null;
-        float x = vec.x;
-        float y = vec.y;
+        final float x = vec.x;
+        final float y = vec.y;
         vec.x = this.m00 * x + this.m01 * y + this.m02 * vec.z;
         vec.y = this.m10 * x + this.m11 * y + this.m12 * vec.z;
         vec.z = this.m20 * x + this.m21 * y + this.m22 * vec.z;
@@ -872,7 +872,7 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
         if (store == null)
             store = new Matrix3f();
 
-        float det = this.determinant();
+        final float det = this.determinant();
         if (FastMath.abs(det) <= FastMath.FLT_EPSILON)
             return store.zero();
 
@@ -896,19 +896,19 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
      * @return this
      */
     public Matrix3f invertLocal() {
-        float det = this.determinant();
+        final float det = this.determinant();
         if (FastMath.abs(det) <= FastMath.FLT_EPSILON)
             return this.zero();
 
-        float f00 = this.m11 * this.m22 - this.m12 * this.m21;
-        float f01 = this.m02 * this.m21 - this.m01 * this.m22;
-        float f02 = this.m01 * this.m12 - this.m02 * this.m11;
-        float f10 = this.m12 * this.m20 - this.m10 * this.m22;
-        float f11 = this.m00 * this.m22 - this.m02 * this.m20;
-        float f12 = this.m02 * this.m10 - this.m00 * this.m12;
-        float f20 = this.m10 * this.m21 - this.m11 * this.m20;
-        float f21 = this.m01 * this.m20 - this.m00 * this.m21;
-        float f22 = this.m00 * this.m11 - this.m01 * this.m10;
+        final float f00 = this.m11 * this.m22 - this.m12 * this.m21;
+        final float f01 = this.m02 * this.m21 - this.m01 * this.m22;
+        final float f02 = this.m01 * this.m12 - this.m02 * this.m11;
+        final float f10 = this.m12 * this.m20 - this.m10 * this.m22;
+        final float f11 = this.m00 * this.m22 - this.m02 * this.m20;
+        final float f12 = this.m02 * this.m10 - this.m00 * this.m12;
+        final float f20 = this.m10 * this.m21 - this.m11 * this.m20;
+        final float f21 = this.m01 * this.m20 - this.m00 * this.m21;
+        final float f22 = this.m00 * this.m11 - this.m01 * this.m10;
 
         this.m00 = f00;
         this.m01 = f01;
@@ -964,10 +964,10 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
      * @return the determinate
      */
     public float determinant() {
-        float fCo00 = this.m11 * this.m22 - this.m12 * this.m21;
-        float fCo10 = this.m12 * this.m20 - this.m10 * this.m22;
-        float fCo20 = this.m10 * this.m21 - this.m11 * this.m20;
-        float fDet = this.m00 * fCo00 + this.m01 * fCo10 + this.m02 * fCo20;
+        final float fCo00 = this.m11 * this.m22 - this.m12 * this.m21;
+        final float fCo10 = this.m12 * this.m20 - this.m10 * this.m22;
+        final float fCo20 = this.m10 * this.m21 - this.m11 * this.m20;
+        final float fDet = this.m00 * fCo00 + this.m01 * fCo10 + this.m02 * fCo20;
         return fDet;
     }
 
@@ -999,7 +999,7 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
      * @return The new Matrix3f object.
      */
     public Matrix3f transposeNew() {
-        Matrix3f ret = new Matrix3f(this.m00, this.m10, this.m20, this.m01, this.m11, this.m21, this.m02, this.m12, this.m22);
+        final Matrix3f ret = new Matrix3f(this.m00, this.m10, this.m20, this.m01, this.m11, this.m21, this.m02, this.m12, this.m22);
         return ret;
     }
 
@@ -1017,7 +1017,7 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
      */
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder("Matrix3f\n[\n");
+        final StringBuilder result = new StringBuilder("Matrix3f\n[\n");
         result.append(" ");
         result.append(this.m00);
         result.append("  ");
@@ -1085,7 +1085,7 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
         if (this == o)
             return true;
 
-        Matrix3f comp = (Matrix3f) o;
+        final Matrix3f comp = (Matrix3f) o;
         if (Float.compare(this.m00, comp.m00) != 0)
             return false;
         if (Float.compare(this.m01, comp.m01) != 0)
@@ -1122,7 +1122,7 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
      *      \ One Vector to Another\" Journal of Graphics Tools, 4(4):1-4, 1999"
      */
     public void fromStartEndVectors(Vector3f start, Vector3f end) {
-        Vector3f v = new Vector3f();
+        final Vector3f v = new Vector3f();
         float e, h, f;
 
         start.cross(end, v);
@@ -1131,8 +1131,8 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
 
         // if "from" and "to" vectors are nearly parallel
         if (f > 1.0f - FastMath.ZERO_TOLERANCE) {
-            Vector3f u = new Vector3f();
-            Vector3f x = new Vector3f();
+            final Vector3f u = new Vector3f();
+            final Vector3f x = new Vector3f();
             float c1, c2, c3; /* coefficients for later use */
             int i, j;
 
@@ -1172,10 +1172,10 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
 
             for (i = 0; i < 3; i++) {
                 for (j = 0; j < 3; j++) {
-                    float val = -c1 * u.get(i) * u.get(j) - c2 * v.get(i) * v.get(j) + c3 * v.get(i) * u.get(j);
+                    final float val = -c1 * u.get(i) * u.get(j) - c2 * v.get(i) * v.get(j) + c3 * v.get(i) * u.get(j);
                     this.set(i, j, val);
                 }
-                float val = this.get(i, i);
+                final float val = this.get(i, i);
                 this.set(i, i, val + 1.0f);
             }
         }
@@ -1251,7 +1251,7 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
     public Matrix3f clone() {
         try {
             return (Matrix3f) super.clone();
-        } catch (CloneNotSupportedException e) {
+        } catch (final CloneNotSupportedException e) {
             throw new AssertionError(); // can not happen
         }
     }

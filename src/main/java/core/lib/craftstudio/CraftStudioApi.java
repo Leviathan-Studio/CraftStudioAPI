@@ -12,7 +12,7 @@ public class CraftStudioApi
     private static Version      versionChecker = new Version();
 
     public static void preInit() throws Exception {
-        getVersion().preInit();
+        CraftStudioApi.getVersion().preInit();
     }
 
     public static Version getVersion() {

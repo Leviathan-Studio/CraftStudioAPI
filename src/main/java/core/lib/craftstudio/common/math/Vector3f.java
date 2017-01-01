@@ -294,9 +294,9 @@ public final class Vector3f implements Cloneable, java.io.Serializable
     public Vector3f cross(float otherX, float otherY, float otherZ, Vector3f result) {
         if (result == null)
             result = new Vector3f();
-        float resX = this.y * otherZ - this.z * otherY;
-        float resY = this.z * otherX - this.x * otherZ;
-        float resZ = this.x * otherY - this.y * otherX;
+        final float resX = this.y * otherZ - this.z * otherY;
+        final float resY = this.z * otherX - this.x * otherZ;
+        final float resZ = this.x * otherY - this.y * otherX;
         result.set(resX, resY, resZ);
         return result;
     }
@@ -329,8 +329,8 @@ public final class Vector3f implements Cloneable, java.io.Serializable
      * @return this.
      */
     public Vector3f crossLocal(float otherX, float otherY, float otherZ) {
-        float tempx = this.y * otherZ - this.z * otherY;
-        float tempy = this.z * otherX - this.x * otherZ;
+        final float tempx = this.y * otherZ - this.z * otherY;
+        final float tempy = this.z * otherX - this.x * otherZ;
         this.z = this.x * otherY - this.y * otherX;
         this.x = tempx;
         this.y = tempy;
@@ -338,8 +338,8 @@ public final class Vector3f implements Cloneable, java.io.Serializable
     }
 
     public Vector3f project(Vector3f other) {
-        float n = this.dot(other); // A . B
-        float d = other.lengthSquared(); // |B|^2
+        final float n = this.dot(other); // A . B
+        final float d = other.lengthSquared(); // |B|^2
         return new Vector3f(other).normalizeLocal().multLocal(n / d);
     }
 
@@ -348,7 +348,7 @@ public final class Vector3f implements Cloneable, java.io.Serializable
      *         otherwise.
      */
     public boolean isUnitVector() {
-        float len = this.length();
+        final float len = this.length();
         return 0.99f < len && len < 1.01f;
     }
 
@@ -380,9 +380,9 @@ public final class Vector3f implements Cloneable, java.io.Serializable
      * @return the distance squared between the two vectors.
      */
     public float distanceSquared(Vector3f v) {
-        double dx = this.x - v.x;
-        double dy = this.y - v.y;
-        double dz = this.z - v.z;
+        final double dx = this.x - v.x;
+        final double dy = this.y - v.y;
+        final double dz = this.z - v.z;
         return (float) (dx * dx + dy * dy + dz * dz);
     }
 
@@ -763,8 +763,8 @@ public final class Vector3f implements Cloneable, java.io.Serializable
      * @return the angle in radians.
      */
     public float angleBetween(Vector3f otherVector) {
-        float dotProduct = this.dot(otherVector);
-        float angle = FastMath.acos(dotProduct);
+        final float dotProduct = this.dot(otherVector);
+        final float angle = FastMath.acos(dotProduct);
         return angle;
     }
 
@@ -824,7 +824,7 @@ public final class Vector3f implements Cloneable, java.io.Serializable
 
     public static void generateOrthonormalBasis(Vector3f u, Vector3f v, Vector3f w) {
         w.normalizeLocal();
-        generateComplementBasis(u, v, w);
+        Vector3f.generateComplementBasis(u, v, w);
     }
 
     public static void generateComplementBasis(Vector3f u, Vector3f v, Vector3f w) {
@@ -856,7 +856,7 @@ public final class Vector3f implements Cloneable, java.io.Serializable
     public Vector3f clone() {
         try {
             return (Vector3f) super.clone();
-        } catch (CloneNotSupportedException e) {
+        } catch (final CloneNotSupportedException e) {
             throw new AssertionError(); // can not happen
         }
     }
@@ -894,7 +894,7 @@ public final class Vector3f implements Cloneable, java.io.Serializable
         if (this == o)
             return true;
 
-        Vector3f comp = (Vector3f) o;
+        final Vector3f comp = (Vector3f) o;
         if (Float.compare(this.x, comp.x) != 0)
             return false;
         if (Float.compare(this.y, comp.y) != 0)

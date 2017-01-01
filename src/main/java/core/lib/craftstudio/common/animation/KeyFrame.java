@@ -7,8 +7,8 @@ import lib.craftstudio.common.math.Vector3f;
 
 public class KeyFrame
 {
-    public HashMap<String, Quaternion> modelRenderersRotations    = new HashMap<>();
-    public HashMap<String, Vector3f>   modelRenderersTranslations = new HashMap<>();
+    public HashMap<String, Quaternion> modelRenderersRotations    = new HashMap<String, Quaternion>();
+    public HashMap<String, Vector3f>   modelRenderersTranslations = new HashMap<String, Vector3f>();
 
     public boolean useBoxInRotations(String boxName) {
         return this.modelRenderersRotations.get(boxName) != null;

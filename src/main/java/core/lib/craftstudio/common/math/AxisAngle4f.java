@@ -195,7 +195,7 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
 
         if (mag > AxisAngle4f.EPS) {
             mag = Math.sqrt(mag);
-            double invMag = 1.0 / mag;
+            final double invMag = 1.0 / mag;
 
             this.x = (float) (q1.x * invMag);
             this.y = (float) (q1.y * invMag);
@@ -220,7 +220,7 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
      *            the matrix4f
      */
     public final void set(Matrix4f m1) {
-        Matrix3f m3f = new Matrix3f();
+        final Matrix3f m3f = new Matrix3f();
 
         m1.get(m3f);
 
@@ -231,11 +231,11 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
 
         if (mag > AxisAngle4f.EPS) {
             mag = Math.sqrt(mag);
-            double sin = 0.5 * mag;
-            double cos = 0.5 * (m3f.m00 + m3f.m11 + m3f.m22 - 1.0);
+            final double sin = 0.5 * mag;
+            final double cos = 0.5 * (m3f.m00 + m3f.m11 + m3f.m22 - 1.0);
 
             this.angle = (float) Math.atan2(sin, cos);
-            double invMag = 1.0 / mag;
+            final double invMag = 1.0 / mag;
             this.x = (float) (this.x * invMag);
             this.y = (float) (this.y * invMag);
             this.z = (float) (this.z * invMag);
@@ -265,12 +265,12 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
         double mag = this.x * this.x + this.y * this.y + this.z * this.z;
         if (mag > AxisAngle4f.EPS) {
             mag = Math.sqrt(mag);
-            double sin = 0.5 * mag;
-            double cos = 0.5 * (m1.m00 + m1.m11 + m1.m22 - 1.0);
+            final double sin = 0.5 * mag;
+            final double cos = 0.5 * (m1.m00 + m1.m11 + m1.m22 - 1.0);
 
             this.angle = (float) Math.atan2(sin, cos);
 
-            double invMag = 1.0 / mag;
+            final double invMag = 1.0 / mag;
             this.x = (float) (this.x * invMag);
             this.y = (float) (this.y * invMag);
             this.z = (float) (this.z * invMag);
@@ -302,12 +302,12 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
 
         if (mag > AxisAngle4f.EPS) {
             mag = Math.sqrt(mag);
-            double sin = 0.5 * mag;
-            double cos = 0.5 * (m1.m00 + m1.m11 + m1.m22 - 1.0);
+            final double sin = 0.5 * mag;
+            final double cos = 0.5 * (m1.m00 + m1.m11 + m1.m22 - 1.0);
 
             this.angle = (float) Math.atan2(sin, cos);
 
-            double invMag = 1.0 / mag;
+            final double invMag = 1.0 / mag;
             this.x = (float) (this.x * invMag);
             this.y = (float) (this.y * invMag);
             this.z = (float) (this.z * invMag);
@@ -342,7 +342,7 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
     public boolean equals(AxisAngle4f a1) {
         try {
             return this.x == a1.x && this.y == a1.y && this.z == a1.z && this.angle == a1.angle;
-        } catch (NullPointerException e2) {
+        } catch (final NullPointerException e2) {
             return false;
         }
 
@@ -360,11 +360,11 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
     @Override
     public boolean equals(Object o1) {
         try {
-            AxisAngle4f a2 = (AxisAngle4f) o1;
+            final AxisAngle4f a2 = (AxisAngle4f) o1;
             return this.x == a2.x && this.y == a2.y && this.z == a2.z && this.angle == a2.angle;
-        } catch (NullPointerException e2) {
+        } catch (final NullPointerException e2) {
             return false;
-        } catch (ClassCastException e1) {
+        } catch (final ClassCastException e1) {
             return false;
         }
 
@@ -417,7 +417,7 @@ public class AxisAngle4f implements java.io.Serializable, Cloneable
         // Since there are no arrays we can just use Object.clone()
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
+        } catch (final CloneNotSupportedException e) {
             // this shouldn't happen, since we are Cloneable
             throw new InternalError();
         }

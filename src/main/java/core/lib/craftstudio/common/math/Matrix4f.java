@@ -4,6 +4,11 @@ public class Matrix4f implements java.io.Serializable
 {
 
     /**
+     *
+     */
+    private static final long   serialVersionUID = 7590111137312031487L;
+
+    /**
      * The first element of the first row.
      */
     public float                m00;
@@ -83,7 +88,7 @@ public class Matrix4f implements java.io.Serializable
      */
     public float                m33;
 
-    private static final double EPS = 1.0E-8;
+    private static final double EPS              = 1.0E-8;
 
     /**
      * Constructs and initializes a Matrix4f from the specified 16 values.
@@ -511,8 +516,8 @@ public class Matrix4f implements java.io.Serializable
      *            matrix into which the rotational component is placed
      */
     public final void get(Matrix3f m1) {
-        double[] tmp_rot = new double[9]; // scratch matrix
-        double[] tmp_scale = new double[3]; // scratch matrix
+        final double[] tmp_rot = new double[9]; // scratch matrix
+        final double[] tmp_scale = new double[3]; // scratch matrix
 
         this.getScaleRotate(tmp_scale, tmp_rot);
 
@@ -539,8 +544,8 @@ public class Matrix4f implements java.io.Serializable
      *            quaternion into which the rotation component is placed
      */
     public final void get(Quaternion q1) {
-        double[] tmp_rot = new double[9]; // scratch matrix
-        double[] tmp_scale = new double[3]; // scratch matrix
+        final double[] tmp_rot = new double[9]; // scratch matrix
+        final double[] tmp_scale = new double[3]; // scratch matrix
         this.getScaleRotate(tmp_scale, tmp_rot);
 
         double ww;
@@ -617,8 +622,8 @@ public class Matrix4f implements java.io.Serializable
      * @return the scale factor of this matrix
      */
     public final float getScale() {
-        double[] tmp_rot = new double[9]; // scratch matrix
-        double[] tmp_scale = new double[3]; // scratch matrix
+        final double[] tmp_rot = new double[9]; // scratch matrix
+        final double[] tmp_scale = new double[3]; // scratch matrix
 
         this.getScaleRotate(tmp_scale, tmp_rot);
 
@@ -1128,17 +1133,17 @@ public class Matrix4f implements java.io.Serializable
         }
         else {
             mag = 1.0f / mag;
-            float ax = a1.x * mag;
-            float ay = a1.y * mag;
-            float az = a1.z * mag;
+            final float ax = a1.x * mag;
+            final float ay = a1.y * mag;
+            final float az = a1.z * mag;
 
-            float sinTheta = (float) Math.sin(a1.angle);
-            float cosTheta = (float) Math.cos(a1.angle);
-            float t = 1.0f - cosTheta;
+            final float sinTheta = (float) Math.sin(a1.angle);
+            final float cosTheta = (float) Math.cos(a1.angle);
+            final float t = 1.0f - cosTheta;
 
-            float xz = ax * az;
-            float xy = ax * ay;
-            float yz = ay * az;
+            final float xz = ax * az;
+            final float xy = ax * ay;
+            final float yz = ay * az;
 
             this.m00 = t * ax * ax + cosTheta;
             this.m01 = t * xy - sinTheta * az;
@@ -1251,10 +1256,11 @@ public class Matrix4f implements java.io.Serializable
      * allocating a little bit of garbage.
      */
     final void invertGeneral(Matrix4f m1) {
-        double temp[] = new double[16];
-        double result[] = new double[16];
-        int row_perm[] = new int[4];
-        int i, r, c;
+        final double temp[] = new double[16];
+        final double result[] = new double[16];
+        final int row_perm[] = new int[4];
+        int i;
+        final int r, c;
 
         // Use LU decomposition and backsubstitution code specifically
         // for floating-point 4x4 matrices.
@@ -1281,11 +1287,11 @@ public class Matrix4f implements java.io.Serializable
         temp[15] = m1.m33;
 
         // Calculate LU decomposition: Is the matrix singular?
-        if (!luDecomposition(temp, row_perm))
+        if (!Matrix4f.luDecomposition(temp, row_perm))
             // Matrix has no inverse
             try {
             throw new Exception("PROBLEM!!! Matrix4f12");
-            } catch (Exception e) {
+            } catch (final Exception e) {
             e.printStackTrace();
             }
 
@@ -1296,7 +1302,7 @@ public class Matrix4f implements java.io.Serializable
         result[5] = 1.0;
         result[10] = 1.0;
         result[15] = 1.0;
-        luBacksubstitution(temp, row_perm, result);
+        Matrix4f.luBacksubstitution(temp, row_perm, result);
 
         this.m00 = (float) result[0];
         this.m01 = (float) result[1];
@@ -1341,7 +1347,7 @@ public class Matrix4f implements java.io.Serializable
     //
     static boolean luDecomposition(double[] matrix0, int[] row_perm) {
 
-        double row_scale[] = new double[4];
+        final double row_scale[] = new double[4];
 
         // Determine implicit scaling information by looping over rows
         {
@@ -2312,7 +2318,7 @@ public class Matrix4f implements java.io.Serializable
             return this.m00 == m1.m00 && this.m01 == m1.m01 && this.m02 == m1.m02 && this.m03 == m1.m03 && this.m10 == m1.m10 && this.m11 == m1.m11
                     && this.m12 == m1.m12 && this.m13 == m1.m13 && this.m20 == m1.m20 && this.m21 == m1.m21 && this.m22 == m1.m22
                     && this.m23 == m1.m23 && this.m30 == m1.m30 && this.m31 == m1.m31 && this.m32 == m1.m32 && this.m33 == m1.m33;
-        } catch (NullPointerException e) {
+        } catch (final NullPointerException e) {
             return false;
         }
 
@@ -2330,13 +2336,13 @@ public class Matrix4f implements java.io.Serializable
     @Override
     public boolean equals(Object t1) {
         try {
-            Matrix4f m2 = (Matrix4f) t1;
+            final Matrix4f m2 = (Matrix4f) t1;
             return this.m00 == m2.m00 && this.m01 == m2.m01 && this.m02 == m2.m02 && this.m03 == m2.m03 && this.m10 == m2.m10 && this.m11 == m2.m11
                     && this.m12 == m2.m12 && this.m13 == m2.m13 && this.m20 == m2.m20 && this.m21 == m2.m21 && this.m22 == m2.m22
                     && this.m23 == m2.m23 && this.m30 == m2.m30 && this.m31 == m2.m31 && this.m32 == m2.m32 && this.m33 == m2.m33;
-        } catch (ClassCastException e1) {
+        } catch (final ClassCastException e1) {
             return false;
-        } catch (NullPointerException e2) {
+        } catch (final NullPointerException e2) {
             return false;
         }
     }
@@ -2443,8 +2449,8 @@ public class Matrix4f implements java.io.Serializable
      *            single precision 3x3 matrix
      */
     public final void setRotation(Matrix3f m1) {
-        double[] tmp_rot = new double[9]; // scratch matrix
-        double[] tmp_scale = new double[3]; // scratch matrix
+        final double[] tmp_rot = new double[9]; // scratch matrix
+        final double[] tmp_scale = new double[3]; // scratch matrix
 
         this.getScaleRotate(tmp_scale, tmp_rot);
 
@@ -2473,8 +2479,8 @@ public class Matrix4f implements java.io.Serializable
      *            the quaternion that specifies the rotation
      */
     public final void setRotation(Quaternion q1) {
-        double[] tmp_rot = new double[9]; // scratch matrix
-        double[] tmp_scale = new double[3]; // scratch matrix
+        final double[] tmp_rot = new double[9]; // scratch matrix
+        final double[] tmp_scale = new double[3]; // scratch matrix
         this.getScaleRotate(tmp_scale, tmp_rot);
 
         this.m00 = (float) ((1.0f - 2.0f * q1.y * q1.y - 2.0f * q1.z * q1.z) * tmp_scale[0]);
@@ -2502,8 +2508,8 @@ public class Matrix4f implements java.io.Serializable
      *            the axis-angle to be converted (x, y, z, angle)
      */
     public final void setRotation(AxisAngle4f a1) {
-        double[] tmp_rot = new double[9]; // scratch matrix
-        double[] tmp_scale = new double[3]; // scratch matrix
+        final double[] tmp_rot = new double[9]; // scratch matrix
+        final double[] tmp_scale = new double[3]; // scratch matrix
 
         this.getScaleRotate(tmp_scale, tmp_rot);
 
@@ -2523,17 +2529,17 @@ public class Matrix4f implements java.io.Serializable
         }
         else {
             mag = 1.0 / mag;
-            double ax = a1.x * mag;
-            double ay = a1.y * mag;
-            double az = a1.z * mag;
+            final double ax = a1.x * mag;
+            final double ay = a1.y * mag;
+            final double az = a1.z * mag;
 
-            double sinTheta = Math.sin(a1.angle);
-            double cosTheta = Math.cos(a1.angle);
-            double t = 1.0 - cosTheta;
+            final double sinTheta = Math.sin(a1.angle);
+            final double cosTheta = Math.cos(a1.angle);
+            final double t = 1.0 - cosTheta;
 
-            double xz = a1.x * a1.z;
-            double xy = a1.x * a1.y;
-            double yz = a1.y * a1.z;
+            final double xz = a1.x * a1.z;
+            final double xy = a1.x * a1.y;
+            final double yz = a1.y * a1.z;
 
             this.m00 = (float) ((t * ax * ax + cosTheta) * tmp_scale[0]);
             this.m01 = (float) ((t * xy - sinTheta * az) * tmp_scale[1]);
@@ -2621,7 +2627,7 @@ public class Matrix4f implements java.io.Serializable
 
     private final void getScaleRotate(double scales[], double rots[]) {
 
-        double[] tmp = new double[9]; // scratch matrix
+        final double[] tmp = new double[9]; // scratch matrix
         tmp[0] = this.m00;
         tmp[1] = this.m01;
         tmp[2] = this.m02;
@@ -2652,7 +2658,7 @@ public class Matrix4f implements java.io.Serializable
         Matrix4f m1 = null;
         try {
             m1 = (Matrix4f) super.clone();
-        } catch (CloneNotSupportedException e) {
+        } catch (final CloneNotSupportedException e) {
             // this shouldn't happen, since we are Cloneable
             throw new InternalError();
         }
@@ -2968,7 +2974,7 @@ public class Matrix4f implements java.io.Serializable
      * Return a new Array with the 16 values of this matrix in order
      */
     public final float[] intoArray() {
-        float[] m = new float[16];
+        final float[] m = new float[16];
 
         m[0] = this.m00;
         m[1] = this.m01;
@@ -2996,7 +3002,7 @@ public class Matrix4f implements java.io.Serializable
      */
     public final boolean isEmptyRotationMatrix() {
         if (this.m00 == 1 && this.m11 == 1 && this.m22 == 1) {
-            float[] m = this.intoArray();
+            final float[] m = this.intoArray();
             boolean isEmptyRotationMatrix = true;
             for (int i = 0; i < m.length; i++)
                 if (i != 0 && i != 5 && i != 10 && i <= 10)

@@ -18,7 +18,7 @@ public class PlayerHelper
      *            <i>(float)</i> Define the player eyes Y position
      */
     public static void setPlayerSize(EntityPlayer player, float width, float height, float eyeHeight) {
-        AxisAlignedBB axisalignedbb = player.getEntityBoundingBox();
+        final AxisAlignedBB axisalignedbb = player.getEntityBoundingBox();
 
         player.width = width;
         player.height = height;
@@ -40,6 +40,6 @@ public class PlayerHelper
      *            <i>(EntityPlayer)</i> Call the player from event
      */
     public static void resetPlayerSize(EntityPlayer player) {
-        setPlayerSize(player, 0.6F, 1.8F, player.getDefaultEyeHeight());
+        PlayerHelper.setPlayerSize(player, 0.6F, 1.8F, player.getDefaultEyeHeight());
     }
 }

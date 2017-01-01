@@ -11,7 +11,7 @@ public class Channel
     /** Number of the frames of this channel. */
     public int                        totalFrames;
     /** KeyFrames. Key is the position of that keyFrame in the frames list. */
-    public HashMap<Integer, KeyFrame> keyFrames     = new HashMap<>();
+    public HashMap<Integer, KeyFrame> keyFrames     = new HashMap<Integer, KeyFrame>();
     /** How this animation should behave: 0 = Normal; 1 = Loop; 2 = Cycle. */
     public EnumAnimationMode          animationMode = EnumAnimationMode.LINEAR;
 
@@ -39,9 +39,9 @@ public class Channel
     public KeyFrame getPreviousRotationKeyFrameForBox(String boxName, float currentFrame) {
         int latestFramePosition = -1;
         KeyFrame latestKeyFrame = null;
-        for (Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
-            Integer key = entry.getKey();
-            KeyFrame value = entry.getValue();
+        for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
+            final Integer key = entry.getKey();
+            final KeyFrame value = entry.getValue();
 
             if (key <= currentFrame && key > latestFramePosition)
                 if (value.useBoxInRotations(boxName)) {
@@ -61,9 +61,9 @@ public class Channel
     public KeyFrame getNextRotationKeyFrameForBox(String boxName, float currentFrame) {
         int nextFramePosition = -1;
         KeyFrame nextKeyFrame = null;
-        for (Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
-            Integer key = entry.getKey();
-            KeyFrame value = entry.getValue();
+        for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
+            final Integer key = entry.getKey();
+            final KeyFrame value = entry.getValue();
 
             if (key > currentFrame && (key < nextFramePosition || nextFramePosition == -1))
                 if (value.useBoxInRotations(boxName)) {
@@ -83,9 +83,9 @@ public class Channel
     public KeyFrame getPreviousTranslationKeyFrameForBox(String boxName, float currentFrame) {
         int latestFramePosition = -1;
         KeyFrame latestKeyFrame = null;
-        for (Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
-            Integer key = entry.getKey();
-            KeyFrame value = entry.getValue();
+        for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
+            final Integer key = entry.getKey();
+            final KeyFrame value = entry.getValue();
 
             if (key <= currentFrame && key > latestFramePosition)
                 if (value.useBoxInTranslations(boxName)) {
@@ -105,9 +105,9 @@ public class Channel
     public KeyFrame getNextTranslationKeyFrameForBox(String boxName, float currentFrame) {
         int nextFramePosition = -1;
         KeyFrame nextKeyFrame = null;
-        for (Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
-            Integer key = entry.getKey();
-            KeyFrame value = entry.getValue();
+        for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
+            final Integer key = entry.getKey();
+            final KeyFrame value = entry.getValue();
 
             if (key > currentFrame && (key < nextFramePosition || nextFramePosition == -1))
                 if (value.useBoxInTranslations(boxName)) {
@@ -125,9 +125,9 @@ public class Channel
      */
     public int getKeyFramePosition(KeyFrame keyFrame) {
         if (keyFrame != null)
-            for (Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
-                Integer key = entry.getKey();
-                KeyFrame keyframe = entry.getValue();
+            for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
+                final Integer key = entry.getKey();
+                final KeyFrame keyframe = entry.getValue();
 
                 if (keyframe == keyFrame)
                     return key;
@@ -141,7 +141,7 @@ public class Channel
     }
 
     public enum EnumAnimationMode {
-        LINEAR, LOOP, CYCLE;
+        LINEAR, LOOP, CYCLE, CUSTOM;
     }
 
 }

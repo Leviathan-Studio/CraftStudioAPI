@@ -34,12 +34,12 @@ public class Version implements Comparable<Version>
     public int compareTo(Version that) {
         if (that == null)
             return 1;
-        String[] thisParts = this.get().split("\\.");
-        String[] thatParts = that.get().split("\\.");
-        int length = Math.max(thisParts.length, thatParts.length);
+        final String[] thisParts = this.get().split("\\.");
+        final String[] thatParts = that.get().split("\\.");
+        final int length = Math.max(thisParts.length, thatParts.length);
         for (int i = 0; i < length; i++) {
-            int thisPart = i < thisParts.length ? Integer.parseInt(thisParts[i]) : 0;
-            int thatPart = i < thatParts.length ? Integer.parseInt(thatParts[i]) : 0;
+            final int thisPart = i < thisParts.length ? Integer.parseInt(thisParts[i]) : 0;
+            final int thatPart = i < thatParts.length ? Integer.parseInt(thatParts[i]) : 0;
             if (thisPart < thatPart)
                 return -1;
             if (thisPart > thatPart)
@@ -92,9 +92,9 @@ public class Version implements Comparable<Version>
     }
 
     public void preInit() throws Exception {
-        URL url = new URL("https://dl.dropboxusercontent.com/u/51292197/CraftStudio%20Converter/version.txt");
-        Scanner s = new Scanner(url.openStream());
-        this.setActualVersion(new Version("0.9"));
+        final URL url = new URL("https://dl.dropboxusercontent.com/u/51292197/CraftStudio%20Converter/version.txt");
+        final Scanner s = new Scanner(url.openStream());
+        this.setActualVersion(new Version("1.1"));
         this.setNewestVersion(new Version(s.next()));
         s.close();
         CraftStudioApi.getLogger().info(Version.status(Version.getActualVersion(), Version.getNewestVersion(), true));

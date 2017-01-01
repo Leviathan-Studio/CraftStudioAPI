@@ -15,9 +15,9 @@ public class CSModelBox extends ModelBox
      * The (x,y,z) vertex positions and (u,v) texture coordinates for each of
      * the 8 points on a cube
      */
-    private PositionTextureVertex[] vertexPositions;
+    private final PositionTextureVertex[] vertexPositions;
     /** An array of 6 TexturedQuads, one for each face of a cube */
-    private TexturedQuad[]          quadList;
+    private final TexturedQuad[]          quadList;
 
     public CSModelBox(ModelRenderer renderer, int textureX, int textureY, float posX, float posY, float posZ, int sizeX, int sizeY, int sizeZ,
             float scaleFactor) {
@@ -40,19 +40,19 @@ public class CSModelBox extends ModelBox
         endZ = endZ + scaleFactor;
 
         if (mirror) {
-            float f3 = endX;
+            final float f3 = endX;
             endX = posX;
             posX = f3;
         }
 
-        PositionTextureVertex positiontexturevertex7 = new PositionTextureVertex(posX, posY, posZ, 0.0F, 0.0F);
-        PositionTextureVertex positiontexturevertex = new PositionTextureVertex(endX, posY, posZ, 0.0F, 8.0F);
-        PositionTextureVertex positiontexturevertex1 = new PositionTextureVertex(endX, endY, posZ, 8.0F, 8.0F);
-        PositionTextureVertex positiontexturevertex2 = new PositionTextureVertex(posX, endY, posZ, 8.0F, 0.0F);
-        PositionTextureVertex positiontexturevertex3 = new PositionTextureVertex(posX, posY, endZ, 0.0F, 0.0F);
-        PositionTextureVertex positiontexturevertex4 = new PositionTextureVertex(endX, posY, endZ, 0.0F, 8.0F);
-        PositionTextureVertex positiontexturevertex5 = new PositionTextureVertex(endX, endY, endZ, 8.0F, 8.0F);
-        PositionTextureVertex positiontexturevertex6 = new PositionTextureVertex(posX, endY, endZ, 8.0F, 0.0F);
+        final PositionTextureVertex positiontexturevertex7 = new PositionTextureVertex(posX, posY, posZ, 0.0F, 0.0F);
+        final PositionTextureVertex positiontexturevertex = new PositionTextureVertex(endX, posY, posZ, 0.0F, 8.0F);
+        final PositionTextureVertex positiontexturevertex1 = new PositionTextureVertex(endX, endY, posZ, 8.0F, 8.0F);
+        final PositionTextureVertex positiontexturevertex2 = new PositionTextureVertex(posX, endY, posZ, 8.0F, 0.0F);
+        final PositionTextureVertex positiontexturevertex3 = new PositionTextureVertex(posX, posY, endZ, 0.0F, 0.0F);
+        final PositionTextureVertex positiontexturevertex4 = new PositionTextureVertex(endX, posY, endZ, 0.0F, 8.0F);
+        final PositionTextureVertex positiontexturevertex5 = new PositionTextureVertex(endX, endY, endZ, 8.0F, 8.0F);
+        final PositionTextureVertex positiontexturevertex6 = new PositionTextureVertex(posX, endY, endZ, 8.0F, 0.0F);
         this.vertexPositions[0] = positiontexturevertex7;
         this.vertexPositions[1] = positiontexturevertex;
         this.vertexPositions[2] = positiontexturevertex1;
@@ -86,15 +86,15 @@ public class CSModelBox extends ModelBox
                 renderer.textureWidth, renderer.textureHeight);
 
         if (mirror)
-            for (int i = 0; i < this.quadList.length; ++i)
-                this.quadList[i].flipFace();
+            for (final TexturedQuad element : this.quadList)
+                element.flipFace();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void render(VertexBuffer renderer, float scale) {
-        for (int i = 0; i < this.quadList.length; ++i)
-            this.quadList[i].draw(renderer, scale);
+        for (final TexturedQuad element : this.quadList)
+            element.draw(renderer, scale);
     }
 
     @Override
