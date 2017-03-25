@@ -92,7 +92,7 @@ public class Version implements Comparable<Version>
     }
 
     public void preInit() throws Exception {
-        final URL url = new URL("https://dl.dropboxusercontent.com/u/51292197/CraftStudio%20Converter/version.txt");
+        final URL url = new URL("https://leviathan-studio.com/amateis/craftstudio-converter/version.txt");
         final Scanner s = new Scanner(url.openStream());
         this.setActualVersion(new Version("1.1"));
         this.setNewestVersion(new Version(s.next()));
