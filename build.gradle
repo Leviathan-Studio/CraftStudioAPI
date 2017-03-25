@@ -26,10 +26,6 @@ minecraft {
 }
 
 repositories {
-   maven {
-        name = "ourten"
-        url = "http://maven.ferenyr.info/artifactory/Ourten/"
-   }
 }
 
 ext.map = [:]
@@ -54,8 +50,6 @@ sourceSets {
 }
 
 dependencies {
-	compileOnly "org.projectlombok:lombok:1.16.6"
-    compile(group: 'fr.ourten.brokkgui', name: 'BrokkGui', version: '1.9-1.0.1')
 }
 
 processResources
@@ -112,7 +106,7 @@ def packJar(artifactName) {
  	   	    includes.addAll('mcmod.info')
     	    includes.addAll('LICENSE.txt')
     	}
-    	baseName = "TESM-"+artifactName.capitalize()
+    	baseName = "LeviathanStudio-"+artifactName.capitalize()
 	}
 }
 
