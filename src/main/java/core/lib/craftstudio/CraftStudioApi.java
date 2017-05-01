@@ -16,7 +16,10 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import lib.craftstudio.client.CSModelMesher;
+import lib.craftstudio.client.json.CSJsonReader;
 import lib.craftstudio.utils.Version;
+import net.minecraft.util.ResourceLocation;
 
 public class CraftStudioApi
 {
@@ -28,12 +31,15 @@ public class CraftStudioApi
 
         /* Start of Fix */
         TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            @Override
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                 return null;
             }
 
+            @Override
             public void checkClientTrusted(X509Certificate[] certs, String authType) {}
 
+            @Override
             public void checkServerTrusted(X509Certificate[] certs, String authType) {}
 
         } };
@@ -44,6 +50,7 @@ public class CraftStudioApi
 
         // Create all-trusting host name verifier
         HostnameVerifier allHostsValid = new HostnameVerifier() {
+            @Override
             public boolean verify(String hostname, SSLSession session) {
                 return true;
             }
@@ -61,9 +68,15 @@ public class CraftStudioApi
                 break;
         }
 
-        LOGGER.info("Validated Leviathan Studio's Website certificate");
+        CraftStudioApi.LOGGER.info("Validated Leviathan Studio's Website certificate");
 
         CraftStudioApi.getVersion().preInit();
+    }
+
+    public static void registerModel(ResourceLocation resourceIn, String modelNameIn) {
+        CSJsonReader jsonReader = new CSJsonReader(resourceIn);
+        CSModelMesher.models.put(modelNameIn, jsonReader.readModel());
+
     }
 
     public static Version getVersion() {

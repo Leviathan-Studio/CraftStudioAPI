@@ -13,8 +13,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AnimTickHandler
 {
-    private final LinkedList<IAnimated> activeEntities    = new LinkedList<IAnimated>();
-    private final LinkedList<IAnimated> removableEntities = new LinkedList<IAnimated>();
+    private final LinkedList<IAnimated> activeEntities    = new LinkedList<>();
+    private final LinkedList<IAnimated> removableEntities = new LinkedList<>();
 
     public AnimTickHandler() {
         MinecraftForge.EVENT_BUS.register(this);
@@ -29,7 +29,7 @@ public class AnimTickHandler
     @SideOnly(Side.CLIENT)
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (!this.activeEntities.isEmpty())
-            if (event.phase == Phase.START) {
+            if (event.phase == Phase.START)
                 for (final IAnimated entity : this.activeEntities) {
                     entity.getAnimationHandler().animationsUpdate();
 
@@ -37,7 +37,6 @@ public class AnimTickHandler
                         if (((Entity) entity).isDead)
                             this.removableEntities.add(entity);
                 }
-            }
         for (final IAnimated entity : this.removableEntities)
             this.activeEntities.remove(entity);
         this.removableEntities.clear();

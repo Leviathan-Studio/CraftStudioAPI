@@ -11,7 +11,7 @@ public class Channel
     /** Number of the frames of this channel. */
     public int                        totalFrames;
     /** KeyFrames. Key is the position of that keyFrame in the frames list. */
-    public HashMap<Integer, KeyFrame> keyFrames     = new HashMap<Integer, KeyFrame>();
+    public HashMap<Integer, KeyFrame> keyFrames     = new HashMap<>();
     /** How this animation should behave: 0 = Normal; 1 = Loop; 2 = Cycle. */
     public EnumAnimationMode          animationMode = EnumAnimationMode.LINEAR;
 

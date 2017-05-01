@@ -5,7 +5,9 @@
  * <p>
  * Created with Forge v12.18.1.2018
  *
- * @author ZeAmateis
+ * @author ZeAmateis, Timmypote
+ *
+ *         Timmy is the main dev' of the API
  *
  * @version 0.9
  */

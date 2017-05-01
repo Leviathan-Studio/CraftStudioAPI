@@ -3,13 +3,14 @@ package lib.craftstudio.common.animation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 
 import lib.craftstudio.CraftStudioApi;
 import lib.craftstudio.client.CSModelRenderer;
 import lib.craftstudio.common.IAnimated;
 import lib.craftstudio.common.math.Quaternion;
 import lib.craftstudio.common.math.Vector3f;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -24,16 +25,16 @@ public abstract class AnimationHandler
     /** List of all the activate animations of this Entity. */
     public ArrayList<Channel>                        animCurrentChannels = new ArrayList();
     /** Previous time of every active animation. */
-    public HashMap<String, Long>                     animPrevTime        = new HashMap<String, Long>();
+    public HashMap<String, Long>                     animPrevTime        = new HashMap<>();
     /** Current frame of every active animation. */
-    public HashMap<String, Float>                    animCurrentFrame    = new HashMap<String, Float>();
+    public HashMap<String, Float>                    animCurrentFrame    = new HashMap<>();
     /**
      * Contains the unique names of the events that have been already fired
      * during each animation. It becomes empty at the end of every animation.
      * The key is the animation name and the value is the list of already-called
      * events.
      */
-    private final HashMap<String, ArrayList<String>> animationEvents     = new HashMap<String, ArrayList<String>>();
+    private final HashMap<String, ArrayList<String>> animationEvents     = new HashMap<>();
 
     public AnimationHandler(IAnimated entity) {
         if (AnimationHandler.animTickHandler == null)
@@ -193,130 +194,139 @@ public abstract class AnimationHandler
      * by the model class.
      */
     @SideOnly(Side.CLIENT)
-    public static void performAnimationInModel(HashMap<String, CSModelRenderer> parts, IAnimated entity) {
-        for (final Map.Entry<String, CSModelRenderer> entry : parts.entrySet()) {
-            final String boxName = entry.getKey();
-            final CSModelRenderer box = entry.getValue();
-
-            boolean anyRotationApplied = false;
-            boolean anyTranslationApplied = false;
-            boolean anyCustomAnimationRunning = false;
-
-            for (final Channel channel : entity.getAnimationHandler().animCurrentChannels)
-                if (channel.animationMode != Channel.EnumAnimationMode.CUSTOM) {
-                    final float currentFrame = entity.getAnimationHandler().animCurrentFrame.get(channel.name);
-
-                    // Rotations
-                    final KeyFrame prevRotationKeyFrame = channel.getPreviousRotationKeyFrameForBox(boxName,
-                            entity.getAnimationHandler().animCurrentFrame.get(channel.name));
-                    final int prevRotationKeyFramePosition = prevRotationKeyFrame != null ? channel.getKeyFramePosition(prevRotationKeyFrame) : 0;
-
-                    final KeyFrame nextRotationKeyFrame = channel.getNextRotationKeyFrameForBox(boxName,
-                            entity.getAnimationHandler().animCurrentFrame.get(channel.name));
-                    final int nextRotationKeyFramePosition = nextRotationKeyFrame != null ? channel.getKeyFramePosition(nextRotationKeyFrame) : 0;
-
-                    // Quaternion defaultQuat =
-                    // parts.get(boxName).getDefaultRotationAsQuaternion();
-                    // defaultQuat.x = -defaultQuat.x;
-
-                    float SLERPProgress = (currentFrame - prevRotationKeyFramePosition)
-                            / (nextRotationKeyFramePosition - prevRotationKeyFramePosition);
-                    if (SLERPProgress > 1F || SLERPProgress < 0F)
-                        SLERPProgress = 1F;
-
-                    if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame == null && !(nextRotationKeyFramePosition == 0)) {
-                        final Quaternion currentQuat = new Quaternion();
-                        currentQuat.slerp(parts.get(boxName).getDefaultRotationAsQuaternion(),
-                                nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
-                        // currentQuat.mul(defaultQuat);
-                        box.getRotationMatrix().set(currentQuat).transpose();
-
-                        anyRotationApplied = true;
-                    }
-                    else if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame != null && !(nextRotationKeyFramePosition == 0)) {
-                        final Quaternion currentQuat = new Quaternion();
-                        currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
-                                nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
-                        // currentQuat.mul(defaultQuat);
-
-                        box.getRotationMatrix().set(currentQuat).transpose();
-
-                        anyRotationApplied = true;
-                    }
-                    else if (!(prevRotationKeyFramePosition == 0) && !(nextRotationKeyFramePosition == 0)) {
-                        final Quaternion currentQuat = new Quaternion();
-                        currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
-                                nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
-                        // currentQuat.mul(defaultQuat);
-                        box.getRotationMatrix().set(currentQuat).transpose();
-
-                        anyRotationApplied = true;
-                    }
-
-                    // Translations
-                    final KeyFrame prevTranslationKeyFrame = channel.getPreviousTranslationKeyFrameForBox(boxName,
-                            entity.getAnimationHandler().animCurrentFrame.get(channel.name));
-                    final int prevTranslationsKeyFramePosition = prevTranslationKeyFrame != null
-                            ? channel.getKeyFramePosition(prevTranslationKeyFrame) : 0;
-
-                    final KeyFrame nextTranslationKeyFrame = channel.getNextTranslationKeyFrameForBox(boxName,
-                            entity.getAnimationHandler().animCurrentFrame.get(channel.name));
-                    final int nextTranslationsKeyFramePosition = nextTranslationKeyFrame != null
-                            ? channel.getKeyFramePosition(nextTranslationKeyFrame) : 0;
-
-                    final Vector3f defaultPos = new Vector3f(box.getDefaultRotationPointX(), box.getDefaultRotationPointY(),
-                            box.getDefaultRotationPointZ());
-
-                    float LERPProgress = (currentFrame - prevTranslationsKeyFramePosition)
-                            / (nextTranslationsKeyFramePosition - prevTranslationsKeyFramePosition);
-                    if (LERPProgress > 1F)
-                        LERPProgress = 1F;
-
-                    if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame == null && !(nextTranslationsKeyFramePosition == 0)) {
-                        final Vector3f startPosition = parts.get(boxName).getPositionAsVector();
-                        final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
-                                .add(defaultPos);
-                        final Vector3f currentPosition = new Vector3f(startPosition);
-                        currentPosition.interpolate(endPosition, LERPProgress);
-
-                        box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
-
-                        anyTranslationApplied = true;
-                    }
-                    else if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame != null && !(nextTranslationsKeyFramePosition == 0)) {
-                        final Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
-                                .add(defaultPos);
-                        final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
-                                .add(defaultPos);
-                        final Vector3f currentPosition = new Vector3f(startPosition);
-                        currentPosition.interpolate(endPosition, LERPProgress);
-
-                        box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
-                    }
-                    else if (!(prevTranslationsKeyFramePosition == 0) && !(nextTranslationsKeyFramePosition == 0)) {
-                        final Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
-                                .add(defaultPos);
-                        final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
-                                .add(defaultPos);
-                        final Vector3f currentPosition = new Vector3f(startPosition);
-                        currentPosition.interpolate(endPosition, LERPProgress);
-
-                        box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
-
-                        anyTranslationApplied = true;
-                    }
+    public static void performAnimationInModel(List<CSModelRenderer> parts, IAnimated entity) {
+        for (final CSModelRenderer entry : parts) {
+            performAnimationForBlock(entry, entity);
+            for (ModelRenderer child : entry.childModels)
+                if (child instanceof CSModelRenderer) {
+                    CSModelRenderer childModel = (CSModelRenderer) child;
+                    performAnimationForBlock(childModel, entity);
                 }
-                else {
-                    anyCustomAnimationRunning = true;
-
-                    ((CustomChannel) channel).update(parts, entity);
-                }
-
-            if (!anyRotationApplied && !anyCustomAnimationRunning)
-                box.resetRotationMatrix();
-            if (!anyTranslationApplied && !anyCustomAnimationRunning)
-                box.resetRotationPoint();
         }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void performAnimationForBlock(CSModelRenderer block, IAnimated entity) {
+        final CSModelRenderer box = block;
+        final String boxName = box.boxName;
+
+        boolean anyRotationApplied = false;
+        boolean anyTranslationApplied = false;
+        boolean anyCustomAnimationRunning = false;
+
+        for (final Channel channel : entity.getAnimationHandler().animCurrentChannels)
+            if (channel.animationMode != Channel.EnumAnimationMode.CUSTOM) {
+                final float currentFrame = entity.getAnimationHandler().animCurrentFrame.get(channel.name);
+
+                // Rotations
+                final KeyFrame prevRotationKeyFrame = channel.getPreviousRotationKeyFrameForBox(boxName,
+                        entity.getAnimationHandler().animCurrentFrame.get(channel.name));
+                final int prevRotationKeyFramePosition = prevRotationKeyFrame != null ? channel.getKeyFramePosition(prevRotationKeyFrame) : 0;
+
+                final KeyFrame nextRotationKeyFrame = channel.getNextRotationKeyFrameForBox(boxName,
+                        entity.getAnimationHandler().animCurrentFrame.get(channel.name));
+                final int nextRotationKeyFramePosition = nextRotationKeyFrame != null ? channel.getKeyFramePosition(nextRotationKeyFrame) : 0;
+
+                // Quaternion defaultQuat =
+                // parts.get(boxName).getDefaultRotationAsQuaternion();
+                // defaultQuat.x = -defaultQuat.x;
+
+                float SLERPProgress = (currentFrame - prevRotationKeyFramePosition) / (nextRotationKeyFramePosition - prevRotationKeyFramePosition);
+                if (SLERPProgress > 1F || SLERPProgress < 0F)
+                    SLERPProgress = 1F;
+
+                if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame == null && !(nextRotationKeyFramePosition == 0)) {
+                    final Quaternion currentQuat = new Quaternion();
+                    currentQuat.slerp(box.getDefaultRotationAsQuaternion(), nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
+                    // currentQuat.mul(defaultQuat);
+                    box.getRotationMatrix().set(currentQuat).transpose();
+
+                    anyRotationApplied = true;
+                }
+                else if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame != null && !(nextRotationKeyFramePosition == 0)) {
+                    final Quaternion currentQuat = new Quaternion();
+                    currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
+                            nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
+                    // currentQuat.mul(defaultQuat);
+
+                    box.getRotationMatrix().set(currentQuat).transpose();
+
+                    anyRotationApplied = true;
+                }
+                else if (!(prevRotationKeyFramePosition == 0) && !(nextRotationKeyFramePosition == 0)) {
+                    final Quaternion currentQuat = new Quaternion();
+                    currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
+                            nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
+                    // currentQuat.mul(defaultQuat);
+                    box.getRotationMatrix().set(currentQuat).transpose();
+
+                    anyRotationApplied = true;
+                }
+
+                // Translations
+                final KeyFrame prevTranslationKeyFrame = channel.getPreviousTranslationKeyFrameForBox(boxName,
+                        entity.getAnimationHandler().animCurrentFrame.get(channel.name));
+                final int prevTranslationsKeyFramePosition = prevTranslationKeyFrame != null ? channel.getKeyFramePosition(prevTranslationKeyFrame)
+                        : 0;
+
+                final KeyFrame nextTranslationKeyFrame = channel.getNextTranslationKeyFrameForBox(boxName,
+                        entity.getAnimationHandler().animCurrentFrame.get(channel.name));
+                final int nextTranslationsKeyFramePosition = nextTranslationKeyFrame != null ? channel.getKeyFramePosition(nextTranslationKeyFrame)
+                        : 0;
+
+                final Vector3f defaultPos = new Vector3f(box.getDefaultRotationPointX(), box.getDefaultRotationPointY(),
+                        box.getDefaultRotationPointZ());
+
+                float LERPProgress = (currentFrame - prevTranslationsKeyFramePosition)
+                        / (nextTranslationsKeyFramePosition - prevTranslationsKeyFramePosition);
+                if (LERPProgress > 1F)
+                    LERPProgress = 1F;
+
+                if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame == null && !(nextTranslationsKeyFramePosition == 0)) {
+                    final Vector3f startPosition = box.getPositionAsVector();
+                    final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
+                            .add(defaultPos);
+                    final Vector3f currentPosition = new Vector3f(startPosition);
+                    currentPosition.interpolate(endPosition, LERPProgress);
+
+                    box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
+
+                    anyTranslationApplied = true;
+                }
+                else if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame != null && !(nextTranslationsKeyFramePosition == 0)) {
+                    final Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
+                            .add(defaultPos);
+                    final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
+                            .add(defaultPos);
+                    final Vector3f currentPosition = new Vector3f(startPosition);
+                    currentPosition.interpolate(endPosition, LERPProgress);
+
+                    box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
+                }
+                else if (!(prevTranslationsKeyFramePosition == 0) && !(nextTranslationsKeyFramePosition == 0)) {
+                    final Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
+                            .add(defaultPos);
+                    final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
+                            .add(defaultPos);
+                    final Vector3f currentPosition = new Vector3f(startPosition);
+                    currentPosition.interpolate(endPosition, LERPProgress);
+
+                    box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
+
+                    anyTranslationApplied = true;
+                }
+            }
+            else {
+                anyCustomAnimationRunning = true;
+
+                ((CustomChannel) channel).update(block, entity);
+            }
+
+        if (!anyRotationApplied && !anyCustomAnimationRunning)
+            box.resetRotationMatrix();
+        if (!anyTranslationApplied && !anyCustomAnimationRunning)
+            box.resetRotationPoint();
+
     }
 
     /** Get world object from an IAnimated */
