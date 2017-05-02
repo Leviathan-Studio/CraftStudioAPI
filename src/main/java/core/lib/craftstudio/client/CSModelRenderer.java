@@ -65,9 +65,27 @@ public class CSModelRenderer extends ModelRenderer
         return this;
     }
 
+    // Copy and change size int to float from uppper method
+    public ModelRenderer addBox(float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ) {
+        this.cubeList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ, 0.0F));
+        return this;
+    }
+
+    public ModelRenderer addBox(float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ, int faceSizeX, int faceSizeY,
+            int faceSizeZ) {
+        this.cubeList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ, faceSizeX, faceSizeY,
+                faceSizeZ, 0.0F, false));
+        return this;
+    }
+
     @Override
     public ModelRenderer addBox(float posX, float posY, float posZ, int sizeX, int sizeY, int sizeZ, boolean mirror) {
         this.cubeList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ, 0.0F, mirror));
+        return this;
+    }
+
+    public ModelRenderer addBox(float posX, float posY, float posZ, int sizeX, int sizeY, int sizeZ, float scaleFactor, boolean mirror) {
+        this.cubeList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ, scaleFactor, mirror));
         return this;
     }
 

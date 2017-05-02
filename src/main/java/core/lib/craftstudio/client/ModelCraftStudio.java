@@ -16,19 +16,24 @@ public class ModelCraftStudio extends ModelBase
 {
     private List<CSModelRenderer> parentBlocks = new ArrayList<>();
 
-    public ModelCraftStudio(String modelNameIn) {
+    public ModelCraftStudio(String modelNameIn, int textureWidth, int textureHeight) {
+
+        this.textureWidth = textureWidth;
+        this.textureHeight = textureHeight;
 
         CSReadedModel rModel = CSModelMesher.models.get(modelNameIn);
         CSModelRenderer modelRend;
 
-        this.textureHeight = rModel.textureHeight;
-        this.textureWidth = rModel.textureWidth;
-
         for (CSReadedModelBlock rBlock : rModel.parents) {
             modelRend = new CSModelRenderer(this, rBlock.name, rBlock.texOffset[0], rBlock.texOffset[1]);
-            modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size[0], rBlock.size[1], rBlock.size[2]);
+            if (rBlock.faceSize == null)
+                modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z);
+            else
+                modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z,
+                        rBlock.faceSize[0], rBlock.faceSize[1], rBlock.faceSize[2]);
             modelRend.setDefaultRotationPoint(rBlock.rotationPoint.x, rBlock.rotationPoint.y, rBlock.rotationPoint.z);
             modelRend.setInitialRotationMatrix(rBlock.rotation.x, rBlock.rotation.y, rBlock.rotation.z);
+            modelRend.setTextureSize(this.textureWidth, this.textureHeight);
             this.parentBlocks.add(modelRend);
             this.generateChild(rBlock, modelRend);
         }
@@ -38,9 +43,14 @@ public class ModelCraftStudio extends ModelBase
         CSModelRenderer modelRend;
         for (CSReadedModelBlock rBlock : rParent.childs) {
             modelRend = new CSModelRenderer(this, rBlock.name, rBlock.texOffset[0], rBlock.texOffset[1]);
-            modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size[0], rBlock.size[1], rBlock.size[2]);
+            if (rBlock.faceSize == null)
+                modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z);
+            else
+                modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z,
+                        rBlock.faceSize[0], rBlock.faceSize[1], rBlock.faceSize[2]);
             modelRend.setDefaultRotationPoint(rBlock.rotationPoint.x, rBlock.rotationPoint.y, rBlock.rotationPoint.z);
             modelRend.setInitialRotationMatrix(rBlock.rotation.x, rBlock.rotation.y, rBlock.rotation.z);
+            modelRend.setTextureSize(this.textureWidth, this.textureHeight);
             parent.addChild(modelRend);
             this.generateChild(rBlock, modelRend);
         }

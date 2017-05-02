@@ -19,14 +19,19 @@ public class CSModelBox extends ModelBox
     /** An array of 6 TexturedQuads, one for each face of a cube */
     private final TexturedQuad[]          quadList;
 
-    public CSModelBox(ModelRenderer renderer, int textureX, int textureY, float posX, float posY, float posZ, int sizeX, int sizeY, int sizeZ,
+    public CSModelBox(ModelRenderer renderer, int textureX, int textureY, float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ,
             float scaleFactor) {
         this(renderer, textureX, textureY, posX, posY, posZ, sizeX, sizeY, sizeZ, scaleFactor, renderer.mirror);
     }
 
-    public CSModelBox(ModelRenderer renderer, int textureX, int textureY, float posX, float posY, float posZ, int sizeX, int sizeY, int sizeZ,
+    public CSModelBox(ModelRenderer renderer, int textureX, int textureY, float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ,
             float scaleFactor, boolean mirror) {
-        super(renderer, textureX, textureY, posX, posY, posZ, sizeX, sizeY, sizeZ, scaleFactor);
+        this(renderer, textureX, textureY, posX, posY, posZ, sizeX, sizeY, sizeZ, (int) sizeX, (int) sizeY, (int) sizeZ, scaleFactor, mirror);
+    }
+
+    public CSModelBox(ModelRenderer renderer, int textureX, int textureY, float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ,
+            int faceSizeX, int faceSizeY, int faceSizeZ, float scaleFactor, boolean mirror) {
+        super(renderer, textureX, textureY, posX, posY, posZ, (int) sizeX, (int) sizeY, (int) sizeZ, scaleFactor);
         this.vertexPositions = new PositionTextureVertex[8];
         this.quadList = new TexturedQuad[6];
         float endX = posX + sizeX;
@@ -64,26 +69,28 @@ public class CSModelBox extends ModelBox
 
         this.quadList[0] = new TexturedQuad(
                 new PositionTextureVertex[] { positiontexturevertex4, positiontexturevertex, positiontexturevertex1, positiontexturevertex5 },
-                textureX + sizeZ + sizeX, textureY + sizeZ, textureX + sizeZ + sizeX + sizeZ, textureY + sizeZ + sizeY, renderer.textureWidth,
-                renderer.textureHeight);
+                textureX + faceSizeZ + faceSizeX, textureY + faceSizeZ, textureX + faceSizeZ + faceSizeX + faceSizeZ,
+                textureY + faceSizeZ + faceSizeY, renderer.textureWidth, renderer.textureHeight);
         this.quadList[1] = new TexturedQuad(
                 new PositionTextureVertex[] { positiontexturevertex7, positiontexturevertex3, positiontexturevertex6, positiontexturevertex2 },
-                textureX, textureY + sizeZ, textureX + sizeZ, textureY + sizeZ + sizeY, renderer.textureWidth, renderer.textureHeight);
+                textureX, textureY + faceSizeZ, textureX + faceSizeZ, textureY + faceSizeZ + faceSizeY, renderer.textureWidth,
+                renderer.textureHeight);
         this.quadList[2] = new TexturedQuad(
                 new PositionTextureVertex[] { positiontexturevertex4, positiontexturevertex3, positiontexturevertex7, positiontexturevertex },
-                textureX + sizeZ, textureY, textureX + sizeZ + sizeX, textureY + sizeZ, renderer.textureWidth, renderer.textureHeight);
+                textureX + faceSizeZ, textureY, textureX + faceSizeZ + faceSizeX, textureY + faceSizeZ, renderer.textureWidth,
+                renderer.textureHeight);
         this.quadList[3] = new TexturedQuad(
                 new PositionTextureVertex[] { positiontexturevertex1, positiontexturevertex2, positiontexturevertex6, positiontexturevertex5 },
-                textureX + sizeZ + sizeX, textureY + sizeZ, textureX + sizeZ + sizeX + sizeX, textureY, renderer.textureWidth,
+                textureX + faceSizeZ + faceSizeX, textureY + faceSizeZ, textureX + faceSizeZ + faceSizeX + faceSizeX, textureY, renderer.textureWidth,
                 renderer.textureHeight);
         this.quadList[4] = new TexturedQuad(
                 new PositionTextureVertex[] { positiontexturevertex, positiontexturevertex7, positiontexturevertex2, positiontexturevertex1 },
-                textureX + sizeZ, textureY + sizeZ, textureX + sizeZ + sizeX, textureY + sizeZ + sizeY, renderer.textureWidth,
+                textureX + faceSizeZ, textureY + faceSizeZ, textureX + faceSizeZ + faceSizeX, textureY + faceSizeZ + faceSizeY, renderer.textureWidth,
                 renderer.textureHeight);
         this.quadList[5] = new TexturedQuad(
                 new PositionTextureVertex[] { positiontexturevertex3, positiontexturevertex4, positiontexturevertex5, positiontexturevertex6 },
-                textureX + sizeZ + sizeX + sizeZ, textureY + sizeZ, textureX + sizeZ + sizeX + sizeZ + sizeX, textureY + sizeZ + sizeY,
-                renderer.textureWidth, renderer.textureHeight);
+                textureX + faceSizeZ + faceSizeX + faceSizeZ, textureY + faceSizeZ, textureX + faceSizeZ + faceSizeX + faceSizeZ + faceSizeX,
+                textureY + faceSizeZ + faceSizeY, renderer.textureWidth, renderer.textureHeight);
 
         if (mirror)
             for (final TexturedQuad element : this.quadList)

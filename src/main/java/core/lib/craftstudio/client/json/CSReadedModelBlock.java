@@ -8,7 +8,7 @@ import lib.craftstudio.common.math.Vector3f;
 public class CSReadedModelBlock
 {
     public String                   name;
-    public Vector3f                 boxSetup, rotationPoint, rotation;
-    public int[]                    texOffset = new int[2], size = new int[3];
+    public Vector3f                 boxSetup, rotationPoint, rotation, size;
+    public int[]                    texOffset = new int[2], faceSize = new int[3];
     public List<CSReadedModelBlock> childs    = new ArrayList<>();
 }

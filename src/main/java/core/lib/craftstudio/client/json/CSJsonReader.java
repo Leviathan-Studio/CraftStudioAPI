@@ -82,7 +82,7 @@ public class CSJsonReader
 
         block.name = strNormalize(jsonBlock.get("name").getAsString());
 
-        JsonArray array = jsonBlock.getAsJsonArray("size");
+        JsonArray array = jsonBlock.getAsJsonArray("size"), vertexArray;
         float sizeX = array.get(0).getAsFloat();
         float sizeY = array.get(1).getAsFloat();
         float sizeZ = array.get(2).getAsFloat();
@@ -102,11 +102,32 @@ public class CSJsonReader
         float pivotOffsetY = array.get(1).getAsFloat();
         float pivotOffsetZ = array.get(2).getAsFloat();
 
-        block.size[0] = (int) sizeX;
-        block.size[1] = (int) sizeY;
-        block.size[2] = (int) sizeZ;
+        array = jsonBlock.getAsJsonArray("vertexCoords");
+        int i = 0;
+        Vector3f startVert, endVert;
+        if (array != null) {
+            vertexArray = array.get(1).getAsJsonArray();
+            startVert = new Vector3f(vertexArray.get(0).getAsFloat(), vertexArray.get(1).getAsFloat(), vertexArray.get(2).getAsFloat());
+            vertexArray = array.get(6).getAsJsonArray();
+            endVert = new Vector3f(vertexArray.get(0).getAsFloat(), vertexArray.get(1).getAsFloat(), vertexArray.get(2).getAsFloat());
 
-        block.boxSetup = new Vector3f(-sizeX / 2 + pivotOffsetX, -sizeY / 2 - pivotOffsetY, -sizeZ / 2 - pivotOffsetZ);
+            Vector3f vSize = endVert.subtract(startVert);
+            block.size = vSize;
+
+            block.faceSize = new int[3];
+            block.faceSize[0] = (int) sizeX;
+            block.faceSize[1] = (int) -sizeY;
+            block.faceSize[2] = (int) -sizeZ;
+
+            block.boxSetup = startVert;
+            block.boxSetup.y = -block.boxSetup.y;
+            block.boxSetup.z = -block.boxSetup.z;
+        }
+        else {
+            block.size = new Vector3f(sizeX, sizeY, sizeZ);
+
+            block.boxSetup = new Vector3f(-sizeX / 2 + pivotOffsetX, -sizeY / 2 - pivotOffsetY, -sizeZ / 2 - pivotOffsetZ);
+        }
 
         if (parent == null)
             block.rotationPoint = new Vector3f(posX, -posY + 24, -posZ);
@@ -158,13 +179,4 @@ public class CSJsonReader
         return str.replaceAll("[^\\dA-Za-z ]", "_").replaceAll("\\s+", "_").replaceAll("[^\\p{ASCII}]", "_");
     }
 
-    // public void readTextureFileSize() {
-    // try {
-    // BufferedImage bimg = ImageIO.read();
-    // this.setTextureWidth(bimg.getWidth());
-    // this.setTextureHeight(bimg.getHeight());
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // }
-    // }
 }
