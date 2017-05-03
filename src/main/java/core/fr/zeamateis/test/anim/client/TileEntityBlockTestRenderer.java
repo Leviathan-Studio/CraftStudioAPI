@@ -11,11 +11,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class TileEntityBlockTestRenderer<T extends TileEntityBlockTest> extends TileEntitySpecialRenderer<T>
 {
-    private final ModelCraftStudio modelTest = new ModelCraftStudio("ModelBlockTest");
+    private final ModelCraftStudio modelTest = new ModelCraftStudio("null", 64, 32);
 
     @Override
     public void renderTileEntityAt(T tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {
-        this.bindTexture(new ResourceLocation("testmod", "textures/block/blockTest.png"));
+        this.bindTexture(new ResourceLocation("testmod", "textures/block/null.png"));
         GlStateManager.pushMatrix();
         GlStateManager.translate(x + 0.5D, y + 1, z + 0.5D);
         GlStateManager.scale(0.5D, 0.5D, 0.5D);

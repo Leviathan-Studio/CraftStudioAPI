@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderTest<T extends EntityTest> extends RenderLiving<T>
 {
     public RenderTest() {
-        super(Minecraft.getMinecraft().getRenderManager(), new ModelCraftStudio("ModelTestEntity", 64, 32), 0.5F);
+        super(Minecraft.getMinecraft().getRenderManager(), new ModelCraftStudio("ModelDeadCorpse", 64, 32), 0.5F);
     }
 
     @Override
