@@ -18,27 +18,29 @@ import net.minecraft.util.ResourceLocation;
 public class CSJsonReader
 {
     JsonObject root;
+    String     modid;
 
     public CSJsonReader(ResourceLocation resourceIn) {
         JsonParser jsonParser = new JsonParser();
         BufferedReader reader = null;
-        IResource iresource = null;
+        IResource iResource = null;
         StringBuilder strBuilder = new StringBuilder();
 
         try {
-            iresource = Minecraft.getMinecraft().getResourceManager().getResource(resourceIn);
-            reader = new BufferedReader(new InputStreamReader(iresource.getInputStream(), Charsets.UTF_8));
+            iResource = Minecraft.getMinecraft().getResourceManager().getResource(resourceIn);
+            reader = new BufferedReader(new InputStreamReader(iResource.getInputStream(), Charsets.UTF_8));
             String s;
             while ((s = reader.readLine()) != null)
                 strBuilder.append(s);
             Object object = jsonParser.parse(strBuilder.toString());
             this.root = (JsonObject) object;
+            this.modid = iResource.getResourceLocation().getResourceDomain();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
                 reader.close();
-                iresource.close();
+                iResource.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -56,6 +58,7 @@ public class CSJsonReader
         // model.textureHeight = modelReader.getTextureHeight();
         // model.textureWidth = modelReader.getTextureWidth();
 
+        model.modid = strNormalize(this.modid);
         model.name = strNormalize(this.root.get("title").getAsString());
 
         JsonArray tree = this.root.getAsJsonArray("tree");

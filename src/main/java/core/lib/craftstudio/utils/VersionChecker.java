@@ -5,10 +5,10 @@ import java.util.Scanner;
 
 import lib.craftstudio.CraftStudioApi;
 
-public class Version implements Comparable<Version>
+public class VersionChecker implements Comparable<VersionChecker>
 {
-    private static Version actualVersion;
-    private static Version newestVersion;
+    private static VersionChecker actualVersion;
+    private static VersionChecker newestVersion;
 
     enum Status {
         OUTDATED, UP_TO_DATE, AHEAD;
@@ -20,9 +20,9 @@ public class Version implements Comparable<Version>
         return this.version;
     }
 
-    public Version() {}
+    public VersionChecker() {}
 
-    public Version(String version) {
+    public VersionChecker(String version) {
         if (version == null)
             throw new IllegalArgumentException("Version can not be null");
         if (!version.matches("[0-9]+(\\.[0-9]+)*"))
@@ -31,7 +31,7 @@ public class Version implements Comparable<Version>
     }
 
     @Override
-    public int compareTo(Version that) {
+    public int compareTo(VersionChecker that) {
         if (that == null)
             return 1;
         final String[] thisParts = this.get().split("\\.");
@@ -56,35 +56,35 @@ public class Version implements Comparable<Version>
             return false;
         if (this.getClass() != that.getClass())
             return false;
-        return this.compareTo((Version) that) == 0;
+        return this.compareTo((VersionChecker) that) == 0;
     }
 
-    public static Version getActualVersion() {
-        return Version.actualVersion;
+    public static VersionChecker getActualVersion() {
+        return VersionChecker.actualVersion;
     }
 
-    private void setActualVersion(Version actualVersion) {
-        Version.actualVersion = actualVersion;
+    private void setActualVersion(VersionChecker actualVersion) {
+        VersionChecker.actualVersion = actualVersion;
     }
 
-    public static Version getNewestVersion() {
-        return Version.newestVersion;
+    public static VersionChecker getNewestVersion() {
+        return VersionChecker.newestVersion;
     }
 
-    private void setNewestVersion(Version newestVersion) {
-        Version.newestVersion = newestVersion;
+    private void setNewestVersion(VersionChecker newestVersion) {
+        VersionChecker.newestVersion = newestVersion;
     }
 
-    private static String status(Version actualVersion, Version newestVersion, boolean showing) {
+    private static String status(VersionChecker actualVersion, VersionChecker newestVersion, boolean showing) {
         switch (actualVersion.compareTo(newestVersion)) {
             case -1:
-                return String.format("Actual API Version (%s) is %s: %s", actualVersion.get(), Version.Status.OUTDATED, newestVersion.get());
+                return String.format("Actual API Version (%s) is %s: %s", actualVersion.get(), VersionChecker.Status.OUTDATED, newestVersion.get());
             case 0:
                 if (showing)
-                    return String.format("Actual API Version (%s) is %s: %s", actualVersion.get(), Version.Status.UP_TO_DATE, newestVersion.get());
+                    return String.format("Actual API Version (%s) is %s: %s", actualVersion.get(), VersionChecker.Status.UP_TO_DATE, newestVersion.get());
                 break;
             case 1:
-                return String.format("Actual API Version (%s) is %s: %s", actualVersion.get(), Version.Status.AHEAD, newestVersion.get());
+                return String.format("Actual API Version (%s) is %s: %s", actualVersion.get(), VersionChecker.Status.AHEAD, newestVersion.get());
             default:
                 return null;
         }
@@ -94,10 +94,10 @@ public class Version implements Comparable<Version>
     public void preInit() throws Exception {
         final URL url = new URL("https://leviathan-studio.com/amateis/craftstudio-converter/version.txt");
         final Scanner s = new Scanner(url.openStream());
-        this.setActualVersion(new Version("1.1"));
-        this.setNewestVersion(new Version(s.next()));
+        this.setActualVersion(new VersionChecker(CraftStudioApi.ACTUAL_VERSION));
+        this.setNewestVersion(new VersionChecker(s.next()));
         s.close();
-        CraftStudioApi.getLogger().info(Version.status(Version.getActualVersion(), Version.getNewestVersion(), true));
+        CraftStudioApi.getLogger().info(VersionChecker.status(VersionChecker.getActualVersion(), VersionChecker.getNewestVersion(), true));
     }
 
 }
