@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class TileEntityBlockTestRenderer<T extends TileEntityBlockTest> extends TileEntitySpecialRenderer<T>
 {
-    private final ModelCraftStudio modelTest = new ModelCraftStudio("ModelBlockTest");
+    private final ModelCraftStudio modelTest = new ModelCraftStudio("ModelBlockTest", 64, 32);
 
     @Override
     public void renderTileEntityAt(T tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {

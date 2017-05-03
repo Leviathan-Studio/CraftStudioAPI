@@ -23,14 +23,13 @@ public class ModelCraftStudio extends ModelBase
 
         CSReadedModel rModel = CSModelMesher.models.get(modelNameIn);
         CSModelRenderer modelRend;
-
+        
         for (CSReadedModelBlock rBlock : rModel.parents) {
             modelRend = new CSModelRenderer(this, rBlock.name, rBlock.texOffset[0], rBlock.texOffset[1]);
             if (rBlock.faceSize == null)
                 modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z);
             else
-                modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z,
-                        rBlock.faceSize[0], rBlock.faceSize[1], rBlock.faceSize[2]);
+                modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z);
             modelRend.setDefaultRotationPoint(rBlock.rotationPoint.x, rBlock.rotationPoint.y, rBlock.rotationPoint.z);
             modelRend.setInitialRotationMatrix(rBlock.rotation.x, rBlock.rotation.y, rBlock.rotation.z);
             modelRend.setTextureSize(this.textureWidth, this.textureHeight);
@@ -46,8 +45,7 @@ public class ModelCraftStudio extends ModelBase
             if (rBlock.faceSize == null)
                 modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z);
             else
-                modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z,
-                        rBlock.faceSize[0], rBlock.faceSize[1], rBlock.faceSize[2]);
+                modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z);
             modelRend.setDefaultRotationPoint(rBlock.rotationPoint.x, rBlock.rotationPoint.y, rBlock.rotationPoint.z);
             modelRend.setInitialRotationMatrix(rBlock.rotation.x, rBlock.rotation.y, rBlock.rotation.z);
             modelRend.setTextureSize(this.textureWidth, this.textureHeight);

@@ -36,7 +36,7 @@ public class Mod_Test
     public void preInit(FMLPreInitializationEvent event) throws Exception {
         CraftStudioApi.preInit();
 
-        CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/Peacock.csjsmodel"), "Peacock");
+        CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/CraftStudioAPITest.csjsmodel"), "CraftStudioAPITest");
 
         GameRegistry.registerTileEntity(TileEntityBlockTest.class, "TileEntityBlockTest");
 
