@@ -8,18 +8,27 @@ import org.apache.logging.log4j.Logger;
 import lib.craftstudio.client.CSModelMesher;
 import lib.craftstudio.client.json.CSJsonReader;
 import lib.craftstudio.client.json.CSReadedModel;
+import lib.craftstudio.utils.VersionChecker;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, version = CraftStudioApi.VERSION, updateJSON = "http://leviathan-studio.com/amateis/craftstudio-converter/update.json")
+@Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, version = CraftStudioApi.ACTUAL_VERSION)
 public class CraftStudioApi
 {
-    private static final Logger LOGGER = LogManager.getLogger("CraftStudio");
+    private static final Logger LOGGER         = LogManager.getLogger("CraftStudio");
 
-    public static final String  API_ID = "craftstudioapi", NAME = "CraftStudio API", VERSION = "1.1";
+    public static final String  API_ID         = "craftstudioapi", NAME = "CraftStudio API", ACTUAL_VERSION = "1.1";
+
+    private VersionChecker      versionChecker = new VersionChecker();
+
+    @EventHandler
+    void preInit(FMLPreInitializationEvent event) throws Exception {
+        versionChecker.preInit();
+    }
 
     @EventHandler
     void load(FMLInitializationEvent event) {
