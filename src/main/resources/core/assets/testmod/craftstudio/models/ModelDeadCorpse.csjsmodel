@@ -1,0 +1,129 @@
+{
+  "title": "ModelDeadCorpse",
+  "tree": [
+    {
+      "name": "bipedBody",
+      "position": [ 0, 18, 0 ],
+      "offsetFromPivot": [ 0, 0, 0 ],
+      "size": [ 8, 12, 4 ],
+      "rotation": [ 0, 0, 0 ],
+      "texOffset": [ 16, 16 ],
+      "children": [
+        {
+          "name": "bipedHead",
+          "position": [ 0, 6, 0 ],
+          "offsetFromPivot": [ 0, 4, 0 ],
+          "size": [ 8, 8, 8 ],
+          "rotation": [ 0, 0, 0 ],
+          "vertexCoords": [
+            [ -5.016337, 4, -4 ],
+            [ 5.016337, 4, -4 ],
+            [ 5.016337, -4, -4 ],
+            [ -5.016337, -4, -4 ],
+            [ 5.016337, 4, 4 ],
+            [ -5.016337, 4, 4 ],
+            [ -5.016337, -4, 4 ],
+            [ 5.016337, -4, 4 ]
+          ],
+          "texOffset": [ 0, 0 ],
+          "children": [
+            {
+              "name": "bipedHeadWear",
+              "position": [ 0, -4, 0 ],
+              "offsetFromPivot": [ 0, 4, 0 ],
+              "size": [ 8, 8, 8 ],
+              "rotation": [ 0, 0, 0 ],
+              "texOffset": [ 32, 0 ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "bipedLeftArm",
+          "position": [ 4, 4, 0 ],
+          "offsetFromPivot": [ 2, -4, 0 ],
+          "size": [ 4, 12, 4 ],
+          "rotation": [ 0, 0, 0 ],
+          "texOffset": [ 32, 48 ],
+          "children": [
+            {
+              "name": "bipedLeftArmWear",
+              "position": [ -2, 4, 0 ],
+              "offsetFromPivot": [ 2, -4, 0 ],
+              "size": [ 4, 12, 4 ],
+              "rotation": [ 0, 0, 0 ],
+              "texOffset": [ 48, 48 ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "bipedRightArm",
+          "position": [ -4, 4, 0 ],
+          "offsetFromPivot": [ -2, -4, 0 ],
+          "size": [ 4, 12, 4 ],
+          "rotation": [ 0, 0, 0 ],
+          "texOffset": [ 40, 16 ],
+          "children": [
+            {
+              "name": "bipedRightArmWear",
+              "position": [ 2, 4, 0 ],
+              "offsetFromPivot": [ -2, -4, 0 ],
+              "size": [ 4, 12, 4 ],
+              "rotation": [ 0, 0, 0 ],
+              "texOffset": [ 40, 32 ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "bipedLeftLeg",
+          "position": [ 2, -6, 0 ],
+          "offsetFromPivot": [ 0, -6, 0 ],
+          "size": [ 4, 12, 4 ],
+          "rotation": [ 0, 0, 0 ],
+          "texOffset": [ 16, 48 ],
+          "children": [
+            {
+              "name": "bipedLeftLegWear",
+              "position": [ 0, 6, 0 ],
+              "offsetFromPivot": [ 0, -6, 0 ],
+              "size": [ 4, 12, 4 ],
+              "rotation": [ 0, 0, 0 ],
+              "texOffset": [ 0, 48 ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "bipedRightLeg",
+          "position": [ -2, -6, 0 ],
+          "offsetFromPivot": [ 0, -6, 0 ],
+          "size": [ 4, 12, 4 ],
+          "rotation": [ 0, 0, 0 ],
+          "texOffset": [ 0, 16 ],
+          "children": [
+            {
+              "name": "bipedRightLegWear",
+              "position": [ 0, 6, 0 ],
+              "offsetFromPivot": [ 0, -6, 0 ],
+              "size": [ 4, 12, 4 ],
+              "rotation": [ 0, 0, 0 ],
+              "texOffset": [ 0, 32 ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "bipedBodyWear",
+          "position": [ 0, 0, 0 ],
+          "offsetFromPivot": [ 0, 0, 0 ],
+          "size": [ 8, 12, 4 ],
+          "rotation": [ 0, 0, 0 ],
+          "texOffset": [ 16, 32 ],
+          "children": []
+        }
+      ]
+    }
+  ]
+}

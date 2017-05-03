@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CSReadedModel
 {
-    public String                   name;
+    public String                   name, modid;
     public int                      textureWidth, textureHeight;
     public List<CSReadedModelBlock> parents = new ArrayList<>();
 }
