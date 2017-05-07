@@ -10,11 +10,15 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
+// plugins
 apply plugin: 'net.minecraftforge.gradle.forge'
 
+// Maven
 version = "0.1"
 group= "com.leviathanstudio"
-archivesBaseName = "Game"
+archivesBaseName = "CraftStudioAPI"
+
+// Java
 compileJava.options.encoding = 'UTF-8'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -28,23 +32,21 @@ minecraft {
 repositories {
 }
 
-ext.map = [:]
-map["core"] = ['com/leviathanstudio/module/core/**', 'assets/game_core/**']
-
 sourceSets {
     main {
         java {
-        	srcDirs = []
-        	map.keySet().each {
-        		srcDir "src/main/java/${it}"
-        	}
-        	println srcDirs
+			srcDirs 'src/main/java/'
         }
         resources {
-        	srcDirs = []
-        	map.keySet().each {
-        		srcDir "src/main/resources/${it}"
-        	}
+        	srcDirs 'src/main/resources/'
+        }
+    }
+	mod {
+        java {
+			srcDirs 'src/mod/java/'
+        }
+        resources {
+        	srcDirs 'src/mod/resources/'
         }
     }
 }
@@ -56,7 +58,9 @@ processResources
 {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
+	// resources
     from(sourceSets.main.resources.srcDirs) {
+        include 'com/**/**'
         include 'mcmod.info'
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
@@ -68,55 +72,31 @@ processResources
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
 
 jar
-{
-    includes.addAll('lib/craftstudio/asm/**')
-//  includes.addAll('assets/**')
-    includes.addAll('mcmod.info')
-//  includes.addAll('LICENSE.txt')
-	
-	 manifest {
-        attributes 'FMLCorePlugin': 'fr.zeamateis.tesm.AnimationLoadingPlugin', 'FMLCorePluginContainsFMLMod': 'true'
+{	
+	manifest {
+        attributes 	'FMLCorePlugin': 'fr.zeamateis.tesm.AnimationLoadingPlugin',
+					'FMLCorePluginContainsFMLMod': 'true',
+					'group':project.group
     }
+	appendix = 'universal'
+	version = "${project.version}-mc${project.minecraft.version}"
 }
 
-def moveMcModInfo(artifactName) {
-    return tasks.create("move${artifactName}McmodInfo", Copy) {
-    	dependsOn reobf
-    	from(zipTree(project.ext.coreJar))
-    	from 'src/main/resources/'+artifactName+'/mcmod.info'
-    	into 'temporary'
+task devJar(type: Jar) {
+    from(sourceSets.main.allSource) {
+        include 'com/**/**'
     }
-}
-
-def rePackAllJar(artifactName) {
-	return tasks.create("rePackAllJar${artifactName}", Jar) {
-		dependsOn moveMcModInfo(artifactName)
-		from 'temporary'
-	}
-}
-
-def packJar(artifactName) {
-	return tasks.create("pack${artifactName}Jar", Jar) {
-		dependsOn rePackAllJar(artifactName)
-    	outputs.upToDateWhen {false}
-
-    	from(zipTree(project.ext.coreJar))
-    	{
-    	   	includes.addAll(project.map["${artifactName}"])
- 	   	    includes.addAll('mcmod.info')
-    	    includes.addAll('LICENSE.txt')
-    	}
-    	baseName = "LeviathanStudio-"+artifactName.capitalize()
-	}
-}
-
-task cleanExtra(type: Delete, dependsOn: "buildAllJars") {
-    delete project.ext.coreJar
-    delete 'temporary'
-}
-
-task buildAllJars {
-	map.keySet().each {
-        dependsOn packJar("${it}")
+    from(sourceSets.main.output) {
+        include '**'
     }
+	manifest {
+        attributes  'FMLCorePlugin': 'fr.zeamateis.tesm.AnimationLoadingPlugin',
+					'FMLCorePluginContainsFMLMod': 'true',
+                    'group':project.group
+    }
+    classifier = 'dev'
+    version = "${project.version}-mc${project.minecraft.version}"
 }
+
+build.dependsOn devJar
+
