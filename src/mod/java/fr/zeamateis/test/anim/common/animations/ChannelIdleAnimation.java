@@ -6,12 +6,14 @@ import com.leviathanstudio.craftstudio.common.math.Quaternion;
 
 public class ChannelIdleAnimation extends Channel
 {
-    public ChannelIdleAnimation(String name, float fps) {
+    public ChannelIdleAnimation(String name, float fps)
+    {
         super(name, fps, 60, Channel.EnumAnimationMode.LOOP);
     }
 
     @Override
-    protected void initializeAllFrames() {
+    protected void initializeAllFrames()
+    {
         KeyFrame keyframe8 = new KeyFrame();
         KeyFrame keyframe0 = new KeyFrame();
         KeyFrame keyframe60 = new KeyFrame();

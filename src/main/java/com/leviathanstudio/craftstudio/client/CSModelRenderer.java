@@ -9,7 +9,7 @@ import com.leviathanstudio.craftstudio.common.math.Quat4fHelper;
 import com.leviathanstudio.craftstudio.common.math.Quaternion;
 import com.leviathanstudio.craftstudio.common.math.Vector3f;
 import com.leviathanstudio.craftstudio.util.GlHelper;
-import com.leviathanstudio.craftstudio.util.Utils;
+import com.leviathanstudio.craftstudio.util.Util;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -45,14 +45,16 @@ public class CSModelRenderer extends ModelRenderer
     private Matrix4f       defaultRotationMatrix = new Matrix4f();
     private Quaternion     defaultRotationAsQuaternion;
 
-    public CSModelRenderer(ModelBase modelbase, String partName, int xTextureOffset, int yTextureOffset) {
+    public CSModelRenderer(ModelBase modelbase, String partName, int xTextureOffset, int yTextureOffset)
+    {
         super(modelbase, partName);
         this.setTextureSize(modelbase.textureWidth, modelbase.textureHeight);
         this.setTextureOffset(xTextureOffset, yTextureOffset);
     }
 
     @Override
-    public ModelRenderer setTextureOffset(int x, int y) {
+    public ModelRenderer setTextureOffset(int x, int y)
+    {
         this.textureOffsetX = x;
         this.textureOffsetY = y;
         this.cubeList.size();
@@ -100,9 +102,11 @@ public class CSModelRenderer extends ModelRenderer
      * Render model parts
      */
     @Override
-    public void render(float scale) {
+    public void render(float scale)
+    {
         if (!this.isHidden)
-            if (this.showModel) {
+            if (this.showModel)
+            {
                 if (!this.compiled)
                     this.compileDisplayList(scale);
 
@@ -110,31 +114,38 @@ public class CSModelRenderer extends ModelRenderer
                 GlHelper.translate(this.offsetX, this.offsetY, this.offsetZ);
                 int i;
 
-                if (this.rotationMatrix.isEmptyRotationMatrix()) {
-                    if (this.rotationPointX == 0.0F && this.rotationPointY == 0.0F && this.rotationPointZ == 0.0F) {
+                if (this.rotationMatrix.isEmptyRotationMatrix())
+                {
+                    if (this.rotationPointX == 0.0F && this.rotationPointY == 0.0F && this.rotationPointZ == 0.0F)
+                    {
                         GlHelper.callList(this.displayList);
 
                         if (this.childModels != null)
                             for (i = 0; i < this.childModels.size(); ++i)
                                 this.childModels.get(i).render(scale);
                     }
-                    else {
+                    else
+                    {
                         // pushMatrix();
-                        GlHelper.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+                        GlHelper.translate(this.rotationPointX * scale, this.rotationPointY * scale,
+                                this.rotationPointZ * scale);
                         GlHelper.callList(this.displayList);
 
                         if (this.childModels != null)
                             for (i = 0; i < this.childModels.size(); ++i)
                                 this.childModels.get(i).render(scale);
 
-                        GlHelper.translate(-this.rotationPointX * scale, -this.rotationPointY * scale, -this.rotationPointZ * scale);
+                        GlHelper.translate(-this.rotationPointX * scale, -this.rotationPointY * scale,
+                                -this.rotationPointZ * scale);
                         // popMatrix();
                     }
                 }
-                else {
+                else
+                {
                     GlHelper.pushMatrix();
-                    GlHelper.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
-                    final FloatBuffer buf = Utils.makeFloatBuffer(this.rotationMatrix.intoArray());
+                    GlHelper.translate(this.rotationPointX * scale, this.rotationPointY * scale,
+                            this.rotationPointZ * scale);
+                    final FloatBuffer buf = Util.makeFloatBuffer(this.rotationMatrix.intoArray());
                     GlHelper.multMatrix(buf);
 
                     GlHelper.callList(this.displayList);
@@ -155,24 +166,32 @@ public class CSModelRenderer extends ModelRenderer
 
     /** Useless, we use Gl Rotations */
     @Override
-    public void renderWithRotation(float par1) {}
+    public void renderWithRotation(float par1)
+    {
+    }
 
     /**
      * Allows the changing of Angles after a box has been rendered
      */
     @Override
-    public void postRender(float scale) {
+    public void postRender(float scale)
+    {
         if (!this.isHidden)
-            if (this.showModel) {
+            if (this.showModel)
+            {
                 if (!this.compiled)
                     this.compileDisplayList(scale);
 
-                if (this.rotationMatrix.equals(this.prevRotationMatrix)) {
+                if (this.rotationMatrix.equals(this.prevRotationMatrix))
+                {
                     if (this.rotationPointX != 0.0F || this.rotationPointY != 0.0F || this.rotationPointZ != 0.0F)
-                        GlHelper.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+                        GlHelper.translate(this.rotationPointX * scale, this.rotationPointY * scale,
+                                this.rotationPointZ * scale);
                 }
-                else {
-                    GlHelper.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+                else
+                {
+                    GlHelper.translate(this.rotationPointX * scale, this.rotationPointY * scale,
+                            this.rotationPointZ * scale);
 
                     GlHelper.multMatrix(FloatBuffer.wrap(this.rotationMatrix.intoArray()));
                 }
@@ -183,41 +202,48 @@ public class CSModelRenderer extends ModelRenderer
      * Set default rotation point (model with no animations) and set the current
      * rotation point.
      */
-    public void setDefaultRotationPoint(float par1, float par2, float par3) {
+    public void setDefaultRotationPoint(float par1, float par2, float par3)
+    {
         this.defaultRotationPointX = par1;
         this.defaultRotationPointY = par2;
         this.defaultRotationPointZ = par3;
         this.setRotationPoint(par1, par2, par3);
     }
 
-    public float getDefaultRotationPointX() {
+    public float getDefaultRotationPointX()
+    {
         return this.defaultRotationPointX;
     }
 
-    public float getDefaultRotationPointY() {
+    public float getDefaultRotationPointY()
+    {
         return this.defaultRotationPointY;
     }
 
-    public float getDefaultRotationPointZ() {
+    public float getDefaultRotationPointZ()
+    {
         return this.defaultRotationPointZ;
     }
 
     /** Set the rotation point */
     @Override
-    public void setRotationPoint(float par1, float par2, float par3) {
+    public void setRotationPoint(float par1, float par2, float par3)
+    {
         this.rotationPointX = par1;
         this.rotationPointY = par2;
         this.rotationPointZ = par3;
     }
 
     /** Reset the rotation point to the default values. */
-    public void resetRotationPoint() {
+    public void resetRotationPoint()
+    {
         this.rotationPointX = this.defaultRotationPointX;
         this.rotationPointY = this.defaultRotationPointY;
         this.rotationPointZ = this.defaultRotationPointZ;
     }
 
-    public Vector3f getPositionAsVector() {
+    public Vector3f getPositionAsVector()
+    {
         return new Vector3f(this.rotationPointX, this.rotationPointY, this.rotationPointZ);
     }
 
@@ -232,22 +258,25 @@ public class CSModelRenderer extends ModelRenderer
      * Set rotation matrix setting also an initial default value (model with no
      * animations).
      */
-    public void setInitialRotationMatrix(Matrix4f matrix) {
+    public void setInitialRotationMatrix(Matrix4f matrix)
+    {
         this.defaultRotationMatrix = matrix;
         this.setRotationMatrix(matrix);
-        this.defaultRotationAsQuaternion = Utils.getQuaternionFromMatrix(this.rotationMatrix);
+        this.defaultRotationAsQuaternion = Util.getQuaternionFromMatrix(this.rotationMatrix);
     }
 
     /**
      * Set rotation matrix setting also an initial default value (model with no
      * animations).
      */
-    public void setInitialRotationMatrix(float x, float y, float z) {
+    public void setInitialRotationMatrix(float x, float y, float z)
+    {
         this.setInitialRotationMatrix(new Matrix4f().set(new Quaternion(x, y, z)).transpose());
     }
 
     /** Set the rotation matrix values based on the given matrix. */
-    public void setRotationMatrix(Matrix4f matrix) {
+    public void setRotationMatrix(Matrix4f matrix)
+    {
         this.rotationMatrix.m00 = matrix.m00;
         this.rotationMatrix.m01 = matrix.m01;
         this.rotationMatrix.m02 = matrix.m02;
@@ -267,22 +296,26 @@ public class CSModelRenderer extends ModelRenderer
     }
 
     /** Reset the rotation matrix to the default one. */
-    public void resetRotationMatrix() {
+    public void resetRotationMatrix()
+    {
         this.setRotationMatrix(this.defaultRotationMatrix);
     }
 
-    public Matrix4f getRotationMatrix() {
+    public Matrix4f getRotationMatrix()
+    {
         return this.rotationMatrix;
     }
 
-    public Quaternion getDefaultRotationAsQuaternion() {
+    public Quaternion getDefaultRotationAsQuaternion()
+    {
         return this.defaultRotationAsQuaternion.clone();
     }
 
     /**
      * Compiles a GL display list for this model.
      */
-    public void compileDisplayList(float par1) {
+    public void compileDisplayList(float par1)
+    {
         this.displayList = GLAllocation.generateDisplayLists(1);
         GlHelper.glNewList(this.displayList, 4864);
         final VertexBuffer vertexbuffer = Tessellator.getInstance().getBuffer();

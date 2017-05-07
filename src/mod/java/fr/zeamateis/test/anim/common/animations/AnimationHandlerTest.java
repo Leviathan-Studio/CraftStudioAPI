@@ -12,7 +12,8 @@ import com.leviathanstudio.craftstudio.common.animation.Channel;
  */
 public class AnimationHandlerTest extends AnimationHandler
 {
-    public AnimationHandlerTest(IAnimated entity) {
+    public AnimationHandlerTest(IAnimated entity)
+    {
         super(entity);
     }
 
@@ -20,25 +21,32 @@ public class AnimationHandlerTest extends AnimationHandler
     public static HashMap<String, Channel> animChannels = new HashMap<>();
 
     /** Register the animation(s) */
-    static {
+    static
+    {
         AnimationHandlerTest.animChannels.put("block", new ChannelBlockAnimation("block", 30.0F));
         AnimationHandlerTest.animChannels.put("idle", new ChannelIdleAnimation("idle", 30.0F));
     }
 
     @Override
-    public void executeAnimation(String name, float startingFrame) {
+    public void executeAnimation(String name, float startingFrame)
+    {
         super.executeAnimation(AnimationHandlerTest.animChannels, name, startingFrame);
     }
 
     @Override
-    public void stopAnimation(String name) {
+    public void stopAnimation(String name)
+    {
         super.stopAnimation(AnimationHandlerTest.animChannels, name);
     }
 
     @Override
-    public void fireAnimationEventClientSide(Channel anim, float prevFrame, float frame) {}
+    public void fireAnimationEventClientSide(Channel anim, float prevFrame, float frame)
+    {
+    }
 
     @Override
-    public void fireAnimationEventServerSide(Channel anim, float prevFrame, float frame) {}
+    public void fireAnimationEventServerSide(Channel anim, float prevFrame, float frame)
+    {
+    }
 
 }

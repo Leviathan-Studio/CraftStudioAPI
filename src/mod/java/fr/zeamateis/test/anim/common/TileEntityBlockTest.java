@@ -13,12 +13,14 @@ public class TileEntityBlockTest extends TileEntity implements IAnimated, ITicka
     protected AnimationHandler animHandler = new AnimationHandlerTest(this);
 
     @Override
-    public AnimationHandler getAnimationHandler() {
+    public AnimationHandler getAnimationHandler()
+    {
         return this.animHandler;
     }
 
     @Override
-    public void update() {
+    public void update()
+    {
         if (!this.getAnimationHandler().isAnimationActive("block"))
             this.getAnimationHandler().executeAnimation("block", 0);
     }

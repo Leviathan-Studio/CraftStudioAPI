@@ -16,7 +16,8 @@ public class TileEntityBlockTestRenderer<T extends TileEntityBlockTest> extends 
     private final ModelCraftStudio modelTest = new ModelCraftStudio("ModelBlockTest", 64, 32);
 
     @Override
-    public void renderTileEntityAt(T tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void renderTileEntityAt(T tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage)
+    {
         this.bindTexture(new ResourceLocation("testmod", "textures/block/null.png"));
         GlStateManager.pushMatrix();
         GlStateManager.translate(x + 0.5D, y + 1, z + 0.5D);

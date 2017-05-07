@@ -12,57 +12,74 @@ public class CSAnimationReader
 {
     private JsonObject jsonObject;
 
-    public CSAnimationReader(File fileInputAnimation) {
+    public CSAnimationReader(File fileInputAnimation)
+    {
         JsonParser jsonParser = new JsonParser();
         FileReader fileReader = null;
-        try {
+        try
+        {
             fileReader = new FileReader(fileInputAnimation.getAbsolutePath());
             Object object = jsonParser.parse(fileReader);
             this.jsonObject = (JsonObject) object;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
-        } finally {
-            try {
+        } finally
+        {
+            try
+            {
                 fileReader.close();
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 e.printStackTrace();
             }
         }
     }
 
-    public JsonObject getAnimationNodeList() {
+    public JsonObject getAnimationNodeList()
+    {
         return this.jsonObject.getAsJsonObject("nodeAnimations");
     }
 
-    public String getAnimationName() {
-        return this.jsonObject.get("title").getAsString().replaceAll("[^\\dA-Za-z ]", "_").replaceAll("\\s+", "_").replaceAll("[^\\p{ASCII}]", "_");
+    public String getAnimationName()
+    {
+        return this.jsonObject.get("title").getAsString().replaceAll("[^\\dA-Za-z ]", "_").replaceAll("\\s+", "_")
+                .replaceAll("[^\\p{ASCII}]", "_");
     }
 
-    public String getPartName(Entry<String, JsonElement> entrySet) {
-        return entrySet.getKey().replaceAll("[^\\dA-Za-z ]", "_").replaceAll("\\s+", "_").replaceAll("[^\\p{ASCII}]", "_");
+    public String getPartName(Entry<String, JsonElement> entrySet)
+    {
+        return entrySet.getKey().replaceAll("[^\\dA-Za-z ]", "_").replaceAll("\\s+", "_").replaceAll("[^\\p{ASCII}]",
+                "_");
     }
 
-    public JsonElement getPosition(Entry<String, JsonElement> entrySet) {
+    public JsonElement getPosition(Entry<String, JsonElement> entrySet)
+    {
         return entrySet.getValue().getAsJsonObject().get("position");
     }
 
-    public JsonElement getOffsetFromPivot(Entry<String, JsonElement> entrySet) {
+    public JsonElement getOffsetFromPivot(Entry<String, JsonElement> entrySet)
+    {
         return entrySet.getValue().getAsJsonObject().get("offsetFromPivot");
     }
 
-    public JsonElement getSize(Entry<String, JsonElement> entrySet) {
+    public JsonElement getSize(Entry<String, JsonElement> entrySet)
+    {
         return entrySet.getValue().getAsJsonObject().get("size");
     }
 
-    public JsonElement getRotation(Entry<String, JsonElement> entrySet) {
+    public JsonElement getRotation(Entry<String, JsonElement> entrySet)
+    {
         return entrySet.getValue().getAsJsonObject().get("rotation");
     }
 
-    public JsonElement getStretch(Entry<String, JsonElement> entrySet) {
+    public JsonElement getStretch(Entry<String, JsonElement> entrySet)
+    {
         return entrySet.getValue().getAsJsonObject().get("stretch");
     }
 
-    public int getAnimationDuration() {
+    public int getAnimationDuration()
+    {
         return this.jsonObject.get("duration").getAsInt() / 2;
     }
 }

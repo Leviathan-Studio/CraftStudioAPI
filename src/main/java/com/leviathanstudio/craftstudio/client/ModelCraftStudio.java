@@ -18,7 +18,8 @@ public class ModelCraftStudio extends ModelBase
 {
     private List<CSModelRenderer> parentBlocks = new ArrayList<>();
 
-    public ModelCraftStudio(String modelNameIn, int textureWidth, int textureHeight) {
+    public ModelCraftStudio(String modelNameIn, int textureWidth, int textureHeight)
+    {
 
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
@@ -33,7 +34,8 @@ public class ModelCraftStudio extends ModelBase
         }
     }
 
-    private void generateChild(CSReadedModelBlock rParent, CSModelRenderer parent) {
+    private void generateChild(CSReadedModelBlock rParent, CSModelRenderer parent)
+    {
         CSModelRenderer modelRend;
         for (CSReadedModelBlock rBlock : rParent.childs) {
             modelRend = generateCSModelRend(rBlock);
@@ -58,7 +60,8 @@ public class ModelCraftStudio extends ModelBase
     }
 
     // Render method for blocks
-    public void render(TileEntity tileEntityIn) {
+    public void render(TileEntity tileEntityIn)
+    {
         float modelScale = 0.0625F;
         AnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) tileEntityIn);
         for (CSModelRenderer block : this.parentBlocks)
@@ -67,15 +70,19 @@ public class ModelCraftStudio extends ModelBase
 
     // Render method for entities
     @Override
-    public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+            float headPitch, float scale)
+    {
         AnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) entityIn);
         for (CSModelRenderer block : this.parentBlocks)
             block.render(scale);
     }
 
-    public CSModelRenderer getModelRendererFromName(String name) {
+    public CSModelRenderer getModelRendererFromName(String name)
+    {
         CSModelRenderer result;
-        for (CSModelRenderer parent : this.parentBlocks) {
+        for (CSModelRenderer parent : this.parentBlocks)
+        {
             result = getModelRendererFromNameAndBlock(name, parent);
             if (result != null)
                 return result;
@@ -85,14 +92,16 @@ public class ModelCraftStudio extends ModelBase
 
     }
 
-    private static CSModelRenderer getModelRendererFromNameAndBlock(String name, CSModelRenderer block) {
+    private static CSModelRenderer getModelRendererFromNameAndBlock(String name, CSModelRenderer block)
+    {
         CSModelRenderer childModel, result;
 
         if (block.boxName.equals(name))
             return block;
 
         for (ModelRenderer child : block.childModels)
-            if (child instanceof CSModelRenderer) {
+            if (child instanceof CSModelRenderer)
+            {
                 childModel = (CSModelRenderer) child;
                 result = getModelRendererFromNameAndBlock(name, childModel);
                 if (result != null)

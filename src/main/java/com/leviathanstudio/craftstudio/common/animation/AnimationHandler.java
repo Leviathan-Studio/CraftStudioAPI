@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.CSModelRenderer;
@@ -24,11 +25,11 @@ public abstract class AnimationHandler
     /** Owner of this handler. */
     private final IAnimated                          animatedEntity;
     /** List of all the activate animations of this Entity. */
-    public ArrayList<Channel>                        animCurrentChannels = new ArrayList();
+    public List<Channel>                             animCurrentChannels = new ArrayList<>();
     /** Previous time of every active animation. */
-    public HashMap<String, Long>                     animPrevTime        = new HashMap<>();
+    public Map<String, Long>                         animPrevTime        = new HashMap<>();
     /** Current frame of every active animation. */
-    public HashMap<String, Float>                    animCurrentFrame    = new HashMap<>();
+    public Map<String, Float>                        animCurrentFrame    = new HashMap<>();
     /**
      * Contains the unique names of the events that have been already fired
      * during each animation. It becomes empty at the end of every animation.
@@ -37,7 +38,8 @@ public abstract class AnimationHandler
      */
     private final HashMap<String, ArrayList<String>> animationEvents     = new HashMap<>();
 
-    public AnimationHandler(IAnimated entity) {
+    public AnimationHandler(IAnimated entity)
+    {
         if (AnimationHandler.animTickHandler == null)
             AnimationHandler.animTickHandler = new AnimTickHandler();
         AnimationHandler.animTickHandler.addEntity(entity);
@@ -45,12 +47,15 @@ public abstract class AnimationHandler
         this.animatedEntity = entity;
     }
 
-    public IAnimated getEntity() {
+    public IAnimated getEntity()
+    {
         return this.animatedEntity;
     }
 
-    public void executeAnimation(HashMap<String, Channel> animChannels, String name, float startingFrame) {
-        if (animChannels.get(name) != null) {
+    public void executeAnimation(HashMap<String, Channel> animChannels, String name, float startingFrame)
+    {
+        if (animChannels.get(name) != null)
+        {
             final Channel selectedChannel = animChannels.get(name);
             final int indexToRemove = this.animCurrentChannels.indexOf(selectedChannel);
             if (indexToRemove != -1)
@@ -68,11 +73,14 @@ public abstract class AnimationHandler
 
     public abstract void executeAnimation(String name, float startingFrame);
 
-    public void stopAnimation(HashMap<String, Channel> animChannels, String name) {
+    public void stopAnimation(HashMap<String, Channel> animChannels, String name)
+    {
         final Channel selectedChannel = animChannels.get(name);
-        if (selectedChannel != null) {
+        if (selectedChannel != null)
+        {
             final int indexToRemove = this.animCurrentChannels.indexOf(selectedChannel);
-            if (indexToRemove != -1) {
+            if (indexToRemove != -1)
+            {
                 this.animCurrentChannels.remove(indexToRemove);
                 this.animPrevTime.remove(name);
                 this.animCurrentFrame.remove(name);
@@ -85,14 +93,18 @@ public abstract class AnimationHandler
 
     public abstract void stopAnimation(String name);
 
-    public void animationsUpdate() {
-        for (final Iterator<Channel> it = this.animCurrentChannels.iterator(); it.hasNext();) {
+    public void animationsUpdate()
+    {
+        for (final Iterator<Channel> it = this.animCurrentChannels.iterator(); it.hasNext();)
+        {
             final Channel anim = it.next();
             final float prevFrame = this.animCurrentFrame.get(anim.name);
-            final boolean animStatus = AnimationHandler.updateAnimation(this.animatedEntity, anim, this.animPrevTime, this.animCurrentFrame);
+            final boolean animStatus = AnimationHandler.updateAnimation(this.animatedEntity, anim, this.animPrevTime,
+                    this.animCurrentFrame);
             if (this.animCurrentFrame.get(anim.name) != null)
                 this.fireAnimationEvent(anim, prevFrame, this.animCurrentFrame.get(anim.name));
-            if (!animStatus) {
+            if (!animStatus)
+            {
                 it.remove();
                 this.animPrevTime.remove(anim.name);
                 this.animCurrentFrame.remove(anim.name);
@@ -101,10 +113,12 @@ public abstract class AnimationHandler
         }
     }
 
-    public boolean isAnimationActive(String name) {
+    public boolean isAnimationActive(String name)
+    {
         boolean animAlreadyUsed = false;
         for (final Channel anim : this.animatedEntity.getAnimationHandler().animCurrentChannels)
-            if (anim.name.equals(name)) {
+            if (anim.name.equals(name))
+            {
                 animAlreadyUsed = true;
                 break;
             }
@@ -112,7 +126,8 @@ public abstract class AnimationHandler
         return animAlreadyUsed;
     }
 
-    private void fireAnimationEvent(Channel anim, float prevFrame, float frame) {
+    private void fireAnimationEvent(Channel anim, float prevFrame, float frame)
+    {
         if (AnimationHandler.isWorldRemote(this.animatedEntity))
             this.fireAnimationEventClientSide(anim, prevFrame, frame);
         else
@@ -125,28 +140,36 @@ public abstract class AnimationHandler
     public abstract void fireAnimationEventServerSide(Channel anim, float prevFrame, float frame);
 
     /** Check if the animation event has already been called. */
-    public boolean alreadyCalledEvent(String animName, String eventName) {
-        if (this.animationEvents.get(animName) == null) {
-            CraftStudioApi.getLogger().warn("Cannot check for event " + eventName + "!\nAnimation " + animName + "does not exist or is not active.");
+    public boolean alreadyCalledEvent(String animName, String eventName)
+    {
+        if (this.animationEvents.get(animName) == null)
+        {
+            CraftStudioApi.getLogger().warn("Cannot check for event " + eventName + "!\nAnimation " + animName
+                    + "does not exist or is not active.");
             return true;
         }
         return this.animationEvents.get(animName).contains(eventName);
     }
 
     /** Set the animation event as "called", so it won't be fired again. */
-    public void setCalledEvent(String animName, String eventName) {
+    public void setCalledEvent(String animName, String eventName)
+    {
         if (this.animationEvents.get(animName) != null)
             this.animationEvents.get(animName).add(eventName);
         else
-            CraftStudioApi.getLogger().warn("Cannot set event " + eventName + "!\nAnimation " + animName + "does not exist or is not active.");
+            CraftStudioApi.getLogger().warn(
+                    "Cannot set event " + eventName + "!\nAnimation " + animName + "does not exist or is not active.");
     }
 
     /** Update animation values. Return false if the animation should stop. */
-    public static boolean updateAnimation(IAnimated entity, Channel channel, HashMap<String, Long> prevTimeAnim,
-            HashMap<String, Float> prevFrameAnim) {
+    public static boolean updateAnimation(IAnimated entity, Channel channel, Map<String, Long> prevTimeAnim,
+            Map<String, Float> prevFrameAnim)
+    {
         if (FMLCommonHandler.instance().getEffectiveSide().isServer()
-                || FMLCommonHandler.instance().getEffectiveSide().isClient() && !AnimationHandler.isGamePaused()) {
-            if (!(channel.animationMode == Channel.EnumAnimationMode.CUSTOM)) {
+                || FMLCommonHandler.instance().getEffectiveSide().isClient() && !AnimationHandler.isGamePaused())
+        {
+            if (!(channel.animationMode == Channel.EnumAnimationMode.CUSTOM))
+            {
                 final long prevTime = prevTimeAnim.get(channel.name);
                 final float prevFrame = prevFrameAnim.get(channel.name);
 
@@ -160,13 +183,16 @@ public abstract class AnimationHandler
                  * -1 as the first frame mustn't be "executed" as it is the
                  * starting situation
                  */
-                if (currentFrame < channel.totalFrames - 1) {
+                if (currentFrame < channel.totalFrames - 1)
+                {
                     prevTimeAnim.put(channel.name, currentTime);
                     prevFrameAnim.put(channel.name, currentFrame);
                     return true;
                 }
-                else {
-                    if (channel.animationMode == Channel.EnumAnimationMode.LOOP) {
+                else
+                {
+                    if (channel.animationMode == Channel.EnumAnimationMode.LOOP)
+                    {
                         prevTimeAnim.put(channel.name, currentTime);
                         prevFrameAnim.put(channel.name, 0F);
                         return true;
@@ -177,7 +203,8 @@ public abstract class AnimationHandler
             else
                 return true;
         }
-        else {
+        else
+        {
             final long currentTime = System.nanoTime();
             prevTimeAnim.put(channel.name, currentTime);
             return true;
@@ -185,9 +212,11 @@ public abstract class AnimationHandler
     }
 
     @SideOnly(Side.CLIENT)
-    private static boolean isGamePaused() {
+    private static boolean isGamePaused()
+    {
         final net.minecraft.client.Minecraft MC = net.minecraft.client.Minecraft.getMinecraft();
-        return MC.isSingleplayer() && MC.currentScreen != null && MC.currentScreen.doesGuiPauseGame() && !MC.getIntegratedServer().getPublic();
+        return MC.isSingleplayer() && MC.currentScreen != null && MC.currentScreen.doesGuiPauseGame()
+                && !MC.getIntegratedServer().getPublic();
     }
 
     /**
@@ -195,20 +224,24 @@ public abstract class AnimationHandler
      * by the model class.
      */
     @SideOnly(Side.CLIENT)
-    public static void performAnimationInModel(List<CSModelRenderer> parts, IAnimated entity) {
-        for (final CSModelRenderer entry : parts) {
+    public static void performAnimationInModel(List<CSModelRenderer> parts, IAnimated entity)
+    {
+        for (final CSModelRenderer entry : parts)
+        {
             performAnimationForBlock(entry, entity);
             if (entry.childModels != null)
             	for (ModelRenderer child : entry.childModels)
-            		if (child instanceof CSModelRenderer) {
+                if (child instanceof CSModelRenderer)
+                {
             			CSModelRenderer childModel = (CSModelRenderer) child;
             			performAnimationForBlock(childModel, entity);
-            		}
+                }
         }
     }
 
     @SideOnly(Side.CLIENT)
-    public static void performAnimationForBlock(CSModelRenderer block, IAnimated entity) {
+    public static void performAnimationForBlock(CSModelRenderer block, IAnimated entity)
+    {
         final CSModelRenderer box = block;
         final String boxName = box.boxName;
 
@@ -217,35 +250,44 @@ public abstract class AnimationHandler
         boolean anyCustomAnimationRunning = false;
 
         for (final Channel channel : entity.getAnimationHandler().animCurrentChannels)
-            if (channel.animationMode != Channel.EnumAnimationMode.CUSTOM) {
+            if (channel.animationMode != Channel.EnumAnimationMode.CUSTOM)
+            {
                 final float currentFrame = entity.getAnimationHandler().animCurrentFrame.get(channel.name);
 
                 // Rotations
                 final KeyFrame prevRotationKeyFrame = channel.getPreviousRotationKeyFrameForBox(boxName,
                         entity.getAnimationHandler().animCurrentFrame.get(channel.name));
-                final int prevRotationKeyFramePosition = prevRotationKeyFrame != null ? channel.getKeyFramePosition(prevRotationKeyFrame) : 0;
+                final int prevRotationKeyFramePosition = prevRotationKeyFrame != null
+                        ? channel.getKeyFramePosition(prevRotationKeyFrame) : 0;
 
                 final KeyFrame nextRotationKeyFrame = channel.getNextRotationKeyFrameForBox(boxName,
                         entity.getAnimationHandler().animCurrentFrame.get(channel.name));
-                final int nextRotationKeyFramePosition = nextRotationKeyFrame != null ? channel.getKeyFramePosition(nextRotationKeyFrame) : 0;
+                final int nextRotationKeyFramePosition = nextRotationKeyFrame != null
+                        ? channel.getKeyFramePosition(nextRotationKeyFrame) : 0;
 
                 // Quaternion defaultQuat =
                 // parts.get(boxName).getDefaultRotationAsQuaternion();
                 // defaultQuat.x = -defaultQuat.x;
 
-                float SLERPProgress = (currentFrame - prevRotationKeyFramePosition) / (nextRotationKeyFramePosition - prevRotationKeyFramePosition);
+                float SLERPProgress = (currentFrame - prevRotationKeyFramePosition)
+                        / (nextRotationKeyFramePosition - prevRotationKeyFramePosition);
                 if (SLERPProgress > 1F || SLERPProgress < 0F)
                     SLERPProgress = 1F;
 
-                if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame == null && !(nextRotationKeyFramePosition == 0)) {
+                if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame == null
+                        && !(nextRotationKeyFramePosition == 0))
+                {
                     final Quaternion currentQuat = new Quaternion();
-                    currentQuat.slerp(box.getDefaultRotationAsQuaternion(), nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
+                    currentQuat.slerp(box.getDefaultRotationAsQuaternion(),
+                            nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
                     // currentQuat.mul(defaultQuat);
                     box.getRotationMatrix().set(currentQuat).transpose();
 
                     anyRotationApplied = true;
                 }
-                else if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame != null && !(nextRotationKeyFramePosition == 0)) {
+                else if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame != null
+                        && !(nextRotationKeyFramePosition == 0))
+                {
                     final Quaternion currentQuat = new Quaternion();
                     currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
                             nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
@@ -255,7 +297,8 @@ public abstract class AnimationHandler
 
                     anyRotationApplied = true;
                 }
-                else if (!(prevRotationKeyFramePosition == 0) && !(nextRotationKeyFramePosition == 0)) {
+                else if (!(prevRotationKeyFramePosition == 0) && !(nextRotationKeyFramePosition == 0))
+                {
                     final Quaternion currentQuat = new Quaternion();
                     currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
                             nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
@@ -268,13 +311,13 @@ public abstract class AnimationHandler
                 // Translations
                 final KeyFrame prevTranslationKeyFrame = channel.getPreviousTranslationKeyFrameForBox(boxName,
                         entity.getAnimationHandler().animCurrentFrame.get(channel.name));
-                final int prevTranslationsKeyFramePosition = prevTranslationKeyFrame != null ? channel.getKeyFramePosition(prevTranslationKeyFrame)
-                        : 0;
+                final int prevTranslationsKeyFramePosition = prevTranslationKeyFrame != null
+                        ? channel.getKeyFramePosition(prevTranslationKeyFrame) : 0;
 
                 final KeyFrame nextTranslationKeyFrame = channel.getNextTranslationKeyFrameForBox(boxName,
                         entity.getAnimationHandler().animCurrentFrame.get(channel.name));
-                final int nextTranslationsKeyFramePosition = nextTranslationKeyFrame != null ? channel.getKeyFramePosition(nextTranslationKeyFrame)
-                        : 0;
+                final int nextTranslationsKeyFramePosition = nextTranslationKeyFrame != null
+                        ? channel.getKeyFramePosition(nextTranslationKeyFrame) : 0;
 
                 final Vector3f defaultPos = new Vector3f(box.getDefaultRotationPointX(), box.getDefaultRotationPointY(),
                         box.getDefaultRotationPointZ());
@@ -284,7 +327,9 @@ public abstract class AnimationHandler
                 if (LERPProgress > 1F)
                     LERPProgress = 1F;
 
-                if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame == null && !(nextTranslationsKeyFramePosition == 0)) {
+                if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame == null
+                        && !(nextTranslationsKeyFramePosition == 0))
+                {
                     final Vector3f startPosition = box.getPositionAsVector();
                     final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
                             .add(defaultPos);
@@ -295,7 +340,9 @@ public abstract class AnimationHandler
 
                     anyTranslationApplied = true;
                 }
-                else if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame != null && !(nextTranslationsKeyFramePosition == 0)) {
+                else if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame != null
+                        && !(nextTranslationsKeyFramePosition == 0))
+                {
                     final Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
                             .add(defaultPos);
                     final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
@@ -305,7 +352,8 @@ public abstract class AnimationHandler
 
                     box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
                 }
-                else if (!(prevTranslationsKeyFramePosition == 0) && !(nextTranslationsKeyFramePosition == 0)) {
+                else if (!(prevTranslationsKeyFramePosition == 0) && !(nextTranslationsKeyFramePosition == 0))
+                {
                     final Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
                             .add(defaultPos);
                     final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
@@ -318,7 +366,8 @@ public abstract class AnimationHandler
                     anyTranslationApplied = true;
                 }
             }
-            else {
+            else
+            {
                 anyCustomAnimationRunning = true;
 
                 ((CustomChannel) channel).update(block, entity);
@@ -332,7 +381,8 @@ public abstract class AnimationHandler
     }
 
     /** Get world object from an IAnimated */
-    public static boolean isWorldRemote(IAnimated animated) {
+    public static boolean isWorldRemote(IAnimated animated)
+    {
         if (animated instanceof Entity)
             return ((Entity) animated).worldObj.isRemote;
         else if (animated instanceof TileEntity)

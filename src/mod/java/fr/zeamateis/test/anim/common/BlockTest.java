@@ -12,7 +12,8 @@ import net.minecraft.world.World;
 public class BlockTest extends Block implements ITileEntityProvider
 {
 
-    public BlockTest() {
+    public BlockTest()
+    {
         super(Material.ROCK);
         this.setUnlocalizedName("blockTest");
         this.setCreativeTab(CreativeTabs.MISC);
@@ -23,7 +24,8 @@ public class BlockTest extends Block implements ITileEntityProvider
      * for render
      */
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(IBlockState state)
+    {
         return false;
     }
 
@@ -32,7 +34,8 @@ public class BlockTest extends Block implements ITileEntityProvider
      * TESR's, 1 for liquids, -1 is no render
      */
     @Override
-    public EnumBlockRenderType getRenderType(IBlockState state) {
+    public EnumBlockRenderType getRenderType(IBlockState state)
+    {
         return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
@@ -41,7 +44,8 @@ public class BlockTest extends Block implements ITileEntityProvider
      * the block.
      */
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createNewTileEntity(World worldIn, int meta)
+    {
         return new TileEntityBlockTest();
     }
 }

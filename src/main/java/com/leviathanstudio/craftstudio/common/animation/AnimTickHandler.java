@@ -1,6 +1,7 @@
 package com.leviathanstudio.craftstudio.common.animation;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import com.leviathanstudio.craftstudio.common.IAnimated;
 
@@ -14,24 +15,28 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AnimTickHandler
 {
-    private final LinkedList<IAnimated> activeEntities    = new LinkedList<>();
-    private final LinkedList<IAnimated> removableEntities = new LinkedList<>();
+    private final List<IAnimated> activeEntities    = new LinkedList<>();
+    private final List<IAnimated> removableEntities = new LinkedList<>();
 
-    public AnimTickHandler() {
+    public AnimTickHandler()
+    {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public void addEntity(IAnimated entity) {
+    public void addEntity(IAnimated entity)
+    {
         this.activeEntities.add(entity);
     }
 
     // Called when the client ticks.
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void onClientTick(TickEvent.ClientTickEvent event) {
+    public void onClientTick(TickEvent.ClientTickEvent event)
+    {
         if (!this.activeEntities.isEmpty())
             if (event.phase == Phase.START)
-                for (final IAnimated entity : this.activeEntities) {
+                for (final IAnimated entity : this.activeEntities)
+                {
                     entity.getAnimationHandler().animationsUpdate();
 
                     if (entity instanceof Entity)
@@ -46,10 +51,13 @@ public class AnimTickHandler
     // Called when the server ticks. Usually 20 ticks a second.
     @SubscribeEvent
     @SideOnly(Side.SERVER)
-    public void onServerTick(TickEvent.ServerTickEvent event) {
+    public void onServerTick(TickEvent.ServerTickEvent event)
+    {
         if (!this.activeEntities.isEmpty())
-            if (event.phase == Phase.START) {
-                for (final IAnimated entity : this.activeEntities) {
+            if (event.phase == Phase.START)
+            {
+                for (final IAnimated entity : this.activeEntities)
+                {
                     entity.getAnimationHandler().animationsUpdate();
 
                     if (entity instanceof Entity)
@@ -65,9 +73,13 @@ public class AnimTickHandler
     // Called when a new frame is displayed (See fps)
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void onRenderTick(TickEvent.RenderTickEvent event) {}
+    public void onRenderTick(TickEvent.RenderTickEvent event)
+    {
+    }
 
     // Called when the world ticks
     @SubscribeEvent
-    public void onWorldTick(TickEvent.WorldTickEvent event) {}
+    public void onWorldTick(TickEvent.WorldTickEvent event)
+    {
+    }
 }

@@ -28,14 +28,16 @@ public class Mod_Test
     @Instance("testmod")
     private static Mod_Test    instance;
 
-    public static Mod_Test getInstance() {
+    public static Mod_Test getInstance()
+    {
         return Mod_Test.instance;
     }
 
     public static Item itemTest = new ItemTest();
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event) throws Exception {
+    public void preInit(FMLPreInitializationEvent event) throws Exception
+    {
         CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/ModelDeadCorpse.csjsmodel"), "ModelDeadCorpse");
         CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/CraftStudioAPITest2.csjsmodel"), "CraftStudioAPITest");
         CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/Dragon_Brun.csjsmodel"), "Dragon_Brun");
@@ -48,11 +50,12 @@ public class Mod_Test
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event) {
+    public void init(FMLInitializationEvent event)
+    {
         Mod_Test.proxy.init();
 
-        EntityRegistry.registerModEntity(EntityTest.class, "entityTest", 420, Mod_Test.instance, 40, 1, true, new Color(0, 255, 0).getRGB(),
-                new Color(255, 0, 0).getRGB());
+        EntityRegistry.registerModEntity(EntityTest.class, "entityTest", 420, Mod_Test.instance, 40, 1, true,
+                new Color(0, 255, 0).getRGB(), new Color(255, 0, 0).getRGB());
 
         MinecraftForge.EVENT_BUS.register(this);
     }

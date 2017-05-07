@@ -3,8 +3,6 @@ package com.leviathanstudio.craftstudio.client.json;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import org.apache.commons.io.Charsets;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -15,18 +13,22 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 
+import org.apache.commons.io.Charsets;
+
 public class CSJsonReader
 {
     JsonObject root;
     String     modid;
 
-    public CSJsonReader(ResourceLocation resourceIn) {
+    public CSJsonReader(ResourceLocation resourceIn)
+    {
         JsonParser jsonParser = new JsonParser();
         BufferedReader reader = null;
         IResource iResource = null;
         StringBuilder strBuilder = new StringBuilder();
 
-        try {
+        try
+        {
             iResource = Minecraft.getMinecraft().getResourceManager().getResource(resourceIn);
             reader = new BufferedReader(new InputStreamReader(iResource.getInputStream(), Charsets.UTF_8));
             String s;
@@ -35,19 +37,24 @@ public class CSJsonReader
             Object object = jsonParser.parse(strBuilder.toString());
             this.root = (JsonObject) object;
             this.modid = iResource.getResourceLocation().getResourceDomain();
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
-        } finally {
-            try {
+        } finally
+        {
+            try
+            {
                 reader.close();
                 iResource.close();
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 e.printStackTrace();
             }
         }
     }
 
-    public CSReadedModel readModel() {
+    public CSReadedModel readModel()
+    {
 
         CSReadedModel model = new CSReadedModel();
         CSReadedModelBlock parent;
@@ -62,7 +69,8 @@ public class CSJsonReader
         model.name = strNormalize(this.root.get("title").getAsString());
 
         JsonArray tree = this.root.getAsJsonArray("tree");
-        for (JsonElement element : tree) {
+        for (JsonElement element : tree)
+        {
             jsonBlock = element.getAsJsonObject();
 
             parent = new CSReadedModelBlock();
@@ -75,7 +83,8 @@ public class CSJsonReader
 
     }
 
-    private void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block) {
+    private void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block)
+    {
         this.readModelBlock(jsonBlock, block, null, null);
     }
 
@@ -135,7 +144,8 @@ public class CSJsonReader
         block.texOffset[1] = array.get(1).getAsInt();
 
         array = jsonBlock.getAsJsonArray("children");
-        for (JsonElement element : array) {
+        for (JsonElement element : array)
+        {
             jsonChild = element.getAsJsonObject();
             child = new CSReadedModelBlock();
             block.childs.add(child);
@@ -169,7 +179,8 @@ public class CSJsonReader
     // return model;
     // }
 
-    private static String strNormalize(String str) {
+    private static String strNormalize(String str)
+    {
         return str.replaceAll("[^\\dA-Za-z ]", "_").replaceAll("\\s+", "_").replaceAll("[^\\p{ASCII}]", "_");
     }
 

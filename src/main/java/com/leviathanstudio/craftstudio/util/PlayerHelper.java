@@ -17,14 +17,15 @@ public class PlayerHelper
      * @param eyeHeight
      *            <i>(float)</i> Define the player eyes Y position
      */
-    public static void setPlayerSize(EntityPlayer player, float width, float height, float eyeHeight) {
+    public static void setPlayerSize(EntityPlayer player, float width, float height, float eyeHeight)
+    {
         final AxisAlignedBB axisalignedbb = player.getEntityBoundingBox();
 
         player.width = width;
         player.height = height;
 
-        player.setEntityBoundingBox(new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.minX + width,
-                axisalignedbb.minY + height, axisalignedbb.minZ + width));
+        player.setEntityBoundingBox(new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ,
+                axisalignedbb.minX + width, axisalignedbb.minY + height, axisalignedbb.minZ + width));
         player.getEntityBoundingBox().setMaxY(axisalignedbb.maxY);
 
         player.eyeHeight = eyeHeight;
@@ -39,7 +40,8 @@ public class PlayerHelper
      * @param player
      *            <i>(EntityPlayer)</i> Call the player from event
      */
-    public static void resetPlayerSize(EntityPlayer player) {
+    public static void resetPlayerSize(EntityPlayer player)
+    {
         PlayerHelper.setPlayerSize(player, 0.6F, 1.8F, player.getDefaultEyeHeight());
     }
 }
