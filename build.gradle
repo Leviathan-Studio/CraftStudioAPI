@@ -119,7 +119,7 @@ task devJar(type: Jar) {
 artifactory {
     contextUrl = "${artifactory_contextUrl}"
     publish {
-        version = "${project.ext.version}-mc${project.minecraft.version}"
+        version = "${project.version}-mc${project.minecraft.version}"
         repository {
             repoKey = 'leviathan'
             username = "${artifactory_user}"
