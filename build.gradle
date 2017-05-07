@@ -24,6 +24,11 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.artifactory'
 
+// Maven
+version = "1.1"
+group= "com.leviathanstudio"
+archivesBaseName = "CraftStudioAPI"
+
 // Jenkins build
 ext.buildnumber = 0
 if (System.getenv().BUILD_NUMBER) {
@@ -32,12 +37,6 @@ if (System.getenv().BUILD_NUMBER) {
 } else {
     logger.lifecycle "SETTING BUILDNUMBER TO 0"
 }
-
-
-// Maven
-version = "1.1"
-group= "com.leviathanstudio"
-archivesBaseName = "CraftStudioAPI"
 
 // Java
 compileJava.options.encoding = 'UTF-8'
@@ -92,9 +91,7 @@ processResources {
 
 jar {    
     manifest {
-        attributes     'FMLCorePlugin': 'fr.zeamateis.tesm.AnimationLoadingPlugin',
-                    'FMLCorePluginContainsFMLMod': 'true',
-                    'group':project.group
+        attributes  'group':project.group
     }
     appendix = 'universal'
     version = "${project.version}-mc${project.minecraft.version}"
@@ -108,14 +105,13 @@ task devJar(type: Jar) {
         include '**'
     }
     manifest {
-        attributes  'FMLCorePlugin': 'fr.zeamateis.tesm.AnimationLoadingPlugin',
-                    'FMLCorePluginContainsFMLMod': 'true',
-                    'group':project.group
+        attributes  'group':project.group
     }
     classifier = 'dev'
     version = "${project.version}-mc${project.minecraft.version}"
 }
 
+// Publish the library
 artifactory {
     contextUrl = "${artifactory_contextUrl}"
     publish {
