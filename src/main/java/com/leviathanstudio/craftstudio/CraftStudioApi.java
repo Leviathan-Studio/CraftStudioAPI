@@ -22,7 +22,9 @@ public class CraftStudioApi
 {
     private static final Logger LOGGER         = LogManager.getLogger("CraftStudio");
 
-    public static final String  API_ID         = "craftstudioapi", NAME = "CraftStudio API", ACTUAL_VERSION = "1.1";
+    public static final String  API_ID         = "craftstudioapi";
+    public static final String  NAME           = "CraftStudio API";
+    public static final String  ACTUAL_VERSION = "@VERSION@";
 
     private VersionChecker      versionChecker = new VersionChecker();
 
