@@ -35,18 +35,18 @@ repositories {
 sourceSets {
     main {
         java {
-			srcDirs 'src/main/java/'
+            srcDirs 'src/main/java/'
         }
         resources {
-        	srcDirs 'src/main/resources/'
+            srcDirs 'src/main/resources/'
         }
     }
-	mod {
+    mod {
         java {
-			srcDirs 'src/mod/java/'
+            srcDirs 'src/mod/java/'
         }
         resources {
-        	srcDirs 'src/mod/resources/'
+            srcDirs 'src/mod/resources/'
         }
     }
 }
@@ -58,7 +58,7 @@ processResources
 {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
-	// resources
+    // resources
     from(sourceSets.main.resources.srcDirs) {
         include 'com/**/**'
         include 'mcmod.info'
@@ -69,17 +69,15 @@ processResources
     }
 }
 
-ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
-
 jar
-{	
-	manifest {
-        attributes 	'FMLCorePlugin': 'fr.zeamateis.tesm.AnimationLoadingPlugin',
-					'FMLCorePluginContainsFMLMod': 'true',
-					'group':project.group
+{    
+    manifest {
+        attributes     'FMLCorePlugin': 'fr.zeamateis.tesm.AnimationLoadingPlugin',
+                    'FMLCorePluginContainsFMLMod': 'true',
+                    'group':project.group
     }
-	appendix = 'universal'
-	version = "${project.version}-mc${project.minecraft.version}"
+    appendix = 'universal'
+    version = "${project.version}-mc${project.minecraft.version}"
 }
 
 task devJar(type: Jar) {
@@ -89,9 +87,9 @@ task devJar(type: Jar) {
     from(sourceSets.main.output) {
         include '**'
     }
-	manifest {
+    manifest {
         attributes  'FMLCorePlugin': 'fr.zeamateis.tesm.AnimationLoadingPlugin',
-					'FMLCorePluginContainsFMLMod': 'true',
+                    'FMLCorePluginContainsFMLMod': 'true',
                     'group':project.group
     }
     classifier = 'dev'
