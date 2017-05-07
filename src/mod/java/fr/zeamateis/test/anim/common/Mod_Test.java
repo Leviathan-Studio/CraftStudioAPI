@@ -2,8 +2,10 @@ package fr.zeamateis.test.anim.common;
 
 import java.awt.Color;
 
+import com.leviathanstudio.craftstudio.CraftStudioApi;
+
 import fr.zeamateis.test.proxy.CommonProxy;
-import lib.craftstudio.CraftStudioApi;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;

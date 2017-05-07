@@ -2,9 +2,9 @@ package fr.zeamateis.test.anim.common.animations;
 
 import java.util.HashMap;
 
-import lib.craftstudio.common.IAnimated;
-import lib.craftstudio.common.animation.AnimationHandler;
-import lib.craftstudio.common.animation.Channel;
+import com.leviathanstudio.craftstudio.common.IAnimated;
+import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
+import com.leviathanstudio.craftstudio.common.animation.Channel;
 
 /**
  * The Animation handler class to register all animations you want in static

@@ -1,7 +1,9 @@
 package fr.zeamateis.test.anim.client;
 
+import com.leviathanstudio.craftstudio.client.ModelCraftStudio;
+
 import fr.zeamateis.test.anim.common.EntityTest;
-import lib.craftstudio.client.ModelCraftStudio;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.util.ResourceLocation;

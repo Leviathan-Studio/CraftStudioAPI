@@ -1,8 +1,8 @@
 package fr.zeamateis.test.anim.common.animations;
 
-import lib.craftstudio.common.animation.Channel;
-import lib.craftstudio.common.animation.KeyFrame;
-import lib.craftstudio.common.math.Quaternion;
+import com.leviathanstudio.craftstudio.common.animation.Channel;
+import com.leviathanstudio.craftstudio.common.animation.KeyFrame;
+import com.leviathanstudio.craftstudio.common.math.Quaternion;
 
 public class ChannelIdleAnimation extends Channel
 {

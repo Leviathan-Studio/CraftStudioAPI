@@ -1,8 +1,10 @@
 package fr.zeamateis.test.anim.common;
 
+import com.leviathanstudio.craftstudio.common.IAnimated;
+import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
+
 import fr.zeamateis.test.anim.common.animations.AnimationHandlerTest;
-import lib.craftstudio.common.IAnimated;
-import lib.craftstudio.common.animation.AnimationHandler;
+
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 
