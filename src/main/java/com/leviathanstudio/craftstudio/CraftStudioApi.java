@@ -24,7 +24,7 @@ public class CraftStudioApi
 
     public static final String  API_ID         = "craftstudioapi";
     public static final String  NAME           = "CraftStudio API";
-    public static final String  ACTUAL_VERSION = "@VERSION@";
+    public static final String  ACTUAL_VERSION = "1.1";
 
     private VersionChecker      versionChecker = new VersionChecker();
 
