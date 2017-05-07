@@ -5,13 +5,24 @@ buildscript {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
+		maven {
+            url 'http://maven.leviathan-studio.com/artifactory/plugins-release'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.0.0"
     }
 }
+
 // plugins
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.artifactory
 
 // Jenkins build
 ext.buildnumber = 0
@@ -103,6 +114,33 @@ task devJar(type: Jar) {
     }
     classifier = 'dev'
     version = "${project.version}-mc${project.minecraft.version}"
+}
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"
+    publish {
+        version = "${project.ext.version}-mc${project.minecraft.version}"
+        repository {
+            repoKey = 'leviathan'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+        }
+        defaults {
+            publications ('mavenJava')
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact (devJar) { 
+                classifier = 'dev'
+            }
+        }
+    }
 }
 
 build.dependsOn devJar
