@@ -56,7 +56,13 @@ public class CSModelRenderer extends ModelRenderer
         this.cubeList.size();
         return this;
     }
-
+    
+    public ModelRenderer addBox(String name, CSModelBox modelBox) {
+    	name = this.boxName + "." + name;
+        this.cubeCSList.add(modelBox.setBoxName(name)); 
+        return this;
+    }
+    
     public ModelRenderer addBox(String name, float par2, float par3, float par4, float par5, float par6, float par7) {
         name = this.boxName + "." + name;
         this.cubeCSList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, par2, par3, par4, par5, par6, par7).setBoxName(name)); 
