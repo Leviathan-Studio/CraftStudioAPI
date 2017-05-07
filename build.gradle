@@ -22,7 +22,7 @@ buildscript {
 // plugins
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.artifactory
+apply plugin: 'com.jfrog.artifactory'
 
 // Jenkins build
 ext.buildnumber = 0
