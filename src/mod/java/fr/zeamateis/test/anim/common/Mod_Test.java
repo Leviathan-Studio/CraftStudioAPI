@@ -38,8 +38,6 @@ public class Mod_Test
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) throws Exception
     {
-        CraftStudioApi.registerModel(new ResourceLocation("testmod", "crash"), "crash");
-
         CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/ModelDeadCorpse.csjsmodel"),
                 "ModelDeadCorpse");
         CraftStudioApi.registerModel(
