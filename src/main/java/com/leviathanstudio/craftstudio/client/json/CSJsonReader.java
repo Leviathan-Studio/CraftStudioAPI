@@ -1,12 +1,14 @@
 package com.leviathanstudio.craftstudio.client.json;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.leviathanstudio.craftstudio.client.CraftStudioModelNotFound;
 import com.leviathanstudio.craftstudio.common.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
@@ -20,7 +22,7 @@ public class CSJsonReader
     JsonObject root;
     String     modid;
 
-    public CSJsonReader(ResourceLocation resourceIn)
+    public CSJsonReader(ResourceLocation resourceIn) throws CraftStudioModelNotFound
     {
         JsonParser jsonParser = new JsonParser();
         BufferedReader reader = null;
@@ -37,6 +39,9 @@ public class CSJsonReader
             Object object = jsonParser.parse(strBuilder.toString());
             this.root = (JsonObject) object;
             this.modid = iResource.getResourceLocation().getResourceDomain();
+        } catch (FileNotFoundException fnfe)
+        {
+            throw new CraftStudioModelNotFound(resourceIn.toString());
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -44,8 +49,10 @@ public class CSJsonReader
         {
             try
             {
-                reader.close();
-                iResource.close();
+                if (reader != null)
+                    reader.close();
+                if (iResource != null)
+                    iResource.close();
             } catch (Exception e)
             {
                 e.printStackTrace();

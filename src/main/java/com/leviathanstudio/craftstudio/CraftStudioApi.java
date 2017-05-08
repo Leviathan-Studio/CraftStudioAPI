@@ -3,6 +3,7 @@ package com.leviathanstudio.craftstudio;
 import java.util.Map;
 
 import com.leviathanstudio.craftstudio.client.CSModelMesher;
+import com.leviathanstudio.craftstudio.client.CraftStudioModelNotFound;
 import com.leviathanstudio.craftstudio.client.json.CSJsonReader;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.util.VersionChecker;
@@ -45,12 +46,20 @@ public class CraftStudioApi
 
     public static void registerModel(ResourceLocation resourceIn, String modelNameIn)
     {
-        CSJsonReader jsonReader = new CSJsonReader(resourceIn);
-        if (resourceIn.getResourceDomain() != CraftStudioApi.API_ID)
-            CSModelMesher.models.put(modelNameIn, jsonReader.readModel());
-        else
-            CraftStudioApi.LOGGER
-                    .fatal("Your not allowed to use the \"craftstudioapi\" to register CraftStudio models.");
+        CSJsonReader jsonReader;
+        try
+        {
+            jsonReader = new CSJsonReader(resourceIn);
+
+            if (resourceIn.getResourceDomain() != CraftStudioApi.API_ID)
+                CSModelMesher.models.put(modelNameIn, jsonReader.readModel());
+            else
+                CraftStudioApi.LOGGER
+                        .fatal("Your not allowed to use the \"craftstudioapi\" to register CraftStudio models.");
+        } catch (CraftStudioModelNotFound e)
+        {
+            CraftStudioApi.LOGGER.error(e.getMessage());
+        }
     }
 
     public static Logger getLogger()
