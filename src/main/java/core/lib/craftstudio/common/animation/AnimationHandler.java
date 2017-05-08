@@ -197,11 +197,12 @@ public abstract class AnimationHandler
     public static void performAnimationInModel(List<CSModelRenderer> parts, IAnimated entity) {
         for (final CSModelRenderer entry : parts) {
             performAnimationForBlock(entry, entity);
-            for (ModelRenderer child : entry.childModels)
-                if (child instanceof CSModelRenderer) {
-                    CSModelRenderer childModel = (CSModelRenderer) child;
-                    performAnimationForBlock(childModel, entity);
-                }
+            if (entry.childModels != null)
+            	for (ModelRenderer child : entry.childModels)
+            		if (child instanceof CSModelRenderer) {
+            			CSModelRenderer childModel = (CSModelRenderer) child;
+            			performAnimationForBlock(childModel, entity);
+            		}
         }
     }
 

@@ -1,6 +1,5 @@
 package lib.craftstudio.client;
 
-import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.PositionTextureVertex;
 import net.minecraft.client.model.TexturedQuad;
@@ -9,104 +8,251 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class CSModelBox extends ModelBox
+public class CSModelBox
 {
-    /**
-     * The (x,y,z) vertex positions and (u,v) texture coordinates for each of
-     * the 8 points on a cube
-     */
-    private final PositionTextureVertex[] vertexPositions;
     /** An array of 6 TexturedQuads, one for each face of a cube */
-    private final TexturedQuad[]          quadList;
+    private final TexturedQuad[] quadList;
 
-    public CSModelBox(ModelRenderer renderer, int textureX, int textureY, float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ,
-            float scaleFactor) {
-        this(renderer, textureX, textureY, posX, posY, posZ, sizeX, sizeY, sizeZ, scaleFactor, renderer.mirror);
+	/** The box name **/
+    public String boxName;
+
+    /** 
+     * Create a textured rectangular box without textures mirror precision.
+     * 
+     * @param renderer The (CS)ModelRenderer to which the box will be add.
+     * @param texU The X coordinate of the texture.
+     * @param texV The Y coordinate of the texture.
+     * @param x The X coordinate of the starting point of the box.
+     * @param y The Y coordinate of the starting point of the box.
+     * @param z The Z coordinate of the starting point of the box.
+     * @param dx The length of the box on the X axis.
+     * @param dy The length of the box on the Y axis.
+     * @param dz The length of the box on the Z axis.
+     */
+    public CSModelBox(ModelRenderer renderer, int texU, int texV, float x, float y, float z, float dx, float dy, float dz)
+    {
+        this(renderer, texU, texV, x, y, z, dx, dy, dz, renderer.mirror);
     }
-
-    public CSModelBox(ModelRenderer renderer, int textureX, int textureY, float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ,
-            float scaleFactor, boolean mirror) {
-        this(renderer, textureX, textureY, posX, posY, posZ, sizeX, sizeY, sizeZ, (int) sizeX, (int) sizeY, (int) sizeZ, scaleFactor, mirror);
+    
+    /**
+     * Create a textured rectangular box.
+     * 
+     * @param renderer The (CS)ModelRenderer to which the box will be add.
+     * @param texU The X coordinate of the texture.
+     * @param texV The Y coordinate of the texture.
+     * @param x The X coordinate of the starting point of the box.
+     * @param y The Y coordinate of the starting point of the box.
+     * @param z The Z coordinate of the starting point of the box.
+     * @param dx The length of the box on the X axis.
+     * @param dy The length of the box on the Y axis.
+     * @param dz The length of the box on the Z axis.
+     * @param mirror True if the texture should be mirrored, False if it shouldn't.
+     */
+    public CSModelBox(ModelRenderer renderer, int texU, int texV, float x, float y, float z, float dx, float dy, float dz, boolean mirror){
+    	this(renderer, getVerticesForRect(x, y, z, dx, dy, dz, mirror), getTextureUVsForRect(texU, texV, dx, dy, dz), mirror);
     }
-
-    public CSModelBox(ModelRenderer renderer, int textureX, int textureY, float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ,
-            int faceSizeX, int faceSizeY, int faceSizeZ, float scaleFactor, boolean mirror) {
-        super(renderer, textureX, textureY, posX, posY, posZ, (int) sizeX, (int) sizeY, (int) sizeZ, scaleFactor);
-        this.vertexPositions = new PositionTextureVertex[8];
-        this.quadList = new TexturedQuad[6];
-        float endX = posX + sizeX;
-        float endY = posY + sizeY;
-        float endZ = posZ + sizeZ;
-        posX = posX - scaleFactor;
-        posY = posY - scaleFactor;
-        posZ = posZ - scaleFactor;
-        endX = endX + scaleFactor;
-        endY = endY + scaleFactor;
-        endZ = endZ + scaleFactor;
-
-        if (mirror) {
-            final float f3 = endX;
-            endX = posX;
-            posX = f3;
+    
+    /**
+     * Create a box from PositionTextureVertex and texture it with textUVs without textures mirror precision.<br>
+     * See {@link #setVertex(PositionTextureVertex[]) setVertex()} and {@link #setTexture(ModelRenderer, int[][]) setTexture()} for orders.
+     * 
+     * @param renderer The (CS)ModelRenderer to which the box will be add.
+     * @param positionTextureVertex The 8 vertices used to create the box.
+     * @param textUVs The 6 pairs of points used to set the textures' UVs for each faces.
+     */
+    public CSModelBox(ModelRenderer renderer, PositionTextureVertex positionTextureVertex[], int[][] textUVs){
+    	this(renderer, positionTextureVertex, textUVs, renderer.mirror);
+    }
+    
+    /**
+     * Create a box from PositionTextureVertex and texture it with textUVs.<br>
+     * See {@link #setVertex(PositionTextureVertex[]) setVertex()} and {@link #setTexture(ModelRenderer, int[][]) setTexture()} for orders.
+     * 
+     * @param renderer The (CS)ModelRenderer to which the box will be add.
+     * @param positionTextureVertex The 8 vertices used to create the box.
+     * @param textUVs The 6 pairs of points used to set the textures' UVs for each faces.
+     * @param mirror True if the texture should be mirrored, False if it shouldn't.
+     */
+    public CSModelBox(ModelRenderer renderer, PositionTextureVertex positionTextureVertex[], int[][] textUVs, boolean mirror){
+    	this(positionTextureVertex);
+    	this.setTexture(renderer, textUVs);
+    	if (mirror)
+        {
+            for (TexturedQuad texturedquad : this.quadList)
+            {
+                texturedquad.flipFace();
+            }
         }
-
-        final PositionTextureVertex positiontexturevertex7 = new PositionTextureVertex(posX, posY, posZ, 0.0F, 0.0F);
-        final PositionTextureVertex positiontexturevertex = new PositionTextureVertex(endX, posY, posZ, 0.0F, 8.0F);
-        final PositionTextureVertex positiontexturevertex1 = new PositionTextureVertex(endX, endY, posZ, 8.0F, 8.0F);
-        final PositionTextureVertex positiontexturevertex2 = new PositionTextureVertex(posX, endY, posZ, 8.0F, 0.0F);
-        final PositionTextureVertex positiontexturevertex3 = new PositionTextureVertex(posX, posY, endZ, 0.0F, 0.0F);
-        final PositionTextureVertex positiontexturevertex4 = new PositionTextureVertex(endX, posY, endZ, 0.0F, 8.0F);
-        final PositionTextureVertex positiontexturevertex5 = new PositionTextureVertex(endX, endY, endZ, 8.0F, 8.0F);
-        final PositionTextureVertex positiontexturevertex6 = new PositionTextureVertex(posX, endY, endZ, 8.0F, 0.0F);
-        this.vertexPositions[0] = positiontexturevertex7;
-        this.vertexPositions[1] = positiontexturevertex;
-        this.vertexPositions[2] = positiontexturevertex1;
-        this.vertexPositions[3] = positiontexturevertex2;
-        this.vertexPositions[4] = positiontexturevertex3;
-        this.vertexPositions[5] = positiontexturevertex4;
-        this.vertexPositions[6] = positiontexturevertex5;
-        this.vertexPositions[7] = positiontexturevertex6;
-
-        this.quadList[0] = new TexturedQuad(
-                new PositionTextureVertex[] { positiontexturevertex4, positiontexturevertex, positiontexturevertex1, positiontexturevertex5 },
-                textureX + faceSizeZ + faceSizeX, textureY + faceSizeZ, textureX + faceSizeZ + faceSizeX + faceSizeZ,
-                textureY + faceSizeZ + faceSizeY, renderer.textureWidth, renderer.textureHeight);
-        this.quadList[1] = new TexturedQuad(
-                new PositionTextureVertex[] { positiontexturevertex7, positiontexturevertex3, positiontexturevertex6, positiontexturevertex2 },
-                textureX, textureY + faceSizeZ, textureX + faceSizeZ, textureY + faceSizeZ + faceSizeY, renderer.textureWidth,
-                renderer.textureHeight);
-        this.quadList[2] = new TexturedQuad(
-                new PositionTextureVertex[] { positiontexturevertex4, positiontexturevertex3, positiontexturevertex7, positiontexturevertex },
-                textureX + faceSizeZ, textureY, textureX + faceSizeZ + faceSizeX, textureY + faceSizeZ, renderer.textureWidth,
-                renderer.textureHeight);
-        this.quadList[3] = new TexturedQuad(
-                new PositionTextureVertex[] { positiontexturevertex1, positiontexturevertex2, positiontexturevertex6, positiontexturevertex5 },
-                textureX + faceSizeZ + faceSizeX, textureY + faceSizeZ, textureX + faceSizeZ + faceSizeX + faceSizeX, textureY, renderer.textureWidth,
-                renderer.textureHeight);
-        this.quadList[4] = new TexturedQuad(
-                new PositionTextureVertex[] { positiontexturevertex, positiontexturevertex7, positiontexturevertex2, positiontexturevertex1 },
-                textureX + faceSizeZ, textureY + faceSizeZ, textureX + faceSizeZ + faceSizeX, textureY + faceSizeZ + faceSizeY, renderer.textureWidth,
-                renderer.textureHeight);
-        this.quadList[5] = new TexturedQuad(
-                new PositionTextureVertex[] { positiontexturevertex3, positiontexturevertex4, positiontexturevertex5, positiontexturevertex6 },
-                textureX + faceSizeZ + faceSizeX + faceSizeZ, textureY + faceSizeZ, textureX + faceSizeZ + faceSizeX + faceSizeZ + faceSizeX,
-                textureY + faceSizeZ + faceSizeY, renderer.textureWidth, renderer.textureHeight);
+    }
+    
+    /**
+     * Create a box from PositionTextureVertex.<br>
+     * See {@link #setVertex(PositionTextureVertex[]) setVertex()} for order.
+     * @param positionTextureVertex The 8 vertices used to create the box.
+     */
+    public CSModelBox(PositionTextureVertex positionTextureVertex[]){
+    	this(6);
+    	this.setVertex(positionTextureVertex);
+    }
+    
+    /**
+     * Just create a box with a list of {@link facesNumber} unset TexturedQuad.
+     * 
+     * @param facesNumber The number of faces the box will have.
+     */
+    public CSModelBox(int facesNumber){
+    	this.quadList = new TexturedQuad[facesNumber];
+    }
+    
+    /**
+     * Set the vertices of the box
+     * ! A {@link #setTexture(ModelRenderer, int[][]) setTexture()} is necessary after that.<br>
+     * 
+     * Order of the vertices:<br>
+     *     vertices[0] = (0, 0, 0) (bloc's origin)<br>
+     *     vertices[1] = (x, 0, 0)<br>
+     *     vertices[2] = (x, y, 0)<br>
+     *     vertices[3] = (0, y, 0)<br>
+     *     vertices[4] = (0, 0, z)<br>
+     *     vertices[5] = (x, 0, z)<br>
+     *     vertices[6] = (x, y, z) (bloc's end)<br>
+     *     vertices[7] = (0, y, z)<br>
+     * 
+     * @param positionTextureVertex The 8 vertices that will replace the old ones.
+     */
+    public void setVertex(PositionTextureVertex positionTextureVertex[]){
+    	if (positionTextureVertex.length == 8){
+    		this.quadList[0] = new TexturedQuad(new PositionTextureVertex[] {positionTextureVertex[5], positionTextureVertex[1], positionTextureVertex[2], positionTextureVertex[6]});
+            this.quadList[1] = new TexturedQuad(new PositionTextureVertex[] {positionTextureVertex[0], positionTextureVertex[4], positionTextureVertex[7], positionTextureVertex[3]});
+            this.quadList[2] = new TexturedQuad(new PositionTextureVertex[] {positionTextureVertex[5], positionTextureVertex[4], positionTextureVertex[0], positionTextureVertex[1]});
+            this.quadList[3] = new TexturedQuad(new PositionTextureVertex[] {positionTextureVertex[2], positionTextureVertex[3], positionTextureVertex[7], positionTextureVertex[6]});
+            this.quadList[4] = new TexturedQuad(new PositionTextureVertex[] {positionTextureVertex[1], positionTextureVertex[0], positionTextureVertex[3], positionTextureVertex[2]});
+            this.quadList[5] = new TexturedQuad(new PositionTextureVertex[] {positionTextureVertex[4], positionTextureVertex[5], positionTextureVertex[6], positionTextureVertex[7]});
+    	}
+    }
+    
+    /**
+     * Set the textures' UVs for each faces<br>
+     * 
+     * Faces order:<br>
+     *     faces[0] = X1<br>
+     *     faces[1] = X0<br>
+     *     faces[2] = Y0<br>
+     *     faces[3] = Y1<br>
+     *     faces[4] = Z0<br>
+     *     faces[5] = Z1<br>
+     * Textures' UVs order :<br>
+     *     coord[0] = U0 (x0)<br>
+     *     coord[1] = V0 (y0) (Top/Left)<br>
+     *     coord[2] = U1 (x1)<br>
+     *     coord[3] = V1 (y1) (Bottom/Right)<br>
+     * 
+     * @param renderer The (CS)ModelRenderer to which the box will be add.
+     * @param textUVs The 6 pairs of points used to set the textures' UVs for each faces.
+     */
+    public void setTexture(ModelRenderer renderer, int[][] textUVs){
+    	int[] textUV;
+    	if (textUVs.length == 6){
+    		for (int i = 0; i < 6; i++){
+    			textUV = textUVs[i];
+    			if (textUV.length == 4){
+    				this.quadList[i] = new TexturedQuad(this.quadList[i].vertexPositions, textUV[0], textUV[1], textUV[2], textUV[3], renderer.textureWidth, renderer.textureHeight);
+    			}
+    		}
+    	}
+    }
+    
+    /**
+     * Calculate the PositionTextureVertex from a rectangular box
+     * 
+     * @param x The X coordinate of the starting point of the box.
+     * @param y The Y coordinate of the starting point of the box.
+     * @param z The Z coordinate of the starting point of the box.
+     * @param dx The length of the box on the X axis.
+     * @param dy The length of the box on the Y axis.
+     * @param dz The length of the box on the Z axis.
+     * @param mirror True if the texture should be mirrored, False if it shouldn't.
+     * @return A 8 long array of PositionTextureVertex that can be used to create a rectangular box.
+     */
+    public static PositionTextureVertex[] getVerticesForRect(float x, float y, float z, float dx, float dy, float dz, boolean mirror){
+    	PositionTextureVertex[] positionTextureVertex = new PositionTextureVertex[8];
+    	float endX = x + dx;
+        float endY = y + dy;
+        float endZ = z + dz;
 
         if (mirror)
-            for (final TexturedQuad element : this.quadList)
-                element.flipFace();
+        {
+            float buffer = endX;
+            endX = x;
+            x = buffer;
+        }
+
+        positionTextureVertex[0] = new PositionTextureVertex(x, y, z, 0.0F, 0.0F);
+        positionTextureVertex[1] = new PositionTextureVertex(endX, y, z, 0.0F, 0.0F);
+        positionTextureVertex[2] = new PositionTextureVertex(endX, endY, z, 0.0F, 0.0F);
+        positionTextureVertex[3] = new PositionTextureVertex(x, endY, z, 0.0F, 0.0F);
+        positionTextureVertex[4] = new PositionTextureVertex(x, y, endZ, 0.0F, 0.0F);
+        positionTextureVertex[5] = new PositionTextureVertex(endX, y, endZ, 0.0F, 0.0F);
+        positionTextureVertex[6] = new PositionTextureVertex(endX, endY, endZ, 0.0F, 0.0F);
+        positionTextureVertex[7] = new PositionTextureVertex(x, endY, endZ, 0.0F, 0.0F);
+        
+        return positionTextureVertex;
+    }
+    
+    /**
+     * Calculate the textures' UVs for a rectangular box
+     * 
+     * @param texU The X coordinate of the texture.
+     * @param texV The Y coordinate of the texture.
+     * @param dx The length of the box on the X axis.
+     * @param dy The length of the box on the Y axis.
+     * @param dz The length of the box on the Z axis.
+     * @return A 6 long array of pairs of UV that can be used to texture a rectangular box.
+     */
+    public static int[][] getTextureUVsForRect(int texU, int texV, float dx, float dy, float dz){
+    	int[][] tab = new int[][] {
+    		{(int) (texU + dz + dx), (int) (texV + dz), (int) (texU + dz + dx + dz), (int) (texV + dz + dy)},
+    		{texU, (int) (texV + dz), (int) (texU + dz), (int) (texV + dz + dy)},
+    		{(int) (texU + dz), texV, (int) (texU + dz + dx), (int) (texV + dz)},
+    		{(int) (texU + dz + dx), (int) (texV + dz), (int) (texU + dz + dx + dx), texV},
+    		{(int) (texU + dz), (int) (texV + dz), (int) (texU + dz + dx), (int) (texV + dz + dy)},
+    		{(int) (texU + dz + dx + dz), (int) (texV + dz), (int) (texU + dz + dx + dz + dx), (int) (texV + dz + dy)}
+    	};
+    	return tab;
     }
 
-    @Override
+    /**
+     * Function used to prepare the rendering of the bloc.
+     * 
+     * @param renderer VertexBuffer from the Tesselator
+     * @param scale Scale factor
+     */
     @SideOnly(Side.CLIENT)
-    public void render(VertexBuffer renderer, float scale) {
-        for (final TexturedQuad element : this.quadList)
-            element.draw(renderer, scale);
+    public void render(VertexBuffer renderer, float scale)
+    {
+        for (TexturedQuad texturedquad : this.quadList)
+        {
+            texturedquad.draw(renderer, scale);
+        }
     }
 
-    @Override
-    public CSModelBox setBoxName(String name) {
+    /**
+     * Set the box name
+     * 
+     * @param name The name given to the box
+     * @return The CSModelBox
+     */
+    public CSModelBox setBoxName(String name)
+    {
         this.boxName = name;
         return this;
     }
+
+    /**
+     * Get the TexturedQuad array so it can be modified
+     * @return The TexturedQuad array
+     */
+	public TexturedQuad[] getQuadList() {
+		return quadList;
+	}
 }

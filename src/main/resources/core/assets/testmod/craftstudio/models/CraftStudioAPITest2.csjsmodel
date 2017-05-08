@@ -1,0 +1,24 @@
+{
+  "title": "CraftStudioAPITest",
+  "tree": [
+    {
+      "name": "Block",
+      "position": [ 0, 8, 0 ],
+      "offsetFromPivot": [ 0, 0, 0 ],
+      "size": [ 16, 16, 16 ],
+      "rotation": [ 0, 0, 0 ],
+      "vertexCoords": [
+        [ -8, 16, -8 ],
+        [ 8, 16, -8 ],
+        [ 8, -16, -8 ],
+        [ -8, -16, -8 ],
+        [ 8, 16, 8 ],
+        [ -8, 16, 8 ],
+        [ -8, -16, 8 ],
+        [ 8, -16, 8 ]
+      ],
+      "texOffset": [ 0, 0 ],
+      "children": []
+    }
+  ]
+}
