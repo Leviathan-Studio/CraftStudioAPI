@@ -12,6 +12,7 @@ import lib.craftstudio.utils.GlHelper;
 import lib.craftstudio.utils.Utils;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.model.PositionTextureVertex;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -73,30 +74,26 @@ public class CSModelRenderer extends ModelRenderer
         this.cubeCSList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ));
         return this;
     }
-//
-//
-//    public ModelRenderer addBox(float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ, int faceSizeX, int faceSizeY,
-//            int faceSizeZ) {
-//        this.cubeList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ, faceSizeX, faceSizeY,
-//                faceSizeZ, 0.0F, false));
-//        return this;
-//    }
 
-//    @Override
-//    public ModelRenderer addBox(float posX, float posY, float posZ, int sizeX, int sizeY, int sizeZ, boolean mirror) {
-//        this.cubeList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ, 0.0F, mirror));
-//        return this;
-//    }
-
-//    public ModelRenderer addBox(float posX, float posY, float posZ, int sizeX, int sizeY, int sizeZ, float scaleFactor, boolean mirror) {
-//        this.cubeList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ, scaleFactor, mirror));
-//        return this;
-//    }
-
-//    @Override
-//    public void addBox(float par1, float par2, float par3, int par4, int par5, int par6, float scaleFactor) {
-//        this.cubeList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, par1, par2, par3, par4, par5, par6, scaleFactor));
-//    }
+    public ModelRenderer addBox(float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ, boolean mirror) {
+        this.cubeCSList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ, mirror));
+        return this;
+    }
+    
+    public ModelRenderer addBox(PositionTextureVertex positionTextureVertex[], int[][] textUVs) {
+        this.cubeCSList.add(new CSModelBox(this, positionTextureVertex, textUVs));
+        return this;
+    }
+    
+    public ModelRenderer addBox(PositionTextureVertex positionTextureVertex[], int[][] textUVs, boolean mirror) {
+        this.cubeCSList.add(new CSModelBox(this, positionTextureVertex, textUVs, mirror));
+        return this;
+    }
+    
+    public ModelRenderer addBox(CSModelBox model) {
+        this.cubeCSList.add(model);
+        return this;
+    }
 
     /**
      * Render model parts
@@ -223,7 +220,9 @@ public class CSModelRenderer extends ModelRenderer
         return new Vector3f(this.rotationPointX, this.rotationPointY, this.rotationPointZ);
     }
 
+    @Deprecated
     public Quaternion getRotationAsQuaternion() {
+    	//Rotation from position ?!?
         return new Quaternion(Quat4fHelper.quaternionFromEulerAnglesInDegrees(this.getPositionAsVector().getX(), this.getPositionAsVector().getY(),
                 this.getPositionAsVector().getZ()));
     }

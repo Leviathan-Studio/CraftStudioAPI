@@ -9,6 +9,7 @@ public class CSReadedModelBlock
 {
     public String                   name;
     public Vector3f                 boxSetup, rotationPoint, rotation, size;
-    public int[]                    texOffset = new int[2], faceSize = new int[3];
+    public float vertex[][];
+    public int[]                    texOffset = new int[2];
     public List<CSReadedModelBlock> childs    = new ArrayList<>();
 }

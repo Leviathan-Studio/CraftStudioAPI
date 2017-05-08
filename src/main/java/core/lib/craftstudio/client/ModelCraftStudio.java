@@ -9,6 +9,7 @@ import lib.craftstudio.common.IAnimated;
 import lib.craftstudio.common.animation.AnimationHandler;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.model.PositionTextureVertex;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 
@@ -25,14 +26,7 @@ public class ModelCraftStudio extends ModelBase
         CSModelRenderer modelRend;
         
         for (CSReadedModelBlock rBlock : rModel.parents) {
-            modelRend = new CSModelRenderer(this, rBlock.name, rBlock.texOffset[0], rBlock.texOffset[1]);
-            if (rBlock.faceSize == null)
-                modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z);
-            else
-                modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z);
-            modelRend.setDefaultRotationPoint(rBlock.rotationPoint.x, rBlock.rotationPoint.y, rBlock.rotationPoint.z);
-            modelRend.setInitialRotationMatrix(rBlock.rotation.x, rBlock.rotation.y, rBlock.rotation.z);
-            modelRend.setTextureSize(this.textureWidth, this.textureHeight);
+            modelRend = generateCSModelRend(rBlock);
             this.parentBlocks.add(modelRend);
             this.generateChild(rBlock, modelRend);
         }
@@ -41,17 +35,25 @@ public class ModelCraftStudio extends ModelBase
     private void generateChild(CSReadedModelBlock rParent, CSModelRenderer parent) {
         CSModelRenderer modelRend;
         for (CSReadedModelBlock rBlock : rParent.childs) {
-            modelRend = new CSModelRenderer(this, rBlock.name, rBlock.texOffset[0], rBlock.texOffset[1]);
-            if (rBlock.faceSize == null)
-                modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z);
-            else
-                modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z);
-            modelRend.setDefaultRotationPoint(rBlock.rotationPoint.x, rBlock.rotationPoint.y, rBlock.rotationPoint.z);
-            modelRend.setInitialRotationMatrix(rBlock.rotation.x, rBlock.rotation.y, rBlock.rotation.z);
-            modelRend.setTextureSize(this.textureWidth, this.textureHeight);
+            modelRend = generateCSModelRend(rBlock);
             parent.addChild(modelRend);
             this.generateChild(rBlock, modelRend);
         }
+    }
+    
+    private CSModelRenderer generateCSModelRend(CSReadedModelBlock rBlock){
+    	CSModelRenderer modelRend = new CSModelRenderer(this, rBlock.name, rBlock.texOffset[0], rBlock.texOffset[1]);
+    	if (rBlock.vertex != null){
+        	PositionTextureVertex vertices[] = new PositionTextureVertex[8];
+        	for (int i = 0; i < 8; i++)
+        		vertices[i] = new PositionTextureVertex(rBlock.vertex[i][0], rBlock.vertex[i][1], rBlock.vertex[i][2], 0.0F, 0.0F);
+            modelRend.addBox(vertices, CSModelBox.getTextureUVsForRect(rBlock.texOffset[0], rBlock.texOffset[1], rBlock.size.x, rBlock.size.y, rBlock.size.z));
+        } else
+            modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z);
+    	modelRend.setDefaultRotationPoint(rBlock.rotationPoint.x, rBlock.rotationPoint.y, rBlock.rotationPoint.z);
+        modelRend.setInitialRotationMatrix(rBlock.rotation.x, rBlock.rotation.y, rBlock.rotation.z);
+        modelRend.setTextureSize(this.textureWidth, this.textureHeight);
+        return modelRend;
     }
 
     // Render method for blocks

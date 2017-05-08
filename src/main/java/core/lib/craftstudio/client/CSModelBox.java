@@ -17,7 +17,7 @@ public class CSModelBox
     public String boxName;
 
     /** 
-     * Create a textured rectangular box.
+     * Create a textured rectangular box without textures mirror precision.
      * 
      * @param renderer The (CS)ModelRenderer to which the box will be add.
      * @param texU The X coordinate of the texture.
@@ -35,7 +35,7 @@ public class CSModelBox
     }
     
     /**
-     * Create a textured rectangular box with possibility to mirror faces.
+     * Create a textured rectangular box.
      * 
      * @param renderer The (CS)ModelRenderer to which the box will be add.
      * @param texU The X coordinate of the texture.
@@ -49,7 +49,19 @@ public class CSModelBox
      * @param mirror True if the texture should be mirrored, False if it shouldn't.
      */
     public CSModelBox(ModelRenderer renderer, int texU, int texV, float x, float y, float z, float dx, float dy, float dz, boolean mirror){
-    	this(renderer, getVerticesForRect(x, y, z, dx, dy, dz, mirror), getTextureUVsForRect(texU, texV, x, y, z, dx, dy, dz), mirror);
+    	this(renderer, getVerticesForRect(x, y, z, dx, dy, dz, mirror), getTextureUVsForRect(texU, texV, dx, dy, dz), mirror);
+    }
+    
+    /**
+     * Create a box from PositionTextureVertex and texture it with textUVs without textures mirror precision.<br>
+     * See {@link #setVertex(PositionTextureVertex[]) setVertex()} and {@link #setTexture(ModelRenderer, int[][]) setTexture()} for orders.
+     * 
+     * @param renderer The (CS)ModelRenderer to which the box will be add.
+     * @param positionTextureVertex The 8 vertices used to create the box.
+     * @param textUVs The 6 pairs of points used to set the textures' UVs for each faces.
+     */
+    public CSModelBox(ModelRenderer renderer, PositionTextureVertex positionTextureVertex[], int[][] textUVs){
+    	this(renderer, positionTextureVertex, textUVs, renderer.mirror);
     }
     
     /**
@@ -192,15 +204,12 @@ public class CSModelBox
      * 
      * @param texU The X coordinate of the texture.
      * @param texV The Y coordinate of the texture.
-     * @param x The X coordinate of the starting point of the box.
-     * @param y The Y coordinate of the starting point of the box.
-     * @param z The Z coordinate of the starting point of the box.
      * @param dx The length of the box on the X axis.
      * @param dy The length of the box on the Y axis.
      * @param dz The length of the box on the Z axis.
      * @return A 6 long array of pairs of UV that can be used to texture a rectangular box.
      */
-    public static int[][] getTextureUVsForRect(int texU, int texV, float x, float y, float z, float dx, float dy, float dz){
+    public static int[][] getTextureUVsForRect(int texU, int texV, float dx, float dy, float dz){
     	int[][] tab = new int[][] {
     		{(int) (texU + dz + dx), (int) (texV + dz), (int) (texU + dz + dx + dz), (int) (texV + dz + dy)},
     		{texU, (int) (texV + dz), (int) (texU + dz), (int) (texV + dz + dy)},
@@ -209,11 +218,6 @@ public class CSModelBox
     		{(int) (texU + dz), (int) (texV + dz), (int) (texU + dz + dx), (int) (texV + dz + dy)},
     		{(int) (texU + dz + dx + dz), (int) (texV + dz), (int) (texU + dz + dx + dz + dx), (int) (texV + dz + dy)}
     	};
-    	for (int [] is: tab){
-    		for (int i: is)
-    			System.out.print(i + " ");
-    		System.out.println("\n");
-    	}
     	return tab;
     }
 
