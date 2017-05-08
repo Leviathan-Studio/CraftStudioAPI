@@ -230,12 +230,12 @@ public abstract class AnimationHandler
         {
             performAnimationForBlock(entry, entity);
             if (entry.childModels != null)
-            	for (ModelRenderer child : entry.childModels)
-                if (child instanceof CSModelRenderer)
-                {
-            			CSModelRenderer childModel = (CSModelRenderer) child;
-            			performAnimationForBlock(childModel, entity);
-                }
+                for (ModelRenderer child : entry.childModels)
+                    if (child instanceof CSModelRenderer)
+                    {
+                        CSModelRenderer childModel = (CSModelRenderer) child;
+                        performAnimationForBlock(childModel, entity);
+                    }
         }
     }
 

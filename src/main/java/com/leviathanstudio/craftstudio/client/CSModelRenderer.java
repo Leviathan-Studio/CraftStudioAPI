@@ -21,29 +21,29 @@ import net.minecraft.client.renderer.VertexBuffer;
 public class CSModelRenderer extends ModelRenderer
 {
     /** Custom version, as parent variable is PRIVATE */
-    private int            textureOffsetX;
+    private int             textureOffsetX;
 
     /** Custom version, as parent variable is PRIVATE */
-    private int            textureOffsetY;
+    private int             textureOffsetY;
 
     /** Custom version, as parent variable is PRIVATE */
-    private boolean        compiled;
+    private boolean         compiled;
 
     /** Custom version, as parent variable is PRIVATE */
-    private int            displayList;
-    
-    public List<CSModelBox> cubeCSList = new ArrayList<CSModelBox>();
+    private int             displayList;
 
-    private final Matrix4f rotationMatrix        = new Matrix4f();
+    public List<CSModelBox> cubeCSList            = new ArrayList<>();
+
+    private final Matrix4f  rotationMatrix        = new Matrix4f();
     /** Previous value of the matrix */
-    private Matrix4f       prevRotationMatrix    = new Matrix4f();
+    private Matrix4f        prevRotationMatrix    = new Matrix4f();
 
     /** Default informations for un-animated models */
-    private float          defaultRotationPointX;
-    private float          defaultRotationPointY;
-    private float          defaultRotationPointZ;
-    private Matrix4f       defaultRotationMatrix = new Matrix4f();
-    private Quaternion     defaultRotationAsQuaternion;
+    private float           defaultRotationPointX;
+    private float           defaultRotationPointY;
+    private float           defaultRotationPointZ;
+    private Matrix4f        defaultRotationMatrix = new Matrix4f();
+    private Quaternion      defaultRotationAsQuaternion;
 
     public CSModelRenderer(ModelBase modelbase, String partName, int xTextureOffset, int yTextureOffset)
     {
@@ -60,40 +60,52 @@ public class CSModelRenderer extends ModelRenderer
         this.cubeList.size();
         return this;
     }
-    
-    public ModelRenderer addBox(String name, CSModelBox modelBox) {
-    	name = this.boxName + "." + name;
-        this.cubeCSList.add(modelBox.setBoxName(name)); 
-        return this;
-    }
-    
-    public ModelRenderer addBox(String name, float par2, float par3, float par4, float par5, float par6, float par7) {
+
+    public ModelRenderer addBox(String name, CSModelBox modelBox)
+    {
         name = this.boxName + "." + name;
-        this.cubeCSList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, par2, par3, par4, par5, par6, par7).setBoxName(name)); 
+        this.cubeCSList.add(modelBox.setBoxName(name));
         return this;
     }
 
-    public ModelRenderer addBox(float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ) {
-        this.cubeCSList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ));
+    public ModelRenderer addBox(String name, float par2, float par3, float par4, float par5, float par6, float par7)
+    {
+        name = this.boxName + "." + name;
+        this.cubeCSList
+                .add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, par2, par3, par4, par5, par6, par7)
+                        .setBoxName(name));
         return this;
     }
 
-    public ModelRenderer addBox(float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ, boolean mirror) {
-        this.cubeCSList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ, mirror));
+    public ModelRenderer addBox(float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ)
+    {
+        this.cubeCSList.add(
+                new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ));
         return this;
     }
-    
-    public ModelRenderer addBox(PositionTextureVertex positionTextureVertex[], int[][] textUVs) {
+
+    public ModelRenderer addBox(float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ,
+            boolean mirror)
+    {
+        this.cubeCSList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX,
+                sizeY, sizeZ, mirror));
+        return this;
+    }
+
+    public ModelRenderer addBox(PositionTextureVertex positionTextureVertex[], int[][] textUVs)
+    {
         this.cubeCSList.add(new CSModelBox(this, positionTextureVertex, textUVs));
         return this;
     }
-    
-    public ModelRenderer addBox(PositionTextureVertex positionTextureVertex[], int[][] textUVs, boolean mirror) {
+
+    public ModelRenderer addBox(PositionTextureVertex positionTextureVertex[], int[][] textUVs, boolean mirror)
+    {
         this.cubeCSList.add(new CSModelBox(this, positionTextureVertex, textUVs, mirror));
         return this;
     }
-    
-    public ModelRenderer addBox(CSModelBox model) {
+
+    public ModelRenderer addBox(CSModelBox model)
+    {
         this.cubeCSList.add(model);
         return this;
     }
@@ -248,10 +260,11 @@ public class CSModelRenderer extends ModelRenderer
     }
 
     @Deprecated
-    public Quaternion getRotationAsQuaternion() {
-    	//Rotation from position ?!?
-        return new Quaternion(Quat4fHelper.quaternionFromEulerAnglesInDegrees(this.getPositionAsVector().getX(), this.getPositionAsVector().getY(),
-                this.getPositionAsVector().getZ()));
+    public Quaternion getRotationAsQuaternion()
+    {
+        // Rotation from position ?!?
+        return new Quaternion(Quat4fHelper.quaternionFromEulerAnglesInDegrees(this.getPositionAsVector().getX(),
+                this.getPositionAsVector().getY(), this.getPositionAsVector().getZ()));
     }
 
     /**

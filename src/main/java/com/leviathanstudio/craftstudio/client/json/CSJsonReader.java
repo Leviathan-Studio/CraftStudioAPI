@@ -88,8 +88,10 @@ public class CSJsonReader
         this.readModelBlock(jsonBlock, block, null, null);
     }
 
-    private void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block, CSReadedModelBlock parent, Vector3f parentOffset) {
-    	final int[] vertexOrderConvert = new int[] {3, 2, 1, 0, 6, 7, 4, 5};
+    private void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block, CSReadedModelBlock parent,
+            Vector3f parentOffset)
+    {
+        final int[] vertexOrderConvert = new int[] { 3, 2, 1, 0, 6, 7, 4, 5 };
         JsonObject jsonChild;
         CSReadedModelBlock child;
 
@@ -115,28 +117,30 @@ public class CSJsonReader
         float pivotOffsetY = array.get(1).getAsFloat();
         float pivotOffsetZ = array.get(2).getAsFloat();
 
-        //It may need improvement
-        
+        // It may need improvement
+
         array = jsonBlock.getAsJsonArray("vertexCoords");
         Vector3f vertex;
-        if (array != null) {
-        	block.vertex = new float[8][3];
-        	for (int i = 0; i < 8; i++){
-        		vertexArray = array.get(vertexOrderConvert[i]).getAsJsonArray();
-        		block.vertex[i][0] = vertexArray.get(0).getAsFloat() + pivotOffsetX;
-        		block.vertex[i][1] = vertexArray.get(1).getAsFloat() - pivotOffsetY;
-        		block.vertex[i][2] = vertexArray.get(2).getAsFloat() - pivotOffsetZ;
-        	}
+        if (array != null)
+        {
+            block.vertex = new float[8][3];
+            for (int i = 0; i < 8; i++)
+            {
+                vertexArray = array.get(vertexOrderConvert[i]).getAsJsonArray();
+                block.vertex[i][0] = vertexArray.get(0).getAsFloat() + pivotOffsetX;
+                block.vertex[i][1] = vertexArray.get(1).getAsFloat() - pivotOffsetY;
+                block.vertex[i][2] = vertexArray.get(2).getAsFloat() - pivotOffsetZ;
+            }
         }
-        else {
-            block.boxSetup = new Vector3f(-sizeX / 2 + pivotOffsetX, -sizeY / 2 - pivotOffsetY, -sizeZ / 2 - pivotOffsetZ);
-        }
+        else
+            block.boxSetup = new Vector3f(-sizeX / 2 + pivotOffsetX, -sizeY / 2 - pivotOffsetY,
+                    -sizeZ / 2 - pivotOffsetZ);
         if (parent == null)
-            	block.rotationPoint = new Vector3f(posX, -posY + 24, -posZ);
-            else
-            	block.rotationPoint = new Vector3f(posX + parentOffset.x, -posY + parentOffset.y, -posZ + parentOffset.z);
+            block.rotationPoint = new Vector3f(posX, -posY + 24, -posZ);
+        else
+            block.rotationPoint = new Vector3f(posX + parentOffset.x, -posY + parentOffset.y, -posZ + parentOffset.z);
         block.rotation = new Vector3f(rotationX, -rotationY, -rotationZ);
-        
+
         block.size = new Vector3f(sizeX, sizeY, sizeZ);
 
         array = jsonBlock.getAsJsonArray("texOffset");
