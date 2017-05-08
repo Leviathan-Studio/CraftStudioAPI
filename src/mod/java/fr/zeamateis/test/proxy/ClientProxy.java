@@ -1,12 +1,27 @@
 package fr.zeamateis.test.proxy;
 
+import com.leviathanstudio.craftstudio.CraftStudioApi;
+
 import fr.zeamateis.test.anim.client.RenderTest;
 import fr.zeamateis.test.anim.common.EntityTest;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
+
+    @Override
+    public void preInit()
+    {
+        CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/ModelDeadCorpse.csjsmodel"),
+                "ModelDeadCorpse");
+        CraftStudioApi.registerModel(
+                new ResourceLocation("testmod", "craftstudio/models/CraftStudioAPITest2.csjsmodel"),
+                "CraftStudioAPITest");
+        CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/Dragon_Brun.csjsmodel"),
+                "Dragon_Brun");
+    }
 
     @Override
     public void init()

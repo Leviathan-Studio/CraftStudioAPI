@@ -2,13 +2,10 @@ package fr.zeamateis.test.anim.common;
 
 import java.awt.Color;
 
-import com.leviathanstudio.craftstudio.CraftStudioApi;
-
 import fr.zeamateis.test.proxy.CommonProxy;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -38,13 +35,7 @@ public class Mod_Test
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) throws Exception
     {
-        CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/ModelDeadCorpse.csjsmodel"),
-                "ModelDeadCorpse");
-        CraftStudioApi.registerModel(
-                new ResourceLocation("testmod", "craftstudio/models/CraftStudioAPITest2.csjsmodel"),
-                "CraftStudioAPITest");
-        CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/Dragon_Brun.csjsmodel"),
-                "Dragon_Brun");
+        Mod_Test.proxy.preInit();
         GameRegistry.registerTileEntity(TileEntityBlockTest.class, "TileEntityBlockTest");
 
         Block blockTest = new BlockTest();
