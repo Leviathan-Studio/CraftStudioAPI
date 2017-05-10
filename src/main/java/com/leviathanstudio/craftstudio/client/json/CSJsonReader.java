@@ -3,6 +3,13 @@ package com.leviathanstudio.craftstudio.client.json;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.apache.commons.io.Charsets;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -14,8 +21,6 @@ import com.leviathanstudio.craftstudio.common.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.util.ResourceLocation;
-
-import org.apache.commons.io.Charsets;
 
 public class CSJsonReader
 {
@@ -67,11 +72,6 @@ public class CSJsonReader
         CSReadedModelBlock parent;
         JsonObject jsonBlock;
 
-        // modelReader.readTextureFileSize();
-
-        // model.textureHeight = modelReader.getTextureHeight();
-        // model.textureWidth = modelReader.getTextureWidth();
-
         model.modid = strNormalize(this.modid);
         model.name = strNormalize(this.root.get("title").getAsString());
 
@@ -87,7 +87,6 @@ public class CSJsonReader
 
         }
         return model;
-
     }
 
     private void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block)
@@ -165,30 +164,65 @@ public class CSJsonReader
 
     }
 
-    // public CSReadedAnim readAnim() {
-    // CSReadedModel model = new CSReadedModel();
-    // CSReadedModelBlock parent;
-    // JsonObject jsonBlock;
-    //
-    // // modelReader.readTextureFileSize();
-    //
-    // // model.textureHeight = modelReader.getTextureHeight();
-    // // model.textureWidth = modelReader.getTextureWidth();
-    //
-    // model.name = strNormalize(this.root.get("title").getAsString());
-    //
-    // JsonArray tree = root.getAsJsonArray("tree");
-    // for (JsonElement element : tree) {
-    // jsonBlock = element.getAsJsonObject();
-    //
-    // parent = new CSReadedModelBlock();
-    // model.parents.add(parent);
-    //
-    // readModelBlock(jsonBlock, parent);
-    //
-    // }
-    // return model;
-    // }
+    public CSReadedAnim readAnim(){
+    	
+    	CSReadedAnim anim = new CSReadedAnim();
+    	CSReadedAnimBlock block;
+        JsonObject jsonBlock;
+        Entry entry;
+
+        anim.modid = strNormalize(this.modid);
+        anim.name = strNormalize(this.root.get("title").getAsString());
+        anim.duration = this.root.get("duration").getAsInt();
+        anim.holdLastK = this.root.get("holdLastKeyframe").getAsBoolean();
+
+        JsonObject nodeAnims = this.root.get("nodeAnimations").getAsJsonObject();
+        Set set = nodeAnims.entrySet();
+    	Iterator it = set.iterator();
+    	while (it.hasNext()){
+    		entry =  (Entry<String, JsonElement>) it.next();
+    		block = new CSReadedAnimBlock();
+    		anim.blocks.add(block);
+    		readAnimBlock(entry, block);
+    	}
+    	return anim;
+    }
+    
+    private void readAnimBlock(Entry<String, JsonElement> entry, CSReadedAnimBlock block){
+    	block.name = strNormalize(entry.getKey());
+    	JsonObject objBlock = entry.getValue().getAsJsonObject(), objField;
+    	
+    	objField = objBlock.get("position").getAsJsonObject();
+    	block.position = getMap(objField);
+    	objField = objBlock.get("offsetFromPivot").getAsJsonObject();
+    	block.offset = getMap(objField);
+    	objField = objBlock.get("size").getAsJsonObject();
+    	block.size = getMap(objField);
+    	objField = objBlock.get("rotation").getAsJsonObject();
+    	block.rotation = getMap(objField);
+    	objField = objBlock.get("stretch").getAsJsonObject();
+    	block.streching = getMap(objField);
+    }
+    
+    private Map<Integer, Vector3f> getMap(JsonObject obj){
+    	Map<Integer, Vector3f> map = new HashMap<Integer, Vector3f>();
+    	Entry<String, JsonElement> entry;
+    	int keyFrame;
+    	Vector3f value;
+    	JsonArray array;
+    	
+    	Set set = obj.entrySet();
+    	Iterator it = set.iterator();
+    	while (it.hasNext()){
+    		entry =  (Entry<String, JsonElement>) it.next();
+    		keyFrame = Integer.getInteger(entry.getKey());
+    		array = entry.getValue().getAsJsonArray();
+    		value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
+    		map.put(keyFrame, value);
+    	}
+    	
+    	return map;
+    }
 
     private static String strNormalize(String str)
     {

@@ -8,4 +8,26 @@ public class CSReadedModel
     public String                   name, modid;
     public int                      textureWidth, textureHeight;
     public List<CSReadedModelBlock> parents = new ArrayList<>();
+    
+    public boolean isAnimable(){
+    	List<String> names = new ArrayList<String>();
+    	for (CSReadedModelBlock block: parents)
+    		if (block.getAnimability(names) == false)
+    			return false;
+    	return true;
+    }
+
+    String whyUnAnimable(){
+    	boolean flag = true;
+    	List<String> names = new ArrayList<String>();
+    	for (CSReadedModelBlock block: parents)
+    		if (block.getAnimability(names) == false){
+    			flag = false;
+    			break;
+    		}
+    	if (flag)
+    		return null;
+    	else
+    		return names.get(0);
+    }
 }
