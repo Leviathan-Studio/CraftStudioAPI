@@ -83,18 +83,18 @@ public class CSJsonReader
             parent = new CSReadedModelBlock();
             model.parents.add(parent);
 
-            this.readModelBlock(jsonBlock, parent);
+            readModelBlock(jsonBlock, parent);
 
         }
         return model;
     }
 
-    private void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block)
+    private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block)
     {
-        this.readModelBlock(jsonBlock, block, null, null);
+        readModelBlock(jsonBlock, block, null, null);
     }
 
-    private void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block, CSReadedModelBlock parent,
+    private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block, CSReadedModelBlock parent,
             Vector3f parentOffset)
     {
         final int[] vertexOrderConvert = new int[] { 3, 2, 1, 0, 6, 7, 4, 5 };
@@ -159,7 +159,7 @@ public class CSJsonReader
             jsonChild = element.getAsJsonObject();
             child = new CSReadedModelBlock();
             block.childs.add(child);
-            this.readModelBlock(jsonChild, child, block, new Vector3f(pivotOffsetX, -pivotOffsetY, -pivotOffsetZ));
+            readModelBlock(jsonChild, child, block, new Vector3f(pivotOffsetX, -pivotOffsetY, -pivotOffsetZ));
         }
 
     }
@@ -188,24 +188,23 @@ public class CSJsonReader
     	return anim;
     }
     
-    private void readAnimBlock(Entry<String, JsonElement> entry, CSReadedAnimBlock block){
+    private static void readAnimBlock(Entry<String, JsonElement> entry, CSReadedAnimBlock block){
     	block.name = strNormalize(entry.getKey());
     	JsonObject objBlock = entry.getValue().getAsJsonObject(), objField;
     	
     	objField = objBlock.get("position").getAsJsonObject();
-    	block.position = getMap(objField);
+    	addKFElement(objField, block, CSReadedAnimBlock.POS);
     	objField = objBlock.get("offsetFromPivot").getAsJsonObject();
-    	block.offset = getMap(objField);
+    	addKFElement(objField, block, CSReadedAnimBlock.OFS);
     	objField = objBlock.get("size").getAsJsonObject();
-    	block.size = getMap(objField);
+    	addKFElement(objField, block, CSReadedAnimBlock.SIZ);
     	objField = objBlock.get("rotation").getAsJsonObject();
-    	block.rotation = getMap(objField);
+    	addKFElement(objField, block, CSReadedAnimBlock.ROT);
     	objField = objBlock.get("stretch").getAsJsonObject();
-    	block.streching = getMap(objField);
+    	addKFElement(objField, block, CSReadedAnimBlock.STR);
     }
     
-    private Map<Integer, Vector3f> getMap(JsonObject obj){
-    	Map<Integer, Vector3f> map = new HashMap<Integer, Vector3f>();
+    private static void addKFElement(JsonObject obj, CSReadedAnimBlock block, byte type){
     	Entry<String, JsonElement> entry;
     	int keyFrame;
     	Vector3f value;
@@ -218,10 +217,8 @@ public class CSJsonReader
     		keyFrame = Integer.getInteger(entry.getKey());
     		array = entry.getValue().getAsJsonArray();
     		value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
-    		map.put(keyFrame, value);
+    		block.addKFElement(keyFrame, type, value);
     	}
-    	
-    	return map;
     }
 
     private static String strNormalize(String str)
