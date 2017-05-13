@@ -35,6 +35,11 @@ public class Quaternion implements java.io.Serializable
     {
         this(0F, 0F, 0F, 1F);
     }
+    
+    public Quaternion(Vector3f vec)
+    {
+        this(vec.x, vec.y, vec.z);
+    }
 
     /** Most used constructor to directly use degrees angles */
     public Quaternion(float x, float y, float z)

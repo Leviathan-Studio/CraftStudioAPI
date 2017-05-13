@@ -173,7 +173,7 @@ public class CSJsonReader
 
         anim.modid = strNormalize(this.modid);
         anim.name = strNormalize(this.root.get("title").getAsString());
-        anim.duration = this.root.get("duration").getAsInt();
+        anim.duration = this.root.get("duration").getAsInt()/2;
         anim.holdLastK = this.root.get("holdLastKeyframe").getAsBoolean();
 
         JsonObject nodeAnims = this.root.get("nodeAnimations").getAsJsonObject();
@@ -214,7 +214,7 @@ public class CSJsonReader
     	Iterator it = set.iterator();
     	while (it.hasNext()){
     		entry =  (Entry<String, JsonElement>) it.next();
-    		keyFrame = Integer.getInteger(entry.getKey());
+    		keyFrame = Integer.getInteger(entry.getKey())/2;
     		array = entry.getValue().getAsJsonArray();
     		value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
     		block.addKFElement(keyFrame, type, value);

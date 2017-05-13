@@ -9,11 +9,11 @@ public class CSReadedAnimBlock
 {
 	public static final byte POS = 0, ROT = 1, OFS = 2, SIZ = 3, STR = 4;
 	public String name;
-	public Map<Integer, KeyFrame> keyFrames = new HashMap<Integer, KeyFrame>();
+	public Map<Integer, ReadedKeyFrame> keyFrames = new HashMap<Integer, ReadedKeyFrame>();
 	
 	public void addKFElement(int keyFrame, byte type, Vector3f value){
 		if (!this.keyFrames.containsKey(keyFrame)){
-			this.keyFrames.put(keyFrame, new KeyFrame());
+			this.keyFrames.put(keyFrame, new ReadedKeyFrame());
 		}
 		switch (type){
 		case POS:
@@ -34,7 +34,7 @@ public class CSReadedAnimBlock
 		}
 	}
 	
-	public class KeyFrame {
+	public class ReadedKeyFrame {
 		public Vector3f position, rotation, offset, size, stretching;
 	}
 }

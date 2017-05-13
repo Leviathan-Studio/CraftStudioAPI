@@ -17,7 +17,7 @@ public class ClientProxy extends CommonProxy
         CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/ModelDeadCorpse.csjsmodel"),
                 "ModelDeadCorpse");
         CraftStudioApi.registerModel(
-                new ResourceLocation("testmod", "craftstudio/models/CraftStudioAPITest2.csjsmodel"),
+                new ResourceLocation("testmod", "craftstudio/models/CraftStudioAPITest.csjsmodel"),
                 "CraftStudioAPITest");
         CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/Dragon_Brun.csjsmodel"),
                 "Dragon_Brun");

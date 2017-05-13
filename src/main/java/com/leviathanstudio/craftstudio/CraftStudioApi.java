@@ -2,6 +2,7 @@ package com.leviathanstudio.craftstudio;
 
 import java.util.Map;
 
+import com.leviathanstudio.craftstudio.client.CSAnimMesher;
 import com.leviathanstudio.craftstudio.client.CSModelMesher;
 import com.leviathanstudio.craftstudio.client.CraftStudioModelNotFound;
 import com.leviathanstudio.craftstudio.client.json.CSJsonReader;
@@ -56,6 +57,23 @@ public class CraftStudioApi
             else
                 CraftStudioApi.LOGGER
                         .fatal("Your not allowed to use the \"craftstudioapi\" to register CraftStudio models.");
+        } catch (CraftStudioModelNotFound e)
+        {
+            CraftStudioApi.LOGGER.error(e.getMessage());
+        }
+    }
+    
+    public static void registerAnim(ResourceLocation resourceIn, String animNameIn){
+    	CSJsonReader jsonReader;
+        try
+        {
+            jsonReader = new CSJsonReader(resourceIn);
+
+            if (resourceIn.getResourceDomain() != CraftStudioApi.API_ID)
+                CSAnimMesher.animations.put(animNameIn, jsonReader.readAnim());
+            else
+                CraftStudioApi.LOGGER
+                        .fatal("Your not allowed to use the \"craftstudioapi\" to register CraftStudio animations.");
         } catch (CraftStudioModelNotFound e)
         {
             CraftStudioApi.LOGGER.error(e.getMessage());
