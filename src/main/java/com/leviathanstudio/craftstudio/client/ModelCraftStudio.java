@@ -2,7 +2,6 @@ package com.leviathanstudio.craftstudio.client;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
 import com.leviathanstudio.craftstudio.common.IAnimated;
@@ -26,6 +25,7 @@ public class ModelCraftStudio extends ModelBase
 
         CSReadedModel rModel = CSModelMesher.models.get(modelNameIn);
         CSModelRenderer modelRend;
+        //Error Model not found
 
         for (CSReadedModelBlock rBlock : rModel.parents)
         {

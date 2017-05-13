@@ -18,6 +18,6 @@ public class RenderTest<T extends EntityTest> extends RenderLiving<T>
     @Override
     protected ResourceLocation getEntityTexture(T entity)
     {
-        return new ResourceLocation("testmod", "textures/entity/CraftStudioAPITest.png");
+        return new ResourceLocation("testmod", "textures/entity/craftstudio_api_test.png");
     }
 }

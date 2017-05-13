@@ -384,7 +384,7 @@ public abstract class AnimationHandler
     public static boolean isWorldRemote(IAnimated animated)
     {
         if (animated instanceof Entity)
-            return ((Entity) animated).worldObj.isRemote;
+            return ((Entity) animated).getEntityWorld().isRemote;
         else if (animated instanceof TileEntity)
             return ((TileEntity) animated).getWorld().isRemote;
         else

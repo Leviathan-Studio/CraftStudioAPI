@@ -3,11 +3,7 @@ package com.leviathanstudio.craftstudio.client.json;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.commons.io.Charsets;
 
@@ -169,7 +165,6 @@ public class CSJsonReader
     	CSReadedAnim anim = new CSReadedAnim();
     	CSReadedAnimBlock block;
         JsonObject jsonBlock;
-        Entry entry;
 
         anim.modid = strNormalize(this.modid);
         anim.name = strNormalize(this.root.get("title").getAsString());
@@ -177,10 +172,7 @@ public class CSJsonReader
         anim.holdLastK = this.root.get("holdLastKeyframe").getAsBoolean();
 
         JsonObject nodeAnims = this.root.get("nodeAnimations").getAsJsonObject();
-        Set set = nodeAnims.entrySet();
-    	Iterator it = set.iterator();
-    	while (it.hasNext()){
-    		entry =  (Entry<String, JsonElement>) it.next();
+    	for (Entry<String, JsonElement> entry : nodeAnims.entrySet()){
     		block = new CSReadedAnimBlock();
     		anim.blocks.add(block);
     		readAnimBlock(entry, block);
@@ -205,18 +197,20 @@ public class CSJsonReader
     }
     
     private static void addKFElement(JsonObject obj, CSReadedAnimBlock block, byte type){
-    	Entry<String, JsonElement> entry;
     	int keyFrame;
     	Vector3f value;
     	JsonArray array;
     	
-    	Set set = obj.entrySet();
-    	Iterator it = set.iterator();
-    	while (it.hasNext()){
-    		entry =  (Entry<String, JsonElement>) it.next();
-    		keyFrame = Integer.getInteger(entry.getKey())/2;
+    	for (Entry<String, JsonElement> entry : obj.entrySet()){
+    		keyFrame = Integer.parseInt(entry.getKey())/2;
     		array = entry.getValue().getAsJsonArray();
-    		value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
+    		switch(type){
+    		case CSReadedAnimBlock.POS :
+    			value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
+    			break;
+    		default :
+    			value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
+    		}
     		block.addKFElement(keyFrame, type, value);
     	}
     }

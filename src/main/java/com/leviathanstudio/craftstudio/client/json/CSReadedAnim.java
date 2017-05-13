@@ -26,7 +26,7 @@ public class CSReadedAnim
 				set.add(entry.getKey());
 		
 		Integer[] tab = new Integer[1];
-		set.toArray(tab);
+		tab = (Integer[]) set.toArray(tab);
 		return tab;
 	}
 }

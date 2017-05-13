@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 
 public class EntityTest extends EntityCreature implements IAnimated
 {
-    protected AnimationHandler animHandler = new AnimationHandlerTest(this);
+    protected AnimationHandler animHandler;
 
     public EntityTest(World par1World)
     {
@@ -26,6 +26,8 @@ public class EntityTest extends EntityCreature implements IAnimated
     @Override
     public AnimationHandler getAnimationHandler()
     {
+    	if (this.animHandler == null)
+    		this.animHandler = new AnimationHandlerTest(this);
         return this.animHandler;
     }
 

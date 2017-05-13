@@ -1,7 +1,6 @@
 package fr.zeamateis.test.anim.common.animations;
 
 import java.util.HashMap;
-
 import com.leviathanstudio.craftstudio.common.IAnimated;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.CSAnimChannel;
@@ -27,7 +26,7 @@ public class AnimationHandlerTest extends AnimationHandler
 	public AnimationHandlerTest(IAnimated entity)
     {
         super(entity);
-        AnimationHandlerTest.animChannels.put("Position", new CSAnimChannel("Position", 30.0F));
+        AnimationHandlerTest.animChannels.put("Position", new CSAnimChannel("Position", 30.0F, true));
     }
 
     @Override

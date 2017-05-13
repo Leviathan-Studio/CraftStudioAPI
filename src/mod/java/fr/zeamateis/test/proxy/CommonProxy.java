@@ -8,9 +8,9 @@ public class CommonProxy
 {
     public void preInit()
     {
-    	CraftStudioApi.registerAnim(new ResourceLocation("testmod", "craftstudio/animations/Position.csjsmodelanim"),
+    	CraftStudioApi.registerAnim(new ResourceLocation("testmod", "craftstudio/animations/position.csjsmodelanim"),
                 "Position");
-    	CraftStudioApi.registerAnim(new ResourceLocation("testmod", "craftstudio/animations/Rotation.csjsmodelanim"),
+    	CraftStudioApi.registerAnim(new ResourceLocation("testmod", "craftstudio/animations/rotation.csjsmodelanim"),
                 "Rotation");
     }
 

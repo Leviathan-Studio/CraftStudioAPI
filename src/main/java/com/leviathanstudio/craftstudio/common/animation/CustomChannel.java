@@ -8,7 +8,7 @@ public abstract class CustomChannel extends Channel
 
     public CustomChannel(String channelName)
     {
-        super(channelName);
+        super(channelName, true);
         this.animationMode = EnumAnimationMode.CUSTOM;
     }
 

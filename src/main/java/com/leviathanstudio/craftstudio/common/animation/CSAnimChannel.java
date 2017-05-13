@@ -6,18 +6,25 @@ import com.leviathanstudio.craftstudio.client.CSAnimMesher;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
+import com.leviathanstudio.craftstudio.common.animation.Channel.EnumAnimationMode;
 import com.leviathanstudio.craftstudio.common.math.Quaternion;
 
 public class CSAnimChannel extends Channel {
 	private String animName;
 	
-	public CSAnimChannel(String animNameIn, float fps){
-		this(animNameIn, animNameIn, fps);
-		this.animName = animNameIn;
+	public CSAnimChannel(String animNameIn, float fps, boolean looped){
+		this(animNameIn, animNameIn, fps, looped);
 	}
 	
-	public CSAnimChannel(String animNameIn, String name, float fps){
-		super(name, fps, CSAnimMesher.animations.get(animNameIn).duration, Channel.EnumAnimationMode.LINEAR);
+	public CSAnimChannel(String animNameIn, String name, float fps, boolean looped){
+		super(name, false);
+		this.animName = animNameIn;
+		CSReadedAnim anim = CSAnimMesher.animations.get(animNameIn);
+		this.fps = fps;
+		this.totalFrames = anim.duration;
+		if (looped)
+			this.animationMode = EnumAnimationMode.LOOP;
+		this.initializeAllFrames();
 	}
 	
 	@Override

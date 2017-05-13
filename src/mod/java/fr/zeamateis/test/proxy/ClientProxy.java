@@ -14,18 +14,20 @@ public class ClientProxy extends CommonProxy
     @Override
     public void preInit()
     {
-        CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/ModelDeadCorpse.csjsmodel"),
+    	super.preInit();
+        CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/model_dead_corpse.csjsmodel"),
                 "ModelDeadCorpse");
         CraftStudioApi.registerModel(
-                new ResourceLocation("testmod", "craftstudio/models/CraftStudioAPITest.csjsmodel"),
+                new ResourceLocation("testmod", "craftstudio/models/craftstudio_api_test.csjsmodel"),
                 "CraftStudioAPITest");
-        CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/Dragon_Brun.csjsmodel"),
+        CraftStudioApi.registerModel(new ResourceLocation("testmod", "craftstudio/models/dragon_brun.csjsmodel"),
                 "Dragon_Brun");
     }
 
     @Override
     public void init()
     {
+    	super.init();
         // Registry Entity
         RenderingRegistry.registerEntityRenderingHandler(EntityTest.class, new RenderTest());
         // Registry TESR
