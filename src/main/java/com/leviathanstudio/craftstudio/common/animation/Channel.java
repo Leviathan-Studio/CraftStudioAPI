@@ -82,7 +82,6 @@ public class Channel
                     nextKeyFrame = value;
                 }
         }
-
         return nextKeyFrame;
     }
 

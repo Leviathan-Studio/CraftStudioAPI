@@ -168,7 +168,7 @@ public class CSJsonReader
 
         anim.modid = strNormalize(this.modid);
         anim.name = strNormalize(this.root.get("title").getAsString());
-        anim.duration = this.root.get("duration").getAsInt()/2;
+        anim.duration = this.root.get("duration").getAsInt();
         anim.holdLastK = this.root.get("holdLastKeyframe").getAsBoolean();
 
         JsonObject nodeAnims = this.root.get("nodeAnimations").getAsJsonObject();
@@ -202,10 +202,13 @@ public class CSJsonReader
     	JsonArray array;
     	
     	for (Entry<String, JsonElement> entry : obj.entrySet()){
-    		keyFrame = Integer.parseInt(entry.getKey())/2;
+    		keyFrame = Integer.parseInt(entry.getKey());
     		array = entry.getValue().getAsJsonArray();
     		switch(type){
-    		case CSReadedAnimBlock.POS :
+    		case CSReadedAnimBlock.POS:
+    			value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
+    			break;
+    		case CSReadedAnimBlock.ROT:
     			value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
     			break;
     		default :

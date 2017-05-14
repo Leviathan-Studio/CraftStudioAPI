@@ -12,12 +12,12 @@ public class RenderTest<T extends EntityTest> extends RenderLiving<T>
 {
     public RenderTest()
     {
-        super(Minecraft.getMinecraft().getRenderManager(), new ModelCraftStudio("CraftStudioAPITest", 64, 32), 0.5F);
+        super(Minecraft.getMinecraft().getRenderManager(), new ModelCraftStudio("Dragon_Brun", 256, 256), 0.5F);
     }
 
     @Override
     protected ResourceLocation getEntityTexture(T entity)
     {
-        return new ResourceLocation("testmod", "textures/entity/craftstudio_api_test.png");
+        return new ResourceLocation("testmod", "textures/entity/dragon_brun.png");
     }
 }

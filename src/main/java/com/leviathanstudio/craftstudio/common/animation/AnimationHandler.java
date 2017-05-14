@@ -9,6 +9,7 @@ import java.util.Map;
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.CSModelRenderer;
 import com.leviathanstudio.craftstudio.common.IAnimated;
+import com.leviathanstudio.craftstudio.common.math.Matrix4f;
 import com.leviathanstudio.craftstudio.common.math.Quaternion;
 import com.leviathanstudio.craftstudio.common.math.Vector3f;
 
@@ -229,13 +230,6 @@ public abstract class AnimationHandler
         for (final CSModelRenderer entry : parts)
         {
             performAnimationForBlock(entry, entity);
-            if (entry.childModels != null)
-                for (ModelRenderer child : entry.childModels)
-                    if (child instanceof CSModelRenderer)
-                    {
-                        CSModelRenderer childModel = (CSModelRenderer) child;
-                        performAnimationForBlock(childModel, entity);
-                    }
         }
     }
 
@@ -248,6 +242,14 @@ public abstract class AnimationHandler
         boolean anyRotationApplied = false;
         boolean anyTranslationApplied = false;
         boolean anyCustomAnimationRunning = false;
+        
+        if (block.childModels != null)
+            for (ModelRenderer child : block.childModels)
+                if (child instanceof CSModelRenderer)
+                {
+                    CSModelRenderer childModel = (CSModelRenderer) child;
+                    performAnimationForBlock(childModel, entity);
+                }
 
         for (final Channel channel : entity.getAnimationHandler().animCurrentChannels)
             if (channel.animationMode != Channel.EnumAnimationMode.CUSTOM)
@@ -265,9 +267,8 @@ public abstract class AnimationHandler
                 final int nextRotationKeyFramePosition = nextRotationKeyFrame != null
                         ? channel.getKeyFramePosition(nextRotationKeyFrame) : 0;
 
-                // Quaternion defaultQuat =
-                // parts.get(boxName).getDefaultRotationAsQuaternion();
-                // defaultQuat.x = -defaultQuat.x;
+                 //Quaternion defaultQuat = block.getDefaultRotationAsQuaternion();
+                 //defaultQuat.x = -defaultQuat.x;
 
                 float SLERPProgress = (currentFrame - prevRotationKeyFramePosition)
                         / (nextRotationKeyFramePosition - prevRotationKeyFramePosition);
@@ -280,7 +281,7 @@ public abstract class AnimationHandler
                     final Quaternion currentQuat = new Quaternion();
                     currentQuat.slerp(box.getDefaultRotationAsQuaternion(),
                             nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
-                    // currentQuat.mul(defaultQuat);
+                    //currentQuat.mul(defaultQuat);
                     box.getRotationMatrix().set(currentQuat).transpose();
 
                     anyRotationApplied = true;
@@ -291,7 +292,7 @@ public abstract class AnimationHandler
                     final Quaternion currentQuat = new Quaternion();
                     currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
                             nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
-                    // currentQuat.mul(defaultQuat);
+                    //currentQuat.mul(defaultQuat);
 
                     box.getRotationMatrix().set(currentQuat).transpose();
 
@@ -302,7 +303,7 @@ public abstract class AnimationHandler
                     final Quaternion currentQuat = new Quaternion();
                     currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
                             nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
-                    // currentQuat.mul(defaultQuat);
+                    //currentQuat.mul(defaultQuat);
                     box.getRotationMatrix().set(currentQuat).transpose();
 
                     anyRotationApplied = true;

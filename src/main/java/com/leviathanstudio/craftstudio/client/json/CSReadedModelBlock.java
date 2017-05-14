@@ -13,6 +13,18 @@ public class CSReadedModelBlock
     public int[]                    texOffset = new int[2];
     public List<CSReadedModelBlock> childs    = new ArrayList<>();
     
+    CSReadedModelBlock getBlockFromName(String name){
+    	CSReadedModelBlock b;
+    	if (this.name.equals(name))
+    		return this;
+    	for (CSReadedModelBlock block : this.childs){
+    		b = block.getBlockFromName(name);
+    		if (b != null)
+    			return b;
+    	}
+    	return null;
+    }
+    
     boolean getAnimability(List<String> names){
     	if (names.contains(this.name)){
     		names = new ArrayList<String>();

@@ -12,6 +12,10 @@ public class CommonProxy
                 "Position");
     	CraftStudioApi.registerAnim(new ResourceLocation("testmod", "craftstudio/animations/rotation.csjsmodelanim"),
                 "Rotation");
+    	CraftStudioApi.registerAnim(new ResourceLocation("testmod", "craftstudio/animations/fly.csjsmodelanim"),
+                "Fly");
+    	CraftStudioApi.registerAnim(new ResourceLocation("testmod", "craftstudio/animations/idle.csjsmodelanim"),
+                "Idle");
     }
 
     public void init()

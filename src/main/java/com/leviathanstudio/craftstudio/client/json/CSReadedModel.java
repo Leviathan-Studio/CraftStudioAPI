@@ -9,6 +9,16 @@ public class CSReadedModel
     public int                      textureWidth, textureHeight;
     public List<CSReadedModelBlock> parents = new ArrayList<>();
     
+    public CSReadedModelBlock getBlockFromName(String name){
+    	CSReadedModelBlock b;
+    	for (CSReadedModelBlock block : this.parents){
+    		b = block.getBlockFromName(name);
+    		if (b != null)
+    			return b;
+    	}
+    	return null;
+    }
+    
     public boolean isAnimable(){
     	List<String> names = new ArrayList<String>();
     	for (CSReadedModelBlock block: parents)

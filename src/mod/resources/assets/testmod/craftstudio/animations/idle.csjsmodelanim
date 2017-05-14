@@ -1,0 +1,542 @@
+{
+  "title": "Idle",
+  "duration": 60,
+  "holdLastKeyframe": false,
+  "nodeAnimations": {
+    "Corp": {
+      "position": {
+        "0": [ 0, -7, 0 ]
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -6.95448, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Jambe G 2": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 88.4198, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Patte G": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -31.88758, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Doigt 31": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -62.55437, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Doigt 11": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -62.5258, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Patte GDansTonCulMonGars": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -76.10495, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Doigt 21": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -62.56549, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Jambe G 24": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 86.37075, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Patte GToiAussiEncule": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -75.88501, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Doigt 115": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -62.39467, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Doigt 218": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -62.56549, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Doigt 315": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 297.4959, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Corp1": {
+      "position": {
+        "0": [ 0, -2, 0 ]
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+      },
+      "stretch": {
+      }
+    },
+    "Doigt 124": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -13.69234, -0.00093032, 0.0009806722 ]
+      },
+      "stretch": {
+      }
+    },
+    "Doigt 229": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -13.8, 3.426467E-08, -2.645391E-08 ]
+      },
+      "stretch": {
+      }
+    },
+    "Doigt 326": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -13.85166, -9.335115E-08, 1.032376E-06 ]
+      },
+      "stretch": {
+      }
+    },
+    "Doigt 325624": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -13.85166, 9.335115E-08, -1.032376E-06 ]
+      },
+      "stretch": {
+      }
+    },
+    "Doigt 22": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -13.8, -3.426467E-08, 2.645391E-08 ]
+      },
+      "stretch": {
+      }
+    },
+    "Doigt 12": {
+      "position": {
+        "0": [ 0, -0.0008046627, 1.587085E-06 ]
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -13.68662, -0.2860991, 0.03135122 ]
+      },
+      "stretch": {
+      }
+    },
+    "Queue1": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -7.605498, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Queue2": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -9.66692, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Queue3": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -3.591036, 0.004510937, 0.0005610722 ],
+        "30": [ -3.561704, 7.298983, -0.4549873 ]
+      },
+      "stretch": {
+      }
+    },
+    "Queue4": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -8.872405, -11.33216, 1.7704 ],
+        "30": [ 8.492069, 9.083971, -1.488779 ]
+      },
+      "stretch": {
+      }
+    },
+    "Queue5": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -11.06903, -14.00055, 2.740704 ],
+        "30": [ -11.15722, 12.02902, -2.35928 ]
+      },
+      "stretch": {
+      }
+    },
+    "Queue6": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 11.04499, -23.07582, -4.666147 ],
+        "30": [ 11.46751, 16.99657, 3.481989 ]
+      },
+      "stretch": {
+      }
+    },
+    "Queue7": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -7.741637, -23.45368, 3.344707 ],
+        "30": [ -7.882482, 20.82449, -2.985341 ]
+      },
+      "stretch": {
+      }
+    },
+    "Aile2": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 29.65776, -15.23403, 14.90397 ],
+        "30": [ 36.75339, -11.90225, 8.362887 ]
+      },
+      "stretch": {
+      }
+    },
+    "Aile13": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 29.67346, 14.85071, -14.08584 ],
+        "4": [ 30.83915, 14.32192, -13.13631 ],
+        "30": [ 36.75338, 11.90225, -8.362885 ]
+      },
+      "stretch": {
+      }
+    },
+    "Aile 2.2": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -0.004115467, 30.0765, -0.0008094828 ]
+      },
+      "stretch": {
+      }
+    },
+    "AileBranche2.2": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 7.013703E-06, -36.69177, -1.641257E-05 ]
+      },
+      "stretch": {
+      }
+    },
+    "AileBranche1.25616": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 1.413958E-05, -33.77565, -9.729792E-06 ]
+      },
+      "stretch": {
+      }
+    },
+    "AileBranche24": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 1.042858E-05, 24.07793, 1.448479E-05 ]
+      },
+      "stretch": {
+      }
+    },
+    "AileBranche116": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 1.562372E-05, 23.70007, 7.106058E-06 ]
+      },
+      "stretch": {
+      }
+    },
+    "Coup128": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 14.78527, 0, 0 ],
+        "30": [ 22.67531, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Coup229": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -2.317662, 0, 0 ],
+        "30": [ -8.312517, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Coup330": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -19.79341, 0, 0 ],
+        "30": [ -25.85116, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Tete31": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 15.24, 0, 0 ],
+        "30": [ 15.24027, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Bouche": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ -0.5519297, 0, 0 ],
+        "30": [ -6.551931, 0, 0 ]
+      },
+      "stretch": {
+      }
+    },
+    "Jambe G 1": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 0.00483182, 0.000353878, -0.002519864 ]
+      },
+      "stretch": {
+      }
+    },
+    "Jambe D 1": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 0.00483182, -0.000353878, 0.002519864 ]
+      },
+      "stretch": {
+      }
+    }
+  }
+}
