@@ -8,6 +8,14 @@ import java.util.Set;
 
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+/**
+ * Class that store the informations relative to an animation.
+ * @author Timmypote
+ */
+@SideOnly(Side.CLIENT)
 public class CSReadedAnim
 {
 	public String modid, name;
@@ -16,6 +24,10 @@ public class CSReadedAnim
 	public List<CSReadedAnimBlock> blocks = new ArrayList<CSReadedAnimBlock>();
 	private Integer[] keyFrames;
 	
+	/**
+	 * Get the keys of keyframes used in the animation.
+	 * @return Array of the keys.
+	 */
 	public Integer[] getKeyFrames(){
 		if (this.keyFrames != null)
 			return this.keyFrames;

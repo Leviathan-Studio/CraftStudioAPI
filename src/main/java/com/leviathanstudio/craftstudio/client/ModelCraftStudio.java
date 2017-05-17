@@ -25,7 +25,6 @@ public class ModelCraftStudio extends ModelBase
 
         CSReadedModel rModel = CSModelMesher.models.get(modelNameIn);
         CSModelRenderer modelRend;
-        //Error Model not found
 
         for (CSReadedModelBlock rBlock : rModel.parents)
         {

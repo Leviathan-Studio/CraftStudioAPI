@@ -11,14 +11,33 @@ import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
 import com.leviathanstudio.craftstudio.common.math.Quaternion;
 
+/**
+ * Animation Channel for CraftStudio imported animation.
+ * @author Timmypote
+ */
 public class CSAnimChannel extends Channel {
 	private CSReadedAnim rAnim;
 	private CSReadedModel rModel;
 	
+	/**
+	 * Create a channel with the same name as the animation.
+	 * @param animNameIn The name of the animation in the registry.
+	 * @param modelNameIn The name of the model bind to this animation in the registry.
+	 * @param fps Keyframes per second of the animation.
+	 * @param looped If the animation is looped or not.
+	 */
 	public CSAnimChannel(String animNameIn, String modelNameIn, float fps, boolean looped){
 		this(animNameIn, animNameIn, modelNameIn, fps, looped);
 	}
 	
+	/**
+	 * Create a channel.
+	 * @param animNameIn The name of the animation in the registry.
+	 * @param name The name of the channel
+	 * @param modelNameIn The name of the model bind to this animation in the registry.
+	 * @param fps Keyframes per second of the animation.
+	 * @param looped If the animation is looped or not.
+	 */
 	public CSAnimChannel(String animNameIn, String name, String modelNameIn, float fps, boolean looped){
 		super(name, false);
 		this.rAnim = CSAnimMesher.animations.get(animNameIn);
@@ -30,6 +49,9 @@ public class CSAnimChannel extends Channel {
 		this.initializeAllFrames();
 	}
 	
+	/**
+	 * Initialize the keyframes.
+	 */
 	@Override
 	protected void initializeAllFrames(){
 		KeyFrame keyFrame;

@@ -18,7 +18,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+/**
+ * Main class of the CraftStudioApi
+ * @author ZeAmateis
+ * @author Timmypote
+ */
 @Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, version = CraftStudioApi.ACTUAL_VERSION)
 public class CraftStudioApi
 {
@@ -45,6 +49,11 @@ public class CraftStudioApi
         ProgressManager.pop(progressBar);
     }
 
+    /**
+     * Register a new model with the name given.
+     * @param resourceIn The location of the .csjsmodel.
+     * @param modelNameIn The name given to the model.
+     */
     public static void registerModel(ResourceLocation resourceIn, String modelNameIn)
     {
         CSJsonReader jsonReader;
@@ -63,6 +72,11 @@ public class CraftStudioApi
         }
     }
     
+    /**
+     * Register a new animation with the name given.
+     * @param resourceIn The location of the .csjsmodelanim.
+     * @param animNameIn The name given to the animation.
+     */
     public static void registerAnim(ResourceLocation resourceIn, String animNameIn){
     	CSJsonReader jsonReader;
         try
