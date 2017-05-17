@@ -2,7 +2,6 @@ package com.leviathanstudio.craftstudio.client;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
 import com.leviathanstudio.craftstudio.common.IAnimated;

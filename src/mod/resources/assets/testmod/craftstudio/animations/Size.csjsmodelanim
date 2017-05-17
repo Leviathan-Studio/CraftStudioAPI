@@ -1,0 +1,21 @@
+{
+  "title": "Size",
+  "duration": 60,
+  "holdLastKeyframe": false,
+  "nodeAnimations": {
+    "Block": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+        "0": [ 0, 0, 0 ],
+        "30": [ 512, 512, 512 ]
+      },
+      "rotation": {
+      },
+      "stretch": {
+      }
+    }
+  }
+}

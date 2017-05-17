@@ -15,16 +15,17 @@ public class Channel
     /** How this animation should behave: 0 = Normal; 1 = Loop; 2 = Cycle. */
     public EnumAnimationMode      animationMode = EnumAnimationMode.LINEAR;
 
-    public Channel(String _name)
+    public Channel(String _name, boolean initialize)
     {
         this.name = _name;
         this.totalFrames = 0;
-        this.initializeAllFrames();
+        if (initialize)
+        	this.initializeAllFrames();
     }
 
-    public Channel(String animationName, float fps, int totalFrames, EnumAnimationMode animationMode)
+    public Channel(String animationName, float fps, int totalFrames, EnumAnimationMode animationMode, boolean initialize)
     {
-        this(animationName);
+        this(animationName, initialize);
         this.fps = fps;
         this.totalFrames = totalFrames;
         this.animationMode = animationMode;
@@ -81,7 +82,6 @@ public class Channel
                     nextKeyFrame = value;
                 }
         }
-
         return nextKeyFrame;
     }
 

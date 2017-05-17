@@ -6,6 +6,7 @@ import fr.zeamateis.test.proxy.CommonProxy;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -39,9 +40,8 @@ public class Mod_Test
         GameRegistry.registerTileEntity(TileEntityBlockTest.class, "TileEntityBlockTest");
 
         Block blockTest = new BlockTest();
-        GameRegistry.registerBlock(blockTest, "blockTest");
-
-        GameRegistry.registerItem(Mod_Test.itemTest, "itemTest");
+//        GameRegistry.registerBlock(blockTest, "blockTest");
+//        GameRegistry.registerItem(Mod_Test.itemTest, "itemTest");
     }
 
     @EventHandler
@@ -49,7 +49,7 @@ public class Mod_Test
     {
         Mod_Test.proxy.init();
 
-        EntityRegistry.registerModEntity(EntityTest.class, "entityTest", 420, Mod_Test.instance, 40, 1, true,
+        EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest"), EntityTest.class, "entityTest", 420, Mod_Test.instance, 40, 1, true,
                 new Color(0, 255, 0).getRGB(), new Color(255, 0, 0).getRGB());
 
         MinecraftForge.EVENT_BUS.register(this);

@@ -6,14 +6,18 @@ import net.minecraft.client.model.TexturedQuad;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
+/**
+ * Class used to render a box in a {@link CSModelRenderer} or a {@link ModelRenderer}.</br>
+ * Partially based on {@link net.minecraft.client.model.ModelBox ModelBox}.
+ * @author Timmypote
+ */
 @SideOnly(Side.CLIENT)
 public class CSModelBox
 {
-    /** An array of 6 TexturedQuads, one for each face of a cube */
+    /** An array of 6 TexturedQuads, one for each face of a cube. */
     private final TexturedQuad[] quadList;
 
-    /** The box name **/
+    /** The box name. **/
     public String                boxName;
 
     /**
@@ -181,7 +185,7 @@ public class CSModelBox
     }
 
     /**
-     * Set the textures' UVs for each faces<br>
+     * Set the textures' UVs for each faces.<br>
      *
      * Faces order:<br>
      * faces[0] = X1<br>
@@ -216,7 +220,7 @@ public class CSModelBox
     }
 
     /**
-     * Calculate the PositionTextureVertex from a rectangular box
+     * Calculate the PositionTextureVertex from a rectangular box.
      *
      * @param x
      *            The X coordinate of the starting point of the box.
@@ -263,7 +267,7 @@ public class CSModelBox
     }
 
     /**
-     * Calculate the textures' UVs for a rectangular box
+     * Calculate the textures' UVs for a rectangular box.
      *
      * @param texU
      *            The X coordinate of the texture.
@@ -295,9 +299,9 @@ public class CSModelBox
      * Function used to prepare the rendering of the bloc.
      *
      * @param renderer
-     *            VertexBuffer from the Tesselator
+     *            VertexBuffer from the Tesselator.
      * @param scale
-     *            Scale factor
+     *            Scale factor.
      */
     @SideOnly(Side.CLIENT)
     public void render(VertexBuffer renderer, float scale)
@@ -307,11 +311,11 @@ public class CSModelBox
     }
 
     /**
-     * Set the box name
+     * Set the box name.
      *
      * @param name
-     *            The name given to the box
-     * @return The CSModelBox
+     *            The name given to the box.
+     * @return The CSModelBox.
      */
     public CSModelBox setBoxName(String name)
     {
@@ -320,9 +324,9 @@ public class CSModelBox
     }
 
     /**
-     * Get the TexturedQuad array so it can be modified
+     * Get the TexturedQuad array so it can be modified.
      * 
-     * @return The TexturedQuad array
+     * @return The TexturedQuad array.
      */
     public TexturedQuad[] getQuadList()
     {
