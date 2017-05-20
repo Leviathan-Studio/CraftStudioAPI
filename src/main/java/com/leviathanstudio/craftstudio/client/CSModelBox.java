@@ -4,6 +4,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.PositionTextureVertex;
 import net.minecraft.client.model.TexturedQuad;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 /**
@@ -19,6 +20,8 @@ public class CSModelBox
 
     /** The box name. **/
     public String                boxName;
+    
+    private final static double NORM_PREC = 0.0001;
 
     /**
      * Create a textured rectangular box without textures mirror precision.
@@ -118,6 +121,7 @@ public class CSModelBox
     {
         this(positionTextureVertex);
         this.setTexture(renderer, textUVs);
+        this.checkBlockForShadow();
         if (mirror)
             for (TexturedQuad texturedquad : this.quadList)
                 texturedquad.flipFace();
@@ -182,6 +186,35 @@ public class CSModelBox
             this.quadList[5] = new TexturedQuad(new PositionTextureVertex[] { positionTextureVertex[4],
                     positionTextureVertex[5], positionTextureVertex[6], positionTextureVertex[7] });
         }
+    }
+    
+    private void checkBlockForShadow(){
+    	Vec3d vecd1, vecd2, norm1, normBase = new Vec3d(0,0,0);
+    	int i1 = 0, i2 = 0;
+    	if (Math.abs(this.quadList[0].vertexPositions[0].vector3D.yCoord - this.quadList[0].vertexPositions[3].vector3D.yCoord) < NORM_PREC){
+    		i1 = 2;
+    		i2 = 3;
+    		normBase = new Vec3d(0,1,0);
+    	}
+    	else if (Math.abs(this.quadList[0].vertexPositions[0].vector3D.zCoord - this.quadList[0].vertexPositions[1].vector3D.zCoord) < NORM_PREC){
+    		i1 = 4;
+    		i2 = 5;
+    		normBase = new Vec3d(0,0,1);
+    	}
+    	else if (Math.abs(this.quadList[2].vertexPositions[0].vector3D.xCoord - this.quadList[2].vertexPositions[1].vector3D.xCoord) < NORM_PREC){
+    		i1 = 1;
+    		normBase = new Vec3d(1,0,0);
+    	}
+    	if (i1 != i2){
+    		vecd1 = this.quadList[i1].vertexPositions[1].vector3D.subtract(this.quadList[i1].vertexPositions[0].vector3D);
+			vecd2 = this.quadList[i1].vertexPositions[1].vector3D.subtract(this.quadList[i1].vertexPositions[2].vector3D);
+			norm1 = vecd2.crossProduct(vecd1).normalize();
+			norm1 = norm1.subtract(normBase);
+    		if (Math.abs(norm1.xCoord) < NORM_PREC && Math.abs(norm1.yCoord)< NORM_PREC && Math.abs(norm1.zCoord)< NORM_PREC){
+    			this.quadList[i1].flipFace();
+    			this.quadList[i2].flipFace();
+    		}
+    	}
     }
 
     /**

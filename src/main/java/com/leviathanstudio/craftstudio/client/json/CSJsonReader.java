@@ -124,7 +124,7 @@ public class CSJsonReader
      */
     private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block, Vector3f parentOffset)
     {
-        final int[] vertexOrderConvert = new int[] { 3, 2, 1, 0, 6, 7, 4, 5 };
+    	final int[] vertexOrderConvert = new int[] {6, 7, 4, 5, 3, 2, 1, 0};
         JsonObject jsonChild;
         CSReadedModelBlock child;
 
@@ -161,8 +161,8 @@ public class CSJsonReader
             {
                 vertexArray = array.get(vertexOrderConvert[i]).getAsJsonArray();
                 block.vertex[i][0] = vertexArray.get(0).getAsFloat() + pivotOffsetX;
-                block.vertex[i][1] = vertexArray.get(1).getAsFloat() - pivotOffsetY;
-                block.vertex[i][2] = vertexArray.get(2).getAsFloat() - pivotOffsetZ;
+                block.vertex[i][1] = -vertexArray.get(1).getAsFloat() - pivotOffsetY;
+                block.vertex[i][2] = -vertexArray.get(2).getAsFloat() - pivotOffsetZ;
             }
         }
         else
