@@ -16,6 +16,8 @@ public class CommonProxy
                 "Fly");
     	CraftStudioApi.registerAnim(new ResourceLocation("testmod", "craftstudio/animations/idle.csjsmodelanim"),
                 "Idle");
+    	CraftStudioApi.registerAnim(new ResourceLocation("testmod", "craftstudio/animations/closefan.csjsmodelanim"),
+                "closefan");
     }
 
     public void init()

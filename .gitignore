@@ -173,3 +173,8 @@ fabric.properties
 ### Other ###
 run
 # src/main/java/core/lib/*
+src/mod/resources/assets/testmod/textures/entity/peacock\.png
+
+src/mod/resources/assets/testmod/craftstudio/models/peacock\.csjsmodel
+
+src/mod/resources/assets/testmod/craftstudio/animations/closefan\.csjsmodelanim

@@ -124,7 +124,7 @@ public class CSJsonReader
      */
     private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block, Vector3f parentOffset)
     {
-    	final int[] vertexOrderConvert = new int[] {6, 7, 4, 5, 3, 2, 1, 0};
+    	final int[] vertexOrderConvert = new int[] {3, 2, 1, 0, 6, 7, 4, 5};
         JsonObject jsonChild;
         CSReadedModelBlock child;
 
@@ -166,15 +166,16 @@ public class CSJsonReader
             }
         }
         else
-            block.boxSetup = new Vector3f(-sizeX / 2 + pivotOffsetX, -sizeY / 2 - pivotOffsetY,
-                    -sizeZ / 2 - pivotOffsetZ);
+            block.boxSetup = new Vector3f(-sizeX / 2 + pivotOffsetX, sizeY / 2 - pivotOffsetY,
+                    sizeZ / 2 - pivotOffsetZ);
+        
         if (parentOffset == null)
             block.rotationPoint = new Vector3f(posX, -posY + 24, -posZ);
         else
             block.rotationPoint = new Vector3f(posX + parentOffset.x, -posY + parentOffset.y, -posZ + parentOffset.z);
         block.rotation = new Vector3f(rotationX, -rotationY, -rotationZ);
-
-        block.size = new Vector3f(sizeX, sizeY, sizeZ);
+        
+        block.size = new Vector3f(sizeX, -sizeY, -sizeZ);
 
         array = jsonBlock.getAsJsonArray("texOffset");
         block.texOffset[0] = array.get(0).getAsInt();

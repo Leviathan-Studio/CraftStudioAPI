@@ -189,32 +189,22 @@ public class CSModelBox
     }
     
     private void checkBlockForShadow(){
-    	Vec3d vecd1, vecd2, norm1, normBase = new Vec3d(0,0,0);
-    	int i1 = 0, i2 = 0;
-    	if (Math.abs(this.quadList[0].vertexPositions[0].vector3D.yCoord - this.quadList[0].vertexPositions[3].vector3D.yCoord) < NORM_PREC){
-    		i1 = 2;
-    		i2 = 3;
-    		normBase = new Vec3d(0,1,0);
-    	}
-    	else if (Math.abs(this.quadList[0].vertexPositions[0].vector3D.zCoord - this.quadList[0].vertexPositions[1].vector3D.zCoord) < NORM_PREC){
-    		i1 = 4;
-    		i2 = 5;
-    		normBase = new Vec3d(0,0,1);
-    	}
-    	else if (Math.abs(this.quadList[2].vertexPositions[0].vector3D.xCoord - this.quadList[2].vertexPositions[1].vector3D.xCoord) < NORM_PREC){
-    		i1 = 1;
-    		normBase = new Vec3d(1,0,0);
-    	}
-    	if (i1 != i2){
-    		vecd1 = this.quadList[i1].vertexPositions[1].vector3D.subtract(this.quadList[i1].vertexPositions[0].vector3D);
-			vecd2 = this.quadList[i1].vertexPositions[1].vector3D.subtract(this.quadList[i1].vertexPositions[2].vector3D);
-			norm1 = vecd2.crossProduct(vecd1).normalize();
-			norm1 = norm1.subtract(normBase);
-    		if (Math.abs(norm1.xCoord) < NORM_PREC && Math.abs(norm1.yCoord)< NORM_PREC && Math.abs(norm1.zCoord)< NORM_PREC){
-    			this.quadList[i1].flipFace();
-    			this.quadList[i2].flipFace();
-    		}
-    	}
+    	Vec3d or = this.quadList[1].vertexPositions[0].vector3D;
+    	double x = this.quadList[0].vertexPositions[1].vector3D.xCoord,
+    			y = this.quadList[1].vertexPositions[3].vector3D.yCoord,
+    			z = this.quadList[1].vertexPositions[1].vector3D.zCoord;
+    	TexturedQuad buffer;
+    	if (x - or.xCoord < 0)
+    		this.flipFaces();
+    	if (y - or.yCoord > 0)
+    		this.flipFaces();
+    	if (z - or.zCoord > 0)
+    		this.flipFaces();
+    }
+    
+    private void flipFaces(){
+    	for (int i = 0; i < this.quadList.length; i++)
+    		this.quadList[i].flipFace();
     }
 
     /**
@@ -317,14 +307,16 @@ public class CSModelBox
      */
     public static int[][] getTextureUVsForRect(int texU, int texV, float dx, float dy, float dz)
     {
-        int[][] tab = new int[][] {
-                { (int) (texU + dz + dx), (int) (texV + dz), (int) (texU + dz + dx + dz), (int) (texV + dz + dy) },
-                { texU, (int) (texV + dz), (int) (texU + dz), (int) (texV + dz + dy) },
-                { (int) (texU + dz), texV, (int) (texU + dz + dx), (int) (texV + dz) },
-                { (int) (texU + dz + dx), (int) (texV + dz), (int) (texU + dz + dx + dx), texV },
-                { (int) (texU + dz), (int) (texV + dz), (int) (texU + dz + dx), (int) (texV + dz + dy) },
-                { (int) (texU + dz + dx + dz), (int) (texV + dz), (int) (texU + dz + dx + dz + dx),
-                        (int) (texV + dz + dy) } };
+    	dy = -dy;
+    	dz = -dz;
+    	int[][] tab = new int[][] {
+            {(int) (texU + dz + dx + dz), (int) (texV + dz + dy), (int) (texU + dz + dx), (int) (texV + dz)},
+            {(int) (texU + dz), (int) (texV + dz + dy), texU, (int) (texV + dz)},
+            {(int) (texU + dz + dx), texV, (int) (texU + dz + dx + dx), (int) (texV + dz)},
+            {(int) (texU + dz), texV, (int) (texU + dz + dx), (int) (texV + dz)},
+            {(int) (texU + dz + dx + dz + dx), (int) (texV + dz + dy), (int) (texU + dz + dx + dz), (int) (texV + dz)},
+            {(int) (texU + dz + dx), (int) (texV + dz + dy), (int) (texU + dz), (int) (texV + dz)}
+            };
         return tab;
     }
 
