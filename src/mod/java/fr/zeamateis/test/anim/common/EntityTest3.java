@@ -7,11 +7,11 @@ import fr.zeamateis.test.anim.common.animations.AnimationHandlerTest;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.world.World;
 
-public class EntityTest extends EntityCreature implements IAnimated
+public class EntityTest3  extends EntityCreature implements IAnimated
 {
     protected AnimationHandler animHandler;
 
-    public EntityTest(World par1World)
+    public EntityTest3(World par1World)
     {
         super(par1World);
     }
@@ -45,5 +45,4 @@ public class EntityTest extends EntityCreature implements IAnimated
 //        if (!this.getAnimationHandler().isAnimationActive("closefan"))
 //            this.getAnimationHandler().executeAnimation("closefan", 0);
     }
-
 }

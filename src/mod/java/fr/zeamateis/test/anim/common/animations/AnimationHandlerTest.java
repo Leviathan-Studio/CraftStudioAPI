@@ -27,8 +27,7 @@ public class AnimationHandlerTest extends AnimationHandler
 	public AnimationHandlerTest(IAnimated entity)
     {
         super(entity);
-        AnimationHandlerTest.animChannels.put("Idle", new CSAnimChannel("Idle", "Dragon_Brun", 60.0F, true));
-        AnimationHandlerTest.animChannels.put("Fly", new CSAnimChannel("Fly", "Dragon_Brun", 60.0F, true));
+        AnimationHandlerTest.animChannels.put("closefan", new CSAnimChannel("closefan", "peacock", 60.0F, true));
     }
 
     @Override

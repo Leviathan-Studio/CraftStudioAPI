@@ -4,6 +4,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.PositionTextureVertex;
 import net.minecraft.client.model.TexturedQuad;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 /**
@@ -19,6 +20,8 @@ public class CSModelBox
 
     /** The box name. **/
     public String                boxName;
+    
+    private final static double NORM_PREC = 0.0001;
 
     /**
      * Create a textured rectangular box without textures mirror precision.
@@ -118,6 +121,7 @@ public class CSModelBox
     {
         this(positionTextureVertex);
         this.setTexture(renderer, textUVs);
+        this.checkBlockForShadow();
         if (mirror)
             for (TexturedQuad texturedquad : this.quadList)
                 texturedquad.flipFace();
@@ -182,6 +186,25 @@ public class CSModelBox
             this.quadList[5] = new TexturedQuad(new PositionTextureVertex[] { positionTextureVertex[4],
                     positionTextureVertex[5], positionTextureVertex[6], positionTextureVertex[7] });
         }
+    }
+    
+    private void checkBlockForShadow(){
+    	Vec3d or = this.quadList[1].vertexPositions[0].vector3D;
+    	double x = this.quadList[0].vertexPositions[1].vector3D.xCoord,
+    			y = this.quadList[1].vertexPositions[3].vector3D.yCoord,
+    			z = this.quadList[1].vertexPositions[1].vector3D.zCoord;
+    	TexturedQuad buffer;
+    	if (x - or.xCoord < 0)
+    		this.flipFaces();
+    	if (y - or.yCoord > 0)
+    		this.flipFaces();
+    	if (z - or.zCoord > 0)
+    		this.flipFaces();
+    }
+    
+    private void flipFaces(){
+    	for (int i = 0; i < this.quadList.length; i++)
+    		this.quadList[i].flipFace();
     }
 
     /**
@@ -284,14 +307,16 @@ public class CSModelBox
      */
     public static int[][] getTextureUVsForRect(int texU, int texV, float dx, float dy, float dz)
     {
-        int[][] tab = new int[][] {
-                { (int) (texU + dz + dx), (int) (texV + dz), (int) (texU + dz + dx + dz), (int) (texV + dz + dy) },
-                { texU, (int) (texV + dz), (int) (texU + dz), (int) (texV + dz + dy) },
-                { (int) (texU + dz), texV, (int) (texU + dz + dx), (int) (texV + dz) },
-                { (int) (texU + dz + dx), (int) (texV + dz), (int) (texU + dz + dx + dx), texV },
-                { (int) (texU + dz), (int) (texV + dz), (int) (texU + dz + dx), (int) (texV + dz + dy) },
-                { (int) (texU + dz + dx + dz), (int) (texV + dz), (int) (texU + dz + dx + dz + dx),
-                        (int) (texV + dz + dy) } };
+    	dy = -dy;
+    	dz = -dz;
+    	int[][] tab = new int[][] {
+            {(int) (texU + dz + dx + dz), (int) (texV + dz + dy), (int) (texU + dz + dx), (int) (texV + dz)},
+            {(int) (texU + dz), (int) (texV + dz + dy), texU, (int) (texV + dz)},
+            {(int) (texU + dz + dx), texV, (int) (texU + dz + dx + dx), (int) (texV + dz)},
+            {(int) (texU + dz), texV, (int) (texU + dz + dx), (int) (texV + dz)},
+            {(int) (texU + dz + dx + dz + dx), (int) (texV + dz + dy), (int) (texU + dz + dx + dz), (int) (texV + dz)},
+            {(int) (texU + dz + dx), (int) (texV + dz + dy), (int) (texU + dz), (int) (texV + dz)}
+            };
         return tab;
     }
 
