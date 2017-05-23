@@ -332,8 +332,8 @@ public abstract class AnimationHandler
                         && !(nextTranslationsKeyFramePosition == 0))
                 {
                     final Vector3f startPosition = box.getPositionAsVector();
-                    final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
-                            .add(defaultPos);
+                    final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
+                            //.add(defaultPos);
                     final Vector3f currentPosition = new Vector3f(startPosition);
                     currentPosition.interpolate(endPosition, LERPProgress);
 
@@ -344,21 +344,22 @@ public abstract class AnimationHandler
                 else if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame != null
                         && !(nextTranslationsKeyFramePosition == 0))
                 {
-                    final Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
-                            .add(defaultPos);
-                    final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
-                            .add(defaultPos);
+                    final Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName);
+                            //.add(defaultPos);
+                    final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
+                            //.add(defaultPos);
                     final Vector3f currentPosition = new Vector3f(startPosition);
                     currentPosition.interpolate(endPosition, LERPProgress);
 
                     box.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
+                    anyTranslationApplied = true;
                 }
                 else if (!(prevTranslationsKeyFramePosition == 0) && !(nextTranslationsKeyFramePosition == 0))
                 {
-                    final Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
-                            .add(defaultPos);
-                    final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName)// ;
-                            .add(defaultPos);
+                    final Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName);
+                            //.add(defaultPos);
+                    final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
+                            //.add(defaultPos);
                     final Vector3f currentPosition = new Vector3f(startPosition);
                     currentPosition.interpolate(endPosition, LERPProgress);
 
