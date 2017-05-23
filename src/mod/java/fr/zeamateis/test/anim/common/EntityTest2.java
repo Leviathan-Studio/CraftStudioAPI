@@ -42,7 +42,7 @@ public class EntityTest2 extends EntityCreature implements IAnimated
     {
         super.onLivingUpdate();
         // Activate the animation in ticking method
-//        if (!this.getAnimationHandler().isAnimationActive("closefan"))
-//            this.getAnimationHandler().executeAnimation("closefan", 0);
+        if (!this.getAnimationHandler().isAnimationActive("closefan"))
+            this.getAnimationHandler().executeAnimation("closefan", 0);
     }
 }

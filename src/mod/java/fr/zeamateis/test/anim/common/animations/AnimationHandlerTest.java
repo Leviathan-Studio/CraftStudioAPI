@@ -28,6 +28,10 @@ public class AnimationHandlerTest extends AnimationHandler
     {
         super(entity);
         AnimationHandlerTest.animChannels.put("closefan", new CSAnimChannel("closefan", "peacock", 60.0F, true));
+        AnimationHandlerTest.animChannels.put("Fly", new CSAnimChannel("Fly", "Dragon_Brun", 60.0F, true));
+        AnimationHandlerTest.animChannels.put("Idle", new CSAnimChannel("Idle", "Dragon_Brun", 60.0F, true));
+        AnimationHandlerTest.animChannels.put("Position", new CSAnimChannel("Position", "CraftStudioAPITest", 60.0F, true));
+        AnimationHandlerTest.animChannels.put("Rotation", new CSAnimChannel("Rotation", "CraftStudioAPITest2", 60.0F, true));
     }
 
     @Override
