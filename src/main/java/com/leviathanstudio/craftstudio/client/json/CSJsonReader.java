@@ -11,7 +11,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.leviathanstudio.craftstudio.client.CraftStudioModelNotFound;
 import com.leviathanstudio.craftstudio.common.animation.CraftStudioResourceNotFound;
 import com.leviathanstudio.craftstudio.common.math.Vector3f;
 
