@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 
 public class EntityTest2 extends EntityCreature implements IAnimated {
 	protected AnimationHandler animHandler;
+	protected boolean fanOpen = true;
 
 	public EntityTest2(World par1World) {
 		super(par1World);
@@ -36,8 +37,17 @@ public class EntityTest2 extends EntityCreature implements IAnimated {
 	
 	@Override
 	public boolean processInteract(EntityPlayer player, EnumHand hand){
-		if (!this.getAnimationHandler().isAnimationActive("close_fan"))
-			this.getAnimationHandler().executeAnimation("close_fan", 0);
+		if (!this.getAnimationHandler().isAnimationActive("close_fan") && !this.getAnimationHandler().isAnimationActive("open_fan")){
+			if (this.fanOpen){
+				this.getAnimationHandler().executeAnimation("close_fan", 0);
+				this.fanOpen = false;
+			}
+			else {
+				this.getAnimationHandler().executeAnimation("open_fan", 0);
+				this.fanOpen = true;
+			}
+		}
+		
 		return true;
 	}
 

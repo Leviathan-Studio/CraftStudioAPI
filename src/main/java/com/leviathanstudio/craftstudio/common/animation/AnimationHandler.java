@@ -57,10 +57,10 @@ public abstract class AnimationHandler {
 				this.animCurrentChannels.remove(indexToRemove);
 
 			this.animCurrentChannels.add(selectedChannel);
-			this.animPrevTime.put(name, System.nanoTime());
-			this.animCurrentFrame.put(name, startingFrame);
-			if (this.animationEvents.get(name) == null)
-				this.animationEvents.put(name, new ArrayList<String>());
+			this.animPrevTime.put(selectedChannel.name, System.nanoTime());
+			this.animCurrentFrame.put(selectedChannel.name, startingFrame);
+			if (this.animationEvents.get(selectedChannel.name) == null)
+				this.animationEvents.put(selectedChannel.name, new ArrayList<String>());
 		} else
 			CraftStudioApi.getLogger().warn("The animation called " + name + " doesn't exist!");
 	}
