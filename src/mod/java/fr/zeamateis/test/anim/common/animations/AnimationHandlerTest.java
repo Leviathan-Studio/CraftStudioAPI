@@ -8,52 +8,40 @@ import com.leviathanstudio.craftstudio.common.animation.CSAnimChannel;
 import com.leviathanstudio.craftstudio.common.animation.Channel;
 
 /**
- * The Animation handler class to register all animations you want in static
- * method
+ * The Animation handler class to register all animations you want
  */
-public class AnimationHandlerTest extends AnimationHandler
-{
-    /** Map with all the animations. */
-    public static HashMap<String, Channel> animChannels = new HashMap<>();
-    
-    /** Register the animation(s) */
-    static
-    {
-//        AnimationHandlerTest.animChannels.put("block", new ChannelBlockAnimation("block", 30.0F));
-//        AnimationHandlerTest.animChannels.put("idle", new ChannelIdleAnimation("idle", 30.0F));
-    	
-    }
-	
-	public AnimationHandlerTest(IAnimated entity)
-    {
-        super(entity);
-        AnimationHandlerTest.animChannels.put("closefan", new CSAnimChannel("closefan", "peacock", 60.0F, true));
-        AnimationHandlerTest.animChannels.put("Fly", new CSAnimChannel("Fly", "Dragon_Brun", 60.0F, true));
-        AnimationHandlerTest.animChannels.put("Idle", new CSAnimChannel("Idle", "Dragon_Brun", 60.0F, true));
-        AnimationHandlerTest.animChannels.put("Position", new CSAnimChannel("Position", "CraftStudioAPITest", 60.0F, true));
-        AnimationHandlerTest.animChannels.put("Rotation", new CSAnimChannel("Rotation", "CraftStudioAPITest2", 60.0F, true));
-    }
+public class AnimationHandlerTest extends AnimationHandler {
+	/** Map with all the animations. */
+	public static HashMap<String, Channel> animChannels = new HashMap<>();
 
-    @Override
-    public void executeAnimation(String name, float startingFrame)
-    {
-    	super.executeAnimation(AnimationHandlerTest.animChannels, name, startingFrame);
-    }
+	/** Register the animation(s) */
+	public AnimationHandlerTest(IAnimated entity) {
+		super(entity);
+		AnimationHandlerTest.animChannels.put("close_fan", new CSAnimChannel("close_fan", "peacock", 60.0F, false));
+		AnimationHandlerTest.animChannels.put("fly", new CSAnimChannel("fly", "dragon_brun", 60.0F, true));
+		AnimationHandlerTest.animChannels.put("idle", new CSAnimChannel("idle", "dragon_brun", 60.0F, true));
+		AnimationHandlerTest.animChannels.put("position",
+				new CSAnimChannel("position", "craftstudio_api_test", 60.0F, true));
+		AnimationHandlerTest.animChannels.put("rotation",
+				new CSAnimChannel("rotation", "craftstudio_api_test2", 60.0F, true));
+	}
 
-    @Override
-    public void stopAnimation(String name)
-    {
-        super.stopAnimation(AnimationHandlerTest.animChannels, name);
-    }
+	@Override
+	public void executeAnimation(String name, float startingFrame) {
+		super.executeAnimation(AnimationHandlerTest.animChannels, name, startingFrame);
+	}
 
-    @Override
-    public void fireAnimationEventClientSide(Channel anim, float prevFrame, float frame)
-    {
-    }
+	@Override
+	public void stopAnimation(String name) {
+		super.stopAnimation(AnimationHandlerTest.animChannels, name);
+	}
 
-    @Override
-    public void fireAnimationEventServerSide(Channel anim, float prevFrame, float frame)
-    {
-    }
+	@Override
+	public void fireAnimationEventClientSide(Channel anim, float prevFrame, float frame) {
+	}
+
+	@Override
+	public void fireAnimationEventServerSide(Channel anim, float prevFrame, float frame) {
+	}
 
 }

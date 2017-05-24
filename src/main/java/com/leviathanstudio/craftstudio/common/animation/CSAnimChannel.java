@@ -13,32 +13,44 @@ import com.leviathanstudio.craftstudio.common.math.Quaternion;
 
 /**
  * Animation Channel for CraftStudio imported animation.
+ *
  * @author Timmypote
  */
 public class CSAnimChannel extends Channel {
 	private CSReadedAnim rAnim;
 	private CSReadedModel rModel;
-	
+
 	/**
 	 * Create a channel with the same name as the animation.
-	 * @param animNameIn The name of the animation in the registry.
-	 * @param modelNameIn The name of the model bind to this animation in the registry.
-	 * @param fps Keyframes per second of the animation.
-	 * @param looped If the animation is looped or not.
+	 *
+	 * @param animNameIn
+	 *            The name of the animation in the registry.
+	 * @param modelNameIn
+	 *            The name of the model bind to this animation in the registry.
+	 * @param fps
+	 *            Keyframes per second of the animation.
+	 * @param looped
+	 *            If the animation is looped or not.
 	 */
-	public CSAnimChannel(String animNameIn, String modelNameIn, float fps, boolean looped){
+	public CSAnimChannel(String animNameIn, String modelNameIn, float fps, boolean looped) {
 		this(animNameIn, animNameIn, modelNameIn, fps, looped);
 	}
-	
+
 	/**
 	 * Create a channel.
-	 * @param animNameIn The name of the animation in the registry.
-	 * @param name The name of the channel
-	 * @param modelNameIn The name of the model bind to this animation in the registry.
-	 * @param fps Keyframes per second of the animation.
-	 * @param looped If the animation is looped or not.
+	 *
+	 * @param animNameIn
+	 *            The name of the animation in the registry.
+	 * @param name
+	 *            The name of the channel
+	 * @param modelNameIn
+	 *            The name of the model bind to this animation in the registry.
+	 * @param fps
+	 *            Keyframes per second of the animation.
+	 * @param looped
+	 *            If the animation is looped or not.
 	 */
-	public CSAnimChannel(String animNameIn, String name, String modelNameIn, float fps, boolean looped){
+	public CSAnimChannel(String animNameIn, String name, String modelNameIn, float fps, boolean looped) {
 		super(name, false);
 		this.rAnim = CSAnimMesher.animations.get(animNameIn);
 		this.rModel = CSModelMesher.models.get(modelNameIn);
@@ -48,55 +60,58 @@ public class CSAnimChannel extends Channel {
 			this.animationMode = EnumAnimationMode.LOOP;
 		this.initializeAllFrames();
 	}
-	
+
 	/**
 	 * Initialize the keyframes.
 	 */
 	@Override
-	protected void initializeAllFrames(){
+	protected void initializeAllFrames() {
 		KeyFrame keyFrame;
 		ReadedKeyFrame rKeyFrame;
 		int lastRK, lastTK;
-		for (int i: this.rAnim.getKeyFrames()){
+		for (int i : this.rAnim.getKeyFrames())
 			this.keyFrames.put(i, new KeyFrame());
-		}
-		if(this.rAnim.holdLastK)
+		if (this.rAnim.holdLastK)
 			if (!this.keyFrames.containsKey(this.totalFrames))
 				this.keyFrames.put(this.totalFrames, new KeyFrame());
-		for (CSReadedAnimBlock block : this.rAnim.blocks){
+		for (CSReadedAnimBlock block : this.rAnim.blocks) {
 			CSReadedModelBlock mBlock = this.rModel.getBlockFromName(block.name);
 			lastRK = 0;
 			lastTK = 0;
 			if (mBlock != null)
-				for (Entry<Integer, ReadedKeyFrame> entry : block.keyFrames.entrySet()){
+				for (Entry<Integer, ReadedKeyFrame> entry : block.keyFrames.entrySet()) {
 					keyFrame = this.keyFrames.get(entry.getKey());
 					rKeyFrame = entry.getValue();
-					if (rKeyFrame.position != null){
-						keyFrame.modelRenderersTranslations.put(block.name, rKeyFrame.position.add(mBlock.rotationPoint));
+					if (rKeyFrame.position != null) {
+						keyFrame.modelRenderersTranslations.put(block.name,
+								rKeyFrame.position.add(mBlock.rotationPoint));
 						if (lastTK < entry.getKey())
 							lastTK = entry.getKey();
 					}
-					if (rKeyFrame.rotation != null){
-						keyFrame.modelRenderersRotations.put(block.name, new Quaternion(rKeyFrame.rotation.add(mBlock.rotation)));
+					if (rKeyFrame.rotation != null) {
+						keyFrame.modelRenderersRotations.put(block.name,
+								new Quaternion(rKeyFrame.rotation.add(mBlock.rotation)));
 						if (lastRK < entry.getKey())
 							lastRK = entry.getKey();
 					}
 				}
 			else
 				System.out.println("The block " + block.name + " doesn't exist in model " + this.rModel.name + " !");
-			if(this.rAnim.holdLastK){
+			if (this.rAnim.holdLastK) {
 				if (lastTK != 0)
-					this.keyFrames.get(this.totalFrames).modelRenderersTranslations.put(block.name, this.keyFrames.get(lastTK).modelRenderersTranslations.get(block.name));
+					this.keyFrames.get(this.totalFrames).modelRenderersTranslations.put(block.name,
+							this.keyFrames.get(lastTK).modelRenderersTranslations.get(block.name));
 				if (lastRK != 0)
-					this.keyFrames.get(this.totalFrames).modelRenderersRotations.put(block.name, this.keyFrames.get(lastRK).modelRenderersRotations.get(block.name));
+					this.keyFrames.get(this.totalFrames).modelRenderersRotations.put(block.name,
+							this.keyFrames.get(lastRK).modelRenderersRotations.get(block.name));
 			}
-			
+
 		}
-		//Not Accurate for holdLastK = true
-		
-		if(!this.rAnim.holdLastK)
+		// Not Accurate for holdLastK = true
+
+		if (!this.rAnim.holdLastK)
 			if (!this.keyFrames.containsKey(this.totalFrames))
 				this.keyFrames.put(this.totalFrames, this.keyFrames.get(0).clone());
-		
+
 	}
 }
