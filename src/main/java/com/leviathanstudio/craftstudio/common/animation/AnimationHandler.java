@@ -331,10 +331,10 @@ public abstract class AnimationHandler {
 				((CustomChannel) channel).update(block, entity);
 			}
 
-		if (!anyRotationApplied && !anyCustomAnimationRunning)
-			box.resetRotationMatrix();
-		if (!anyTranslationApplied && !anyCustomAnimationRunning)
-			box.resetRotationPoint();
+//		if (!anyRotationApplied && !anyCustomAnimationRunning)
+//			box.resetRotationMatrix();
+//		if (!anyTranslationApplied && !anyCustomAnimationRunning)
+//			box.resetRotationPoint();
 
 	}
 

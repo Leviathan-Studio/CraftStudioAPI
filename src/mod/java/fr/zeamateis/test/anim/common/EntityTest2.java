@@ -5,6 +5,8 @@ import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 
 import fr.zeamateis.test.anim.common.animations.AnimationHandlerTest;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 public class EntityTest2 extends EntityCreature implements IAnimated {
@@ -31,12 +33,19 @@ public class EntityTest2 extends EntityCreature implements IAnimated {
 	public void onUpdate() {
 		super.onUpdate();
 	}
+	
+	@Override
+	public boolean processInteract(EntityPlayer player, EnumHand hand){
+		if (!this.getAnimationHandler().isAnimationActive("close_fan"))
+			this.getAnimationHandler().executeAnimation("close_fan", 0);
+		return true;
+	}
 
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 		// Activate the animation in ticking method
-		if (!this.getAnimationHandler().isAnimationActive("close_fan"))
-			this.getAnimationHandler().executeAnimation("close_fan", 0);
+//		if (!this.getAnimationHandler().isAnimationActive("close_fan"))
+//			this.getAnimationHandler().executeAnimation("close_fan", 0);
 	}
 }
