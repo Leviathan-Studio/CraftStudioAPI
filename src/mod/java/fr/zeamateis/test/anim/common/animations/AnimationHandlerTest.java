@@ -18,7 +18,7 @@ public class AnimationHandlerTest extends AnimationHandler {
 	public AnimationHandlerTest(IAnimated entity) {
 		super(entity);
 		AnimationHandlerTest.animChannels.put("close_fan", new CSAnimChannel("close_fan", "peacock", 60.0F, false));
-		AnimationHandlerTest.animChannels.put("open_fan", this.animChannels.get("close_fan").getInvertedChannel());
+		AnimationHandlerTest.animChannels.put("open_fan", this.animChannels.get("close_fan").getInvertedChannel("open_fan"));
 		AnimationHandlerTest.animChannels.put("fly", new CSAnimChannel("fly", "dragon_brun", 60.0F, true));
 		AnimationHandlerTest.animChannels.put("idle", new CSAnimChannel("idle", "dragon_brun", 60.0F, true));
 		AnimationHandlerTest.animChannels.put("position",

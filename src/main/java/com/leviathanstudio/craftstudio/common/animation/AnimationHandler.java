@@ -103,9 +103,11 @@ public abstract class AnimationHandler {
 	public boolean isAnimationActive(String name) {
 		boolean animAlreadyUsed = false;
 		for (final Channel anim : this.animatedEntity.getAnimationHandler().animCurrentChannels)
-			if (anim.name.equals(name) && anim.name != null) {
-				animAlreadyUsed = true;
-				break;
+			if (anim.name != null){
+				if (anim.name.equals(name)){
+					animAlreadyUsed = true;
+					break;
+				}
 			} else {
 				CraftStudioApi.getLogger().catching(new Exception(String.format("Animation %s doesn't exist !", name)));
 				break;

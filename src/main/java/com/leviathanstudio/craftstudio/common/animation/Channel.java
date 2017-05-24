@@ -142,8 +142,8 @@ public class Channel {
 		return false;
 	}
 	
-	public Channel getInvertedChannel(){
-		Channel chan = new Channel("reverted_" + this.name, this.fps, this.totalFrames, this.animationMode, true);
+	public Channel getInvertedChannel(String name){
+		Channel chan = new Channel(name, this.fps, this.totalFrames, this.animationMode, true);
 		for (Entry<Integer, KeyFrame> entry: this.keyFrames.entrySet())
 			chan.keyFrames.put(this.totalFrames - entry.getKey(), entry.getValue().clone());
 		return chan;
