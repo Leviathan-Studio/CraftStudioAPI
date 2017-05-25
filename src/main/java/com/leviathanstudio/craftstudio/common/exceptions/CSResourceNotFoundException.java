@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.common.animation;
+package com.leviathanstudio.craftstudio.common.exceptions;
 
 import java.io.FileNotFoundException;
 
@@ -11,10 +11,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author Phenix246
  */
 @SideOnly(Side.CLIENT)
-public class CraftStudioResourceNotFound extends FileNotFoundException {
+public class CSResourceNotFoundException extends FileNotFoundException {
 	private static final long serialVersionUID = -3495512420502088386L;
 
-	public CraftStudioResourceNotFound(String resourceIn) {
+	public CSResourceNotFoundException(String resourceIn) {
 		super("Resource not found: " + resourceIn);
 	}
 }

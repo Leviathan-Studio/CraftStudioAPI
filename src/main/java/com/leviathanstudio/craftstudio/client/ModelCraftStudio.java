@@ -7,6 +7,7 @@ import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
 import com.leviathanstudio.craftstudio.common.IAnimated;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
+import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotRegisteredException;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -17,12 +18,14 @@ import net.minecraft.tileentity.TileEntity;
 public class ModelCraftStudio extends ModelBase {
 	private List<CSModelRenderer> parentBlocks = new ArrayList<>();
 
-	public ModelCraftStudio(String modelNameIn, int textureWidth, int textureHeight) {
+	public ModelCraftStudio(String modelNameIn, int textureWidth, int textureHeight) throws CSResourceNotRegisteredException {
 
 		this.textureWidth = textureWidth;
 		this.textureHeight = textureHeight;
 
 		CSReadedModel rModel = CSModelMesher.models.get(modelNameIn);
+		if (rModel == null)
+			throw new CSResourceNotRegisteredException(modelNameIn);
 		CSModelRenderer modelRend;
 
 		for (CSReadedModelBlock rBlock : rModel.parents) {
@@ -32,7 +35,7 @@ public class ModelCraftStudio extends ModelBase {
 		}
 	}
 
-	public ModelCraftStudio(String modelNameIn, int textureSize) {
+	public ModelCraftStudio(String modelNameIn, int textureSize) throws CSResourceNotRegisteredException {
 		this(modelNameIn, textureSize, textureSize);
 	}
 
