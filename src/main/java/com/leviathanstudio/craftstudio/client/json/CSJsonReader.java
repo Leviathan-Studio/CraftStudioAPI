@@ -11,7 +11,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.leviathanstudio.craftstudio.common.animation.CraftStudioResourceNotFound;
+import com.leviathanstudio.craftstudio.CraftStudioApi;
+import com.leviathanstudio.craftstudio.common.exceptions.CSMalformedJsonException;
+import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotFoundException;
 import com.leviathanstudio.craftstudio.common.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
@@ -31,7 +33,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class CSJsonReader {
 	JsonObject root;
-	String modid;
+	String modid, ress;
 
 	/**
 	 * Create a {@link CSJsonReader} link to the resource.
@@ -45,12 +47,13 @@ public class CSJsonReader {
 	 * @see #readModel()
 	 * @see #readAnim()
 	 */
-	public CSJsonReader(ResourceLocation resourceIn) throws CraftStudioResourceNotFound {
+	public CSJsonReader(ResourceLocation resourceIn) throws CSResourceNotFoundException {
 		JsonParser jsonParser = new JsonParser();
 		BufferedReader reader = null;
 		IResource iResource = null;
 		StringBuilder strBuilder = new StringBuilder();
-
+		this.ress = resourceIn.toString();
+		
 		try {
 			iResource = Minecraft.getMinecraft().getResourceManager().getResource(resourceIn);
 			reader = new BufferedReader(new InputStreamReader(iResource.getInputStream(), Charsets.UTF_8));
@@ -61,7 +64,7 @@ public class CSJsonReader {
 			this.root = (JsonObject) object;
 			this.modid = iResource.getResourceLocation().getResourceDomain();
 		} catch (FileNotFoundException fnfe) {
-			throw new CraftStudioResourceNotFound(resourceIn.toString());
+			throw new CSResourceNotFoundException(this.ress);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -81,25 +84,38 @@ public class CSJsonReader {
 	 *
 	 * @return A new {@link CSReadedModel} containing the informations of the
 	 *         file.
+	 * @throws CSMalformedJsonException If the json does match the model structure
 	 */
-	public CSReadedModel readModel() {
+	public CSReadedModel readModel() throws CSMalformedJsonException {
 
 		CSReadedModel model = new CSReadedModel();
 		CSReadedModelBlock parent;
 		JsonObject jsonBlock;
+		JsonElement jsEl;
 
 		model.modid = strNormalize(this.modid);
-		model.name = strNormalize(this.root.get("title").getAsString());
+		jsEl = this.root.get("title");
+		if (jsEl == null)
+			throw new CSMalformedJsonException("title", "String", this.ress);
+		model.name = strNormalize(jsEl.getAsString());
 
 		JsonArray tree = this.root.getAsJsonArray("tree");
+		if (tree == null)
+			throw new CSMalformedJsonException("tree", "Array", this.ress);
 		for (JsonElement element : tree) {
-			jsonBlock = element.getAsJsonObject();
+			if (element.isJsonObject()){
+				jsonBlock = element.getAsJsonObject();
 
-			parent = new CSReadedModelBlock();
-			model.parents.add(parent);
+				parent = new CSReadedModelBlock();
+				model.parents.add(parent);
 
-			readModelBlock(jsonBlock, parent);
-
+				try{
+					readModelBlock(jsonBlock, parent);
+				}catch (NullPointerException | ClassCastException | IllegalStateException e){
+					//e.printStackTrace();
+					throw new CSMalformedJsonException(parent.name != null ? parent.name : "a parent block without name", this.ress);
+				}
+			}
 		}
 		return model;
 	}
@@ -198,23 +214,42 @@ public class CSJsonReader {
 	 *
 	 * @return A new {@link CSReadedAnim} containing the informations of the
 	 *         file.
+	 * @throws CSMalformedJsonException If the json does match the animation structure
 	 */
-	public CSReadedAnim readAnim() {
+	public CSReadedAnim readAnim() throws CSMalformedJsonException {
 
 		CSReadedAnim anim = new CSReadedAnim();
 		CSReadedAnimBlock block;
 		JsonObject jsonBlock;
+		JsonElement jsEl;
 
 		anim.modid = strNormalize(this.modid);
-		anim.name = strNormalize(this.root.get("title").getAsString());
-		anim.duration = this.root.get("duration").getAsInt();
-		anim.holdLastK = this.root.get("holdLastKeyframe").getAsBoolean();
+		jsEl = this.root.get("title");
+		if (jsEl == null)
+			throw new CSMalformedJsonException("title", "String", this.ress);
+		anim.name = strNormalize(jsEl.getAsString());
+		jsEl = this.root.get("duration");
+		if (jsEl == null)
+			throw new CSMalformedJsonException("duration", "Integer", this.ress);
+		anim.duration = jsEl.getAsInt();
+		jsEl = this.root.get("holdLastKeyframe");
+		if (jsEl == null)
+			throw new CSMalformedJsonException("holdLastKeyframe", "Boolean", this.ress);
+		anim.holdLastK = jsEl.getAsBoolean();
 
-		JsonObject nodeAnims = this.root.get("nodeAnimations").getAsJsonObject();
+		jsEl = this.root.get("nodeAnimations");
+		if (jsEl == null)
+			throw new CSMalformedJsonException("nodeAnimations", "Object", this.ress);
+		JsonObject nodeAnims = jsEl.getAsJsonObject();
 		for (Entry<String, JsonElement> entry : nodeAnims.entrySet()) {
 			block = new CSReadedAnimBlock();
 			anim.blocks.add(block);
-			readAnimBlock(entry, block);
+			try{
+				readAnimBlock(entry, block);
+			}catch (Exception e){
+				CraftStudioApi.getLogger().error(e.getMessage());
+				throw new CSMalformedJsonException(block.name != null ? block.name : "a block without name", this.ress);
+			}
 		}
 		return anim;
 	}

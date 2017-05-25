@@ -17,14 +17,14 @@ public class AnimationHandlerTest extends AnimationHandler {
 	/** Register the animation(s) */
 	public AnimationHandlerTest(IAnimated entity) {
 		super(entity);
-		AnimationHandlerTest.animChannels.put("close_fan", new CSAnimChannel("close_fan", "peacock", 60.0F, false));
-		AnimationHandlerTest.animChannels.put("open_fan", this.animChannels.get("close_fan").getInvertedChannel("open_fan"));
-		AnimationHandlerTest.animChannels.put("fly", new CSAnimChannel("fly", "dragon_brun", 60.0F, true));
-		AnimationHandlerTest.animChannels.put("idle", new CSAnimChannel("idle", "dragon_brun", 60.0F, true));
+		AnimationHandlerTest.animChannels.put("close_fan", new CSAnimChannel("close_fan", "peacock", false));
+		AnimationHandlerTest.animChannels.put("open_fan", AnimationHandlerTest.animChannels.get("close_fan").getInvertedChannel("open_fan"));
+		AnimationHandlerTest.animChannels.put("fly", new CSAnimChannel("fly", "dragon_brun", true));
+		AnimationHandlerTest.animChannels.put("idle", new CSAnimChannel("idle", "dragon_brun", true));
 		AnimationHandlerTest.animChannels.put("position",
-				new CSAnimChannel("position", "craftstudio_api_test", 60.0F, true));
+			new CSAnimChannel("position", "craftstudio_api_test", true));
 		AnimationHandlerTest.animChannels.put("rotation",
-				new CSAnimChannel("rotation", "craftstudio_api_test2", 60.0F, true));
+			new CSAnimChannel("rotation", "craftstudio_api_test2", true));
 	}
 
 	@Override
