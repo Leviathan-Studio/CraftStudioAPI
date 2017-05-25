@@ -14,7 +14,7 @@ import com.google.gson.JsonParser;
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.exceptions.CSMalformedJsonException;
 import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotFoundException;
-import com.leviathanstudio.craftstudio.common.math.Vector3f;
+import com.leviathanstudio.craftstudio.util.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
@@ -120,94 +120,94 @@ public class CSJsonReader {
 		return model;
 	}
 
-	/**
-	 * Extract a block (and all its children) from a {@link JsonObject} and
-	 * place it in the {@link CSReadedModelBlock}.
-	 *
-	 * @param jsonBlock
-	 *            The object to read the information.
-	 * @param block
-	 *            The block to place the information.
-	 */
-	private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block) {
-		readModelBlock(jsonBlock, block, null);
-	}
+    /**
+     * Extract a block (and all its children) from a {@link JsonObject} and
+     * place it in the {@link CSReadedModelBlock}.
+     *
+     * @param jsonBlock
+     *            The object to read the information.
+     * @param block
+     *            The block to place the information.
+     */
+    private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block) {
+        readModelBlock(jsonBlock, block, null);
+    }
 
-	/**
-	 * Extract a child block from a {@link JsonObject} and place it in the
-	 * {@link CSReadedModelBlock}.
-	 *
-	 * @param jsonBlock
-	 *            The object to read the information.
-	 * @param block
-	 *            The block to place the information.
-	 * @param parentOffset
-	 *            The offset from pivot of the parent block.
-	 */
-	private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block, Vector3f parentOffset) {
-		final int[] vertexOrderConvert = new int[] { 3, 2, 1, 0, 6, 7, 4, 5 };
-		JsonObject jsonChild;
-		CSReadedModelBlock child;
+    /**
+     * Extract a child block from a {@link JsonObject} and place it in the
+     * {@link CSReadedModelBlock}.
+     *
+     * @param jsonBlock
+     *            The object to read the information.
+     * @param block
+     *            The block to place the information.
+     * @param parentOffset
+     *            The offset from pivot of the parent block.
+     */
+    private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block, Vector3f parentOffset) {
+        final int[] vertexOrderConvert = new int[] { 3, 2, 1, 0, 6, 7, 4, 5 };
+        JsonObject jsonChild;
+        CSReadedModelBlock child;
 
-		block.name = strNormalize(jsonBlock.get("name").getAsString());
+        block.name = strNormalize(jsonBlock.get("name").getAsString());
 
-		JsonArray array = jsonBlock.getAsJsonArray("size"), vertexArray;
-		float sizeX = array.get(0).getAsFloat();
-		float sizeY = array.get(1).getAsFloat();
-		float sizeZ = array.get(2).getAsFloat();
+        JsonArray array = jsonBlock.getAsJsonArray("size"), vertexArray;
+        float sizeX = array.get(0).getAsFloat();
+        float sizeY = array.get(1).getAsFloat();
+        float sizeZ = array.get(2).getAsFloat();
 
-		array = jsonBlock.getAsJsonArray("position");
-		float posX = array.get(0).getAsFloat();
-		float posY = array.get(1).getAsFloat();
-		float posZ = array.get(2).getAsFloat();
+        array = jsonBlock.getAsJsonArray("position");
+        float posX = array.get(0).getAsFloat();
+        float posY = array.get(1).getAsFloat();
+        float posZ = array.get(2).getAsFloat();
 
-		array = jsonBlock.getAsJsonArray("rotation");
-		float rotationX = array.get(0).getAsFloat();
-		float rotationY = array.get(1).getAsFloat();
-		float rotationZ = array.get(2).getAsFloat();
+        array = jsonBlock.getAsJsonArray("rotation");
+        float rotationX = array.get(0).getAsFloat();
+        float rotationY = array.get(1).getAsFloat();
+        float rotationZ = array.get(2).getAsFloat();
 
-		array = jsonBlock.getAsJsonArray("offsetFromPivot");
-		float pivotOffsetX = array.get(0).getAsFloat();
-		float pivotOffsetY = array.get(1).getAsFloat();
-		float pivotOffsetZ = array.get(2).getAsFloat();
+        array = jsonBlock.getAsJsonArray("offsetFromPivot");
+        float pivotOffsetX = array.get(0).getAsFloat();
+        float pivotOffsetY = array.get(1).getAsFloat();
+        float pivotOffsetZ = array.get(2).getAsFloat();
 
-		// It may need improvement
+        // It may need improvement
 
-		array = jsonBlock.getAsJsonArray("vertexCoords");
-		Vector3f vertex;
-		if (array != null) {
-			block.vertex = new float[8][3];
-			for (int i = 0; i < 8; i++) {
-				vertexArray = array.get(vertexOrderConvert[i]).getAsJsonArray();
-				block.vertex[i][0] = vertexArray.get(0).getAsFloat() + pivotOffsetX;
-				block.vertex[i][1] = -vertexArray.get(1).getAsFloat() - pivotOffsetY;
-				block.vertex[i][2] = -vertexArray.get(2).getAsFloat() - pivotOffsetZ;
-			}
-		} else
-			block.boxSetup = new Vector3f(-sizeX / 2 + pivotOffsetX, sizeY / 2 - pivotOffsetY,
-					sizeZ / 2 - pivotOffsetZ);
+        array = jsonBlock.getAsJsonArray("vertexCoords");
+        Vector3f vertex;
+        if (array != null) {
+            block.vertex = new float[8][3];
+            for (int i = 0; i < 8; i++) {
+                vertexArray = array.get(vertexOrderConvert[i]).getAsJsonArray();
+                block.vertex[i][0] = vertexArray.get(0).getAsFloat() + pivotOffsetX;
+                block.vertex[i][1] = -vertexArray.get(1).getAsFloat() - pivotOffsetY;
+                block.vertex[i][2] = -vertexArray.get(2).getAsFloat() - pivotOffsetZ;
+            }
+        }
+        else
+            block.boxSetup = new Vector3f(-sizeX / 2 + pivotOffsetX, sizeY / 2 - pivotOffsetY, sizeZ / 2 - pivotOffsetZ);
 
-		if (parentOffset == null)
-			block.rotationPoint = new Vector3f(posX, -posY + 24, -posZ);
-		else
-			block.rotationPoint = new Vector3f(posX + parentOffset.x, -posY + parentOffset.y, -posZ + parentOffset.z);
-		block.rotation = new Vector3f(rotationX, -rotationY, -rotationZ);
+        if (parentOffset == null)
+            block.rotationPoint = new Vector3f(posX, -posY + 24, -posZ);
+        else
+            block.rotationPoint = new Vector3f(posX + parentOffset.x, -posY + parentOffset.y, -posZ + parentOffset.z);
+        block.rotation = new Vector3f(rotationX, -rotationY, -rotationZ);
 
-		block.size = new Vector3f(sizeX, -sizeY, -sizeZ);
+        block.size = new Vector3f(sizeX, -sizeY, -sizeZ);
 
-		array = jsonBlock.getAsJsonArray("texOffset");
-		block.texOffset[0] = array.get(0).getAsInt();
-		block.texOffset[1] = array.get(1).getAsInt();
+        array = jsonBlock.getAsJsonArray("texOffset");
+        block.texOffset[0] = array.get(0).getAsInt();
+        block.texOffset[1] = array.get(1).getAsInt();
 
-		array = jsonBlock.getAsJsonArray("children");
-		for (JsonElement element : array) {
-			jsonChild = element.getAsJsonObject();
-			child = new CSReadedModelBlock();
-			block.childs.add(child);
-			readModelBlock(jsonChild, child, new Vector3f(pivotOffsetX, -pivotOffsetY, -pivotOffsetZ));
-		}
+        array = jsonBlock.getAsJsonArray("children");
+        for (JsonElement element : array) {
+            jsonChild = element.getAsJsonObject();
+            child = new CSReadedModelBlock();
+            block.childs.add(child);
+            readModelBlock(jsonChild, child, new Vector3f(pivotOffsetX, -pivotOffsetY, -pivotOffsetZ));
+        }
 
-	}
+    }
 
 	/**
 	 * Extract a {@link CSReadedAnim} from a .csjsmodelanim file.
@@ -254,65 +254,65 @@ public class CSJsonReader {
 		return anim;
 	}
 
-	/**
-	 * Extract a block's informations and place them in a
-	 * {@link CSReadedAnimBlock}.
-	 *
-	 * @param entry
-	 *            The entry containing the informations.
-	 * @param block
-	 *            The block to store the informations.
-	 */
-	private static void readAnimBlock(Entry<String, JsonElement> entry, CSReadedAnimBlock block) {
-		block.name = strNormalize(entry.getKey());
-		JsonObject objBlock = entry.getValue().getAsJsonObject(), objField;
+    /**
+     * Extract a block's informations and place them in a
+     * {@link CSReadedAnimBlock}.
+     *
+     * @param entry
+     *            The entry containing the informations.
+     * @param block
+     *            The block to store the informations.
+     */
+    private static void readAnimBlock(Entry<String, JsonElement> entry, CSReadedAnimBlock block) {
+        block.name = strNormalize(entry.getKey());
+        JsonObject objBlock = entry.getValue().getAsJsonObject(), objField;
 
-		objField = objBlock.get("position").getAsJsonObject();
-		addKFElement(objField, block, CSReadedAnimBlock.POS);
-		objField = objBlock.get("offsetFromPivot").getAsJsonObject();
-		addKFElement(objField, block, CSReadedAnimBlock.OFS);
-		objField = objBlock.get("size").getAsJsonObject();
-		addKFElement(objField, block, CSReadedAnimBlock.SIZ);
-		objField = objBlock.get("rotation").getAsJsonObject();
-		addKFElement(objField, block, CSReadedAnimBlock.ROT);
-		objField = objBlock.get("stretch").getAsJsonObject();
-		addKFElement(objField, block, CSReadedAnimBlock.STR);
-	}
+        objField = objBlock.get("position").getAsJsonObject();
+        addKFElement(objField, block, CSReadedAnimBlock.POS);
+        objField = objBlock.get("offsetFromPivot").getAsJsonObject();
+        addKFElement(objField, block, CSReadedAnimBlock.OFS);
+        objField = objBlock.get("size").getAsJsonObject();
+        addKFElement(objField, block, CSReadedAnimBlock.SIZ);
+        objField = objBlock.get("rotation").getAsJsonObject();
+        addKFElement(objField, block, CSReadedAnimBlock.ROT);
+        objField = objBlock.get("stretch").getAsJsonObject();
+        addKFElement(objField, block, CSReadedAnimBlock.STR);
+    }
 
-	/**
-	 * Extract the element asked of all the keyframes.
-	 *
-	 * @param obj
-	 *            The object with the keyframes.
-	 * @param block
-	 *            The block to store the keyframes.
-	 * @param type
-	 *            type of element to add. See {@link CSReadedAnimBlock}.
-	 */
-	private static void addKFElement(JsonObject obj, CSReadedAnimBlock block, byte type) {
-		int keyFrame;
-		Vector3f value;
-		JsonArray array;
+    /**
+     * Extract the element asked of all the keyframes.
+     *
+     * @param obj
+     *            The object with the keyframes.
+     * @param block
+     *            The block to store the keyframes.
+     * @param type
+     *            type of element to add. See {@link CSReadedAnimBlock}.
+     */
+    private static void addKFElement(JsonObject obj, CSReadedAnimBlock block, byte type) {
+        int keyFrame;
+        Vector3f value;
+        JsonArray array;
 
-		for (Entry<String, JsonElement> entry : obj.entrySet()) {
-			keyFrame = Integer.parseInt(entry.getKey());
-			array = entry.getValue().getAsJsonArray();
-			switch (type) {
-			case CSReadedAnimBlock.POS:
-				value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
-				break;
-			case CSReadedAnimBlock.ROT:
-				value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
-				break;
-			default:
-				value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
-			}
-			block.addKFElement(keyFrame, type, value);
-		}
-	}
+        for (Entry<String, JsonElement> entry : obj.entrySet()) {
+            keyFrame = Integer.parseInt(entry.getKey());
+            array = entry.getValue().getAsJsonArray();
+            switch (type) {
+                case CSReadedAnimBlock.POS:
+                    value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
+                    break;
+                case CSReadedAnimBlock.ROT:
+                    value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
+                    break;
+                default:
+                    value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
+            }
+            block.addKFElement(keyFrame, type, value);
+        }
+    }
 
-	private static String strNormalize(String str) {
-		return str.replaceAll("[^\\dA-Za-z ]", "_").replaceAll("\\s+", "_").replaceAll("[^\\p{ASCII}]", "_");
-	}
+    private static String strNormalize(String str) {
+        return str.replaceAll("[^\\dA-Za-z ]", "_").replaceAll("\\s+", "_").replaceAll("[^\\p{ASCII}]", "_");
+    }
 
 }

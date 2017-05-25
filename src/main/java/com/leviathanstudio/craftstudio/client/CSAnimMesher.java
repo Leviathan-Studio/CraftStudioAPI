@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
-public class CSAnimMesher {
-	public static Map<String, CSReadedAnim> animations = new HashMap<>();
+public class CSAnimMesher
+{
+    public static Map<String, CSReadedAnim> animations = new HashMap<>();
 }
