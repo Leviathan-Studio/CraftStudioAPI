@@ -1,15 +1,13 @@
 package fr.zeamateis.test.anim.common;
 
 import com.leviathanstudio.craftstudio.common.IAnimated;
-import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
-
 import fr.zeamateis.test.anim.common.animations.AnimationHandlerTest;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.world.World;
 
 public class EntityTest4 extends EntityCreature implements IAnimated
 {
-    protected AnimationHandler animHandler;
+    protected AnimationHandlerTest animHandler;
 
     public EntityTest4(World par1World) {
         super(par1World);
@@ -22,7 +20,7 @@ public class EntityTest4 extends EntityCreature implements IAnimated
 
     // Getter for animation handler
     @Override
-    public AnimationHandler getAnimationHandler() {
+    public AnimationHandlerTest getAnimationHandler() {
         if (this.animHandler == null)
             this.animHandler = new AnimationHandlerTest(this);
         return this.animHandler;
@@ -37,7 +35,7 @@ public class EntityTest4 extends EntityCreature implements IAnimated
     public void onLivingUpdate() {
         super.onLivingUpdate();
         // Activate the animation in ticking method
-        if (!this.getAnimationHandler().isAnimationActive("rotation"))
-            this.getAnimationHandler().executeAnimation("rotation", 0);
+        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation"))
+            this.getAnimationHandler().executeAnimation(Mod_Test.MODID, "rotation", 0);
     }
 }

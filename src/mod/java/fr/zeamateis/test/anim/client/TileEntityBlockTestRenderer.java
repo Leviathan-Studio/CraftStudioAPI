@@ -1,7 +1,7 @@
 package fr.zeamateis.test.anim.client;
 
 import com.leviathanstudio.craftstudio.client.ModelCraftStudio;
-
+import fr.zeamateis.test.anim.common.Mod_Test;
 import fr.zeamateis.test.anim.common.TileEntityBlockTest;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class TileEntityBlockTestRenderer<T extends TileEntityBlockTest> extends TileEntitySpecialRenderer<T>
 {
-    private final ModelCraftStudio modelTest = new ModelCraftStudio("model_block_test", 64, 32);
+    private final ModelCraftStudio modelTest = new ModelCraftStudio(Mod_Test.MODID, "model_block_test", 64, 32);
 
     @Override
     public void renderTileEntityAt(T tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {

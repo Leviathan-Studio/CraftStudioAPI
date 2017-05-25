@@ -1,13 +1,12 @@
 package com.leviathanstudio.craftstudio.common;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
-import com.leviathanstudio.craftstudio.client.CSAnimMesher;
-import com.leviathanstudio.craftstudio.client.CSModelMesher;
 import com.leviathanstudio.craftstudio.client.json.CSJsonReader;
 import com.leviathanstudio.craftstudio.common.exceptions.CSMalformedJsonException;
 import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotFoundException;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class RegistryCraftStudio
 {
@@ -44,14 +43,13 @@ public class RegistryCraftStudio
 		CSJsonReader jsonReader;
 		try {
 			jsonReader = new CSJsonReader(resourceLocationIn);
-
 			if (resourceLocationIn.getResourceDomain() != CraftStudioApi.API_ID)
 				switch (resourceTypeIn) {
 				case MODEL:
-					CSModelMesher.models.put(resourceNameIn, jsonReader.readModel());
+					GameRegistry.register(jsonReader.readModel().setRegistryName(resourceNameIn));
 					break;
 				case ANIM:
-					CSAnimMesher.animations.put(resourceNameIn, jsonReader.readAnim());
+					GameRegistry.register(jsonReader.readAnim().setRegistryName(resourceNameIn));
 					break;
 				}
 			else

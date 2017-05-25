@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.leviathanstudio.craftstudio.CSModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
 
+import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.fml.common.registry.IForgeRegistryEntry.Impl;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -16,14 +19,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  *
  * @author Timmypote
  */
-@SideOnly(Side.CLIENT)
-public class CSReadedAnim
-{
-    public String                  modid, name;
-    public int                     duration;
-    public boolean                 holdLastK;
-    public List<CSReadedAnimBlock> blocks = new ArrayList<>();
-    private Integer[]              keyFrames;
+public class CSReadedAnim extends Impl<CSReadedAnim> implements IForgeRegistryEntry<CSReadedAnim>{
+	public String modid, name;
+	public int duration;
+	public boolean holdLastK;
+	public List<CSReadedAnimBlock> blocks = new ArrayList<>();
+	private Integer[] keyFrames;
 
     /**
      * Get the keys of keyframes used in the animation.

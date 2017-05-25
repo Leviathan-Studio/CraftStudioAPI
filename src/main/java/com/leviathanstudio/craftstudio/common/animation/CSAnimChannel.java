@@ -6,8 +6,8 @@ import com.leviathanstudio.craftstudio.client.CSAnimMesher;
 import com.leviathanstudio.craftstudio.client.CSModelMesher;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock;
-import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
+import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
 import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotRegisteredException;
 

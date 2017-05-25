@@ -3,6 +3,10 @@ package com.leviathanstudio.craftstudio.client.json;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.leviathanstudio.craftstudio.CSModel;
+
+import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
+import net.minecraftforge.fml.common.registry.IForgeRegistryEntry.Impl;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -11,12 +15,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  *
  * @author Timmypote
  */
-@SideOnly(Side.CLIENT)
-public class CSReadedModel
-{
-    public String                   name, modid;
-    public int                      textureWidth, textureHeight;
-    public List<CSReadedModelBlock> parents = new ArrayList<>();
+public class CSReadedModel extends Impl<CSReadedModel> implements IForgeRegistryEntry<CSReadedModel>{
+	public String name, modid;
+	public int textureWidth, textureHeight;
+	public List<CSReadedModelBlock> parents = new ArrayList<>();
 
     /**
      * Get a block from the model with this name.
