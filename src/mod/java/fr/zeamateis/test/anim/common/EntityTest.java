@@ -1,6 +1,7 @@
 package fr.zeamateis.test.anim.common;
 
 import com.leviathanstudio.craftstudio.common.IAnimated;
+
 import fr.zeamateis.test.anim.common.animations.AnimationHandlerTest;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.world.World;

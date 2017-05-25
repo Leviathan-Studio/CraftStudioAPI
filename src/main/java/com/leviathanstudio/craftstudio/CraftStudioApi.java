@@ -28,42 +28,54 @@ public class CraftStudioApi
     private static final Logger LOGGER = LogManager.getLogger("CraftStudio");
     public static final String  API_ID = "craftstudioapi";
     static final String         NAME   = "CraftStudio API";
-    
-	@SubscribeEvent
-	public static void createRegistries(RegistryEvent.NewRegistry event){
-		RegistryBuilder builder = new RegistryBuilder<CSReadedModel>();
-		builder.setName(new ResourceLocation(CraftStudioApi.API_ID, "models"));
-		builder.setType(CSReadedModel.class);
-		builder.setIDRange(0, 4096);
-		builder.create();
-		builder = new RegistryBuilder<CSReadedAnim>();
-		builder.setName(new ResourceLocation(CraftStudioApi.API_ID, "animations"));
-		builder.setType(CSReadedAnim.class);
-		builder.setIDRange(0, 4096);
-		builder.create();
-	}
-    
+
+    @SubscribeEvent
+    public static void createRegistries(RegistryEvent.NewRegistry event) {
+        RegistryBuilder builder = new RegistryBuilder<CSReadedModel>();
+        builder.setName(new ResourceLocation(CraftStudioApi.API_ID, "models"));
+        builder.setType(CSReadedModel.class);
+        builder.setIDRange(0, 4096);
+        builder.create();
+        builder = new RegistryBuilder<CSReadedAnim>();
+        builder.setName(new ResourceLocation(CraftStudioApi.API_ID, "animations"));
+        builder.setType(CSReadedAnim.class);
+        builder.setIDRange(0, 4096);
+        builder.create();
+    }
+
+    @SubscribeEvent
+    public static void registerModels(RegistryEvent.Register<CSReadedModel> e) {
+
+    }
 
     @EventHandler
     void preInit(FMLPreInitializationEvent event) {}
 
     @EventHandler
     void init(FMLInitializationEvent event) {
-//        ProgressManager.ProgressBar progressBarModels;
-//        progressBarModels = ProgressManager.push("Registry Models", CSModelMesher.models.size());
-//        for (Map.Entry<String, CSReadedModel> models : CSModelMesher.models.entrySet())
-//            progressBarModels.step("[" + models.getValue().modid + ":" + models.getValue().name + "]");
-//        ProgressManager.pop(progressBarModels);
-//
-//        ProgressManager.ProgressBar progressBarAnim;
-//        progressBarAnim = ProgressManager.push("Registry Animations", CSAnimMesher.animations.size());
-//        for (Map.Entry<String, CSReadedAnim> anims : CSAnimMesher.animations.entrySet())
-//            progressBarAnim.step("[" + anims.getValue().modid + ":" + anims.getValue().name + "]");
-//        ProgressManager.pop(progressBarAnim);
-//
-//        CraftStudioApi.LOGGER.info(String.format("Loaded %s resources (%s models / %s animations) from '%s'",
-//                CSModelMesher.models.size() + CSAnimMesher.animations.size(), CSModelMesher.models.size(), CSAnimMesher.animations.size(),
-//                RegistryCraftStudio.getModid()));
+        // ProgressManager.ProgressBar progressBarModels;
+        // progressBarModels = ProgressManager.push("Registry Models",
+        // CSModelMesher.models.size());
+        // for (Map.Entry<String, CSReadedModel> models :
+        // CSModelMesher.models.entrySet())
+        // progressBarModels.step("[" + models.getValue().modid + ":" +
+        // models.getValue().name + "]");
+        // ProgressManager.pop(progressBarModels);
+        //
+        // ProgressManager.ProgressBar progressBarAnim;
+        // progressBarAnim = ProgressManager.push("Registry Animations",
+        // CSAnimMesher.animations.size());
+        // for (Map.Entry<String, CSReadedAnim> anims :
+        // CSAnimMesher.animations.entrySet())
+        // progressBarAnim.step("[" + anims.getValue().modid + ":" +
+        // anims.getValue().name + "]");
+        // ProgressManager.pop(progressBarAnim);
+        //
+        // CraftStudioApi.LOGGER.info(String.format("Loaded %s resources (%s
+        // models / %s animations) from '%s'",
+        // CSModelMesher.models.size() + CSAnimMesher.animations.size(),
+        // CSModelMesher.models.size(), CSAnimMesher.animations.size(),
+        // RegistryCraftStudio.getModid()));
     }
 
     public static Logger getLogger() {

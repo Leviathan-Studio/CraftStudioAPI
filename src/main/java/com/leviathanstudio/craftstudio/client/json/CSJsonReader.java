@@ -31,94 +31,95 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author Phenix246
  */
 @SideOnly(Side.CLIENT)
-public class CSJsonReader {
-	JsonObject root;
-	String modid, ress;
+public class CSJsonReader
+{
+    JsonObject root;
+    String     modid, ress;
 
-	/**
-	 * Create a {@link CSJsonReader} link to the resource.
-	 *
-	 * @param resourceIn
-	 *            Location of the <i>model.csjsmodel</i> or the
-	 *            <i>anim.csjsmodelanim</i>.
-	 * @throws CraftStudioModelNotFound
-	 *             If the files doesn't exist.
-	 *
-	 * @see #readModel()
-	 * @see #readAnim()
-	 */
-	public CSJsonReader(ResourceLocation resourceIn) throws CSResourceNotFoundException {
-		JsonParser jsonParser = new JsonParser();
-		BufferedReader reader = null;
-		IResource iResource = null;
-		StringBuilder strBuilder = new StringBuilder();
-		this.ress = resourceIn.toString();
-		
-		try {
-			iResource = Minecraft.getMinecraft().getResourceManager().getResource(resourceIn);
-			reader = new BufferedReader(new InputStreamReader(iResource.getInputStream(), Charsets.UTF_8));
-			String s;
-			while ((s = reader.readLine()) != null)
-				strBuilder.append(s);
-			Object object = jsonParser.parse(strBuilder.toString());
-			this.root = (JsonObject) object;
-			this.modid = iResource.getResourceLocation().getResourceDomain();
-		} catch (FileNotFoundException fnfe) {
-			throw new CSResourceNotFoundException(this.ress);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (reader != null)
-					reader.close();
-				if (iResource != null)
-					iResource.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    /**
+     * Create a {@link CSJsonReader} link to the resource.
+     *
+     * @param resourceIn
+     *            Location of the <i>model.csjsmodel</i> or the
+     *            <i>anim.csjsmodelanim</i>.
+     * @throws CraftStudioModelNotFound
+     *             If the files doesn't exist.
+     *
+     * @see #readModel()
+     * @see #readAnim()
+     */
+    public CSJsonReader(ResourceLocation resourceIn) throws CSResourceNotFoundException {
+        JsonParser jsonParser = new JsonParser();
+        BufferedReader reader = null;
+        IResource iResource = null;
+        StringBuilder strBuilder = new StringBuilder();
+        this.ress = resourceIn.toString();
 
-	/**
-	 * Extract a {@link CSReadedModel} from a .csjsmodel file.
-	 *
-	 * @return A new {@link CSReadedModel} containing the informations of the
-	 *         file.
-	 * @throws CSMalformedJsonException If the json does match the model structure
-	 */
-	public CSReadedModel readModel() throws CSMalformedJsonException {
+        try {
+            iResource = Minecraft.getMinecraft().getResourceManager().getResource(resourceIn);
+            reader = new BufferedReader(new InputStreamReader(iResource.getInputStream(), Charsets.UTF_8));
+            String s;
+            while ((s = reader.readLine()) != null)
+                strBuilder.append(s);
+            Object object = jsonParser.parse(strBuilder.toString());
+            this.root = (JsonObject) object;
+            this.modid = iResource.getResourceLocation().getResourceDomain();
+        } catch (FileNotFoundException fnfe) {
+            throw new CSResourceNotFoundException(this.ress);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null)
+                    reader.close();
+                if (iResource != null)
+                    iResource.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-		CSReadedModel model = new CSReadedModel();
-		CSReadedModelBlock parent;
-		JsonObject jsonBlock;
-		JsonElement jsEl;
+    /**
+     * Extract a {@link CSReadedModel} from a .csjsmodel file.
+     *
+     * @return A new {@link CSReadedModel} containing the informations of the
+     *         file.
+     * @throws CSMalformedJsonException
+     *             If the json does match the model structure
+     */
+    public CSReadedModel readModel() throws CSMalformedJsonException {
 
-		model.modid = strNormalize(this.modid);
-		jsEl = this.root.get("title");
-		if (jsEl == null)
-			throw new CSMalformedJsonException("title", "String", this.ress);
-		model.name = strNormalize(jsEl.getAsString());
+        CSReadedModel model = new CSReadedModel();
+        CSReadedModelBlock parent;
+        JsonObject jsonBlock;
+        JsonElement jsEl;
 
-		JsonArray tree = this.root.getAsJsonArray("tree");
-		if (tree == null)
-			throw new CSMalformedJsonException("tree", "Array", this.ress);
-		for (JsonElement element : tree) {
-			if (element.isJsonObject()){
-				jsonBlock = element.getAsJsonObject();
+        model.modid = strNormalize(this.modid);
+        jsEl = this.root.get("title");
+        if (jsEl == null)
+            throw new CSMalformedJsonException("title", "String", this.ress);
+        model.name = strNormalize(jsEl.getAsString());
 
-				parent = new CSReadedModelBlock();
-				model.parents.add(parent);
+        JsonArray tree = this.root.getAsJsonArray("tree");
+        if (tree == null)
+            throw new CSMalformedJsonException("tree", "Array", this.ress);
+        for (JsonElement element : tree)
+            if (element.isJsonObject()) {
+                jsonBlock = element.getAsJsonObject();
 
-				try{
-					readModelBlock(jsonBlock, parent);
-				}catch (NullPointerException | ClassCastException | IllegalStateException e){
-					//e.printStackTrace();
-					throw new CSMalformedJsonException(parent.name != null ? parent.name : "a parent block without name", this.ress);
-				}
-			}
-		}
-		return model;
-	}
+                parent = new CSReadedModelBlock();
+                model.parents.add(parent);
+
+                try {
+                    readModelBlock(jsonBlock, parent);
+                } catch (NullPointerException | ClassCastException | IllegalStateException e) {
+                    // e.printStackTrace();
+                    throw new CSMalformedJsonException(parent.name != null ? parent.name : "a parent block without name", this.ress);
+                }
+            }
+        return model;
+    }
 
     /**
      * Extract a block (and all its children) from a {@link JsonObject} and
@@ -209,50 +210,51 @@ public class CSJsonReader {
 
     }
 
-	/**
-	 * Extract a {@link CSReadedAnim} from a .csjsmodelanim file.
-	 *
-	 * @return A new {@link CSReadedAnim} containing the informations of the
-	 *         file.
-	 * @throws CSMalformedJsonException If the json does match the animation structure
-	 */
-	public CSReadedAnim readAnim() throws CSMalformedJsonException {
+    /**
+     * Extract a {@link CSReadedAnim} from a .csjsmodelanim file.
+     *
+     * @return A new {@link CSReadedAnim} containing the informations of the
+     *         file.
+     * @throws CSMalformedJsonException
+     *             If the json does match the animation structure
+     */
+    public CSReadedAnim readAnim() throws CSMalformedJsonException {
 
-		CSReadedAnim anim = new CSReadedAnim();
-		CSReadedAnimBlock block;
-		JsonObject jsonBlock;
-		JsonElement jsEl;
+        CSReadedAnim anim = new CSReadedAnim();
+        CSReadedAnimBlock block;
+        JsonObject jsonBlock;
+        JsonElement jsEl;
 
-		anim.modid = strNormalize(this.modid);
-		jsEl = this.root.get("title");
-		if (jsEl == null)
-			throw new CSMalformedJsonException("title", "String", this.ress);
-		anim.name = strNormalize(jsEl.getAsString());
-		jsEl = this.root.get("duration");
-		if (jsEl == null)
-			throw new CSMalformedJsonException("duration", "Integer", this.ress);
-		anim.duration = jsEl.getAsInt();
-		jsEl = this.root.get("holdLastKeyframe");
-		if (jsEl == null)
-			throw new CSMalformedJsonException("holdLastKeyframe", "Boolean", this.ress);
-		anim.holdLastK = jsEl.getAsBoolean();
+        anim.modid = strNormalize(this.modid);
+        jsEl = this.root.get("title");
+        if (jsEl == null)
+            throw new CSMalformedJsonException("title", "String", this.ress);
+        anim.name = strNormalize(jsEl.getAsString());
+        jsEl = this.root.get("duration");
+        if (jsEl == null)
+            throw new CSMalformedJsonException("duration", "Integer", this.ress);
+        anim.duration = jsEl.getAsInt();
+        jsEl = this.root.get("holdLastKeyframe");
+        if (jsEl == null)
+            throw new CSMalformedJsonException("holdLastKeyframe", "Boolean", this.ress);
+        anim.holdLastK = jsEl.getAsBoolean();
 
-		jsEl = this.root.get("nodeAnimations");
-		if (jsEl == null)
-			throw new CSMalformedJsonException("nodeAnimations", "Object", this.ress);
-		JsonObject nodeAnims = jsEl.getAsJsonObject();
-		for (Entry<String, JsonElement> entry : nodeAnims.entrySet()) {
-			block = new CSReadedAnimBlock();
-			anim.blocks.add(block);
-			try{
-				readAnimBlock(entry, block);
-			}catch (Exception e){
-				CraftStudioApi.getLogger().error(e.getMessage());
-				throw new CSMalformedJsonException(block.name != null ? block.name : "a block without name", this.ress);
-			}
-		}
-		return anim;
-	}
+        jsEl = this.root.get("nodeAnimations");
+        if (jsEl == null)
+            throw new CSMalformedJsonException("nodeAnimations", "Object", this.ress);
+        JsonObject nodeAnims = jsEl.getAsJsonObject();
+        for (Entry<String, JsonElement> entry : nodeAnims.entrySet()) {
+            block = new CSReadedAnimBlock();
+            anim.blocks.add(block);
+            try {
+                readAnimBlock(entry, block);
+            } catch (Exception e) {
+                CraftStudioApi.getLogger().error(e.getMessage());
+                throw new CSMalformedJsonException(block.name != null ? block.name : "a block without name", this.ress);
+            }
+        }
+        return anim;
+    }
 
     /**
      * Extract a block's informations and place them in a

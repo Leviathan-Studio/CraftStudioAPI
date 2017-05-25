@@ -1,6 +1,7 @@
 package fr.zeamateis.test.anim.common;
 
 import com.leviathanstudio.craftstudio.common.IAnimated;
+
 import fr.zeamateis.test.anim.common.animations.AnimationHandlerTest;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,7 +11,7 @@ import net.minecraft.world.World;
 public class EntityTest2 extends EntityCreature implements IAnimated
 {
     protected AnimationHandlerTest animHandler;
-    protected boolean          fanOpen = true;
+    protected boolean              fanOpen = true;
 
     public EntityTest2(World par1World) {
         super(par1World);
@@ -36,7 +37,8 @@ public class EntityTest2 extends EntityCreature implements IAnimated
 
     @Override
     public boolean processInteract(EntityPlayer player, EnumHand hand) {
-        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "close_fan") && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "open_fan"))
+        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "close_fan")
+                && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "open_fan"))
             if (this.fanOpen) {
                 this.getAnimationHandler().executeAnimation(Mod_Test.MODID, "close_fan", 0);
                 this.fanOpen = false;

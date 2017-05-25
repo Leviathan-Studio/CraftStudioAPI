@@ -23,50 +23,53 @@ public class CSAnimChannel extends Channel
     private CSReadedAnim  rAnim;
     private CSReadedModel rModel;
 
-	/**
-	 * Create a channel with the same name as the animation. Use the 60 fps by default.
-	 *
-	 * @param animNameIn
-	 *            The name of the animation in the registry.
-	 * @param modelNameIn
-	 *            The name of the model bind to this animation in the registry.
-	 * @param looped
-	 *            If the animation is looped or not.
-	 * @throws CSResourceNotRegisteredException If the animation or model if not registered
-	 */
-	public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, boolean looped) throws CSResourceNotRegisteredException {
-		this(animIn, modelIn, 60.0F, looped);
-	}
+    /**
+     * Create a channel with the same name as the animation. Use the 60 fps by
+     * default.
+     *
+     * @param animNameIn
+     *            The name of the animation in the registry.
+     * @param modelNameIn
+     *            The name of the model bind to this animation in the registry.
+     * @param looped
+     *            If the animation is looped or not.
+     * @throws CSResourceNotRegisteredException
+     *             If the animation or model if not registered
+     */
+    public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, boolean looped) throws CSResourceNotRegisteredException {
+        this(animIn, modelIn, 60.0F, looped);
+    }
 
-	/**
-	 * Create a channel.
-	 *
-	 * @param animNameIn
-	 *            The name of the animation in the registry.
-	 * @param name
-	 *            The name of the channel
-	 * @param modelNameIn
-	 *            The name of the model bind to this animation in the registry.
-	 * @param fps
-	 *            Keyframes per second of the animation.
-	 * @param looped
-	 *            If the animation is looped or not.
-	 * @throws CSResourceNotRegisteredException If the animation or model if not registered
-	 */
-	public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, float fps, boolean looped) throws CSResourceNotRegisteredException {
-		super(animIn.toString(), false);
-		this.rAnim = GameRegistry.findRegistry(CSReadedAnim.class).getValue(animIn);
-		if (this.rAnim == null)
-			throw new CSResourceNotRegisteredException(animIn.toString());
-		this.rModel = GameRegistry.findRegistry(CSReadedModel.class).getValue(modelIn);
-		if (this.rModel == null)
-			throw new CSResourceNotRegisteredException(modelIn.toString());
-		this.fps = fps;
-		this.totalFrames = this.rAnim.duration;
-		if (looped)
-			this.animationMode = EnumAnimationMode.LOOP;
-		this.initializeAllFrames();
-	}
+    /**
+     * Create a channel.
+     *
+     * @param animNameIn
+     *            The name of the animation in the registry.
+     * @param name
+     *            The name of the channel
+     * @param modelNameIn
+     *            The name of the model bind to this animation in the registry.
+     * @param fps
+     *            Keyframes per second of the animation.
+     * @param looped
+     *            If the animation is looped or not.
+     * @throws CSResourceNotRegisteredException
+     *             If the animation or model if not registered
+     */
+    public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, float fps, boolean looped) throws CSResourceNotRegisteredException {
+        super(animIn.toString(), false);
+        this.rAnim = GameRegistry.findRegistry(CSReadedAnim.class).getValue(animIn);
+        if (this.rAnim == null)
+            throw new CSResourceNotRegisteredException(animIn.toString());
+        this.rModel = GameRegistry.findRegistry(CSReadedModel.class).getValue(modelIn);
+        if (this.rModel == null)
+            throw new CSResourceNotRegisteredException(modelIn.toString());
+        this.fps = fps;
+        this.totalFrames = this.rAnim.duration;
+        if (looped)
+            this.animationMode = EnumAnimationMode.LOOP;
+        this.initializeAllFrames();
+    }
 
     /**
      * Initialize the keyframes.
@@ -111,10 +114,10 @@ public class CSAnimChannel extends Channel
                             this.keyFrames.get(lastRK).modelRenderersRotations.get(block.name));
             }
 
-		}
-		if (!this.rAnim.holdLastK)
-			if (!this.keyFrames.containsKey(this.totalFrames))
-				this.keyFrames.put(this.totalFrames, this.keyFrames.get(0).clone());
+        }
+        if (!this.rAnim.holdLastK)
+            if (!this.keyFrames.containsKey(this.totalFrames))
+                this.keyFrames.put(this.totalFrames, this.keyFrames.get(0).clone());
 
     }
 }

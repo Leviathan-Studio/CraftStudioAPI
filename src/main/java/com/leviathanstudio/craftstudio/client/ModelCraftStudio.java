@@ -21,23 +21,23 @@ public class ModelCraftStudio extends ModelBase
 {
     private List<CSModelRenderer> parentBlocks = new ArrayList<>();
 
-    public ModelCraftStudio(String modid, String modelNameIn, int textureSize){
-		this(modid, modelNameIn, textureSize, textureSize);
-	}
-    
-    public ModelCraftStudio(String modid, String modelNameIn, int textureWidth, int textureHeight){
-    	this(new ResourceLocation(modid, modelNameIn), textureWidth, textureHeight);
+    public ModelCraftStudio(String modid, String modelNameIn, int textureSize) {
+        this(modid, modelNameIn, textureSize, textureSize);
     }
-    
-	public ModelCraftStudio(ResourceLocation modelIn, int textureWidth, int textureHeight){
+
+    public ModelCraftStudio(String modid, String modelNameIn, int textureWidth, int textureHeight) {
+        this(new ResourceLocation(modid, modelNameIn), textureWidth, textureHeight);
+    }
+
+    public ModelCraftStudio(ResourceLocation modelIn, int textureWidth, int textureHeight) {
 
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
 
-		CSReadedModel rModel = GameRegistry.findRegistry(CSReadedModel.class).getValue(modelIn);
-		if (rModel == null)
-			throw new CSResourceNotRegisteredException(modelIn.toString());
-		CSModelRenderer modelRend;
+        CSReadedModel rModel = GameRegistry.findRegistry(CSReadedModel.class).getValue(modelIn);
+        if (rModel == null)
+            throw new CSResourceNotRegisteredException(modelIn.toString());
+        CSModelRenderer modelRend;
 
         for (CSReadedModelBlock rBlock : rModel.parents) {
             modelRend = this.generateCSModelRend(rBlock);

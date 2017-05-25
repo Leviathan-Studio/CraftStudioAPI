@@ -11,10 +11,11 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry.Impl;
  *
  * @author Timmypote
  */
-public class CSReadedModel extends Impl<CSReadedModel> implements IForgeRegistryEntry<CSReadedModel>{
-	public String name, modid;
-	public int textureWidth, textureHeight;
-	public List<CSReadedModelBlock> parents = new ArrayList<>();
+public class CSReadedModel extends Impl<CSReadedModel> implements IForgeRegistryEntry<CSReadedModel>
+{
+    public String                   name, modid;
+    public int                      textureWidth, textureHeight;
+    public List<CSReadedModelBlock> parents = new ArrayList<>();
 
     /**
      * Get a block from the model with this name.
