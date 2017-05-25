@@ -14,19 +14,29 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.PositionTextureVertex;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModelCraftStudio extends ModelBase
 {
     private List<CSModelRenderer> parentBlocks = new ArrayList<>();
 
-	public ModelCraftStudio(String modelNameIn, int textureWidth, int textureHeight) throws CSResourceNotRegisteredException {
+    public ModelCraftStudio(String modid, String modelNameIn, int textureSize){
+		this(modid, modelNameIn, textureSize, textureSize);
+	}
+    
+    public ModelCraftStudio(String modid, String modelNameIn, int textureWidth, int textureHeight){
+    	this(new ResourceLocation(modid, modelNameIn), textureWidth, textureHeight);
+    }
+    
+	public ModelCraftStudio(ResourceLocation modelIn, int textureWidth, int textureHeight){
 
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
 
-		CSReadedModel rModel = CSModelMesher.models.get(modelNameIn);
+		CSReadedModel rModel = GameRegistry.findRegistry(CSReadedModel.class).getValue(modelIn);
 		if (rModel == null)
-			throw new CSResourceNotRegisteredException(modelNameIn);
+			throw new CSResourceNotRegisteredException(modelIn.toString());
 		CSModelRenderer modelRend;
 
         for (CSReadedModelBlock rBlock : rModel.parents) {
@@ -35,10 +45,6 @@ public class ModelCraftStudio extends ModelBase
             this.generateChild(rBlock, modelRend);
         }
     }
-
-	public ModelCraftStudio(String modelNameIn, int textureSize) throws CSResourceNotRegisteredException {
-		this(modelNameIn, textureSize, textureSize);
-	}
 
     private void generateChild(CSReadedModelBlock rParent, CSModelRenderer parent) {
         CSModelRenderer modelRend;

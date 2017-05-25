@@ -2,14 +2,16 @@ package com.leviathanstudio.craftstudio.common.animation;
 
 import java.util.Map.Entry;
 
-import com.leviathanstudio.craftstudio.client.CSAnimMesher;
-import com.leviathanstudio.craftstudio.client.CSModelMesher;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
 import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotRegisteredException;
+import com.leviathanstudio.craftstudio.util.math.Quaternion;
+
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Animation Channel for CraftStudio imported animation.
@@ -32,25 +34,8 @@ public class CSAnimChannel extends Channel
 	 *            If the animation is looped or not.
 	 * @throws CSResourceNotRegisteredException If the animation or model if not registered
 	 */
-	public CSAnimChannel(String animNameIn, String modelNameIn, boolean looped) throws CSResourceNotRegisteredException {
-		this(animNameIn, animNameIn, modelNameIn, 60.0F, looped);
-	}
-	
-	/**
-	 * Create a channel with the same name as the animation.
-	 *
-	 * @param animNameIn
-	 *            The name of the animation in the registry.
-	 * @param modelNameIn
-	 *            The name of the model bind to this animation in the registry.
-	 * @param fps
-	 *            Keyframes per second of the animation.
-	 * @param looped
-	 *            If the animation is looped or not.
-	 * @throws CSResourceNotRegisteredException If the animation or model if not registered
-	 */
-	public CSAnimChannel(String animNameIn, String modelNameIn, float fps, boolean looped) throws CSResourceNotRegisteredException {
-		this(animNameIn, animNameIn, modelNameIn, fps, looped);
+	public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, boolean looped) throws CSResourceNotRegisteredException {
+		this(animIn, modelIn, 60.0F, looped);
 	}
 
 	/**
@@ -68,14 +53,14 @@ public class CSAnimChannel extends Channel
 	 *            If the animation is looped or not.
 	 * @throws CSResourceNotRegisteredException If the animation or model if not registered
 	 */
-	public CSAnimChannel(String animNameIn, String name, String modelNameIn, float fps, boolean looped) throws CSResourceNotRegisteredException {
-		super(name, false);
-		this.rAnim = CSAnimMesher.animations.get(animNameIn);
+	public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, float fps, boolean looped) throws CSResourceNotRegisteredException {
+		super(animIn.toString(), false);
+		this.rAnim = GameRegistry.findRegistry(CSReadedAnim.class).getValue(animIn);
 		if (this.rAnim == null)
-			throw new CSResourceNotRegisteredException(animNameIn);
-		this.rModel = CSModelMesher.models.get(modelNameIn);
+			throw new CSResourceNotRegisteredException(animIn.toString());
+		this.rModel = GameRegistry.findRegistry(CSReadedModel.class).getValue(modelIn);
 		if (this.rModel == null)
-			throw new CSResourceNotRegisteredException(modelNameIn);
+			throw new CSResourceNotRegisteredException(modelIn.toString());
 		this.fps = fps;
 		this.totalFrames = this.rAnim.duration;
 		if (looped)
