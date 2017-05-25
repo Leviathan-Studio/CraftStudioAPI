@@ -2,6 +2,7 @@ package com.leviathanstudio.craftstudio.common.animation;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Channel {
 	public String name;
@@ -139,6 +140,13 @@ public class Channel {
 	/** Check if an animation should stop, restart or whatever. */
 	public static boolean shouldAnimationStop() {
 		return false;
+	}
+	
+	public Channel getInvertedChannel(String name){
+		Channel chan = new Channel(name, this.fps, this.totalFrames, this.animationMode, true);
+		for (Entry<Integer, KeyFrame> entry: this.keyFrames.entrySet())
+			chan.keyFrames.put(this.totalFrames - entry.getKey(), entry.getValue().clone());
+		return chan;
 	}
 
 	public enum EnumAnimationMode {

@@ -57,10 +57,10 @@ public abstract class AnimationHandler {
 				this.animCurrentChannels.remove(indexToRemove);
 
 			this.animCurrentChannels.add(selectedChannel);
-			this.animPrevTime.put(name, System.nanoTime());
-			this.animCurrentFrame.put(name, startingFrame);
-			if (this.animationEvents.get(name) == null)
-				this.animationEvents.put(name, new ArrayList<String>());
+			this.animPrevTime.put(selectedChannel.name, System.nanoTime());
+			this.animCurrentFrame.put(selectedChannel.name, startingFrame);
+			if (this.animationEvents.get(selectedChannel.name) == null)
+				this.animationEvents.put(selectedChannel.name, new ArrayList<String>());
 		} else
 			CraftStudioApi.getLogger().warn("The animation called " + name + " doesn't exist!");
 	}
@@ -103,9 +103,11 @@ public abstract class AnimationHandler {
 	public boolean isAnimationActive(String name) {
 		boolean animAlreadyUsed = false;
 		for (final Channel anim : this.animatedEntity.getAnimationHandler().animCurrentChannels)
-			if (anim.name.equals(name) && anim.name != null) {
-				animAlreadyUsed = true;
-				break;
+			if (anim.name != null){
+				if (anim.name.equals(name)){
+					animAlreadyUsed = true;
+					break;
+				}
 			} else {
 				CraftStudioApi.getLogger().catching(new Exception(String.format("Animation %s doesn't exist !", name)));
 				break;
@@ -331,10 +333,10 @@ public abstract class AnimationHandler {
 				((CustomChannel) channel).update(block, entity);
 			}
 
-		if (!anyRotationApplied && !anyCustomAnimationRunning)
-			box.resetRotationMatrix();
-		if (!anyTranslationApplied && !anyCustomAnimationRunning)
-			box.resetRotationPoint();
+//		if (!anyRotationApplied && !anyCustomAnimationRunning)
+//			box.resetRotationMatrix();
+//		if (!anyTranslationApplied && !anyCustomAnimationRunning)
+//			box.resetRotationPoint();
 
 	}
 
