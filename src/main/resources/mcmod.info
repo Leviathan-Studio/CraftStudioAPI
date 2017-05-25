@@ -6,7 +6,7 @@
   "version": "v0.1-alpha",
   "mcversion": "1.10.2",
   "url": "",
-  "updateJSON": "http://leviathan-studio.com/amateis/craftstudio-converter/update.json",
+  "updateJSON": "https://leviathan-studio.com/craftstudioapi/update.json",
   "authorList": ["ZeAmateis", "Timmypote", "Elisee", "IncubeSupreme"],
   "credits": "See credits.txt",
   "logoFile": "",

@@ -9,9 +9,10 @@ import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotFoundExcep
 
 import net.minecraft.util.ResourceLocation;
 
-public class RegistryCraftStudio {
+public class RegistryCraftStudio
+{
 
-	private static String modid;
+    private static String modid;
 
 	public static void register(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn) {
 		if (!resourceNameIn.toLowerCase().equals(resourceNameIn)){
@@ -22,13 +23,13 @@ public class RegistryCraftStudio {
 				+ renderTypeIn.getFolderName() + resourceNameIn + resourceTypeIn.getExtension()), resourceNameIn);
 	}
 
-	public static String getModid() {
-		return RegistryCraftStudio.modid;
-	}
+    public static String getModid() {
+        return RegistryCraftStudio.modid;
+    }
 
-	public static void setModid(String modidIn) {
-		RegistryCraftStudio.modid = modidIn;
-	}
+    public static void setModid(String modidIn) {
+        RegistryCraftStudio.modid = modidIn;
+    }
 
 	/**
 	 * Register a new resource with the given name.

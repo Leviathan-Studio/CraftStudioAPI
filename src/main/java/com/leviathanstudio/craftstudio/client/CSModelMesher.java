@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
-public class CSModelMesher {
-	public static Map<String, CSReadedModel> models = new HashMap<>();
+public class CSModelMesher
+{
+    public static Map<String, CSReadedModel> models = new HashMap<>();
 }

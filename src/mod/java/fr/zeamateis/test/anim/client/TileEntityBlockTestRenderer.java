@@ -10,16 +10,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class TileEntityBlockTestRenderer<T extends TileEntityBlockTest> extends TileEntitySpecialRenderer<T> {
-	private final ModelCraftStudio modelTest = new ModelCraftStudio("model_block_test", 64, 32);
+public class TileEntityBlockTestRenderer<T extends TileEntityBlockTest> extends TileEntitySpecialRenderer<T>
+{
+    private final ModelCraftStudio modelTest = new ModelCraftStudio("model_block_test", 64, 32);
 
-	@Override
-	public void renderTileEntityAt(T tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {
-		this.bindTexture(new ResourceLocation("testmod", "textures/block/null.png"));
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(x + 0.5D, y + 1, z + 0.5D);
-		GlStateManager.scale(0.5D, 0.5D, 0.5D);
-		this.modelTest.render(tileEntityIn);
-		GlStateManager.popMatrix();
-	}
+    @Override
+    public void renderTileEntityAt(T tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {
+        this.bindTexture(new ResourceLocation("testmod", "textures/block/null.png"));
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x + 0.5D, y + 1, z + 0.5D);
+        GlStateManager.scale(0.5D, 0.5D, 0.5D);
+        this.modelTest.render(tileEntityIn);
+        GlStateManager.popMatrix();
+    }
 }

@@ -10,9 +10,10 @@ import com.leviathanstudio.craftstudio.common.animation.Channel;
 /**
  * The Animation handler class to register all animations you want
  */
-public class AnimationHandlerTest extends AnimationHandler {
-	/** Map with all the animations. */
-	public static HashMap<String, Channel> animChannels = new HashMap<>();
+public class AnimationHandlerTest extends AnimationHandler
+{
+    /** Map with all the animations. */
+    public static HashMap<String, Channel> animChannels = new HashMap<>();
 
 	/** Register the animation(s) */
 	public AnimationHandlerTest(IAnimated entity) {
@@ -27,22 +28,20 @@ public class AnimationHandlerTest extends AnimationHandler {
 			new CSAnimChannel("rotation", "craftstudio_api_test2", true));
 	}
 
-	@Override
-	public void executeAnimation(String name, float startingFrame) {
-		super.executeAnimation(AnimationHandlerTest.animChannels, name, startingFrame);
-	}
+    @Override
+    public void executeAnimation(String name, float startingFrame) {
+        super.executeAnimation(AnimationHandlerTest.animChannels, name, startingFrame);
+    }
 
-	@Override
-	public void stopAnimation(String name) {
-		super.stopAnimation(AnimationHandlerTest.animChannels, name);
-	}
+    @Override
+    public void stopAnimation(String name) {
+        super.stopAnimation(AnimationHandlerTest.animChannels, name);
+    }
 
-	@Override
-	public void fireAnimationEventClientSide(Channel anim, float prevFrame, float frame) {
-	}
+    @Override
+    public void fireAnimationEventClientSide(Channel anim, float prevFrame, float frame) {}
 
-	@Override
-	public void fireAnimationEventServerSide(Channel anim, float prevFrame, float frame) {
-	}
+    @Override
+    public void fireAnimationEventServerSide(Channel anim, float prevFrame, float frame) {}
 
 }

@@ -17,53 +17,54 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
-public class ClientProxy extends CommonProxy {
+public class ClientProxy extends CommonProxy
+{
 
-	@Override
-	public void preInit() {
-		super.preInit();
-		// Registry Model
-		RegistryCraftStudio.register(ResourceType.MODEL, RenderType.ENTITY, "model_dead_corpse");
-		RegistryCraftStudio.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test2");
-		RegistryCraftStudio.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test");
-		RegistryCraftStudio.register(ResourceType.MODEL, RenderType.ENTITY, "dragon_brun");
-		RegistryCraftStudio.register(ResourceType.MODEL, RenderType.ENTITY, "peacock");
+    @Override
+    public void preInit() {
+        super.preInit();
+        // Registry Model
+        RegistryCraftStudio.register(ResourceType.MODEL, RenderType.ENTITY, "model_dead_corpse");
+        RegistryCraftStudio.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test2");
+        RegistryCraftStudio.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test");
+        RegistryCraftStudio.register(ResourceType.MODEL, RenderType.ENTITY, "dragon_brun");
+        RegistryCraftStudio.register(ResourceType.MODEL, RenderType.ENTITY, "peacock");
 
-		// Registry Entity
-		RenderingRegistry.registerEntityRenderingHandler(EntityTest.class, new IRenderFactory() {
-			@Override
-			public Render createRenderFor(RenderManager manager) {
-				return new RenderTest(manager);
-			}
-		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityTest2.class, new IRenderFactory() {
-			@Override
-			public Render createRenderFor(RenderManager manager) {
-				return new RenderTest2(manager);
-			}
-		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityTest3.class, new IRenderFactory() {
-			@Override
-			public Render createRenderFor(RenderManager manager) {
-				return new RenderTest3(manager);
-			}
-		});
-		RenderingRegistry.registerEntityRenderingHandler(EntityTest4.class, new IRenderFactory() {
-			@Override
-			public Render createRenderFor(RenderManager manager) {
-				return new RenderTest4(manager);
-			}
-		});
-	}
+        // Registry Entity
+        RenderingRegistry.registerEntityRenderingHandler(EntityTest.class, new IRenderFactory() {
+            @Override
+            public Render createRenderFor(RenderManager manager) {
+                return new RenderTest(manager);
+            }
+        });
+        RenderingRegistry.registerEntityRenderingHandler(EntityTest2.class, new IRenderFactory() {
+            @Override
+            public Render createRenderFor(RenderManager manager) {
+                return new RenderTest2(manager);
+            }
+        });
+        RenderingRegistry.registerEntityRenderingHandler(EntityTest3.class, new IRenderFactory() {
+            @Override
+            public Render createRenderFor(RenderManager manager) {
+                return new RenderTest3(manager);
+            }
+        });
+        RenderingRegistry.registerEntityRenderingHandler(EntityTest4.class, new IRenderFactory() {
+            @Override
+            public Render createRenderFor(RenderManager manager) {
+                return new RenderTest4(manager);
+            }
+        });
+    }
 
-	@Override
-	public void init() {
-		super.init();
-		// Registry Entity
-		// RenderingRegistry.registerEntityRenderingHandler(EntityTest.class,
-		// new RenderTest());
-		// Registry TESR
-		// ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBlockTest.class,
-		// new TileEntityBlockTestRenderer());
-	}
+    @Override
+    public void init() {
+        super.init();
+        // Registry Entity
+        // RenderingRegistry.registerEntityRenderingHandler(EntityTest.class,
+        // new RenderTest());
+        // Registry TESR
+        // ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBlockTest.class,
+        // new TileEntityBlockTestRenderer());
+    }
 }
