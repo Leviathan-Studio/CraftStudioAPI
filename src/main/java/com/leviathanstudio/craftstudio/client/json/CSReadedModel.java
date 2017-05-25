@@ -3,12 +3,8 @@ package com.leviathanstudio.craftstudio.client.json;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.leviathanstudio.craftstudio.CSModel;
-
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry.Impl;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Class that store information relative to a model.
