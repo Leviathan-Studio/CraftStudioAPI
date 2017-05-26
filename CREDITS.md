@@ -1,7 +1,7 @@
 ## You will find the full list of awesome people who contributed to the project !
 
 - *[Elisée Maurer](https://twitter.com/elisee)* from *[SparklinLabs](https://sparklinlabs.itch.io/)*
-The man who made CraftStudio with other people from the SparklinLabs team, Thanks for this great tool who's CraftStudio !
+The man who made CraftStudio with other people from the SparklinLabs team, Thanks for this great tool which is CraftStudio !
 
 - *[DD-Studios](http://dd-studios.net/)*
 We based our work on MCAnimator API, fully rewritten for the newest version of Minecraft and CraftStudio compatibility
