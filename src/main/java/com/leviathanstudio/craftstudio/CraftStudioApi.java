@@ -36,28 +36,23 @@ public class CraftStudioApi
     @SubscribeEvent
     public static void createRegistries(RegistryEvent.NewRegistry event) {
         RegistryBuilder builder = new RegistryBuilder<CSReadedModel>();
-        builder.setName(new ResourceLocation(CraftStudioApi.API_ID, "models"));
+        builder.setName(new ResourceLocation(CraftStudioApi.API_ID, "cs_models"));
         builder.setType(CSReadedModel.class);
         builder.setIDRange(0, 4096);
         builder.create();
         builder = new RegistryBuilder<CSReadedAnim>();
-        builder.setName(new ResourceLocation(CraftStudioApi.API_ID, "ranimations"));
+        builder.setName(new ResourceLocation(CraftStudioApi.API_ID, "model_animations"));
         builder.setType(CSReadedAnim.class);
         builder.setIDRange(0, 4096);
         builder.create();
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void initProgressBar(RegistryEvent.Register<CSReadedModel> e) {
-        progressBarModels = ProgressManager.push("Registry Models", e.getListenerList().getListeners(0).length - 2);
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
+    @SubscribeEvent(priority = EventPriority.LOW)
     public static void endProgressBar(RegistryEvent.Register<CSReadedModel> e) {
-        ProgressManager.pop(progressBarModels);
+        CSRegistryHelper.loadModels();
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent(priority = EventPriority.LOW)
     public static void registerAnims(RegistryEvent.Register<CSReadedAnim> e) {
         CSRegistryHelper.loadAnims();
     }

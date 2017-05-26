@@ -12,6 +12,9 @@ import com.leviathanstudio.craftstudio.common.exceptions.CSMalformedJsonExceptio
 import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotFoundException;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -62,20 +65,12 @@ public class CSRegistryHelper
 
         for (LoadElement el : loadModelList) {
             progressBarModels.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
-            System.out.println("YOLOOOOOO");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             forceRegister(ResourceType.MODEL, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarModels);
 
         CraftStudioApi.getLogger().info(String.format("CraftStudioAPI loaded %s models", loadModelList.size()));
         loadModelList = null;
-        for (ResourceLocation res : GameRegistry.findRegistry(CSReadedModel.class).getKeys())
-            System.out.println(res.toString());
     }
 
     static void loadAnims() {
@@ -83,20 +78,12 @@ public class CSRegistryHelper
         progressBarAnim = ProgressManager.push("Registry Animations", loadAnimList.size());
         for (LoadElement el : loadAnimList) {
             progressBarAnim.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
-            System.out.println("Pennniiisss");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             forceRegister(ResourceType.ANIM, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarAnim);
 
         CraftStudioApi.getLogger().info(String.format("CraftStudioAPI loaded %s animations", loadAnimList.size()));
         loadAnimList = null;
-        for (ResourceLocation res : GameRegistry.findRegistry(CSReadedAnim.class).getKeys())
-            System.out.println(res.toString());
     }
 
     public void forceRegister(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn) {
@@ -125,6 +112,10 @@ public class CSRegistryHelper
         try {
             jsonReader = new CSJsonReader(resourceLocationIn);
             if (resourceLocationIn.getResourceDomain() != CraftStudioApi.API_ID) {
+                ModContainer activeMod = Loader.instance().activeModContainer();
+                ModContainer mod = FMLCommonHandler.instance().findContainerFor(resourceLocationIn.getResourceDomain());
+                if (activeMod != mod)
+                    Loader.instance().setActiveModContainer(mod);
                 switch (resourceTypeIn) {
                     case MODEL:
                         GameRegistry.register(jsonReader.readModel().setRegistryName(resourceNameIn));
@@ -133,6 +124,7 @@ public class CSRegistryHelper
                         GameRegistry.register(jsonReader.readAnim().setRegistryName(resourceNameIn));
                         break;
                 }
+                Loader.instance().setActiveModContainer(activeMod);
             }
             else
                 CraftStudioApi.getLogger().fatal("You're not allowed to use the \"craftstudioapi\" to register CraftStudio resources.");
