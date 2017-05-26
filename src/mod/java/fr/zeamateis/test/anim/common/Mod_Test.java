@@ -2,22 +2,26 @@ package fr.zeamateis.test.anim.common;
 
 import java.awt.Color;
 
-import com.leviathanstudio.craftstudio.common.CSRegistryHelper;
+import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
+import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 
 import fr.zeamateis.test.proxy.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+@Mod.EventBusSubscriber
 @Mod(name = "TestMod", modid = Mod_Test.MODID)
 public class Mod_Test
 {
@@ -36,9 +40,18 @@ public class Mod_Test
 
     public static Item itemTest = new ItemTest();
 
+    @SubscribeEvent()
+    public static void registerModels(RegistryEvent.Register<CSReadedModel> e) {
+        proxy.registerModels();
+    }
+
+    @SubscribeEvent()
+    public static void registerAnims(RegistryEvent.Register<CSReadedAnim> e) {
+        proxy.registerAnims();
+    }
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) throws Exception {
-        CSRegistryHelper.setModid(Mod_Test.MODID);
         Mod_Test.proxy.preInit();
         GameRegistry.registerTileEntity(TileEntityBlockTest.class, "TileEntityBlockTest");
 
