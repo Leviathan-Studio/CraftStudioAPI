@@ -1,5 +1,6 @@
-# CraftStudio-Converter-Forge-Test
-Forge testing mod for CraftStudio Converter
+![](/images/cs-api.png)
+
+Official repository of the CraftStudio API
 
 [Full wiki documentation](https://github.com/Leviathan-Studio/CraftStudio-Converter-Forge-Test/wiki)
 
