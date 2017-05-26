@@ -1,6 +1,6 @@
 package fr.zeamateis.test.proxy;
 
-import com.leviathanstudio.craftstudio.common.RegistryCraftStudio;
+import com.leviathanstudio.craftstudio.common.CSRegistryHelper;
 import com.leviathanstudio.craftstudio.common.RenderType;
 import com.leviathanstudio.craftstudio.common.ResourceType;
 
@@ -24,11 +24,11 @@ public class ClientProxy extends CommonProxy
     public void preInit() {
         super.preInit();
         // Registry Model
-        RegistryCraftStudio.register(ResourceType.MODEL, RenderType.ENTITY, "model_dead_corpse");
-        RegistryCraftStudio.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test2");
-        RegistryCraftStudio.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test");
-        RegistryCraftStudio.register(ResourceType.MODEL, RenderType.ENTITY, "dragon_brun");
-        RegistryCraftStudio.register(ResourceType.MODEL, RenderType.ENTITY, "peacock");
+        CSRegistryHelper.register(ResourceType.MODEL, RenderType.ENTITY, "model_dead_corpse");
+        CSRegistryHelper.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test2");
+        CSRegistryHelper.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test");
+        CSRegistryHelper.register(ResourceType.MODEL, RenderType.ENTITY, "dragon_brun");
+        CSRegistryHelper.register(ResourceType.MODEL, RenderType.ENTITY, "peacock");
 
         // Registry Entity
         RenderingRegistry.registerEntityRenderingHandler(EntityTest.class, new IRenderFactory() {

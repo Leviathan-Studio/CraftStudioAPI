@@ -16,12 +16,13 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry.Impl;
  *
  * @author Timmypote
  */
-public class CSReadedAnim extends Impl<CSReadedAnim> implements IForgeRegistryEntry<CSReadedAnim>{
-	public String modid, name;
-	public int duration;
-	public boolean holdLastK;
-	public List<CSReadedAnimBlock> blocks = new ArrayList<>();
-	private Integer[] keyFrames;
+public class CSReadedAnim extends Impl<CSReadedAnim> implements IForgeRegistryEntry<CSReadedAnim>
+{
+    public String                  modid, name;
+    public int                     duration;
+    public boolean                 holdLastK;
+    public List<CSReadedAnimBlock> blocks = new ArrayList<>();
+    private Integer[]              keyFrames;
 
     /**
      * Get the keys of keyframes used in the animation.

@@ -2,7 +2,7 @@ package fr.zeamateis.test.anim.common;
 
 import java.awt.Color;
 
-import com.leviathanstudio.craftstudio.common.RegistryCraftStudio;
+import com.leviathanstudio.craftstudio.common.CSRegistryHelper;
 
 import fr.zeamateis.test.proxy.CommonProxy;
 import net.minecraft.block.Block;
@@ -38,7 +38,7 @@ public class Mod_Test
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) throws Exception {
-        RegistryCraftStudio.setModid(Mod_Test.MODID);
+        CSRegistryHelper.setModid(Mod_Test.MODID);
         Mod_Test.proxy.preInit();
         GameRegistry.registerTileEntity(TileEntityBlockTest.class, "TileEntityBlockTest");
 

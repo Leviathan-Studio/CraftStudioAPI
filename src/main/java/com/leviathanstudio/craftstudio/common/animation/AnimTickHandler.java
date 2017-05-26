@@ -22,7 +22,7 @@ public class AnimTickHandler
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public void addEntity(IAnimated entity) {
+    public void addAnimated(IAnimated entity) {
         this.activeEntities.add(entity);
     }
 

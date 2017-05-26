@@ -1,6 +1,7 @@
 package fr.zeamateis.test.anim.common;
 
 import com.leviathanstudio.craftstudio.common.IAnimated;
+
 import fr.zeamateis.test.anim.common.animations.AnimationHandlerTest;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.world.World;
@@ -36,6 +37,6 @@ public class EntityTest3 extends EntityCreature implements IAnimated
         super.onLivingUpdate();
         // Activate the animation in ticking method
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly"))
-            this.getAnimationHandler().executeAnimation(Mod_Test.MODID, "fly", 0);
+            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "fly");
     }
 }

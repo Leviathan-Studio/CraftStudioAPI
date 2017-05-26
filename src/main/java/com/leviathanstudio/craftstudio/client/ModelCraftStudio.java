@@ -21,23 +21,23 @@ public class ModelCraftStudio extends ModelBase
 {
     private List<CSModelRenderer> parentBlocks = new ArrayList<>();
 
-    public ModelCraftStudio(String modid, String modelNameIn, int textureSize){
-		this(modid, modelNameIn, textureSize, textureSize);
-	}
-    
-    public ModelCraftStudio(String modid, String modelNameIn, int textureWidth, int textureHeight){
-    	this(new ResourceLocation(modid, modelNameIn), textureWidth, textureHeight);
+    public ModelCraftStudio(String modid, String modelNameIn, int textureSize) {
+        this(modid, modelNameIn, textureSize, textureSize);
     }
-    
-	public ModelCraftStudio(ResourceLocation modelIn, int textureWidth, int textureHeight){
+
+    public ModelCraftStudio(String modid, String modelNameIn, int textureWidth, int textureHeight) {
+        this(new ResourceLocation(modid, modelNameIn), textureWidth, textureHeight);
+    }
+
+    public ModelCraftStudio(ResourceLocation modelIn, int textureWidth, int textureHeight) {
 
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
 
-		CSReadedModel rModel = GameRegistry.findRegistry(CSReadedModel.class).getValue(modelIn);
-		if (rModel == null)
-			throw new CSResourceNotRegisteredException(modelIn.toString());
-		CSModelRenderer modelRend;
+        CSReadedModel rModel = GameRegistry.findRegistry(CSReadedModel.class).getValue(modelIn);
+        if (rModel == null)
+            throw new CSResourceNotRegisteredException(modelIn.toString());
+        CSModelRenderer modelRend;
 
         for (CSReadedModelBlock rBlock : rModel.parents) {
             modelRend = this.generateCSModelRend(rBlock);
@@ -72,7 +72,15 @@ public class ModelCraftStudio extends ModelBase
         return modelRend;
     }
 
-    // Render method for blocks
+    /**
+     * Render function for an animated block<br>
+     * Must be called in a
+     * {@link net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer#renderTileEntityAt
+     * renderTileEntityAt} method
+     *
+     * @param tileEntityIn
+     *            The TileEntity who implements {@link IAnimated}
+     */
     public void render(TileEntity tileEntityIn) {
         float modelScale = 0.0625F;
         AnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) tileEntityIn);
@@ -80,24 +88,24 @@ public class ModelCraftStudio extends ModelBase
             block.render(modelScale);
     }
 
-    // Render method for entities
+    /**
+     * Render function for a non-animated block<br>
+     * Must be called in a
+     * {@link net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer#renderTileEntityAt
+     * renderTileEntityAt} method
+     */
+    public void render() {
+        float modelScale = 0.0625F;
+        for (CSModelRenderer block : this.parentBlocks)
+            block.render(modelScale);
+    }
+
+    /** Render methods for an Entity */
     @Override
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         AnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) entityIn);
         for (CSModelRenderer block : this.parentBlocks)
             block.render(scale);
-    }
-
-    public CSModelRenderer getModelRendererFromName(String name) {
-        CSModelRenderer result;
-        for (CSModelRenderer parent : this.parentBlocks) {
-            result = getModelRendererFromNameAndBlock(name, parent);
-            if (result != null)
-                return result;
-        }
-
-        return null;
-
     }
 
     private static CSModelRenderer getModelRendererFromNameAndBlock(String name, CSModelRenderer block) {
@@ -114,6 +122,16 @@ public class ModelCraftStudio extends ModelBase
                     return result;
             }
 
+        return null;
+    }
+
+    private CSModelRenderer getModelRendererFromName(String name) {
+        CSModelRenderer result;
+        for (CSModelRenderer parent : this.parentBlocks) {
+            result = getModelRendererFromNameAndBlock(name, parent);
+            if (result != null)
+                return result;
+        }
         return null;
     }
 }
