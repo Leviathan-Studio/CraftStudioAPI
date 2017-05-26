@@ -96,6 +96,23 @@ public class CSModelRenderer extends ModelRenderer
         return this;
     }
 
+    private static CSModelRenderer getModelRendererFromNameAndBlock(String name, CSModelRenderer block) {
+        CSModelRenderer childModel, result;
+
+        if (block.boxName.equals(name))
+            return block;
+
+        for (ModelRenderer child : block.childModels)
+            if (child instanceof CSModelRenderer) {
+                childModel = (CSModelRenderer) child;
+                result = getModelRendererFromNameAndBlock(name, childModel);
+                if (result != null)
+                    return result;
+            }
+
+        return null;
+    }
+
     /**
      * Render model parts
      */
@@ -152,10 +169,6 @@ public class CSModelRenderer extends ModelRenderer
                 this.prevRotationMatrix = this.rotationMatrix;
             }
     }
-
-    /** Useless, we use Gl Rotations */
-    @Override
-    public void renderWithRotation(float par1) {}
 
     /**
      * Allows the changing of Angles after a box has been rendered

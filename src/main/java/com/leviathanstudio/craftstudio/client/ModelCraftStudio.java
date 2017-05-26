@@ -72,7 +72,15 @@ public class ModelCraftStudio extends ModelBase
         return modelRend;
     }
 
-    // Render method for blocks
+    /**
+     * Render function for an animated block<br>
+     * Must be called in a
+     * {@link net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer#renderTileEntityAt
+     * renderTileEntityAt} method
+     *
+     * @param tileEntityIn
+     *            The TileEntity who implements {@link IAnimated}
+     */
     public void render(TileEntity tileEntityIn) {
         float modelScale = 0.0625F;
         AnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) tileEntityIn);
@@ -80,24 +88,24 @@ public class ModelCraftStudio extends ModelBase
             block.render(modelScale);
     }
 
-    // Render method for entities
+    /**
+     * Render function for a non-animated block<br>
+     * Must be called in a
+     * {@link net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer#renderTileEntityAt
+     * renderTileEntityAt} method
+     */
+    public void render() {
+        float modelScale = 0.0625F;
+        for (CSModelRenderer block : this.parentBlocks)
+            block.render(modelScale);
+    }
+
+    /** Render methods for an Entity */
     @Override
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         AnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) entityIn);
         for (CSModelRenderer block : this.parentBlocks)
             block.render(scale);
-    }
-
-    public CSModelRenderer getModelRendererFromName(String name) {
-        CSModelRenderer result;
-        for (CSModelRenderer parent : this.parentBlocks) {
-            result = getModelRendererFromNameAndBlock(name, parent);
-            if (result != null)
-                return result;
-        }
-
-        return null;
-
     }
 
     private static CSModelRenderer getModelRendererFromNameAndBlock(String name, CSModelRenderer block) {
@@ -114,6 +122,16 @@ public class ModelCraftStudio extends ModelBase
                     return result;
             }
 
+        return null;
+    }
+
+    private CSModelRenderer getModelRendererFromName(String name) {
+        CSModelRenderer result;
+        for (CSModelRenderer parent : this.parentBlocks) {
+            result = getModelRendererFromNameAndBlock(name, parent);
+            if (result != null)
+                return result;
+        }
         return null;
     }
 }

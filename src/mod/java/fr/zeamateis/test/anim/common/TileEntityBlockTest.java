@@ -19,7 +19,7 @@ public class TileEntityBlockTest extends TileEntity implements IAnimated, ITicka
     @Override
     public void update() {
         if (!this.getAnimationHandler().isAnimationActive("block"))
-            this.getAnimationHandler().executeAnimation("block", 0);
+            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "block");
     }
 
 }

@@ -15,6 +15,7 @@ import com.leviathanstudio.craftstudio.util.math.Vector3f;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -23,8 +24,8 @@ public abstract class AnimationHandler
 {
     public static AnimTickHandler                    animTickHandler;
     /** Owner of this handler. */
-    private final IAnimated                          animatedEntity;
-    /** List of all the activate animations of this Entity. */
+    private final IAnimated                          animatedElement;
+    /** List of all the activated animations of this element. */
     public List<Channel>                             animCurrentChannels = new ArrayList<>();
     /** Previous time of every active animation. */
     public Map<String, Long>                         animPrevTime        = new HashMap<>();
@@ -38,21 +39,45 @@ public abstract class AnimationHandler
      */
     private final HashMap<String, ArrayList<String>> animationEvents     = new HashMap<>();
 
-    public AnimationHandler(IAnimated entity) {
+    /** Map with all the animations. */
+    public static HashMap<String, Channel>           animChannels        = new HashMap<>();
+
+    public AnimationHandler(IAnimated animated) {
         if (AnimationHandler.animTickHandler == null)
             AnimationHandler.animTickHandler = new AnimTickHandler();
-        AnimationHandler.animTickHandler.addEntity(entity);
+        AnimationHandler.animTickHandler.addAnimated(animated);
 
-        this.animatedEntity = entity;
+        this.animatedElement = animated;
     }
 
-    public IAnimated getEntity() {
-        return this.animatedEntity;
+    public static void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped) {
+        ResourceLocation anim = new ResourceLocation(modid, animNameIn), model = new ResourceLocation(modid, modelNameIn);
+        AnimationHandler.animChannels.put(anim.toString(), new CSAnimChannel(anim, model, false));
     }
 
-    public void executeAnimation(HashMap<String, Channel> animChannels, String name, float startingFrame) {
-        if (animChannels.get(name) != null) {
-            final Channel selectedChannel = animChannels.get(name);
+    public static void addAnim(String modid, String animNameIn, String modelNameIn, CustomChannel customChannelIn) {
+        ResourceLocation anim = new ResourceLocation(modid, animNameIn), model = new ResourceLocation(modid, modelNameIn);
+        AnimationHandler.animChannels.put(anim.toString(), customChannelIn);
+    }
+
+    public static void addAnim(String modid, String animNameIn, String invertedChannelName) {
+        ResourceLocation anim = new ResourceLocation(modid, animNameIn);
+        Channel channel = AnimationHandler.animChannels.get(invertedChannelName).getInvertedChannel(animNameIn);
+        channel.name = anim.toString();
+        AnimationHandler.animChannels.put(anim.toString(), channel);
+    }
+
+    private IAnimated getAnimated() {
+        return this.animatedElement;
+    }
+
+    public boolean isAnimationActive(String modid, String name) {
+        return this.isAnimationActive(modid + ":" + name);
+    }
+
+    public void startAnimation(HashMap<String, Channel> animChannels, String modid, String name, float startingFrame) {
+        if (animChannels.get(modid + ":" + name) != null) {
+            final Channel selectedChannel = animChannels.get(modid + ":" + name);
             final int indexToRemove = this.animCurrentChannels.indexOf(selectedChannel);
             if (indexToRemove != -1)
                 this.animCurrentChannels.remove(indexToRemove);
@@ -64,33 +89,35 @@ public abstract class AnimationHandler
                 this.animationEvents.put(selectedChannel.name, new ArrayList<String>());
         }
         else
-            CraftStudioApi.getLogger().warn("The animation called " + name + " doesn't exist!");
+            CraftStudioApi.getLogger().warn("The animation called " + name + "from " + modid + " doesn't exist!");
     }
 
-    public abstract void executeAnimation(String name, float startingFrame);
+    public abstract void startAnimationAt(String modid, String name, float startingFrame);
 
-    public void stopAnimation(HashMap<String, Channel> animChannels, String name) {
-        final Channel selectedChannel = animChannels.get(name);
+    public abstract void startAnimation(String modid, String name);
+
+    public void stopAnimation(HashMap<String, Channel> animChannels, String modid, String name) {
+        final Channel selectedChannel = animChannels.get(modid + ":" + name);
         if (selectedChannel != null) {
             final int indexToRemove = this.animCurrentChannels.indexOf(selectedChannel);
             if (indexToRemove != -1) {
                 this.animCurrentChannels.remove(indexToRemove);
-                this.animPrevTime.remove(name);
-                this.animCurrentFrame.remove(name);
-                this.animationEvents.get(name).clear();
+                this.animPrevTime.remove(modid + ":" + name);
+                this.animCurrentFrame.remove(modid + ":" + name);
+                this.animationEvents.get(modid + ":" + name).clear();
             }
         }
         else
-            CraftStudioApi.getLogger().warn("The animation called " + name + " doesn't exist!");
+            CraftStudioApi.getLogger().warn("The animation called " + name + "from " + modid + " doesn't exist!");
     }
 
-    public abstract void stopAnimation(String name);
+    public abstract void stopAnimation(String modid, String name);
 
     public void animationsUpdate() {
         for (final Iterator<Channel> it = this.animCurrentChannels.iterator(); it.hasNext();) {
             final Channel anim = it.next();
             final float prevFrame = this.animCurrentFrame.get(anim.name);
-            final boolean animStatus = AnimationHandler.updateAnimation(this.animatedEntity, anim, this.animPrevTime, this.animCurrentFrame);
+            final boolean animStatus = AnimationHandler.updateAnimation(this.animatedElement, anim, this.animPrevTime, this.animCurrentFrame);
             if (this.animCurrentFrame.get(anim.name) != null)
                 this.fireAnimationEvent(anim, prevFrame, this.animCurrentFrame.get(anim.name));
             if (!animStatus) {
@@ -104,7 +131,7 @@ public abstract class AnimationHandler
 
     public boolean isAnimationActive(String name) {
         boolean animAlreadyUsed = false;
-        for (final Channel anim : this.animatedEntity.getAnimationHandler().animCurrentChannels)
+        for (final Channel anim : this.animatedElement.getAnimationHandler().animCurrentChannels)
             if (anim.name != null) {
                 if (anim.name.equals(name)) {
                     animAlreadyUsed = true;
@@ -120,7 +147,7 @@ public abstract class AnimationHandler
     }
 
     private void fireAnimationEvent(Channel anim, float prevFrame, float frame) {
-        if (AnimationHandler.isWorldRemote(this.animatedEntity))
+        if (AnimationHandler.isWorldRemote(this.animatedElement))
             this.fireAnimationEventClientSide(anim, prevFrame, frame);
         else
             this.fireAnimationEventServerSide(anim, prevFrame, frame);
@@ -336,7 +363,6 @@ public abstract class AnimationHandler
         // box.resetRotationMatrix();
         // if (!anyTranslationApplied && !anyCustomAnimationRunning)
         // box.resetRotationPoint();
-
     }
 
     /** Get world object from an IAnimated */

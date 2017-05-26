@@ -8,7 +8,7 @@ import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotFoundExcep
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class RegistryCraftStudio
+public class CSRegistryHelper
 {
 
     private static String modid;
@@ -23,11 +23,11 @@ public class RegistryCraftStudio
     }
 
     public static String getModid() {
-        return RegistryCraftStudio.modid;
+        return CSRegistryHelper.modid;
     }
 
     public static void setModid(String modidIn) {
-        RegistryCraftStudio.modid = modidIn;
+        CSRegistryHelper.modid = modidIn;
     }
 
     /**

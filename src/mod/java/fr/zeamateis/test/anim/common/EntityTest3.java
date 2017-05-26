@@ -37,6 +37,6 @@ public class EntityTest3 extends EntityCreature implements IAnimated
         super.onLivingUpdate();
         // Activate the animation in ticking method
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly"))
-            this.getAnimationHandler().executeAnimation(Mod_Test.MODID, "fly", 0);
+            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "fly");
     }
 }
