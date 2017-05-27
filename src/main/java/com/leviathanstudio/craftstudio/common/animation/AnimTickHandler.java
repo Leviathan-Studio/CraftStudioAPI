@@ -44,6 +44,7 @@ public class AnimTickHandler
 
     // Called when the server ticks. Usually 20 ticks a second.
     @SubscribeEvent
+    @SideOnly(Side.SERVER)
     public void onServerTick(TickEvent.ServerTickEvent event) {
         if (!this.activeAnimated.isEmpty())
             if (event.phase == Phase.START) {

@@ -68,7 +68,7 @@ public class CraftStudioApi
 
     @EventHandler
     void preInit(FMLPreInitializationEvent event) {
-
+        proxy.preInit(event);
     }
 
     @EventHandler

@@ -1,5 +1,7 @@
 package fr.zeamateis.test.anim.common;
 
+import java.util.UUID;
+
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
@@ -38,5 +40,10 @@ public class EntityTest4 extends EntityCreature implements IAnimated
         // Activate the animation in ticking method
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation"))
             this.getAnimationHandler().startAnimation(Mod_Test.MODID, "rotation");
+    }
+
+    @Override
+    public UUID getUUID() {
+        return this.getPersistentID();
     }
 }

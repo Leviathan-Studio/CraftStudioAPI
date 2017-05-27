@@ -195,6 +195,9 @@ public class CSModelRenderer extends ModelRenderer
             }
     }
 
+    @Override
+    public void renderWithRotation(float scale) {}
+
     /**
      * Set default rotation point (model with no animations) and set the current
      * rotation point.

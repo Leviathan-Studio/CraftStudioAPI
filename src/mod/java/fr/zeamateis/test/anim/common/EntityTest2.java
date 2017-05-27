@@ -1,14 +1,13 @@
 package fr.zeamateis.test.anim.common;
 
+import java.util.UUID;
+
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
-import fr.zeamateis.test.anim.common.animations.TestCustomAnimation;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
@@ -23,12 +22,13 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
         super(par1World);
         this.animHandler.addAnim(Mod_Test.MODID, "close_fan", "peacock", false);
         this.animHandler.addAnim(Mod_Test.MODID, "open_fan", "testmod:close_fan");
-        this.animHandler.addAnim(Mod_Test.MODID, "custom", "peacock", new TestCustomAnimation("customTesting"));
+        // this.animHandler.addAnim(Mod_Test.MODID, "custom", "peacock", new
+        // TestCustomAnimation("customTesting"));
         this.setSize(1.0F, 1.5F);
-        this.tasks.addTask(1, new EntityAILookIdle(this));
-        this.tasks.addTask(2, new EntityAIPanic(this, 2.2));
-        this.getAnimationHandler().startAnimation(Mod_Test.MODID, "custom");
-        this.initEntityAI();
+        // this.tasks.addTask(1, new EntityAILookIdle(this));
+        // this.tasks.addTask(2, new EntityAIPanic(this, 2.2));
+        // this.getAnimationHandler().startAnimation(Mod_Test.MODID, "custom");
+        // this.initEntityAI();
 
     }
 
@@ -60,10 +60,12 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "close_fan")
                 && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "open_fan"))
             if (this.fanOpen) {
+                this.getAnimationHandler().stopAnimation(Mod_Test.MODID, "open_fan");
                 this.getAnimationHandler().startAnimation(Mod_Test.MODID, "close_fan");
                 this.fanOpen = false;
             }
             else {
+                this.getAnimationHandler().stopAnimation(Mod_Test.MODID, "close_fan");
                 this.getAnimationHandler().startAnimation(Mod_Test.MODID, "open_fan");
                 this.fanOpen = true;
             }
@@ -79,5 +81,10 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
         return null;
+    }
+
+    @Override
+    public UUID getUUID() {
+        return this.getPersistentID();
     }
 }

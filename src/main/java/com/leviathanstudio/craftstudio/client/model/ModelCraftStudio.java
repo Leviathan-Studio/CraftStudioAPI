@@ -106,6 +106,7 @@ public class ModelCraftStudio extends ModelBase
     /** Render methods for an Entity */
     @Override
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         ClientAnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) entityIn);
         for (CSModelRenderer block : this.parentBlocks)
             block.render(scale);

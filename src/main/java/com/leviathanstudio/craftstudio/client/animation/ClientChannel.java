@@ -62,6 +62,8 @@ public class ClientChannel extends Channel
     public KeyFrame getNextRotationKeyFrameForBox(String boxName, float currentFrame) {
         int nextFramePosition = -1;
         KeyFrame nextKeyFrame = null;
+        if (currentFrame > this.totalFrames)
+            return this.keyFrames.get(this.totalFrames);
         for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
             final Integer key = entry.getKey();
             final KeyFrame value = entry.getValue();
@@ -105,6 +107,8 @@ public class ClientChannel extends Channel
     public KeyFrame getNextTranslationKeyFrameForBox(String boxName, float currentFrame) {
         int nextFramePosition = -1;
         KeyFrame nextKeyFrame = null;
+        if (currentFrame > this.totalFrames)
+            return this.keyFrames.get(this.totalFrames);
         for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
             final Integer key = entry.getKey();
             final KeyFrame value = entry.getValue();

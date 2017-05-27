@@ -36,16 +36,19 @@ public class ClientAnimationHandler extends AnimationHandler
         super(animated);
     }
 
+    @Override
     public void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped) {
         ResourceLocation anim = new ResourceLocation(modid, animNameIn), model = new ResourceLocation(modid, modelNameIn);
         this.animChannels.put(anim.toString(), new CSAnimChannel(anim, model, false));
     }
 
+    @Override
     public void addAnim(String modid, String animNameIn, String modelNameIn, CustomChannel customChannelIn) {
         ResourceLocation anim = new ResourceLocation(modid, animNameIn), model = new ResourceLocation(modid, modelNameIn);
         this.animChannels.put(anim.toString(), customChannelIn);
     }
 
+    @Override
     public void addAnim(String modid, String animNameIn, String invertedChannelName) {
         ResourceLocation anim = new ResourceLocation(modid, animNameIn);
         ClientChannel channel = this.animChannels.get(invertedChannelName).getInvertedChannel(animNameIn);
@@ -53,9 +56,10 @@ public class ClientAnimationHandler extends AnimationHandler
         this.animChannels.put(anim.toString(), channel);
     }
 
-    public void startAnimation(String modid, String name, float startingFrame) {
-        if (this.animChannels.get(modid + ":" + name) != null) {
-            ClientChannel selectedChannel = this.animChannels.get(modid + ":" + name);
+    @Override
+    public void startAnimation(String res, float startingFrame) {
+        if (this.animChannels.get(res) != null) {
+            ClientChannel selectedChannel = this.animChannels.get(res);
             int indexToRemove = this.animCurrentChannels.indexOf(selectedChannel);
             if (indexToRemove != -1)
                 this.animCurrentChannels.remove(indexToRemove);
@@ -65,9 +69,10 @@ public class ClientAnimationHandler extends AnimationHandler
             this.animCurrentFrame.put(selectedChannel.name, startingFrame);
         }
         else
-            CraftStudioApi.getLogger().warn("The animation called " + name + "from " + modid + " doesn't exist!");
+            CraftStudioApi.getLogger().warn("The animation called " + res + " doesn't exist!");
     }
 
+    @Override
     public void stopAnimation(String modid, String name) {
         ClientChannel selectedChannel = this.animChannels.get(modid + ":" + name);
         if (selectedChannel != null) {
@@ -84,6 +89,7 @@ public class ClientAnimationHandler extends AnimationHandler
 
     @Override
     public void animationsUpdate() {
+
         for (Iterator<ClientChannel> it = this.animCurrentChannels.iterator(); it.hasNext();) {
             ClientChannel anim = it.next();
             float prevFrame = this.animCurrentFrame.get(anim.name);
@@ -98,7 +104,20 @@ public class ClientAnimationHandler extends AnimationHandler
         }
     }
 
+    @Override
     public boolean isAnimationActive(String name) {
+        boolean animAlreadyUsed = false;
+        for (ClientChannel anim : this.animCurrentChannels)
+            if (anim.name != null) {
+                if (anim.name.equals(name) && this.animCurrentFrame.get(anim.name) < anim.totalFrames - 1) {
+                    animAlreadyUsed = true;
+                    break;
+                }
+            }
+        return animAlreadyUsed;
+    }
+
+    public boolean isLinearAnimationActive(String name) {
         boolean animAlreadyUsed = false;
         for (ClientChannel anim : this.animCurrentChannels)
             if (anim.name != null) {
@@ -110,7 +129,10 @@ public class ClientAnimationHandler extends AnimationHandler
         return animAlreadyUsed;
     }
 
-    /** Update animation values. Return false if the animation should stop. */
+    /**
+     * Update animation values. Return false if the animation should stop.
+     */
+    @Override
     public boolean updateAnimation(Channel channel) {
         long currentTime = System.nanoTime();
         if (!(channel instanceof ClientChannel))
@@ -139,6 +161,11 @@ public class ClientAnimationHandler extends AnimationHandler
                     if (clientChannel.animationMode == ClientChannel.EnumAnimationMode.LOOP) {
                         this.animPrevTime.put(channel.name, currentTime);
                         this.animCurrentFrame.put(channel.name, 0F);
+                        return true;
+                    }
+                    else if (clientChannel.animationMode == ClientChannel.EnumAnimationMode.LINEAR) {
+                        this.animPrevTime.put(channel.name, currentTime);
+                        this.animCurrentFrame.put(channel.name, (float) channel.totalFrames - 1);
                         return true;
                     }
                     return false;
@@ -181,18 +208,21 @@ public class ClientAnimationHandler extends AnimationHandler
                         performAnimationForBlock(childModel, entity);
                     }
 
-            for (final ClientChannel channel : animHandler.animCurrentChannels)
+            boolean anyRotationApplied = false;
+            boolean anyTranslationApplied = false;
+            boolean anyCustomAnimationRunning = false;
+
+            for (ClientChannel channel : animHandler.animCurrentChannels)
                 if (channel.animationMode != ClientChannel.EnumAnimationMode.CUSTOM) {
-                    final float currentFrame = animHandler.animCurrentFrame.get(channel.name);
+                    float currentFrame = animHandler.animCurrentFrame.get(channel.name);
 
                     // Rotations
-                    final KeyFrame prevRotationKeyFrame = channel.getPreviousRotationKeyFrameForBox(boxName,
+                    KeyFrame prevRotationKeyFrame = channel.getPreviousRotationKeyFrameForBox(boxName,
                             animHandler.animCurrentFrame.get(channel.name));
-                    final int prevRotationKeyFramePosition = prevRotationKeyFrame != null ? channel.getKeyFramePosition(prevRotationKeyFrame) : 0;
+                    int prevRotationKeyFramePosition = prevRotationKeyFrame != null ? channel.getKeyFramePosition(prevRotationKeyFrame) : 0;
 
-                    final KeyFrame nextRotationKeyFrame = channel.getNextRotationKeyFrameForBox(boxName,
-                            animHandler.animCurrentFrame.get(channel.name));
-                    final int nextRotationKeyFramePosition = nextRotationKeyFrame != null ? channel.getKeyFramePosition(nextRotationKeyFrame) : 0;
+                    KeyFrame nextRotationKeyFrame = channel.getNextRotationKeyFrameForBox(boxName, animHandler.animCurrentFrame.get(channel.name));
+                    int nextRotationKeyFramePosition = nextRotationKeyFrame != null ? channel.getKeyFramePosition(nextRotationKeyFrame) : 0;
 
                     float SLERPProgress = (currentFrame - prevRotationKeyFramePosition)
                             / (nextRotationKeyFramePosition - prevRotationKeyFramePosition);
@@ -200,36 +230,37 @@ public class ClientAnimationHandler extends AnimationHandler
                         SLERPProgress = 1F;
 
                     if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame == null && !(nextRotationKeyFramePosition == 0)) {
-                        final Quaternion currentQuat = new Quaternion();
+                        Quaternion currentQuat = new Quaternion();
                         currentQuat.slerp(block.getDefaultRotationAsQuaternion(), nextRotationKeyFrame.modelRenderersRotations.get(boxName),
                                 SLERPProgress);
                         block.getRotationMatrix().set(currentQuat).transpose();
+                        anyRotationApplied = true;
                     }
                     else if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame != null && !(nextRotationKeyFramePosition == 0)) {
-                        final Quaternion currentQuat = new Quaternion();
+                        Quaternion currentQuat = new Quaternion();
                         currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
                                 nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
                         block.getRotationMatrix().set(currentQuat).transpose();
+                        anyRotationApplied = true;
                     }
                     else if (!(prevRotationKeyFramePosition == 0) && !(nextRotationKeyFramePosition == 0)) {
-                        final Quaternion currentQuat = new Quaternion();
+                        Quaternion currentQuat = new Quaternion();
                         currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
                                 nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
                         block.getRotationMatrix().set(currentQuat).transpose();
+                        anyRotationApplied = true;
                     }
 
                     // Translations
-                    final KeyFrame prevTranslationKeyFrame = channel.getPreviousTranslationKeyFrameForBox(boxName,
+                    KeyFrame prevTranslationKeyFrame = channel.getPreviousTranslationKeyFrameForBox(boxName,
                             animHandler.animCurrentFrame.get(channel.name));
-                    final int prevTranslationsKeyFramePosition = prevTranslationKeyFrame != null
-                            ? channel.getKeyFramePosition(prevTranslationKeyFrame) : 0;
+                    int prevTranslationsKeyFramePosition = prevTranslationKeyFrame != null ? channel.getKeyFramePosition(prevTranslationKeyFrame) : 0;
 
-                    final KeyFrame nextTranslationKeyFrame = channel.getNextTranslationKeyFrameForBox(boxName,
+                    KeyFrame nextTranslationKeyFrame = channel.getNextTranslationKeyFrameForBox(boxName,
                             animHandler.animCurrentFrame.get(channel.name));
-                    final int nextTranslationsKeyFramePosition = nextTranslationKeyFrame != null
-                            ? channel.getKeyFramePosition(nextTranslationKeyFrame) : 0;
+                    int nextTranslationsKeyFramePosition = nextTranslationKeyFrame != null ? channel.getKeyFramePosition(nextTranslationKeyFrame) : 0;
 
-                    final Vector3f defaultPos = new Vector3f(block.getDefaultRotationPointX(), block.getDefaultRotationPointY(),
+                    Vector3f defaultPos = new Vector3f(block.getDefaultRotationPointX(), block.getDefaultRotationPointY(),
                             block.getDefaultRotationPointZ());
 
                     float LERPProgress = (currentFrame - prevTranslationsKeyFramePosition)
@@ -238,33 +269,44 @@ public class ClientAnimationHandler extends AnimationHandler
                         LERPProgress = 1F;
 
                     if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame == null && !(nextTranslationsKeyFramePosition == 0)) {
-                        final Vector3f startPosition = block.getPositionAsVector();
-                        final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
-                        final Vector3f currentPosition = new Vector3f(startPosition);
+                        Vector3f startPosition = block.getPositionAsVector();
+                        Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
+                        Vector3f currentPosition = new Vector3f(startPosition);
                         currentPosition.interpolate(endPosition, LERPProgress);
                         block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
+                        anyTranslationApplied = true;
                     }
                     else if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame != null && !(nextTranslationsKeyFramePosition == 0)) {
-                        final Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName);
-                        final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
-                        final Vector3f currentPosition = new Vector3f(startPosition);
+                        Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName);
+                        Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
+                        Vector3f currentPosition = new Vector3f(startPosition);
                         currentPosition.interpolate(endPosition, LERPProgress);
                         block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
+                        anyTranslationApplied = true;
                     }
                     else if (!(prevTranslationsKeyFramePosition == 0) && !(nextTranslationsKeyFramePosition == 0)) {
-                        final Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName);
-                        final Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
-                        final Vector3f currentPosition = new Vector3f(startPosition);
+                        Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName);
+                        Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
+                        Vector3f currentPosition = new Vector3f(startPosition);
                         currentPosition.interpolate(endPosition, LERPProgress);
                         block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
+                        anyTranslationApplied = true;
                     }
                 }
-                else
+                else {
+                    anyCustomAnimationRunning = true;
                     ((CustomChannel) channel).update(block, entity);
+                }
 
+            if (!anyRotationApplied && !anyCustomAnimationRunning)
+                block.resetRotationMatrix();
+            if (!anyTranslationApplied && !anyCustomAnimationRunning)
+                block.resetRotationPoint();
         }
+
     }
 
+    @Override
     public void fireAnimationEvent(Channel anim, float prevFrame, float frame) {}
 
 }
