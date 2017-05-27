@@ -156,7 +156,7 @@ public class ClientAnimationHandler extends AnimationHandler
 
     public static boolean isGamePaused() {
         Minecraft MC = Minecraft.getMinecraft();
-        return /* MC.currentScreen != null && */ MC.currentScreen.doesGuiPauseGame() && !MC.getIntegratedServer().getPublic();
+        return MC.isSingleplayer() && MC.currentScreen != null && MC.currentScreen.doesGuiPauseGame() && !MC.getIntegratedServer().getPublic();
     }
 
     /**

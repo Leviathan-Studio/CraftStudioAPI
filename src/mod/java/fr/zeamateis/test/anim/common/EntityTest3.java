@@ -1,17 +1,20 @@
 package fr.zeamateis.test.anim.common;
 
+import com.leviathanstudio.craftstudio.CraftStudioApi;
+import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
-import fr.zeamateis.test.anim.common.animations.AnimationHandlerTest;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.world.World;
 
 public class EntityTest3 extends EntityCreature implements IAnimated
 {
-    protected AnimationHandlerTest animHandler;
+    protected AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(this);
 
     public EntityTest3(World par1World) {
         super(par1World);
+        this.animHandler.addAnim(Mod_Test.MODID, "fly", "dragon_brun", true);
+        this.animHandler.addAnim(Mod_Test.MODID, "idle", "dragon_brun", true);
     }
 
     @Override
@@ -21,9 +24,7 @@ public class EntityTest3 extends EntityCreature implements IAnimated
 
     // Getter for animation handler
     @Override
-    public AnimationHandlerTest getAnimationHandler() {
-        if (this.animHandler == null)
-            this.animHandler = new AnimationHandlerTest(this);
+    public AnimationHandler getAnimationHandler() {
         return this.animHandler;
     }
 
