@@ -58,29 +58,30 @@ public class ClientAnimationHandler extends AnimationHandler
 
     @Override
     public void startAnimation(String res, float startingFrame) {
-        if (Minecraft.getMinecraft().isSingleplayer())
+        if (this.isWorldRemote(this.animatedElement)) {
             this.clientStartAnimation(res, startingFrame);
+            System.out.println("ttjbkhgjhbkjkjhbj");
+        }
     }
 
     public void clientStartAnimation(String res, float startingFrame) {
-        if (Minecraft.getMinecraft().isSingleplayer())
-            if (this.animChannels.get(res) != null) {
-                ClientChannel selectedChannel = this.animChannels.get(res);
-                int indexToRemove = this.animCurrentChannels.indexOf(selectedChannel);
-                if (indexToRemove != -1)
-                    this.animCurrentChannels.remove(indexToRemove);
+        if (this.animChannels.get(res) != null) {
+            ClientChannel selectedChannel = this.animChannels.get(res);
+            int indexToRemove = this.animCurrentChannels.indexOf(selectedChannel);
+            if (indexToRemove != -1)
+                this.animCurrentChannels.remove(indexToRemove);
 
-                this.animCurrentChannels.add(selectedChannel);
-                this.animPrevTime.put(selectedChannel.name, System.nanoTime());
-                this.animCurrentFrame.put(selectedChannel.name, startingFrame);
-            }
-            else
-                CraftStudioApi.getLogger().warn("The animation called " + res + " doesn't exist!");
+            this.animCurrentChannels.add(selectedChannel);
+            this.animPrevTime.put(selectedChannel.name, System.nanoTime());
+            this.animCurrentFrame.put(selectedChannel.name, startingFrame);
+        }
+        else
+            CraftStudioApi.getLogger().warn("The animation called " + res + " doesn't exist!");
     }
 
     @Override
     public void stopAnimation(String res) {
-        if (Minecraft.getMinecraft().isSingleplayer())
+        if (this.isWorldRemote(this.animatedElement))
             this.clientStopAnimation(res);
     }
 
