@@ -58,33 +58,44 @@ public class ClientAnimationHandler extends AnimationHandler
 
     @Override
     public void startAnimation(String res, float startingFrame) {
-        if (this.animChannels.get(res) != null) {
-            ClientChannel selectedChannel = this.animChannels.get(res);
-            int indexToRemove = this.animCurrentChannels.indexOf(selectedChannel);
-            if (indexToRemove != -1)
-                this.animCurrentChannels.remove(indexToRemove);
+        if (Minecraft.getMinecraft().isSingleplayer())
+            this.clientStartAnimation(res, startingFrame);
+    }
 
-            this.animCurrentChannels.add(selectedChannel);
-            this.animPrevTime.put(selectedChannel.name, System.nanoTime());
-            this.animCurrentFrame.put(selectedChannel.name, startingFrame);
-        }
-        else
-            CraftStudioApi.getLogger().warn("The animation called " + res + " doesn't exist!");
+    public void clientStartAnimation(String res, float startingFrame) {
+        if (Minecraft.getMinecraft().isSingleplayer())
+            if (this.animChannels.get(res) != null) {
+                ClientChannel selectedChannel = this.animChannels.get(res);
+                int indexToRemove = this.animCurrentChannels.indexOf(selectedChannel);
+                if (indexToRemove != -1)
+                    this.animCurrentChannels.remove(indexToRemove);
+
+                this.animCurrentChannels.add(selectedChannel);
+                this.animPrevTime.put(selectedChannel.name, System.nanoTime());
+                this.animCurrentFrame.put(selectedChannel.name, startingFrame);
+            }
+            else
+                CraftStudioApi.getLogger().warn("The animation called " + res + " doesn't exist!");
     }
 
     @Override
-    public void stopAnimation(String modid, String name) {
-        ClientChannel selectedChannel = this.animChannels.get(modid + ":" + name);
+    public void stopAnimation(String res) {
+        if (Minecraft.getMinecraft().isSingleplayer())
+            this.clientStopAnimation(res);
+    }
+
+    public void clientStopAnimation(String res) {
+        ClientChannel selectedChannel = this.animChannels.get(res);
         if (selectedChannel != null) {
             int indexToRemove = this.animCurrentChannels.indexOf(selectedChannel);
             if (indexToRemove != -1) {
                 this.animCurrentChannels.remove(indexToRemove);
-                this.animPrevTime.remove(modid + ":" + name);
-                this.animCurrentFrame.remove(modid + ":" + name);
+                this.animPrevTime.remove(res);
+                this.animCurrentFrame.remove(res);
             }
         }
         else
-            CraftStudioApi.getLogger().warn("The animation stopped " + name + "from " + modid + " doesn't exist!");
+            CraftStudioApi.getLogger().warn("The animation stopped " + res + " doesn't exist!");
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.leviathanstudio.craftstudio.proxy;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.network.CraftStudioPacketHandler;
+import com.leviathanstudio.craftstudio.network.EndAnimationMessage;
+import com.leviathanstudio.craftstudio.network.EndAnimationMessage.EndAnimationHandler;
 import com.leviathanstudio.craftstudio.network.FireAnimationMessage;
 import com.leviathanstudio.craftstudio.network.FireAnimationMessage.FireAnimationHandler;
 import com.leviathanstudio.craftstudio.network.RFireAnimationMessage;
@@ -19,6 +21,8 @@ public abstract class CommonProxy
                 Side.CLIENT);
         CraftStudioPacketHandler.INSTANCE.registerMessage(RFireAnimationHandler.class, RFireAnimationMessage.class,
                 CraftStudioPacketHandler.getNewId(), Side.SERVER);
+        CraftStudioPacketHandler.INSTANCE.registerMessage(EndAnimationHandler.class, EndAnimationMessage.class, CraftStudioPacketHandler.getNewId(),
+                Side.CLIENT);
     }
 
     public void init(FMLInitializationEvent e) {

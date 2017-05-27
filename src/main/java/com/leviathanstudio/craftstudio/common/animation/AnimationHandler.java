@@ -38,7 +38,11 @@ public abstract class AnimationHandler
         this.startAnimation(modid + ":" + name, startingFrame);
     }
 
-    public abstract void stopAnimation(String modid, String name);
+    public abstract void stopAnimation(String res);
+
+    public void stopAnimation(String modid, String name) {
+        this.stopAnimation(modid + ":" + name);
+    }
 
     public abstract void animationsUpdate();
 

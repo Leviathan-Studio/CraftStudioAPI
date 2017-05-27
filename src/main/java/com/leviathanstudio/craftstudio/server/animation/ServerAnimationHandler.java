@@ -12,6 +12,7 @@ import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.Channel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.network.CraftStudioPacketHandler;
+import com.leviathanstudio.craftstudio.network.EndAnimationMessage;
 import com.leviathanstudio.craftstudio.network.FireAnimationMessage;
 
 import net.minecraft.entity.Entity;
@@ -84,38 +85,23 @@ public class ServerAnimationHandler extends AnimationHandler
             CraftStudioApi.getLogger().warn("The animation called " + ress + " doesn't exist!");
     }
 
-    // @Override
-    // public void startAnimation(String modid, String name, float
-    // startingFrame) {
-    // // String selectedChannel = modid + ":" + name;
-    // // if (this.animChannels.get(selectedChannel) != null) {
-    // // int indexToRemove =
-    // // this.animCurrentChannels.indexOf(selectedChannel);
-    // // if (indexToRemove != -1)
-    // // this.animCurrentChannels.remove(indexToRemove);
-    // //
-    // // this.animCurrentChannels.add(selectedChannel);
-    // // this.animPrevTime.put(selectedChannel, System.nanoTime());
-    // // this.animCurrentFrame.put(selectedChannel, startingFrame);
-    // // }
-    // // else
-    // // CraftStudioApi.getLogger().warn("The animation called " + name +
-    // // "from " + modid + " doesn't exist!");
-    // }
-
     @Override
-    public void stopAnimation(String modid, String name) {
-        String selectedChannel = modid + ":" + name;
-        if (this.animChannels.get(selectedChannel) != null) {
-            int indexToRemove = this.animCurrentChannels.indexOf(selectedChannel);
+    public void stopAnimation(String res) {
+        if (!(this.animatedElement instanceof Entity))
+            return;
+        Entity e = (Entity) this.animatedElement;
+        CraftStudioPacketHandler.INSTANCE.sendToAllAround(new EndAnimationMessage(res, this.animatedElement),
+                new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 100));
+        if (this.animChannels.get(res) != null) {
+            int indexToRemove = this.animCurrentChannels.indexOf(res);
             if (indexToRemove != -1) {
                 this.animCurrentChannels.remove(indexToRemove);
-                this.animPrevTime.remove(selectedChannel);
-                this.animCurrentFrame.remove(selectedChannel);
+                this.animPrevTime.remove(res);
+                this.animCurrentFrame.remove(res);
             }
         }
         else
-            CraftStudioApi.getLogger().warn("The animation stopped " + name + "from " + modid + " doesn't exist!");
+            CraftStudioApi.getLogger().warn("The animation stopped " + res + " doesn't exist!");
     }
 
     @Override
