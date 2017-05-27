@@ -8,7 +8,14 @@ import fr.zeamateis.test.anim.common.Mod_Test;
 
 public class CommonProxy
 {
-    public void registerModels() {}
+    public void registerModels() {
+        CSRegistryHelper registry = new CSRegistryHelper(Mod_Test.MODID);
+        registry.register(ResourceType.MODEL, RenderType.ENTITY, "model_dead_corpse");
+        registry.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test2");
+        registry.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test");
+        registry.register(ResourceType.MODEL, RenderType.ENTITY, "dragon_brun");
+        registry.register(ResourceType.MODEL, RenderType.ENTITY, "peacock");
+    }
 
     public void registerAnims() {
         CSRegistryHelper registry = new CSRegistryHelper(Mod_Test.MODID);

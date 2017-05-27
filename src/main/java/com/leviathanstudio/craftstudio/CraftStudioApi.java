@@ -10,7 +10,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -27,11 +26,9 @@ import net.minecraftforge.fml.common.registry.RegistryBuilder;
 @Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, version = "0.1-alpha", updateJSON = "https://leviathan-studio.com/craftstudioapi/update.json", acceptedMinecraftVersions = "1.11.2")
 public class CraftStudioApi
 {
-    private static final Logger                LOGGER = LogManager.getLogger("CraftStudio");
-    public static final String                 API_ID = "craftstudioapi";
-    static final String                        NAME   = "CraftStudio API";
-
-    private static ProgressManager.ProgressBar progressBarModels;
+    private static final Logger LOGGER = LogManager.getLogger("CraftStudio");
+    public static final String  API_ID = "craftstudioapi";
+    static final String         NAME   = "CraftStudio API";
 
     @SubscribeEvent
     public static void createRegistries(RegistryEvent.NewRegistry event) {

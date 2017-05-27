@@ -1,12 +1,12 @@
-package com.leviathanstudio.craftstudio.client;
+package com.leviathanstudio.craftstudio.client.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.leviathanstudio.craftstudio.client.animation.ClientAnimationHandler;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
-import com.leviathanstudio.craftstudio.common.IAnimated;
-import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
+import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotRegisteredException;
 
 import net.minecraft.client.model.ModelBase;
@@ -16,7 +16,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class ModelCraftStudio extends ModelBase
 {
     private List<CSModelRenderer> parentBlocks = new ArrayList<>();
@@ -83,7 +86,7 @@ public class ModelCraftStudio extends ModelBase
      */
     public void render(TileEntity tileEntityIn) {
         float modelScale = 0.0625F;
-        AnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) tileEntityIn);
+        ClientAnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) tileEntityIn);
         for (CSModelRenderer block : this.parentBlocks)
             block.render(modelScale);
     }
@@ -103,7 +106,7 @@ public class ModelCraftStudio extends ModelBase
     /** Render methods for an Entity */
     @Override
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        AnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) entityIn);
+        ClientAnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) entityIn);
         for (CSModelRenderer block : this.parentBlocks)
             block.render(scale);
     }

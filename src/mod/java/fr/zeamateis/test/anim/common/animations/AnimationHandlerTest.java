@@ -1,15 +1,15 @@
 package fr.zeamateis.test.anim.common.animations;
 
-import com.leviathanstudio.craftstudio.common.IAnimated;
-import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
-import com.leviathanstudio.craftstudio.common.animation.Channel;
+import com.leviathanstudio.craftstudio.client.animation.ClientChannel;
+import com.leviathanstudio.craftstudio.client.animation.ClientAnimationHandler;
+import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
 import fr.zeamateis.test.anim.common.Mod_Test;
 
 /**
  * The Animation handler class to register all animations you want
  */
-public class AnimationHandlerTest extends AnimationHandler
+public class AnimationHandlerTest extends ClientAnimationHandler
 {
 
     /** Register the animation(s) */
@@ -26,23 +26,23 @@ public class AnimationHandlerTest extends AnimationHandler
 
     @Override
     public void startAnimationAt(String modid, String name, float startingFrame) {
-        super.startAnimation(AnimationHandler.animChannels, modid, name, startingFrame);
+        super.startAnimation(ClientAnimationHandler.animChannels, modid, name, startingFrame);
     }
 
     @Override
     public void startAnimation(String modid, String name) {
-        super.startAnimation(AnimationHandler.animChannels, modid, name, 0.0F);
+        super.startAnimation(ClientAnimationHandler.animChannels, modid, name, 0.0F);
     }
 
     @Override
     public void stopAnimation(String modid, String name) {
-        super.stopAnimation(AnimationHandler.animChannels, modid, name);
+        super.stopAnimation(ClientAnimationHandler.animChannels, modid, name);
     }
 
     @Override
-    public void fireAnimationEventClientSide(Channel anim, float prevFrame, float frame) {}
+    public void fireAnimationEventClientSide(ClientChannel anim, float prevFrame, float frame) {}
 
     @Override
-    public void fireAnimationEventServerSide(Channel anim, float prevFrame, float frame) {}
+    public void fireAnimationEventServerSide(ClientChannel anim, float prevFrame, float frame) {}
 
 }

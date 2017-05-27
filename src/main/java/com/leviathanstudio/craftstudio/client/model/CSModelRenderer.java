@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.client;
+package com.leviathanstudio.craftstudio.client.model;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -17,7 +17,10 @@ import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class CSModelRenderer extends ModelRenderer
 {
     /** Custom version, as parent variable is PRIVATE */

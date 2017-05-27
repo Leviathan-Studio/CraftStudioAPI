@@ -30,7 +30,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author ZeAmateis
  * @author Phenix246
  */
-@SideOnly(Side.CLIENT)
 public class CSJsonReader
 {
     JsonObject root;
@@ -48,6 +47,7 @@ public class CSJsonReader
      * @see #readModel()
      * @see #readAnim()
      */
+    @SideOnly(Side.CLIENT)
     public CSJsonReader(ResourceLocation resourceIn) throws CSResourceNotFoundException {
         JsonParser jsonParser = new JsonParser();
         BufferedReader reader = null;

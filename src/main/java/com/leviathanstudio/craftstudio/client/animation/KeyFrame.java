@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.common.animation;
+package com.leviathanstudio.craftstudio.client.animation;
 
 import java.util.HashMap;
 import java.util.Map;

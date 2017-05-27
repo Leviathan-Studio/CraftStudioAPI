@@ -1,10 +1,7 @@
-package com.leviathanstudio.craftstudio.common;
-
-import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
+package com.leviathanstudio.craftstudio.common.animation;
 
 public interface IAnimated
 {
-
     /**
      * Getter to call custom {@link AnimationHandler} class, useful methods
      */

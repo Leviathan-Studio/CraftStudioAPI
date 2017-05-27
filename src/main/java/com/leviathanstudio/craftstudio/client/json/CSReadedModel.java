@@ -5,12 +5,15 @@ import java.util.List;
 
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry.Impl;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Class that store information relative to a model.
  *
  * @author Timmypote
  */
+@SideOnly(Side.CLIENT)
 public class CSReadedModel extends Impl<CSReadedModel> implements IForgeRegistryEntry<CSReadedModel>
 {
     public String                   name, modid;
