@@ -6,7 +6,6 @@ import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 
 import fr.zeamateis.test.proxy.CommonProxy;
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,7 +18,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod.EventBusSubscriber
 @Mod(name = "TestMod", modid = Mod_Test.MODID)
@@ -40,12 +40,14 @@ public class Mod_Test
 
     public static Item itemTest = new ItemTest();
 
-    @SubscribeEvent()
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public static void registerModels(RegistryEvent.Register<CSReadedModel> e) {
         proxy.registerModels();
     }
 
-    @SubscribeEvent()
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public static void registerAnims(RegistryEvent.Register<CSReadedAnim> e) {
         proxy.registerAnims();
     }
@@ -53,9 +55,10 @@ public class Mod_Test
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) throws Exception {
         Mod_Test.proxy.preInit();
-        GameRegistry.registerTileEntity(TileEntityBlockTest.class, "TileEntityBlockTest");
+        // GameRegistry.registerTileEntity(TileEntityBlockTest.class,
+        // "TileEntityBlockTest");
 
-        Block blockTest = new BlockTest();
+        // Block blockTest = new BlockTest();
         // GameRegistry.registerBlock(blockTest, "blockTest");
         // GameRegistry.registerItem(Mod_Test.itemTest, "itemTest");
     }

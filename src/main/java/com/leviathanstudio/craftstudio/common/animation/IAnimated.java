@@ -1,12 +1,13 @@
-package com.leviathanstudio.craftstudio.common;
+package com.leviathanstudio.craftstudio.common.animation;
 
-import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
+import java.util.UUID;
 
 public interface IAnimated
 {
-
     /**
      * Getter to call custom {@link AnimationHandler} class, useful methods
      */
     public AnimationHandler getAnimationHandler();
+
+    public UUID getUUID();
 }

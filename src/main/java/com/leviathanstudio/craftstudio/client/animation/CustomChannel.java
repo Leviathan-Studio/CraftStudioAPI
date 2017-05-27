@@ -1,9 +1,9 @@
-package com.leviathanstudio.craftstudio.common.animation;
+package com.leviathanstudio.craftstudio.client.animation;
 
-import com.leviathanstudio.craftstudio.client.CSModelRenderer;
-import com.leviathanstudio.craftstudio.common.IAnimated;
+import com.leviathanstudio.craftstudio.client.model.CSModelRenderer;
+import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
-public abstract class CustomChannel extends Channel
+public abstract class CustomChannel extends ClientChannel
 {
 
     public CustomChannel(String channelName) {

@@ -34,6 +34,12 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerAnims() {
         super.registerAnims();
+        CSRegistryHelper registry = new CSRegistryHelper(Mod_Test.MODID);
+        registry.register(ResourceType.ANIM, RenderType.BLOCK, "position");
+        registry.register(ResourceType.ANIM, RenderType.BLOCK, "rotation");
+        registry.register(ResourceType.ANIM, RenderType.ENTITY, "fly");
+        registry.register(ResourceType.ANIM, RenderType.ENTITY, "idle");
+        registry.register(ResourceType.ANIM, RenderType.ENTITY, "close_fan");
     }
 
     @Override

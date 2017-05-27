@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.client;
+package com.leviathanstudio.craftstudio.client.model;
 
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.PositionTextureVertex;

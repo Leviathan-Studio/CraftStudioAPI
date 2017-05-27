@@ -10,12 +10,15 @@ import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFr
 
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry.Impl;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Class that store the informations relative to an animation.
  *
  * @author Timmypote
  */
+@SideOnly(Side.CLIENT)
 public class CSReadedAnim extends Impl<CSReadedAnim> implements IForgeRegistryEntry<CSReadedAnim>
 {
     public String                  modid, name;

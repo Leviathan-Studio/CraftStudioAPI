@@ -1,8 +1,8 @@
 package fr.zeamateis.test.anim.common.animations;
 
-import com.leviathanstudio.craftstudio.client.CSModelRenderer;
-import com.leviathanstudio.craftstudio.common.IAnimated;
-import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
+import com.leviathanstudio.craftstudio.client.animation.CustomChannel;
+import com.leviathanstudio.craftstudio.client.model.CSModelRenderer;
+import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.util.Util;
 import com.leviathanstudio.craftstudio.util.math.Quaternion;
 

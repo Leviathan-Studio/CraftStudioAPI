@@ -1,17 +1,21 @@
 package fr.zeamateis.test.anim.common;
 
-import com.leviathanstudio.craftstudio.common.IAnimated;
+import java.util.UUID;
 
-import fr.zeamateis.test.anim.common.animations.AnimationHandlerTest;
+import com.leviathanstudio.craftstudio.CraftStudioApi;
+import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
+import com.leviathanstudio.craftstudio.common.animation.IAnimated;
+
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.world.World;
 
 public class EntityTest4 extends EntityCreature implements IAnimated
 {
-    protected AnimationHandlerTest animHandler;
+    protected AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(this);
 
     public EntityTest4(World par1World) {
         super(par1World);
+        this.animHandler.addAnim(Mod_Test.MODID, "rotation", "craftstudio_api_test2", true);
     }
 
     @Override
@@ -21,9 +25,7 @@ public class EntityTest4 extends EntityCreature implements IAnimated
 
     // Getter for animation handler
     @Override
-    public AnimationHandlerTest getAnimationHandler() {
-        if (this.animHandler == null)
-            this.animHandler = new AnimationHandlerTest(this);
+    public AnimationHandler getAnimationHandler() {
         return this.animHandler;
     }
 
@@ -38,5 +40,10 @@ public class EntityTest4 extends EntityCreature implements IAnimated
         // Activate the animation in ticking method
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation"))
             this.getAnimationHandler().startAnimation(Mod_Test.MODID, "rotation");
+    }
+
+    @Override
+    public UUID getUUID() {
+        return this.getPersistentID();
     }
 }

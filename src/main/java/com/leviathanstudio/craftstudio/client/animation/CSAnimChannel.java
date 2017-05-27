@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.common.animation;
+package com.leviathanstudio.craftstudio.client.animation;
 
 import java.util.Map.Entry;
 
@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  *
  * @author Timmypote
  */
-public class CSAnimChannel extends Channel
+public class CSAnimChannel extends ClientChannel
 {
     private CSReadedAnim  rAnim;
     private CSReadedModel rModel;
