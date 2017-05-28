@@ -1,0 +1,28 @@
+{
+  "title": "Offset",
+  "duration": 60,
+  "holdLastKeyframe": false,
+  "nodeAnimations": {
+    "Block": {
+      "position": {
+      },
+      "offsetFromPivot": {
+        "0": [ 0, 0, 0 ],
+        "4": [ -15, 0, 0 ],
+        "16": [ -30, 0, 0 ],
+        "30": [ -50, 0, 0 ],
+        "44": [ -30, 0, 0 ],
+        "56": [ -15, 0, 0 ]
+      },
+      "size": {
+      },
+      "rotation": {
+        "0": [ 0, 0, 0 ],
+        "20": [ 0, 120, 0 ],
+        "40": [ -360, -120, 0 ]
+      },
+      "stretch": {
+      }
+    }
+  }
+}
