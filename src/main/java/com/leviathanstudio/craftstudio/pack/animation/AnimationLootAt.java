@@ -10,7 +10,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 public class AnimationLootAt extends CustomChannel
 {
     private String       headPart;
@@ -23,6 +22,7 @@ public class AnimationLootAt extends CustomChannel
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void update(CSModelRenderer parts, IAnimated animated) {
         if (this.entityToAnimate instanceof IAnimated)
             if (parts.boxName.equals(this.headPart)) {

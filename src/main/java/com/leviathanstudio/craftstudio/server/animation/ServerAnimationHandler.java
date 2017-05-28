@@ -70,7 +70,6 @@ public class ServerAnimationHandler extends AnimationHandler
     }
 
     public void serverStartAnimation(String ress, float endingFrame) {
-        System.out.println("Animation fire:" + ress);
         if (this.animChannels.get(ress) != null && this.startingFrames.get(ress) != null) {
             Channel anim = this.animChannels.get(ress);
             anim.totalFrames = (int) endingFrame;
@@ -133,7 +132,6 @@ public class ServerAnimationHandler extends AnimationHandler
     }
 
     /** Update animation values. Return false if the animation should stop. */
-    // @Override
     @Override
     public boolean canUpdateAnimation(Channel channel) {
         long currentTime = System.nanoTime();

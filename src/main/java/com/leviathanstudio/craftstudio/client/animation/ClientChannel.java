@@ -6,16 +6,10 @@ import java.util.Map.Entry;
 
 import com.leviathanstudio.craftstudio.common.animation.Channel;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-@SideOnly(Side.CLIENT)
 public class ClientChannel extends Channel
 {
     /** KeyFrames. Key is the position of that keyFrame in the frames list. */
-    private Map<Integer, KeyFrame> keyFrames     = new HashMap<>();
-    /** How this animation should behave: 0 = Normal; 1 = Loop; 2 = Cycle. */
-    private EnumAnimationMode      animationMode = EnumAnimationMode.LINEAR;
+    private Map<Integer, KeyFrame> keyFrames = new HashMap<>();
 
     public ClientChannel(String channelName, boolean initialize) {
         super(channelName);
@@ -28,7 +22,7 @@ public class ClientChannel extends Channel
         this(animationName, initialize);
         this.fps = fps;
         this.totalFrames = totalFrames;
-        this.animationMode = animationMode;
+        this.setAnimationMode(animationMode);
         if (animationMode == EnumAnimationMode.LOOP)
             this.looped = true;
     }
@@ -150,7 +144,7 @@ public class ClientChannel extends Channel
 
     /** Get inverted channel, for inverted animation */
     public ClientChannel getInvertedChannel(String name) {
-        ClientChannel chan = new ClientChannel(name, this.fps, this.totalFrames, this.animationMode, true);
+        ClientChannel chan = new ClientChannel(name, this.fps, this.totalFrames, this.getAnimationMode(), true);
         for (Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet())
             chan.keyFrames.put(this.totalFrames - entry.getKey(), entry.getValue().clone());
         return chan;
@@ -158,18 +152,6 @@ public class ClientChannel extends Channel
 
     public Map<Integer, KeyFrame> getKeyFrames() {
         return this.keyFrames;
-    }
-
-    public EnumAnimationMode getAnimationMode() {
-        return this.animationMode;
-    }
-
-    public void setAnimationMode(EnumAnimationMode animationModeIn) {
-        this.animationMode = animationModeIn;
-    }
-
-    public enum EnumAnimationMode {
-        LINEAR, LOOP, CUSTOM;
     }
 
 }

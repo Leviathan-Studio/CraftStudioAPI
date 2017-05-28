@@ -17,10 +17,7 @@ import com.leviathanstudio.craftstudio.util.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 public class ClientAnimationHandler extends AnimationHandler
 {
     /** List of all the activated animations of this element. */
