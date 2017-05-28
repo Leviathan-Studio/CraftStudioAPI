@@ -57,13 +57,13 @@ public class CraftStudioApi
     @SubscribeEvent(priority = EventPriority.LOW)
     @SideOnly(Side.CLIENT)
     public static void endProgressBar(RegistryEvent.Register<CSReadedModel> e) {
-        CraftStudioRegistry.loadModels();
+        CSRegistryHelper.loadModels();
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
     @SideOnly(Side.CLIENT)
     public static void registerAnims(RegistryEvent.Register<CSReadedAnim> e) {
-        CraftStudioRegistry.loadAnims();
+        CSRegistryHelper.loadAnims();
     }
 
     @EventHandler

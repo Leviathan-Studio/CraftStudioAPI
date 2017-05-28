@@ -6,6 +6,10 @@ import java.util.Map;
 import com.leviathanstudio.craftstudio.util.math.Quaternion;
 import com.leviathanstudio.craftstudio.util.math.Vector3f;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+@SideOnly(Side.CLIENT)
 public class KeyFrame implements Cloneable
 {
     protected Map<String, Quaternion> modelRenderersRotations    = new HashMap<>();

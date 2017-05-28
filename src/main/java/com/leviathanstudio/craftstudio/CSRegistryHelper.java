@@ -3,11 +3,11 @@ package com.leviathanstudio.craftstudio;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.leviathanstudio.craftstudio.client.RenderType;
-import com.leviathanstudio.craftstudio.client.ResourceType;
 import com.leviathanstudio.craftstudio.client.json.CSJsonReader;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
+import com.leviathanstudio.craftstudio.client.json.RenderType;
+import com.leviathanstudio.craftstudio.client.json.ResourceType;
 import com.leviathanstudio.craftstudio.common.exceptions.CSMalformedJsonException;
 import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotFoundException;
 
@@ -22,7 +22,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class CraftStudioRegistry
+public class CSRegistryHelper
 {
     private static String            modid;
 
@@ -35,8 +35,8 @@ public class CraftStudioRegistry
      * @param modid
      *            Define the ID of your mod
      */
-    public CraftStudioRegistry(String modid) {
-        CraftStudioRegistry.modid = modid;
+    public CSRegistryHelper(String modid) {
+        CSRegistryHelper.modid = modid;
     }
 
     /**
@@ -57,7 +57,7 @@ public class CraftStudioRegistry
      *            The name of your resource in assets without extension
      */
     public void register(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn) {
-        CraftStudioRegistry.register(resourceTypeIn, renderTypeIn, resourceNameIn, CraftStudioRegistry.modid);
+        CSRegistryHelper.register(resourceTypeIn, renderTypeIn, resourceNameIn, CSRegistryHelper.modid);
     }
 
     /**
@@ -104,15 +104,15 @@ public class CraftStudioRegistry
     public static void register(ResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn) {
         switch (resourceTypeIn) {
             case MODEL:
-                if (CraftStudioRegistry.loadModelList != null)
-                    CraftStudioRegistry.loadModelList.add(new LoadElement(resourceLocationIn, resourceNameIn));
+                if (CSRegistryHelper.loadModelList != null)
+                    CSRegistryHelper.loadModelList.add(new LoadElement(resourceLocationIn, resourceNameIn));
                 else
                     CraftStudioApi.getLogger()
                             .error("Unable to load model outside of the RegistryEvent.Register<CSReadedModel> event, use forceRegister instead");
                 break;
             case ANIM:
-                if (CraftStudioRegistry.loadAnimList != null)
-                    CraftStudioRegistry.loadAnimList.add(new LoadElement(resourceLocationIn, resourceNameIn));
+                if (CSRegistryHelper.loadAnimList != null)
+                    CSRegistryHelper.loadAnimList.add(new LoadElement(resourceLocationIn, resourceNameIn));
                 else
                     CraftStudioApi.getLogger()
                             .error("Unable to load animations outside of the RegistryEvent.Register<CSReadedAnim> event, use forceRegister instead");
@@ -122,29 +122,29 @@ public class CraftStudioRegistry
 
     static void loadModels() {
         ProgressManager.ProgressBar progressBarModels;
-        progressBarModels = ProgressManager.push("Registry Models", CraftStudioRegistry.loadModelList.size());
+        progressBarModels = ProgressManager.push("Registry Models", CSRegistryHelper.loadModelList.size());
 
-        for (LoadElement el : CraftStudioRegistry.loadModelList) {
+        for (LoadElement el : CSRegistryHelper.loadModelList) {
             progressBarModels.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
             registry(ResourceType.MODEL, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarModels);
 
-        CraftStudioApi.getLogger().info(String.format("CraftStudioAPI loaded %s models", CraftStudioRegistry.loadModelList.size()));
-        CraftStudioRegistry.loadModelList = null;
+        CraftStudioApi.getLogger().info(String.format("CraftStudioAPI loaded %s models", CSRegistryHelper.loadModelList.size()));
+        CSRegistryHelper.loadModelList = null;
     }
 
     static void loadAnims() {
         ProgressManager.ProgressBar progressBarAnim;
-        progressBarAnim = ProgressManager.push("Registry Animations", CraftStudioRegistry.loadAnimList.size());
-        for (LoadElement el : CraftStudioRegistry.loadAnimList) {
+        progressBarAnim = ProgressManager.push("Registry Animations", CSRegistryHelper.loadAnimList.size());
+        for (LoadElement el : CSRegistryHelper.loadAnimList) {
             progressBarAnim.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
             registry(ResourceType.ANIM, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarAnim);
 
-        CraftStudioApi.getLogger().info(String.format("CraftStudioAPI loaded %s animations", CraftStudioRegistry.loadAnimList.size()));
-        CraftStudioRegistry.loadAnimList = null;
+        CraftStudioApi.getLogger().info(String.format("CraftStudioAPI loaded %s animations", CSRegistryHelper.loadAnimList.size()));
+        CSRegistryHelper.loadAnimList = null;
     }
 
     /**
@@ -163,7 +163,7 @@ public class CraftStudioRegistry
      *            The name of your resource in assets without extension
      */
     private void registry(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn) {
-        CraftStudioRegistry.registry(resourceTypeIn, renderTypeIn, resourceNameIn, CraftStudioRegistry.modid);
+        CSRegistryHelper.registry(resourceTypeIn, renderTypeIn, resourceNameIn, CSRegistryHelper.modid);
     }
 
     /**

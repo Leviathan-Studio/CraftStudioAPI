@@ -29,7 +29,7 @@ public class ModelCraftStudio extends ModelBase
      *            The ID of your mod
      * @param modelNameIn
      *            The name of your craftstudio model your have registered with
-     *            {@link com.leviathanstudio.craftstudio.CraftStudioRegistry#register
+     *            {@link com.leviathanstudio.craftstudio.CSRegistryHelper#register
      *            CraftStudioRegistry#register}
      * @param textureSize
      *            The size of your texture if it's the same width/height
@@ -43,7 +43,7 @@ public class ModelCraftStudio extends ModelBase
      *            The ID of your mod
      * @param modelNameIn
      *            The name of your craftstudio model your have registered with
-     *            {@link com.leviathanstudio.craftstudio.CraftStudioRegistry#register
+     *            {@link com.leviathanstudio.craftstudio.CSRegistryHelper#register
      *            CraftStudioRegistry#register}
      * @param textureWidth
      *            The width texture of your model

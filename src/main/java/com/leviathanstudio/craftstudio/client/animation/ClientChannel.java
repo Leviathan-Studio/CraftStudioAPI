@@ -6,6 +6,10 @@ import java.util.Map.Entry;
 
 import com.leviathanstudio.craftstudio.common.animation.Channel;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+@SideOnly(Side.CLIENT)
 public class ClientChannel extends Channel
 {
     /** KeyFrames. Key is the position of that keyFrame in the frames list. */

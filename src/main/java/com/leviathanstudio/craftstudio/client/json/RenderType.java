@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.client;
+package com.leviathanstudio.craftstudio.client.json;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

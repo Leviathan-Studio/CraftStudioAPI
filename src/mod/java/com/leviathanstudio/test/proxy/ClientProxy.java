@@ -1,8 +1,8 @@
 package com.leviathanstudio.test.proxy;
 
-import com.leviathanstudio.craftstudio.CraftStudioRegistry;
-import com.leviathanstudio.craftstudio.client.RenderType;
-import com.leviathanstudio.craftstudio.client.ResourceType;
+import com.leviathanstudio.craftstudio.CSRegistryHelper;
+import com.leviathanstudio.craftstudio.client.json.RenderType;
+import com.leviathanstudio.craftstudio.client.json.ResourceType;
 import com.leviathanstudio.test.client.RenderTest;
 import com.leviathanstudio.test.client.RenderTest2;
 import com.leviathanstudio.test.client.RenderTest3;
@@ -20,7 +20,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerModels() {
         super.registerModels();
-        CraftStudioRegistry registry = new CraftStudioRegistry(Mod_Test.MODID);
+        CSRegistryHelper registry = new CSRegistryHelper(Mod_Test.MODID);
         registry.register(ResourceType.MODEL, RenderType.ENTITY, "model_dead_corpse");
         registry.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test2");
         registry.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test");
@@ -31,7 +31,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerAnims() {
         super.registerAnims();
-        CraftStudioRegistry registry = new CraftStudioRegistry(Mod_Test.MODID);
+        CSRegistryHelper registry = new CSRegistryHelper(Mod_Test.MODID);
         registry.register(ResourceType.ANIM, RenderType.BLOCK, "position");
         registry.register(ResourceType.ANIM, RenderType.BLOCK, "rotation");
         registry.register(ResourceType.ANIM, RenderType.ENTITY, "fly");

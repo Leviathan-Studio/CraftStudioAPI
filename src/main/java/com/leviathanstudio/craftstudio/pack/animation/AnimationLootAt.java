@@ -7,7 +7,10 @@ import com.leviathanstudio.craftstudio.util.CraftStudioHelper;
 import com.leviathanstudio.craftstudio.util.math.Quaternion;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class AnimationLootAt extends CustomChannel
 {
     private String       headPart;
