@@ -24,7 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class CSRegistryHelper
 {
-    private static String            modid;
+    private String                   modid;
 
     private static List<LoadElement> loadModelList = new ArrayList();
     private static List<LoadElement> loadAnimList  = new ArrayList();
@@ -36,7 +36,7 @@ public class CSRegistryHelper
      *            Define the ID of your mod
      */
     public CSRegistryHelper(String modid) {
-        CSRegistryHelper.modid = modid;
+        this.modid = modid;
     }
 
     /**
@@ -57,7 +57,7 @@ public class CSRegistryHelper
      *            The name of your resource in assets without extension
      */
     public void register(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn) {
-        CSRegistryHelper.register(resourceTypeIn, renderTypeIn, resourceNameIn, CSRegistryHelper.modid);
+        CSRegistryHelper.register(resourceTypeIn, renderTypeIn, resourceNameIn, this.modid);
     }
 
     /**
@@ -163,7 +163,7 @@ public class CSRegistryHelper
      *            The name of your resource in assets without extension
      */
     private void registry(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn) {
-        CSRegistryHelper.registry(resourceTypeIn, renderTypeIn, resourceNameIn, CSRegistryHelper.modid);
+        CSRegistryHelper.registry(resourceTypeIn, renderTypeIn, resourceNameIn, this.modid);
     }
 
     /**

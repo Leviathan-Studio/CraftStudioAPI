@@ -10,11 +10,10 @@ import com.leviathanstudio.craftstudio.network.FireAnimationMessage.FireAnimatio
 import com.leviathanstudio.craftstudio.network.RFireAnimationMessage;
 import com.leviathanstudio.craftstudio.network.RFireAnimationMessage.RFireAnimationHandler;
 
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-public abstract class CommonProxy
+public abstract class CSCommonProxy
 {
     public void preInit(FMLPreInitializationEvent e) {
         CraftStudioPacketHandler.INSTANCE.registerMessage(FireAnimationHandler.class, FireAnimationMessage.class, CraftStudioPacketHandler.getNewId(),
@@ -23,10 +22,6 @@ public abstract class CommonProxy
                 CraftStudioPacketHandler.getNewId(), Side.SERVER);
         CraftStudioPacketHandler.INSTANCE.registerMessage(EndAnimationHandler.class, EndAnimationMessage.class, CraftStudioPacketHandler.getNewId(),
                 Side.CLIENT);
-    }
-
-    public void init(FMLInitializationEvent e) {
-
     }
 
     public abstract AnimationHandler getNewAnimationHandler(IAnimated animated);
