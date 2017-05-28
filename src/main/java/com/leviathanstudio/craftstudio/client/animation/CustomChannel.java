@@ -8,7 +8,7 @@ public abstract class CustomChannel extends ClientChannel
 
     public CustomChannel(String channelName) {
         super(channelName, true);
-        this.animationMode = EnumAnimationMode.CUSTOM;
+        this.setAnimationMode(EnumAnimationMode.CUSTOM);
     }
 
     @Override
@@ -44,5 +44,4 @@ public abstract class CustomChannel extends ClientChannel
      * every tick until the animation is active.
      */
     public abstract void update(CSModelRenderer parts, IAnimated animated);
-    // This must be filled in the actual custom channels!
 }

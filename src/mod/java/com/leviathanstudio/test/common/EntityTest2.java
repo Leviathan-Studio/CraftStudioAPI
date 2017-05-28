@@ -1,13 +1,16 @@
-package fr.zeamateis.test.anim.common;
+package com.leviathanstudio.test.common;
 
 import java.util.UUID;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
+import com.leviathanstudio.craftstudio.pack.animation.AnimationLootAt;
 
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
@@ -21,15 +24,13 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     public EntityTest2(World par1World) {
         super(par1World);
         this.animHandler.addAnim(Mod_Test.MODID, "close_fan", "peacock", false);
-        this.animHandler.addAnim(Mod_Test.MODID, "open_fan", "testmod:close_fan");
-        // this.animHandler.addAnim(Mod_Test.MODID, "custom", "peacock", new
-        // TestCustomAnimation("customTesting"));
+        this.animHandler.addAnim(Mod_Test.MODID, "open_fan", "close_fan");
+        this.animHandler.addAnim(Mod_Test.MODID, "custom", "peacock", new AnimationLootAt(this, "Head"));
         this.setSize(1.0F, 1.5F);
-        // this.tasks.addTask(1, new EntityAILookIdle(this));
-        // this.tasks.addTask(2, new EntityAIPanic(this, 2.2));
-        // this.getAnimationHandler().startAnimation(Mod_Test.MODID, "custom");
-        // this.initEntityAI();
-
+        this.tasks.addTask(1, new EntityAILookIdle(this));
+        this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 10));
+        this.getAnimationHandler().startAnimation(Mod_Test.MODID, "custom");
+        this.initEntityAI();
     }
 
     @Override
@@ -69,7 +70,6 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
                 this.getAnimationHandler().startAnimation(Mod_Test.MODID, "open_fan");
                 this.fanOpen = true;
             }
-
         return true;
     }
 

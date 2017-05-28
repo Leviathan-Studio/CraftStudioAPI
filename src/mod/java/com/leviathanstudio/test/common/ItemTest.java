@@ -1,4 +1,4 @@
-package fr.zeamateis.test.anim.common;
+package com.leviathanstudio.test.common;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;

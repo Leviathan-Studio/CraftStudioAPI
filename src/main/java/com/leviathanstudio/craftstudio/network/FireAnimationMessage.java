@@ -47,7 +47,7 @@ public class FireAnimationMessage implements IMessage
                 IAnimated animated = (IAnimated) entity;
                 ((ClientAnimationHandler) animated.getAnimationHandler()).clientStartAnimation(message.animationName, message.startingKeyframe);
                 return new RFireAnimationMessage(message.animationName, animated,
-                        (float) ((ClientAnimationHandler) animated.getAnimationHandler()).animChannels.get(message.animationName).totalFrames);
+                        (float) ((ClientAnimationHandler) animated.getAnimationHandler()).getAnimChannels().get(message.animationName).totalFrames);
             }
             return null;
         }

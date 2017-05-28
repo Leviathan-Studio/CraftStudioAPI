@@ -52,9 +52,10 @@ public class ServerAnimationHandler extends AnimationHandler
     }
 
     @Override
-    public void addAnim(String modid, String animNameIn, String invertedChannelName) {
-        ResourceLocation anim = new ResourceLocation(modid, animNameIn);
-        boolean looped = this.animChannels.get(invertedChannelName).looped;
+    public void addAnim(String modid, String invertedAnimationName, String animationToInvert) {
+        ResourceLocation anim = new ResourceLocation(modid, invertedAnimationName);
+        ResourceLocation inverted = new ResourceLocation(modid, animationToInvert);
+        boolean looped = this.animChannels.get(inverted.toString()).looped;
         this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, looped));
     }
 
@@ -109,7 +110,7 @@ public class ServerAnimationHandler extends AnimationHandler
         for (final Iterator<String> it = this.animCurrentChannels.iterator(); it.hasNext();) {
             final String anim = it.next();
             final float prevFrame = this.animCurrentFrame.get(anim);
-            final boolean animStatus = updateAnimation(this.animChannels.get(anim));
+            final boolean animStatus = this.canUpdateAnimation(this.animChannels.get(anim));
             if (this.animCurrentFrame.get(anim) != null)
                 this.fireAnimationEvent(this.animChannels.get(anim), prevFrame, this.animCurrentFrame.get(anim));
             if (!animStatus) {
@@ -133,7 +134,8 @@ public class ServerAnimationHandler extends AnimationHandler
 
     /** Update animation values. Return false if the animation should stop. */
     // @Override
-    public boolean updateAnimation(Channel channel) {
+    @Override
+    public boolean canUpdateAnimation(Channel channel) {
         long currentTime = System.nanoTime();
         long prevTime = this.animPrevTime.get(channel.name);
         float prevFrame = this.animCurrentFrame.get(channel.name);

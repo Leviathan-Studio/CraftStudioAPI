@@ -10,17 +10,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Class that store information relative to an animated block.</br>
- * Type of keyframe elements POS = position, ROT = rotation, OFS = offset from
- * pivot, SIZ = size, STR = stretching.
  *
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
 public class CSReadedAnimBlock
 {
-    public static final byte            POS       = 0, ROT = 1, OFS = 2, SIZ = 3, STR = 4;
-    public String                       name;
-    public Map<Integer, ReadedKeyFrame> keyFrames = new HashMap<>();
+    private String                       name;
+    private Map<Integer, ReadedKeyFrame> keyFrames = new HashMap<>();
 
     /**
      * Add an element to a keyframe. If the keyframe does exist it's created.
@@ -32,23 +29,23 @@ public class CSReadedAnimBlock
      * @param value
      *            Value of the element.
      */
-    public void addKFElement(int keyFrame, byte type, Vector3f value) {
+    public void addKFElement(int keyFrame, FrameType type, Vector3f value) {
         if (!this.keyFrames.containsKey(keyFrame))
             this.keyFrames.put(keyFrame, new ReadedKeyFrame());
         switch (type) {
-            case POS:
+            case POSITION:
                 this.keyFrames.get(keyFrame).position = value;
                 break;
-            case ROT:
+            case ROTATION:
                 this.keyFrames.get(keyFrame).rotation = value;
                 break;
-            case OFS:
+            case OFFSET:
                 this.keyFrames.get(keyFrame).offset = value;
                 break;
-            case SIZ:
+            case SIZE:
                 this.keyFrames.get(keyFrame).size = value;
                 break;
-            case STR:
+            case STRETCH:
                 this.keyFrames.get(keyFrame).stretching = value;
                 break;
         }
@@ -60,5 +57,25 @@ public class CSReadedAnimBlock
     public class ReadedKeyFrame
     {
         public Vector3f position, rotation, offset, size, stretching;
+    }
+
+    public enum FrameType {
+        POSITION, ROTATION, OFFSET, SIZE, STRETCH;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Map<Integer, ReadedKeyFrame> getKeyFrames() {
+        return this.keyFrames;
+    }
+
+    public void setKeyFrames(Map<Integer, ReadedKeyFrame> keyFrames) {
+        this.keyFrames = keyFrames;
     }
 }

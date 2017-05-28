@@ -11,4 +11,4 @@
  *
  * @version 0.9
  */
-package fr.zeamateis.test;
+package com.leviathanstudio.test;

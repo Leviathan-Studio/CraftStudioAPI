@@ -4,7 +4,7 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.leviathanstudio.craftstudio.util.Util;
+import com.leviathanstudio.craftstudio.util.CraftStudioHelper;
 import com.leviathanstudio.craftstudio.util.math.Matrix4f;
 import com.leviathanstudio.craftstudio.util.math.Quat4fHelper;
 import com.leviathanstudio.craftstudio.util.math.Quaternion;
@@ -154,7 +154,7 @@ public class CSModelRenderer extends ModelRenderer
                 else {
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
-                    final FloatBuffer buf = Util.makeFloatBuffer(this.rotationMatrix.intoArray());
+                    final FloatBuffer buf = CraftStudioHelper.makeFloatBuffer(this.rotationMatrix.intoArray());
                     GlStateManager.multMatrix(buf);
 
                     GlStateManager.callList(this.displayList);
@@ -254,7 +254,7 @@ public class CSModelRenderer extends ModelRenderer
     public void setInitialRotationMatrix(Matrix4f matrix) {
         this.defaultRotationMatrix = matrix;
         this.setRotationMatrix(matrix);
-        this.defaultRotationAsQuaternion = Util.getQuaternionFromMatrix(this.rotationMatrix);
+        this.defaultRotationAsQuaternion = CraftStudioHelper.getQuaternionFromMatrix(this.rotationMatrix);
     }
 
     /**

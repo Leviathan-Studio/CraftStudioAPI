@@ -24,15 +24,37 @@ public class ModelCraftStudio extends ModelBase
 {
     private List<CSModelRenderer> parentBlocks = new ArrayList<>();
 
+    /**
+     * @param modid
+     *            The ID of your mod
+     * @param modelNameIn
+     *            The name of your craftstudio model your have registered with
+     *            {@link com.leviathanstudio.craftstudio.CraftStudioRegistry#register
+     *            CraftStudioRegistry#register}
+     * @param textureSize
+     *            The size of your texture if it's the same width/height
+     */
     public ModelCraftStudio(String modid, String modelNameIn, int textureSize) {
         this(modid, modelNameIn, textureSize, textureSize);
     }
 
+    /**
+     * @param modid
+     *            The ID of your mod
+     * @param modelNameIn
+     *            The name of your craftstudio model your have registered with
+     *            {@link com.leviathanstudio.craftstudio.CraftStudioRegistry#register
+     *            CraftStudioRegistry#register}
+     * @param textureWidth
+     *            The width texture of your model
+     * @param textureHeight
+     *            The height texture of your model
+     */
     public ModelCraftStudio(String modid, String modelNameIn, int textureWidth, int textureHeight) {
         this(new ResourceLocation(modid, modelNameIn), textureWidth, textureHeight);
     }
 
-    public ModelCraftStudio(ResourceLocation modelIn, int textureWidth, int textureHeight) {
+    private ModelCraftStudio(ResourceLocation modelIn, int textureWidth, int textureHeight) {
 
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
@@ -42,35 +64,38 @@ public class ModelCraftStudio extends ModelBase
             throw new CSResourceNotRegisteredException(modelIn.toString());
         CSModelRenderer modelRend;
 
-        for (CSReadedModelBlock rBlock : rModel.parents) {
+        for (CSReadedModelBlock rBlock : rModel.getParents()) {
             modelRend = this.generateCSModelRend(rBlock);
             this.parentBlocks.add(modelRend);
             this.generateChild(rBlock, modelRend);
         }
     }
 
+    /** Generate childs part of a model */
     private void generateChild(CSReadedModelBlock rParent, CSModelRenderer parent) {
         CSModelRenderer modelRend;
-        for (CSReadedModelBlock rBlock : rParent.childs) {
+        for (CSReadedModelBlock rBlock : rParent.getChilds()) {
             modelRend = this.generateCSModelRend(rBlock);
             parent.addChild(modelRend);
             this.generateChild(rBlock, modelRend);
         }
     }
 
+    /** Generate CSModelRenderer from readed model block */
     private CSModelRenderer generateCSModelRend(CSReadedModelBlock rBlock) {
-        CSModelRenderer modelRend = new CSModelRenderer(this, rBlock.name, rBlock.texOffset[0], rBlock.texOffset[1]);
-        if (rBlock.vertex != null) {
+        CSModelRenderer modelRend = new CSModelRenderer(this, rBlock.getName(), rBlock.getTexOffset()[0], rBlock.getTexOffset()[1]);
+        if (rBlock.getVertex() != null) {
             PositionTextureVertex vertices[] = new PositionTextureVertex[8];
             for (int i = 0; i < 8; i++)
-                vertices[i] = new PositionTextureVertex(rBlock.vertex[i][0], rBlock.vertex[i][1], rBlock.vertex[i][2], 0.0F, 0.0F);
-            modelRend.addBox(vertices,
-                    CSModelBox.getTextureUVsForRect(rBlock.texOffset[0], rBlock.texOffset[1], rBlock.size.x, rBlock.size.y, rBlock.size.z));
+                vertices[i] = new PositionTextureVertex(rBlock.getVertex()[i][0], rBlock.getVertex()[i][1], rBlock.getVertex()[i][2], 0.0F, 0.0F);
+            modelRend.addBox(vertices, CSModelBox.getTextureUVsForRect(rBlock.getTexOffset()[0], rBlock.getTexOffset()[1], rBlock.getSize().x,
+                    rBlock.getSize().y, rBlock.getSize().z));
         }
         else
-            modelRend.addBox(rBlock.boxSetup.x, rBlock.boxSetup.y, rBlock.boxSetup.z, rBlock.size.x, rBlock.size.y, rBlock.size.z);
-        modelRend.setDefaultRotationPoint(rBlock.rotationPoint.x, rBlock.rotationPoint.y, rBlock.rotationPoint.z);
-        modelRend.setInitialRotationMatrix(rBlock.rotation.x, rBlock.rotation.y, rBlock.rotation.z);
+            modelRend.addBox(rBlock.getBoxSetup().x, rBlock.getBoxSetup().y, rBlock.getBoxSetup().z, rBlock.getSize().x, rBlock.getSize().y,
+                    rBlock.getSize().z);
+        modelRend.setDefaultRotationPoint(rBlock.getRotationPoint().x, rBlock.getRotationPoint().y, rBlock.getRotationPoint().z);
+        modelRend.setInitialRotationMatrix(rBlock.getRotation().x, rBlock.getRotation().y, rBlock.getRotation().z);
         modelRend.setTextureSize(this.textureWidth, this.textureHeight);
         return modelRend;
     }
@@ -112,7 +137,8 @@ public class ModelCraftStudio extends ModelBase
             block.render(scale);
     }
 
-    private static CSModelRenderer getModelRendererFromNameAndBlock(String name, CSModelRenderer block) {
+    /** Return CSModelRenderer by his name and parts */
+    public static CSModelRenderer getModelRendererFromNameAndBlock(String name, CSModelRenderer block) {
         CSModelRenderer childModel, result;
 
         if (block.boxName.equals(name))
@@ -129,7 +155,8 @@ public class ModelCraftStudio extends ModelBase
         return null;
     }
 
-    private CSModelRenderer getModelRendererFromName(String name) {
+    /** Return CSModelRenderer by his name */
+    public CSModelRenderer getModelRendererFromName(String name) {
         CSModelRenderer result;
         for (CSModelRenderer parent : this.parentBlocks) {
             result = getModelRendererFromNameAndBlock(name, parent);

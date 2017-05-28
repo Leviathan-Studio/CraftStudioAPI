@@ -17,25 +17,69 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class CSRegistryHelper
+public class CraftStudioRegistry
 {
     private static String            modid;
 
     private static List<LoadElement> loadModelList = new ArrayList();
     private static List<LoadElement> loadAnimList  = new ArrayList();
 
-    public CSRegistryHelper(String modid) {
-        this.modid = modid;
+    /**
+     * Constructor for the registry
+     *
+     * @param modid
+     *            Define the ID of your mod
+     */
+    public CraftStudioRegistry(String modid) {
+        CraftStudioRegistry.modid = modid;
     }
 
+    /**
+     * Register your resources with the {@link IForgeRegistry}, the right way
+     *
+     * @param resourceTypeIn
+     *            Set your resource type, <br>
+     *            {@link ResourceType#ANIM} for animation,<br>
+     *            {@link ResourceType#MODELS} for models <br>
+     *            <br>
+     * @param renderTypeIn
+     *            Set your render type, <br>
+     *            {@link RenderType#BLOCK} for a block<br>
+     *            {@link RenderType#ENTITY} for an entity<br>
+     *            <br>
+     *
+     * @param resourceNameIn
+     *            The name of your resource in assets without extension
+     */
     public void register(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn) {
-        this.register(resourceTypeIn, renderTypeIn, resourceNameIn, this.modid);
+        CraftStudioRegistry.register(resourceTypeIn, renderTypeIn, resourceNameIn, CraftStudioRegistry.modid);
     }
 
+    /**
+     * Register your resources with the {@link IForgeRegistry}, the right way
+     *
+     * @param resourceTypeIn
+     *            Set your resource type, <br>
+     *            {@link ResourceType#ANIM} for animation,<br>
+     *            {@link ResourceType#MODELS} for models <br>
+     *            <br>
+     * @param renderTypeIn
+     *            Set your render type, <br>
+     *            {@link RenderType#BLOCK} for a block<br>
+     *            {@link RenderType#ENTITY} for an entity<br>
+     *            <br>
+     *
+     * @param resourceNameIn
+     *            The name of your resource in assets without extension
+     *
+     * @param modid
+     *            The ID of your mod
+     */
     private static void register(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn, String modid) {
         capitalCheck(resourceNameIn);
         register(resourceTypeIn,
@@ -43,18 +87,32 @@ public class CSRegistryHelper
                 resourceNameIn);
     }
 
+    /**
+     * Register your resources with the {@link IForgeRegistry}, the right way
+     *
+     * @param resourceTypeIn
+     *            Set your resource type, <br>
+     *            {@link ResourceType#ANIM} for animation,<br>
+     *            {@link ResourceType#MODELS} for models <br>
+     *            <br>
+     * @param resourceLocationIn
+     *            Custom location of your resource
+     *
+     * @param resourceNameIn
+     *            The name of your resource in assets without extension
+     */
     public static void register(ResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn) {
         switch (resourceTypeIn) {
             case MODEL:
-                if (loadModelList != null)
-                    loadModelList.add(new LoadElement(resourceLocationIn, resourceNameIn));
+                if (CraftStudioRegistry.loadModelList != null)
+                    CraftStudioRegistry.loadModelList.add(new LoadElement(resourceLocationIn, resourceNameIn));
                 else
                     CraftStudioApi.getLogger()
                             .error("Unable to load model outside of the RegistryEvent.Register<CSReadedModel> event, use forceRegister instead");
                 break;
             case ANIM:
-                if (loadAnimList != null)
-                    loadAnimList.add(new LoadElement(resourceLocationIn, resourceNameIn));
+                if (CraftStudioRegistry.loadAnimList != null)
+                    CraftStudioRegistry.loadAnimList.add(new LoadElement(resourceLocationIn, resourceNameIn));
                 else
                     CraftStudioApi.getLogger()
                             .error("Unable to load animations outside of the RegistryEvent.Register<CSReadedAnim> event, use forceRegister instead");
@@ -64,35 +122,77 @@ public class CSRegistryHelper
 
     static void loadModels() {
         ProgressManager.ProgressBar progressBarModels;
-        progressBarModels = ProgressManager.push("Registry Models", loadModelList.size());
+        progressBarModels = ProgressManager.push("Registry Models", CraftStudioRegistry.loadModelList.size());
 
-        for (LoadElement el : loadModelList) {
+        for (LoadElement el : CraftStudioRegistry.loadModelList) {
             progressBarModels.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
             forceRegister(ResourceType.MODEL, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarModels);
 
-        CraftStudioApi.getLogger().info(String.format("CraftStudioAPI loaded %s models", loadModelList.size()));
-        loadModelList = null;
+        CraftStudioApi.getLogger().info(String.format("CraftStudioAPI loaded %s models", CraftStudioRegistry.loadModelList.size()));
+        CraftStudioRegistry.loadModelList = null;
     }
 
     static void loadAnims() {
         ProgressManager.ProgressBar progressBarAnim;
-        progressBarAnim = ProgressManager.push("Registry Animations", loadAnimList.size());
-        for (LoadElement el : loadAnimList) {
+        progressBarAnim = ProgressManager.push("Registry Animations", CraftStudioRegistry.loadAnimList.size());
+        for (LoadElement el : CraftStudioRegistry.loadAnimList) {
             progressBarAnim.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
             forceRegister(ResourceType.ANIM, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarAnim);
 
-        CraftStudioApi.getLogger().info(String.format("CraftStudioAPI loaded %s animations", loadAnimList.size()));
-        loadAnimList = null;
+        CraftStudioApi.getLogger().info(String.format("CraftStudioAPI loaded %s animations", CraftStudioRegistry.loadAnimList.size()));
+        CraftStudioRegistry.loadAnimList = null;
     }
 
+    /**
+     * Register your resource with GameRegistry, just here for lazy modder <br>
+     * You need to use {@link CraftStudioRegistry#register}
+     *
+     * @param resourceTypeIn
+     *            Set your resource type, <br>
+     *            {@link ResourceType#ANIM} for animation,<br>
+     *            {@link ResourceType#MODELS} for models <br>
+     *            <br>
+     * @param renderTypeIn
+     *            Set your render type, <br>
+     *            {@link RenderType#BLOCK} for a block<br>
+     *            {@link RenderType#ENTITY} for an entity<br>
+     *            <br>
+     *
+     * @param resourceNameIn
+     *            The name of your resource in assets without extension
+     */
+    @Deprecated
     public void forceRegister(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn) {
-        this.forceRegister(resourceTypeIn, renderTypeIn, resourceNameIn, this.modid);
+        CraftStudioRegistry.forceRegister(resourceTypeIn, renderTypeIn, resourceNameIn, CraftStudioRegistry.modid);
     }
 
+    /**
+     * Register your resource with GameRegistry, just here for lazy modder <br>
+     * You need to use {@link CraftStudioRegistry#register}
+     *
+     * @param resourceTypeIn
+     *            Set your resource type, <br>
+     *            {@link ResourceType#ANIM} for animation,<br>
+     *            {@link ResourceType#MODELS} for models <br>
+     *            <br>
+     *
+     * @param renderTypeIn
+     *            Set your render type, <br>
+     *            {@link RenderType#BLOCK} for a block<br>
+     *            {@link RenderType#ENTITY} for an entity<br>
+     *            <br>
+     *
+     * @param resourceNameIn
+     *            The name of your resource in assets without extension
+     *
+     * @param modid
+     *            The ID of your mod
+     */
+    @Deprecated
     private static void forceRegister(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn, String modid) {
         capitalCheck(resourceNameIn);
         forceRegister(resourceTypeIn,
@@ -101,13 +201,21 @@ public class CSRegistryHelper
     }
 
     /**
-     * Register a new resource with the given name.
+     * Register your resource with GameRegistry, just here for lazy modder <br>
+     * You need to use {@link CraftStudioRegistry#register}
      *
-     * @param resourceIn
-     *            The location of the .csjsmodel or .csjsmodelanim.
-     * @param modelNameIn
-     *            The name given to the model.
+     * @param resourceTypeIn
+     *            Set your resource type, <br>
+     *            {@link ResourceType#ANIM} for animation,<br>
+     *            {@link ResourceType#MODELS} for models <br>
+     *            <br>
+     * @param resourceLocationIn
+     *            Custom location of your resource
+     *
+     * @param resourceNameIn
+     *            The name of your resource in assets without extension
      */
+    @Deprecated
     public static void forceRegister(ResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn) {
         CSJsonReader jsonReader;
         CSReadedModel model;

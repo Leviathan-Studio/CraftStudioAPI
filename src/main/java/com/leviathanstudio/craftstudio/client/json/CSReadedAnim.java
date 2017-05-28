@@ -21,11 +21,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class CSReadedAnim extends Impl<CSReadedAnim> implements IForgeRegistryEntry<CSReadedAnim>
 {
-    public String                  modid, name;
-    public int                     duration;
-    public boolean                 holdLastK;
-    public List<CSReadedAnimBlock> blocks = new ArrayList<>();
-    private Integer[]              keyFrames;
+    private String                  modid;
+    private String                  name;
+    private int                     duration;
+    private boolean                 holdLastK;
+    private List<CSReadedAnimBlock> blocks = new ArrayList<>();
+    private Integer[]               keyFrames;
 
     /**
      * Get the keys of keyframes used in the animation.
@@ -38,11 +39,52 @@ public class CSReadedAnim extends Impl<CSReadedAnim> implements IForgeRegistryEn
 
         Set set = new HashSet<Integer>();
         for (CSReadedAnimBlock block : this.blocks)
-            for (Entry<Integer, ReadedKeyFrame> entry : block.keyFrames.entrySet())
+            for (Entry<Integer, ReadedKeyFrame> entry : block.getKeyFrames().entrySet())
                 set.add(entry.getKey());
 
         Integer[] tab = new Integer[1];
         tab = (Integer[]) set.toArray(tab);
         return tab;
     }
+
+    public String getModid() {
+        return this.modid;
+    }
+
+    public void setModid(String modid) {
+        this.modid = modid;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getDuration() {
+        return this.duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public boolean isHoldLastK() {
+        return this.holdLastK;
+    }
+
+    public void setHoldLastK(boolean holdLastK) {
+        this.holdLastK = holdLastK;
+    }
+
+    public List<CSReadedAnimBlock> getBlocks() {
+        return this.blocks;
+    }
+
+    public void setBlocks(List<CSReadedAnimBlock> blocks) {
+        this.blocks = blocks;
+    }
+
 }

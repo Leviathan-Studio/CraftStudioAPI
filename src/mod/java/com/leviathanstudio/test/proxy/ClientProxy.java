@@ -1,18 +1,18 @@
-package fr.zeamateis.test.proxy;
+package com.leviathanstudio.test.proxy;
 
-import com.leviathanstudio.craftstudio.CSRegistryHelper;
+import com.leviathanstudio.craftstudio.CraftStudioRegistry;
 import com.leviathanstudio.craftstudio.common.RenderType;
 import com.leviathanstudio.craftstudio.common.ResourceType;
+import com.leviathanstudio.test.client.RenderTest;
+import com.leviathanstudio.test.client.RenderTest2;
+import com.leviathanstudio.test.client.RenderTest3;
+import com.leviathanstudio.test.client.RenderTest4;
+import com.leviathanstudio.test.common.EntityTest;
+import com.leviathanstudio.test.common.EntityTest2;
+import com.leviathanstudio.test.common.EntityTest3;
+import com.leviathanstudio.test.common.EntityTest4;
+import com.leviathanstudio.test.common.Mod_Test;
 
-import fr.zeamateis.test.anim.client.RenderTest;
-import fr.zeamateis.test.anim.client.RenderTest2;
-import fr.zeamateis.test.anim.client.RenderTest3;
-import fr.zeamateis.test.anim.client.RenderTest4;
-import fr.zeamateis.test.anim.common.EntityTest;
-import fr.zeamateis.test.anim.common.EntityTest2;
-import fr.zeamateis.test.anim.common.EntityTest3;
-import fr.zeamateis.test.anim.common.EntityTest4;
-import fr.zeamateis.test.anim.common.Mod_Test;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
@@ -23,7 +23,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerModels() {
         super.registerModels();
-        CSRegistryHelper registry = new CSRegistryHelper(Mod_Test.MODID);
+        CraftStudioRegistry registry = new CraftStudioRegistry(Mod_Test.MODID);
         registry.register(ResourceType.MODEL, RenderType.ENTITY, "model_dead_corpse");
         registry.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test2");
         registry.register(ResourceType.MODEL, RenderType.BLOCK, "craftstudio_api_test");
@@ -34,7 +34,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerAnims() {
         super.registerAnims();
-        CSRegistryHelper registry = new CSRegistryHelper(Mod_Test.MODID);
+        CraftStudioRegistry registry = new CraftStudioRegistry(Mod_Test.MODID);
         registry.register(ResourceType.ANIM, RenderType.BLOCK, "position");
         registry.register(ResourceType.ANIM, RenderType.BLOCK, "rotation");
         registry.register(ResourceType.ANIM, RenderType.ENTITY, "fly");
@@ -70,16 +70,5 @@ public class ClientProxy extends CommonProxy
                 return new RenderTest4(manager);
             }
         });
-    }
-
-    @Override
-    public void init() {
-        super.init();
-        // Registry Entity
-        // RenderingRegistry.registerEntityRenderingHandler(EntityTest.class,
-        // new RenderTest());
-        // Registry TESR
-        // ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBlockTest.class,
-        // new TileEntityBlockTestRenderer());
     }
 }

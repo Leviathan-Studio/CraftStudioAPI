@@ -1,12 +1,11 @@
-package fr.zeamateis.test.anim.common;
+package com.leviathanstudio.test.common;
 
 import java.awt.Color;
 
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
+import com.leviathanstudio.test.proxy.CommonProxy;
 
-import fr.zeamateis.test.proxy.CommonProxy;
-import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -25,48 +24,37 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mod(name = "TestMod", modid = Mod_Test.MODID)
 public class Mod_Test
 {
-
     public static final String MODID = "testmod";
 
-    @SidedProxy(clientSide = "fr.zeamateis.test.proxy.ClientProxy", serverSide = "fr.zeamateis.test.proxy.CommonProxy")
+    @SidedProxy(clientSide = "com.leviathanstudio.test.proxy.ClientProxy", serverSide = "com.leviathanstudio.test.proxy.CommonProxy")
     private static CommonProxy proxy;
 
-    @Instance("testmod")
+    @Instance(Mod_Test.MODID)
     private static Mod_Test    instance;
 
     public static Mod_Test getInstance() {
         return Mod_Test.instance;
     }
 
-    public static Item itemTest = new ItemTest();
-
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public static void registerModels(RegistryEvent.Register<CSReadedModel> e) {
-        proxy.registerModels();
+        Mod_Test.proxy.registerModels();
     }
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public static void registerAnims(RegistryEvent.Register<CSReadedAnim> e) {
-        proxy.registerAnims();
+        Mod_Test.proxy.registerAnims();
     }
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event) throws Exception {
+    public void preInit(FMLPreInitializationEvent event) {
         Mod_Test.proxy.preInit();
-        // GameRegistry.registerTileEntity(TileEntityBlockTest.class,
-        // "TileEntityBlockTest");
-
-        // Block blockTest = new BlockTest();
-        // GameRegistry.registerBlock(blockTest, "blockTest");
-        // GameRegistry.registerItem(Mod_Test.itemTest, "itemTest");
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        Mod_Test.proxy.init();
-
         EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest"), EntityTest.class, "entityTest", 420, Mod_Test.instance, 40, 1,
                 true, new Color(0, 255, 0).getRGB(), new Color(255, 0, 0).getRGB());
         EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest2"), EntityTest2.class, "entityTest2", 421, Mod_Test.instance, 40,

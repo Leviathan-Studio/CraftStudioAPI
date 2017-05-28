@@ -8,17 +8,20 @@ import com.leviathanstudio.craftstudio.util.math.Vector3f;
 
 public class KeyFrame implements Cloneable
 {
-    public Map<String, Quaternion> modelRenderersRotations    = new HashMap<>();
-    public Map<String, Vector3f>   modelRenderersTranslations = new HashMap<>();
+    protected Map<String, Quaternion> modelRenderersRotations    = new HashMap<>();
+    protected Map<String, Vector3f>   modelRenderersTranslations = new HashMap<>();
 
+    /** Check if box is in rotations */
     public boolean useBoxInRotations(String boxName) {
         return this.modelRenderersRotations.get(boxName) != null;
     }
 
+    /** Check if box is in translations */
     public boolean useBoxInTranslations(String boxName) {
         return this.modelRenderersTranslations.get(boxName) != null;
     }
 
+    /** Copy the keyframe */
     @Override
     public KeyFrame clone() {
         KeyFrame kf = new KeyFrame();
@@ -26,5 +29,4 @@ public class KeyFrame implements Cloneable
         kf.modelRenderersTranslations = this.modelRenderersTranslations;
         return kf;
     }
-
 }

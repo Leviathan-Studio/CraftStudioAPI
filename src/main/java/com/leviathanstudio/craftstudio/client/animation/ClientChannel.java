@@ -9,12 +9,12 @@ import com.leviathanstudio.craftstudio.common.animation.Channel;
 public class ClientChannel extends Channel
 {
     /** KeyFrames. Key is the position of that keyFrame in the frames list. */
-    public Map<Integer, KeyFrame> keyFrames     = new HashMap<>();
+    private Map<Integer, KeyFrame> keyFrames     = new HashMap<>();
     /** How this animation should behave: 0 = Normal; 1 = Loop; 2 = Cycle. */
-    public EnumAnimationMode      animationMode = EnumAnimationMode.LINEAR;
+    private EnumAnimationMode      animationMode = EnumAnimationMode.LINEAR;
 
-    public ClientChannel(String _name, boolean initialize) {
-        super(_name);
+    public ClientChannel(String channelName, boolean initialize) {
+        super(channelName);
         this.totalFrames = 0;
         if (initialize)
             this.initializeAllFrames();
@@ -144,6 +144,7 @@ public class ClientChannel extends Channel
         return false;
     }
 
+    /** Get inverted channel, for inverted animation */
     public ClientChannel getInvertedChannel(String name) {
         ClientChannel chan = new ClientChannel(name, this.fps, this.totalFrames, this.animationMode, true);
         for (Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet())
@@ -151,8 +152,20 @@ public class ClientChannel extends Channel
         return chan;
     }
 
+    public Map<Integer, KeyFrame> getKeyFrames() {
+        return this.keyFrames;
+    }
+
+    public EnumAnimationMode getAnimationMode() {
+        return this.animationMode;
+    }
+
+    public void setAnimationMode(EnumAnimationMode animationModeIn) {
+        this.animationMode = animationModeIn;
+    }
+
     public enum EnumAnimationMode {
-        LINEAR, LOOP, CYCLE, CUSTOM;
+        LINEAR, LOOP, CUSTOM;
     }
 
 }
