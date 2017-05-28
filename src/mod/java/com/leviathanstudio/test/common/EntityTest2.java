@@ -21,14 +21,11 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     protected AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(this);
     protected boolean          fanOpen     = true;
 
-    public EntityTest2() {
+    public EntityTest2(World par1World) {
+        super(par1World);
         this.animHandler.addAnim(Mod_Test.MODID, "close_fan", "peacock", false);
         this.animHandler.addAnim(Mod_Test.MODID, "open_fan", "close_fan");
         this.animHandler.addAnim(Mod_Test.MODID, "custom", "peacock", new AnimationLootAt(this, "Head"));
-    }
-
-    public EntityTest2(World par1World) {
-        super(par1World);
         this.setSize(1.0F, 1.5F);
         this.tasks.addTask(1, new EntityAILookIdle(this));
         this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 10));

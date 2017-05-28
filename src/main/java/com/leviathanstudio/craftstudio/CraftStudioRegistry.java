@@ -3,11 +3,11 @@ package com.leviathanstudio.craftstudio;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.leviathanstudio.craftstudio.client.RenderType;
+import com.leviathanstudio.craftstudio.client.ResourceType;
 import com.leviathanstudio.craftstudio.client.json.CSJsonReader;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
-import com.leviathanstudio.craftstudio.common.RenderType;
-import com.leviathanstudio.craftstudio.common.ResourceType;
 import com.leviathanstudio.craftstudio.common.exceptions.CSMalformedJsonException;
 import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotFoundException;
 
@@ -126,7 +126,7 @@ public class CraftStudioRegistry
 
         for (LoadElement el : CraftStudioRegistry.loadModelList) {
             progressBarModels.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
-            forceRegister(ResourceType.MODEL, el.resourceLoc, el.ressourceName);
+            registry(ResourceType.MODEL, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarModels);
 
@@ -139,7 +139,7 @@ public class CraftStudioRegistry
         progressBarAnim = ProgressManager.push("Registry Animations", CraftStudioRegistry.loadAnimList.size());
         for (LoadElement el : CraftStudioRegistry.loadAnimList) {
             progressBarAnim.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
-            forceRegister(ResourceType.ANIM, el.resourceLoc, el.ressourceName);
+            registry(ResourceType.ANIM, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarAnim);
 
@@ -148,9 +148,6 @@ public class CraftStudioRegistry
     }
 
     /**
-     * Register your resource with GameRegistry, just here for lazy modder <br>
-     * You need to use {@link CraftStudioRegistry#register}
-     *
      * @param resourceTypeIn
      *            Set your resource type, <br>
      *            {@link ResourceType#ANIM} for animation,<br>
@@ -165,15 +162,11 @@ public class CraftStudioRegistry
      * @param resourceNameIn
      *            The name of your resource in assets without extension
      */
-    @Deprecated
-    public void forceRegister(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn) {
-        CraftStudioRegistry.forceRegister(resourceTypeIn, renderTypeIn, resourceNameIn, CraftStudioRegistry.modid);
+    private void registry(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn) {
+        CraftStudioRegistry.registry(resourceTypeIn, renderTypeIn, resourceNameIn, CraftStudioRegistry.modid);
     }
 
     /**
-     * Register your resource with GameRegistry, just here for lazy modder <br>
-     * You need to use {@link CraftStudioRegistry#register}
-     *
      * @param resourceTypeIn
      *            Set your resource type, <br>
      *            {@link ResourceType#ANIM} for animation,<br>
@@ -192,18 +185,14 @@ public class CraftStudioRegistry
      * @param modid
      *            The ID of your mod
      */
-    @Deprecated
-    private static void forceRegister(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn, String modid) {
+    private static void registry(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn, String modid) {
         capitalCheck(resourceNameIn);
-        forceRegister(resourceTypeIn,
+        registry(resourceTypeIn,
                 new ResourceLocation(modid, resourceTypeIn.getPath() + renderTypeIn.getFolderName() + resourceNameIn + resourceTypeIn.getExtension()),
                 resourceNameIn);
     }
 
     /**
-     * Register your resource with GameRegistry, just here for lazy modder <br>
-     * You need to use {@link CraftStudioRegistry#register}
-     *
      * @param resourceTypeIn
      *            Set your resource type, <br>
      *            {@link ResourceType#ANIM} for animation,<br>
@@ -215,8 +204,7 @@ public class CraftStudioRegistry
      * @param resourceNameIn
      *            The name of your resource in assets without extension
      */
-    @Deprecated
-    public static void forceRegister(ResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn) {
+    private static void registry(ResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn) {
         CSJsonReader jsonReader;
         CSReadedModel model;
         CSReadedAnim anim;

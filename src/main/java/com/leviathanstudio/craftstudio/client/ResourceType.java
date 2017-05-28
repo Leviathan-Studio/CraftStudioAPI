@@ -1,5 +1,9 @@
-package com.leviathanstudio.craftstudio.common;
+package com.leviathanstudio.craftstudio.client;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+@SideOnly(Side.CLIENT)
 public enum ResourceType {
 
     MODEL("craftstudio/models/", ".csjsmodel"), ANIM("craftstudio/animations/", ".csjsmodelanim");

@@ -1,8 +1,8 @@
 package com.leviathanstudio.test.proxy;
 
 import com.leviathanstudio.craftstudio.CraftStudioRegistry;
-import com.leviathanstudio.craftstudio.common.RenderType;
-import com.leviathanstudio.craftstudio.common.ResourceType;
+import com.leviathanstudio.craftstudio.client.RenderType;
+import com.leviathanstudio.craftstudio.client.ResourceType;
 import com.leviathanstudio.test.client.RenderTest;
 import com.leviathanstudio.test.client.RenderTest2;
 import com.leviathanstudio.test.client.RenderTest3;
