@@ -9,7 +9,10 @@ import com.leviathanstudio.craftstudio.common.animation.Channel;
 public class ClientChannel extends Channel
 {
     /** KeyFrames. Key is the position of that keyFrame in the frames list. */
-    private Map<Integer, KeyFrame> keyFrames = new HashMap<>();
+    private Map<Integer, KeyFrame> keyFrames     = new HashMap<>();
+
+    /** How this animation should behave: 0 = Normal; 1 = Loop; 2 = Cycle. */
+    private EnumAnimationMode      animationMode = EnumAnimationMode.LINEAR;
 
     public ClientChannel(String channelName, boolean initialize) {
         super(channelName);
@@ -152,6 +155,18 @@ public class ClientChannel extends Channel
 
     public Map<Integer, KeyFrame> getKeyFrames() {
         return this.keyFrames;
+    }
+
+    public void setAnimationMode(EnumAnimationMode animationModeIn) {
+        this.animationMode = animationModeIn;
+    }
+
+    public EnumAnimationMode getAnimationMode() {
+        return this.animationMode;
+    }
+
+    public enum EnumAnimationMode {
+        LINEAR, LOOP, CUSTOM;
     }
 
 }
