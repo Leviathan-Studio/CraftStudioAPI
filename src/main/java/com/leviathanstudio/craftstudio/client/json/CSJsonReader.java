@@ -12,6 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.leviathanstudio.craftstudio.CraftStudioApi;
+import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.FrameType;
 import com.leviathanstudio.craftstudio.common.exceptions.CSMalformedJsonException;
 import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotFoundException;
 import com.leviathanstudio.craftstudio.util.math.Vector3f;
@@ -30,10 +31,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author ZeAmateis
  * @author Phenix246
  */
+@SideOnly(Side.CLIENT)
 public class CSJsonReader
 {
-    JsonObject root;
-    String     modid, ress;
+    private JsonObject root;
+    private String     modid, ress;
 
     /**
      * Create a {@link CSJsonReader} link to the resource.
@@ -47,7 +49,6 @@ public class CSJsonReader
      * @see #readModel()
      * @see #readAnim()
      */
-    @SideOnly(Side.CLIENT)
     public CSJsonReader(ResourceLocation resourceIn) throws CSResourceNotFoundException {
         JsonParser jsonParser = new JsonParser();
         BufferedReader reader = null;
@@ -95,11 +96,11 @@ public class CSJsonReader
         JsonObject jsonBlock;
         JsonElement jsEl;
 
-        model.modid = strNormalize(this.modid);
+        model.setModid(strNormalize(this.modid));
         jsEl = this.root.get("title");
         if (jsEl == null)
             throw new CSMalformedJsonException("title", "String", this.ress);
-        model.name = strNormalize(jsEl.getAsString());
+        model.setName(strNormalize(jsEl.getAsString()));
 
         JsonArray tree = this.root.getAsJsonArray("tree");
         if (tree == null)
@@ -109,13 +110,13 @@ public class CSJsonReader
                 jsonBlock = element.getAsJsonObject();
 
                 parent = new CSReadedModelBlock();
-                model.parents.add(parent);
+                model.getParents().add(parent);
 
                 try {
                     readModelBlock(jsonBlock, parent);
                 } catch (NullPointerException | ClassCastException | IllegalStateException e) {
                     // e.printStackTrace();
-                    throw new CSMalformedJsonException(parent.name != null ? parent.name : "a parent block without name", this.ress);
+                    throw new CSMalformedJsonException(parent.getName() != null ? parent.getName() : "a parent block without name", this.ress);
                 }
             }
         return model;
@@ -150,7 +151,7 @@ public class CSJsonReader
         JsonObject jsonChild;
         CSReadedModelBlock child;
 
-        block.name = strNormalize(jsonBlock.get("name").getAsString());
+        block.setName(strNormalize(jsonBlock.get("name").getAsString()));
 
         JsonArray array = jsonBlock.getAsJsonArray("size"), vertexArray;
         float sizeX = array.get(0).getAsFloat();
@@ -177,34 +178,34 @@ public class CSJsonReader
         array = jsonBlock.getAsJsonArray("vertexCoords");
         Vector3f vertex;
         if (array != null) {
-            block.vertex = new float[8][3];
+            block.setVertex(new float[8][3]);
             for (int i = 0; i < 8; i++) {
                 vertexArray = array.get(vertexOrderConvert[i]).getAsJsonArray();
-                block.vertex[i][0] = vertexArray.get(0).getAsFloat() + pivotOffsetX;
-                block.vertex[i][1] = -vertexArray.get(1).getAsFloat() - pivotOffsetY;
-                block.vertex[i][2] = -vertexArray.get(2).getAsFloat() - pivotOffsetZ;
+                block.getVertex()[i][0] = vertexArray.get(0).getAsFloat() + pivotOffsetX;
+                block.getVertex()[i][1] = -vertexArray.get(1).getAsFloat() - pivotOffsetY;
+                block.getVertex()[i][2] = -vertexArray.get(2).getAsFloat() - pivotOffsetZ;
             }
         }
         else
-            block.boxSetup = new Vector3f(-sizeX / 2 + pivotOffsetX, sizeY / 2 - pivotOffsetY, sizeZ / 2 - pivotOffsetZ);
+            block.setBoxSetup(new Vector3f(-sizeX / 2 + pivotOffsetX, sizeY / 2 - pivotOffsetY, sizeZ / 2 - pivotOffsetZ));
 
         if (parentOffset == null)
-            block.rotationPoint = new Vector3f(posX, -posY + 24, -posZ);
+            block.setRotationPoint(new Vector3f(posX, -posY + 24, -posZ));
         else
-            block.rotationPoint = new Vector3f(posX + parentOffset.x, -posY + parentOffset.y, -posZ + parentOffset.z);
-        block.rotation = new Vector3f(rotationX, -rotationY, -rotationZ);
+            block.setRotationPoint(new Vector3f(posX + parentOffset.x, -posY + parentOffset.y, -posZ + parentOffset.z));
+        block.setRotation(new Vector3f(rotationX, -rotationY, -rotationZ));
 
-        block.size = new Vector3f(sizeX, -sizeY, -sizeZ);
+        block.setSize(new Vector3f(sizeX, -sizeY, -sizeZ));
 
         array = jsonBlock.getAsJsonArray("texOffset");
-        block.texOffset[0] = array.get(0).getAsInt();
-        block.texOffset[1] = array.get(1).getAsInt();
+        block.getTexOffset()[0] = array.get(0).getAsInt();
+        block.getTexOffset()[1] = array.get(1).getAsInt();
 
         array = jsonBlock.getAsJsonArray("children");
         for (JsonElement element : array) {
             jsonChild = element.getAsJsonObject();
             child = new CSReadedModelBlock();
-            block.childs.add(child);
+            block.getChilds().add(child);
             readModelBlock(jsonChild, child, new Vector3f(pivotOffsetX, -pivotOffsetY, -pivotOffsetZ));
         }
 
@@ -225,19 +226,19 @@ public class CSJsonReader
         JsonObject jsonBlock;
         JsonElement jsEl;
 
-        anim.modid = strNormalize(this.modid);
+        anim.setModid(strNormalize(this.modid));
         jsEl = this.root.get("title");
         if (jsEl == null)
             throw new CSMalformedJsonException("title", "String", this.ress);
-        anim.name = strNormalize(jsEl.getAsString());
+        anim.setName(strNormalize(jsEl.getAsString()));
         jsEl = this.root.get("duration");
         if (jsEl == null)
             throw new CSMalformedJsonException("duration", "Integer", this.ress);
-        anim.duration = jsEl.getAsInt();
+        anim.setDuration(jsEl.getAsInt());
         jsEl = this.root.get("holdLastKeyframe");
         if (jsEl == null)
             throw new CSMalformedJsonException("holdLastKeyframe", "Boolean", this.ress);
-        anim.holdLastK = jsEl.getAsBoolean();
+        anim.setHoldLastK(jsEl.getAsBoolean());
 
         jsEl = this.root.get("nodeAnimations");
         if (jsEl == null)
@@ -245,12 +246,12 @@ public class CSJsonReader
         JsonObject nodeAnims = jsEl.getAsJsonObject();
         for (Entry<String, JsonElement> entry : nodeAnims.entrySet()) {
             block = new CSReadedAnimBlock();
-            anim.blocks.add(block);
+            anim.getBlocks().add(block);
             try {
                 readAnimBlock(entry, block);
             } catch (Exception e) {
                 CraftStudioApi.getLogger().error(e.getMessage());
-                throw new CSMalformedJsonException(block.name != null ? block.name : "a block without name", this.ress);
+                throw new CSMalformedJsonException(block.getName() != null ? block.getName() : "a block without name", this.ress);
             }
         }
         return anim;
@@ -266,19 +267,19 @@ public class CSJsonReader
      *            The block to store the informations.
      */
     private static void readAnimBlock(Entry<String, JsonElement> entry, CSReadedAnimBlock block) {
-        block.name = strNormalize(entry.getKey());
+        block.setName(strNormalize(entry.getKey()));
         JsonObject objBlock = entry.getValue().getAsJsonObject(), objField;
 
         objField = objBlock.get("position").getAsJsonObject();
-        addKFElement(objField, block, CSReadedAnimBlock.POS);
+        addKFElement(objField, block, FrameType.POSITION);
         objField = objBlock.get("offsetFromPivot").getAsJsonObject();
-        addKFElement(objField, block, CSReadedAnimBlock.OFS);
+        addKFElement(objField, block, FrameType.OFFSET);
         objField = objBlock.get("size").getAsJsonObject();
-        addKFElement(objField, block, CSReadedAnimBlock.SIZ);
+        addKFElement(objField, block, FrameType.SIZE);
         objField = objBlock.get("rotation").getAsJsonObject();
-        addKFElement(objField, block, CSReadedAnimBlock.ROT);
+        addKFElement(objField, block, FrameType.ROTATION);
         objField = objBlock.get("stretch").getAsJsonObject();
-        addKFElement(objField, block, CSReadedAnimBlock.STR);
+        addKFElement(objField, block, FrameType.STRETCH);
     }
 
     /**
@@ -291,7 +292,7 @@ public class CSJsonReader
      * @param type
      *            type of element to add. See {@link CSReadedAnimBlock}.
      */
-    private static void addKFElement(JsonObject obj, CSReadedAnimBlock block, byte type) {
+    private static void addKFElement(JsonObject obj, CSReadedAnimBlock block, FrameType type) {
         int keyFrame;
         Vector3f value;
         JsonArray array;
@@ -300,10 +301,10 @@ public class CSJsonReader
             keyFrame = Integer.parseInt(entry.getKey());
             array = entry.getValue().getAsJsonArray();
             switch (type) {
-                case CSReadedAnimBlock.POS:
+                case POSITION:
                     value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
                     break;
-                case CSReadedAnimBlock.ROT:
+                case ROTATION:
                     value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
                     break;
                 default:

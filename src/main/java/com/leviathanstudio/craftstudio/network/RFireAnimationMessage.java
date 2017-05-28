@@ -41,7 +41,7 @@ public class RFireAnimationMessage implements IMessage
     {
         @Override
         public IMessage onMessage(RFireAnimationMessage message, MessageContext ctx) {
-            Entity entity = CraftStudioPacketHandler.getEntityByUUID(ctx.getServerHandler().playerEntity.world.loadedEntityList, message.uuid);
+            Entity entity = CraftStudioPacketHandler.getEntityByUUID(ctx.getServerHandler().player.world.loadedEntityList, message.uuid);
             if (entity != null && entity instanceof IAnimated) {
                 IAnimated animated = (IAnimated) entity;
                 ((ServerAnimationHandler) animated.getAnimationHandler()).serverStartAnimation(message.animationName, message.endingKeyframe);

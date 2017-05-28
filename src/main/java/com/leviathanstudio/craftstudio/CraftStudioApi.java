@@ -68,7 +68,7 @@ public class CraftStudioApi
 
     @EventHandler
     void preInit(FMLPreInitializationEvent event) {
-        proxy.preInit(event);
+        CraftStudioApi.proxy.preInit(event);
     }
 
     @EventHandler
@@ -78,8 +78,15 @@ public class CraftStudioApi
         return CraftStudioApi.LOGGER;
     }
 
+    /**
+     * Helper to create an AnimationHandler to registry animation to your
+     * entity/block
+     *
+     * @param animated
+     *            Class whiches implements IAnimated (Entity or TileEntity)
+     */
     public static AnimationHandler getNewAnimationHandler(IAnimated animated) {
-        return proxy.getNewAnimationHandler(animated);
+        return CraftStudioApi.proxy.getNewAnimationHandler(animated);
 
     }
 }

@@ -16,7 +16,7 @@ public class CraftStudioPacketHandler
     public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(CraftStudioApi.API_ID);
 
     public static int getNewId() {
-        return id++;
+        return CraftStudioPacketHandler.id++;
     }
 
     static void writeStringtoBuffer(ByteBuf buf, String str) {

@@ -17,20 +17,17 @@ import com.leviathanstudio.craftstudio.util.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 public class ClientAnimationHandler extends AnimationHandler
 {
     /** List of all the activated animations of this element. */
-    public List<ClientChannel>            animCurrentChannels = new ArrayList<>();
+    private List<ClientChannel>            animCurrentChannels = new ArrayList<>();
     /** Previous time of every active animation. */
-    public Map<String, Long>              animPrevTime        = new HashMap<>();
+    private Map<String, Long>              animPrevTime        = new HashMap<>();
     /** Current frame of every active animation. */
-    public Map<String, Float>             animCurrentFrame    = new HashMap<>();
+    private Map<String, Float>             animCurrentFrame    = new HashMap<>();
     /** Map with all the animations. */
-    public HashMap<String, ClientChannel> animChannels        = new HashMap<>();
+    private HashMap<String, ClientChannel> animChannels        = new HashMap<>();
 
     public ClientAnimationHandler(IAnimated animated) {
         super(animated);
@@ -49,19 +46,18 @@ public class ClientAnimationHandler extends AnimationHandler
     }
 
     @Override
-    public void addAnim(String modid, String animNameIn, String invertedChannelName) {
-        ResourceLocation anim = new ResourceLocation(modid, animNameIn);
-        ClientChannel channel = this.animChannels.get(invertedChannelName).getInvertedChannel(animNameIn);
+    public void addAnim(String modid, String invertedAnimationName, String animationToInvert) {
+        ResourceLocation anim = new ResourceLocation(modid, invertedAnimationName);
+        ResourceLocation inverted = new ResourceLocation(modid, animationToInvert);
+        ClientChannel channel = this.animChannels.get(inverted.toString()).getInvertedChannel(invertedAnimationName);
         channel.name = anim.toString();
         this.animChannels.put(anim.toString(), channel);
     }
 
     @Override
-    public void startAnimation(String res, float startingFrame) {
-        if (this.isWorldRemote(this.animatedElement)) {
-            this.clientStartAnimation(res, startingFrame);
-            System.out.println("ttjbkhgjhbkjkjhbj");
-        }
+    public void startAnimation(String animationNameIn, float startingFrame) {
+        if (AnimationHandler.isWorldRemote(this.animatedElement))
+            this.clientStartAnimation(animationNameIn, startingFrame);
     }
 
     public void clientStartAnimation(String res, float startingFrame) {
@@ -81,7 +77,7 @@ public class ClientAnimationHandler extends AnimationHandler
 
     @Override
     public void stopAnimation(String res) {
-        if (this.isWorldRemote(this.animatedElement))
+        if (AnimationHandler.isWorldRemote(this.animatedElement))
             this.clientStopAnimation(res);
     }
 
@@ -99,16 +95,19 @@ public class ClientAnimationHandler extends AnimationHandler
             CraftStudioApi.getLogger().warn("The animation stopped " + res + " doesn't exist!");
     }
 
+    /**
+     * Update the animation
+     */
     @Override
     public void animationsUpdate() {
 
         for (Iterator<ClientChannel> it = this.animCurrentChannels.iterator(); it.hasNext();) {
             ClientChannel anim = it.next();
             float prevFrame = this.animCurrentFrame.get(anim.name);
-            boolean animStatus = this.updateAnimation(anim);
+            boolean canUpdate = this.canUpdateAnimation(anim);
             if (this.animCurrentFrame.get(anim.name) != null)
                 this.fireAnimationEvent(anim, prevFrame, this.animCurrentFrame.get(anim.name));
-            if (!animStatus) {
+            if (!canUpdate) {
                 it.remove();
                 this.animPrevTime.remove(anim.name);
                 this.animCurrentFrame.remove(anim.name);
@@ -116,42 +115,46 @@ public class ClientAnimationHandler extends AnimationHandler
         }
     }
 
+    /**
+     * Check if animation is active
+     */
     @Override
     public boolean isAnimationActive(String name) {
         boolean animAlreadyUsed = false;
         for (ClientChannel anim : this.animCurrentChannels)
-            if (anim.name != null) {
+            if (anim.name != null)
                 if (anim.name.equals(name) && this.animCurrentFrame.get(anim.name) < anim.totalFrames - 1) {
                     animAlreadyUsed = true;
                     break;
                 }
-            }
-        return animAlreadyUsed;
-    }
-
-    public boolean isLinearAnimationActive(String name) {
-        boolean animAlreadyUsed = false;
-        for (ClientChannel anim : this.animCurrentChannels)
-            if (anim.name != null) {
-                if (anim.name.equals(name)) {
-                    animAlreadyUsed = true;
-                    break;
-                }
-            }
         return animAlreadyUsed;
     }
 
     /**
-     * Update animation values. Return false if the animation should stop.
+     * Check if linear animation is active
+     */
+    public boolean isLinearAnimationActive(String name) {
+        boolean animAlreadyUsed = false;
+        for (ClientChannel anim : this.animCurrentChannels)
+            if (anim.name != null)
+                if (anim.name.equals(name)) {
+                    animAlreadyUsed = true;
+                    break;
+                }
+        return animAlreadyUsed;
+    }
+
+    /**
+     * Check if animation can be updated
      */
     @Override
-    public boolean updateAnimation(Channel channel) {
+    public boolean canUpdateAnimation(Channel channel) {
         long currentTime = System.nanoTime();
         if (!(channel instanceof ClientChannel))
             return false;
         ClientChannel clientChannel = (ClientChannel) channel;
         if (!ClientAnimationHandler.isGamePaused()) {
-            if (!(clientChannel.animationMode == ClientChannel.EnumAnimationMode.CUSTOM)) {
+            if (!(clientChannel.getAnimationMode() == ClientChannel.EnumAnimationMode.CUSTOM)) {
                 long prevTime = this.animPrevTime.get(channel.name);
                 float prevFrame = this.animCurrentFrame.get(channel.name);
 
@@ -170,12 +173,12 @@ public class ClientAnimationHandler extends AnimationHandler
                     return true;
                 }
                 else {
-                    if (clientChannel.animationMode == ClientChannel.EnumAnimationMode.LOOP) {
+                    if (clientChannel.getAnimationMode() == ClientChannel.EnumAnimationMode.LOOP) {
                         this.animPrevTime.put(channel.name, currentTime);
                         this.animCurrentFrame.put(channel.name, 0F);
                         return true;
                     }
-                    else if (clientChannel.animationMode == ClientChannel.EnumAnimationMode.LINEAR) {
+                    else if (clientChannel.getAnimationMode() == ClientChannel.EnumAnimationMode.LINEAR) {
                         this.animPrevTime.put(channel.name, currentTime);
                         this.animCurrentFrame.put(channel.name, (float) channel.totalFrames - 1);
                         return true;
@@ -193,6 +196,9 @@ public class ClientAnimationHandler extends AnimationHandler
 
     }
 
+    /**
+     * Check if game is paused (Exit screen)
+     */
     public static boolean isGamePaused() {
         Minecraft MC = Minecraft.getMinecraft();
         return MC.isSingleplayer() && MC.currentScreen != null && MC.currentScreen.doesGuiPauseGame() && !MC.getIntegratedServer().getPublic();
@@ -207,6 +213,9 @@ public class ClientAnimationHandler extends AnimationHandler
             performAnimationForBlock(entry, entity);
     }
 
+    /**
+     * Apply animations for model block
+     */
     public static void performAnimationForBlock(CSModelRenderer block, IAnimated entity) {
         String boxName = block.boxName;
 
@@ -225,7 +234,7 @@ public class ClientAnimationHandler extends AnimationHandler
             boolean anyCustomAnimationRunning = false;
 
             for (ClientChannel channel : animHandler.animCurrentChannels)
-                if (channel.animationMode != ClientChannel.EnumAnimationMode.CUSTOM) {
+                if (channel.getAnimationMode() != ClientChannel.EnumAnimationMode.CUSTOM) {
                     float currentFrame = animHandler.animCurrentFrame.get(channel.name);
 
                     // Rotations
@@ -320,5 +329,25 @@ public class ClientAnimationHandler extends AnimationHandler
 
     @Override
     public void fireAnimationEvent(Channel anim, float prevFrame, float frame) {}
+
+    /** Getters */
+    public List<ClientChannel> getAnimCurrentChannels() {
+        return this.animCurrentChannels;
+    }
+
+    /** Getters */
+    public Map<String, Long> getAnimPrevTime() {
+        return this.animPrevTime;
+    }
+
+    /** Getters */
+    public Map<String, Float> getAnimCurrentFrame() {
+        return this.animCurrentFrame;
+    }
+
+    /** Getters */
+    public HashMap<String, ClientChannel> getAnimChannels() {
+        return this.animChannels;
+    }
 
 }

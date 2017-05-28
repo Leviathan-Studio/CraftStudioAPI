@@ -310,7 +310,6 @@ public class CSModelBox
      * @param scale
      *            Scale factor.
      */
-    @SideOnly(Side.CLIENT)
     public void render(VertexBuffer renderer, float scale) {
         for (TexturedQuad texturedquad : this.quadList)
             texturedquad.draw(renderer, scale);

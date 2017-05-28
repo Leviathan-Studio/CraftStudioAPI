@@ -12,12 +12,15 @@ import com.leviathanstudio.craftstudio.util.math.Quaternion;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Animation Channel for CraftStudio imported animation.
  *
  * @author Timmypote
  */
+@SideOnly(Side.CLIENT)
 public class CSAnimChannel extends ClientChannel
 {
     private CSReadedAnim  rAnim;
@@ -65,9 +68,9 @@ public class CSAnimChannel extends ClientChannel
         if (this.rModel == null)
             throw new CSResourceNotRegisteredException(modelIn.toString());
         this.fps = fps;
-        this.totalFrames = this.rAnim.duration;
+        this.totalFrames = this.rAnim.getDuration();
         if (looped)
-            this.animationMode = EnumAnimationMode.LOOP;
+            this.setAnimationMode(EnumAnimationMode.LOOP);
         this.initializeAllFrames();
     }
 
@@ -80,44 +83,44 @@ public class CSAnimChannel extends ClientChannel
         ReadedKeyFrame rKeyFrame;
         int lastRK, lastTK;
         for (int i : this.rAnim.getKeyFrames())
-            this.keyFrames.put(i, new KeyFrame());
-        if (this.rAnim.holdLastK)
-            if (!this.keyFrames.containsKey(this.totalFrames))
-                this.keyFrames.put(this.totalFrames, new KeyFrame());
-        for (CSReadedAnimBlock block : this.rAnim.blocks) {
-            CSReadedModelBlock mBlock = this.rModel.getBlockFromName(block.name);
+            this.getKeyFrames().put(i, new KeyFrame());
+        if (this.rAnim.isHoldLastK())
+            if (!this.getKeyFrames().containsKey(this.totalFrames))
+                this.getKeyFrames().put(this.totalFrames, new KeyFrame());
+        for (CSReadedAnimBlock block : this.rAnim.getBlocks()) {
+            CSReadedModelBlock mBlock = this.rModel.getBlockFromName(block.getName());
             lastRK = 0;
             lastTK = 0;
             if (mBlock != null)
-                for (Entry<Integer, ReadedKeyFrame> entry : block.keyFrames.entrySet()) {
-                    keyFrame = this.keyFrames.get(entry.getKey());
+                for (Entry<Integer, ReadedKeyFrame> entry : block.getKeyFrames().entrySet()) {
+                    keyFrame = this.getKeyFrames().get(entry.getKey());
                     rKeyFrame = entry.getValue();
                     if (rKeyFrame.position != null) {
-                        keyFrame.modelRenderersTranslations.put(block.name, rKeyFrame.position.add(mBlock.rotationPoint));
+                        keyFrame.modelRenderersTranslations.put(block.getName(), rKeyFrame.position.add(mBlock.getRotationPoint()));
                         if (lastTK < entry.getKey())
                             lastTK = entry.getKey();
                     }
                     if (rKeyFrame.rotation != null) {
-                        keyFrame.modelRenderersRotations.put(block.name, new Quaternion(rKeyFrame.rotation.add(mBlock.rotation)));
+                        keyFrame.modelRenderersRotations.put(block.getName(), new Quaternion(rKeyFrame.rotation.add(mBlock.getRotation())));
                         if (lastRK < entry.getKey())
                             lastRK = entry.getKey();
                     }
                 }
             else
-                System.out.println("The block " + block.name + " doesn't exist in model " + this.rModel.name + " !");
-            if (this.rAnim.holdLastK) {
+                System.out.println("The block " + block.getName() + " doesn't exist in model " + this.rModel.getName() + " !");
+            if (this.rAnim.isHoldLastK()) {
                 if (lastTK != 0)
-                    this.keyFrames.get(this.totalFrames).modelRenderersTranslations.put(block.name,
-                            this.keyFrames.get(lastTK).modelRenderersTranslations.get(block.name));
+                    this.getKeyFrames().get(this.totalFrames).modelRenderersTranslations.put(block.getName(),
+                            this.getKeyFrames().get(lastTK).modelRenderersTranslations.get(block.getName()));
                 if (lastRK != 0)
-                    this.keyFrames.get(this.totalFrames).modelRenderersRotations.put(block.name,
-                            this.keyFrames.get(lastRK).modelRenderersRotations.get(block.name));
+                    this.getKeyFrames().get(this.totalFrames).modelRenderersRotations.put(block.getName(),
+                            this.getKeyFrames().get(lastRK).modelRenderersRotations.get(block.getName()));
             }
 
         }
-        if (!this.rAnim.holdLastK)
-            if (!this.keyFrames.containsKey(this.totalFrames))
-                this.keyFrames.put(this.totalFrames, this.keyFrames.get(0).clone());
+        if (!this.rAnim.isHoldLastK())
+            if (!this.getKeyFrames().containsKey(this.totalFrames))
+                this.getKeyFrames().put(this.totalFrames, this.getKeyFrames().get(0).clone());
 
     }
 }

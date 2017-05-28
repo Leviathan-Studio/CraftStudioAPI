@@ -16,9 +16,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class CSReadedModel extends Impl<CSReadedModel> implements IForgeRegistryEntry<CSReadedModel>
 {
-    public String                   name, modid;
-    public int                      textureWidth, textureHeight;
-    public List<CSReadedModelBlock> parents = new ArrayList<>();
+    private String                   name, modid;
+    private int                      textureWidth, textureHeight;
+    private List<CSReadedModelBlock> parents = new ArrayList<>();
 
     /**
      * Get a block from the model with this name.
@@ -70,5 +70,45 @@ public class CSReadedModel extends Impl<CSReadedModel> implements IForgeRegistry
             return null;
         else
             return names.get(0);
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getModid() {
+        return this.modid;
+    }
+
+    public void setModid(String modid) {
+        this.modid = modid;
+    }
+
+    public int getTextureWidth() {
+        return this.textureWidth;
+    }
+
+    public void setTextureWidth(int textureWidth) {
+        this.textureWidth = textureWidth;
+    }
+
+    public int getTextureHeight() {
+        return this.textureHeight;
+    }
+
+    public void setTextureHeight(int textureHeight) {
+        this.textureHeight = textureHeight;
+    }
+
+    public List<CSReadedModelBlock> getParents() {
+        return this.parents;
+    }
+
+    public void setParents(List<CSReadedModelBlock> parents) {
+        this.parents = parents;
     }
 }

@@ -9,12 +9,13 @@ import com.leviathanstudio.craftstudio.common.animation.Channel;
 public class ClientChannel extends Channel
 {
     /** KeyFrames. Key is the position of that keyFrame in the frames list. */
-    public Map<Integer, KeyFrame> keyFrames     = new HashMap<>();
-    /** How this animation should behave: 0 = Normal; 1 = Loop; 2 = Cycle. */
-    public EnumAnimationMode      animationMode = EnumAnimationMode.LINEAR;
+    private Map<Integer, KeyFrame> keyFrames     = new HashMap<>();
 
-    public ClientChannel(String _name, boolean initialize) {
-        super(_name);
+    /** How this animation should behave: 0 = Normal; 1 = Loop; 2 = Cycle. */
+    private EnumAnimationMode      animationMode = EnumAnimationMode.LINEAR;
+
+    public ClientChannel(String channelName, boolean initialize) {
+        super(channelName);
         this.totalFrames = 0;
         if (initialize)
             this.initializeAllFrames();
@@ -24,7 +25,7 @@ public class ClientChannel extends Channel
         this(animationName, initialize);
         this.fps = fps;
         this.totalFrames = totalFrames;
-        this.animationMode = animationMode;
+        this.setAnimationMode(animationMode);
         if (animationMode == EnumAnimationMode.LOOP)
             this.looped = true;
     }
@@ -144,15 +145,28 @@ public class ClientChannel extends Channel
         return false;
     }
 
+    /** Get inverted channel, for inverted animation */
     public ClientChannel getInvertedChannel(String name) {
-        ClientChannel chan = new ClientChannel(name, this.fps, this.totalFrames, this.animationMode, true);
+        ClientChannel chan = new ClientChannel(name, this.fps, this.totalFrames, this.getAnimationMode(), true);
         for (Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet())
             chan.keyFrames.put(this.totalFrames - entry.getKey(), entry.getValue().clone());
         return chan;
     }
 
+    public Map<Integer, KeyFrame> getKeyFrames() {
+        return this.keyFrames;
+    }
+
+    public void setAnimationMode(EnumAnimationMode animationModeIn) {
+        this.animationMode = animationModeIn;
+    }
+
+    public EnumAnimationMode getAnimationMode() {
+        return this.animationMode;
+    }
+
     public enum EnumAnimationMode {
-        LINEAR, LOOP, CYCLE, CUSTOM;
+        LINEAR, LOOP, CUSTOM;
     }
 
 }

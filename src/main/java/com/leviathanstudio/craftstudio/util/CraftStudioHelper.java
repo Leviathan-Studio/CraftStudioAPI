@@ -1,24 +1,15 @@
 package com.leviathanstudio.craftstudio.util;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-
-import javax.imageio.ImageIO;
 
 import com.leviathanstudio.craftstudio.util.math.Matrix4f;
 import com.leviathanstudio.craftstudio.util.math.Quaternion;
 import com.leviathanstudio.craftstudio.util.math.Vector3f;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
-
-public class Util
+public class CraftStudioHelper
 {
-    private static int textureWidth, textureHeight;
 
     /**
      * Make a direct NIO FloatBuffer from an array of floats
@@ -65,32 +56,5 @@ public class Util
         quatY.mul(quatY, quatX);
         quatZ.mul(quatZ, quatY);
         return quatZ;
-    }
-
-    public static int getTextureHeight() {
-        return Util.textureHeight;
-    }
-
-    public static void setTextureHeight(int texHeight) {
-        Util.textureHeight = texHeight;
-    }
-
-    public static int getTextureWidth() {
-        return Util.textureWidth;
-    }
-
-    public static void setTextureWidth(int texWidth) {
-        Util.textureWidth = texWidth;
-    }
-
-    public static void readTextureFileSize(ResourceLocation textureLocation) {
-        try {
-            final BufferedImage bimg = ImageIO
-                    .read(new BufferedInputStream(Minecraft.getMinecraft().getResourceManager().getResource(textureLocation).getInputStream()));
-            Util.setTextureWidth(bimg.getWidth());
-            Util.setTextureHeight(bimg.getHeight());
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
     }
 }

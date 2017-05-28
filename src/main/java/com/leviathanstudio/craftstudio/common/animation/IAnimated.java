@@ -5,9 +5,22 @@ import java.util.UUID;
 public interface IAnimated
 {
     /**
-     * Getter to call custom {@link AnimationHandler} class, useful methods
+     * Getter to call custom {@link AnimationHandler} class to call useful
+     * methods <br>
+     * <br>
+     *
+     * {@link AnimationHandler#addAnim addAnim()} <br>
+     *
+     * {@link AnimationHandler#startAnimation startAnimation()} <br>
+     *
+     * {@link AnimationHandler#stopAnimation stopAnimation()} <br>
+     *
+     * {@link AnimationHandler#isAnimationActive isAnimationActive()}
      */
     public AnimationHandler getAnimationHandler();
 
+    /**
+     * Getter of Entity/Block for multiplayer sync compatibility
+     */
     public UUID getUUID();
 }
