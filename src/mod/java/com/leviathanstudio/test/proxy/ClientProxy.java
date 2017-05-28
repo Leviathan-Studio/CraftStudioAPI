@@ -13,9 +13,6 @@ import com.leviathanstudio.test.common.EntityTest3;
 import com.leviathanstudio.test.common.EntityTest4;
 import com.leviathanstudio.test.common.Mod_Test;
 
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
@@ -46,29 +43,9 @@ public class ClientProxy extends CommonProxy
     public void preInit() {
         super.preInit();
         // Registry Entity
-        RenderingRegistry.registerEntityRenderingHandler(EntityTest.class, new IRenderFactory() {
-            @Override
-            public Render createRenderFor(RenderManager manager) {
-                return new RenderTest(manager);
-            }
-        });
-        RenderingRegistry.registerEntityRenderingHandler(EntityTest2.class, new IRenderFactory() {
-            @Override
-            public Render createRenderFor(RenderManager manager) {
-                return new RenderTest2(manager);
-            }
-        });
-        RenderingRegistry.registerEntityRenderingHandler(EntityTest3.class, new IRenderFactory() {
-            @Override
-            public Render createRenderFor(RenderManager manager) {
-                return new RenderTest3(manager);
-            }
-        });
-        RenderingRegistry.registerEntityRenderingHandler(EntityTest4.class, new IRenderFactory() {
-            @Override
-            public Render createRenderFor(RenderManager manager) {
-                return new RenderTest4(manager);
-            }
-        });
+        RenderingRegistry.registerEntityRenderingHandler(EntityTest.class, RenderTest.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTest2.class, RenderTest2.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTest3.class, RenderTest3.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTest4.class, RenderTest4.FACTORY);
     }
 }
