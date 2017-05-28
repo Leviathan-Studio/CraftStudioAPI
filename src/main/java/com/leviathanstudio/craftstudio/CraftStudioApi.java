@@ -14,7 +14,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -32,12 +31,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, version = "0.1-beta", updateJSON = "https://leviathan-studio.com/craftstudioapi/update.json", acceptedMinecraftVersions = "1.11.2")
 public class CraftStudioApi
 {
-    private static final Logger LOGGER = LogManager.getLogger("CraftStudio");
-    public static final String  API_ID = "craftstudioapi";
-    static final String         NAME   = "CraftStudio API";
+    private static final Logger  LOGGER = LogManager.getLogger("CraftStudio");
+    public static final String   API_ID = "craftstudioapi";
+    static final String          NAME   = "CraftStudio API";
 
     @SidedProxy(clientSide = "com.leviathanstudio.craftstudio.proxy.CSClientProxy", serverSide = "com.leviathanstudio.craftstudio.proxy.CSServerProxy")
-    private static CSCommonProxy  proxy;
+    private static CSCommonProxy proxy;
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
@@ -56,7 +55,7 @@ public class CraftStudioApi
 
     @SubscribeEvent(priority = EventPriority.LOW)
     @SideOnly(Side.CLIENT)
-    public static void endProgressBar(RegistryEvent.Register<CSReadedModel> e) {
+    public static void registerModels(RegistryEvent.Register<CSReadedModel> e) {
         CSRegistryHelper.loadModels();
     }
 
@@ -70,9 +69,6 @@ public class CraftStudioApi
     void preInit(FMLPreInitializationEvent event) {
         CraftStudioApi.proxy.preInit(event);
     }
-
-    @EventHandler
-    void init(FMLInitializationEvent event) {}
 
     public static Logger getLogger() {
         return CraftStudioApi.LOGGER;
