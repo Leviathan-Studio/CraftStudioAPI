@@ -1,18 +1,17 @@
 package com.leviathanstudio.craftstudio.proxy;
 
-import com.leviathanstudio.craftstudio.client.animation.ClientAnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
+import com.leviathanstudio.craftstudio.server.animation.ServerAnimationHandler;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-public class ClientProxy extends CommonProxy
+public class CSServerProxy extends CSCommonProxy
 {
     @Override
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
-
     }
 
     @Override
@@ -22,6 +21,6 @@ public class ClientProxy extends CommonProxy
 
     @Override
     public AnimationHandler getNewAnimationHandler(IAnimated animated) {
-        return new ClientAnimationHandler(animated);
+        return new ServerAnimationHandler(animated);
     }
 }

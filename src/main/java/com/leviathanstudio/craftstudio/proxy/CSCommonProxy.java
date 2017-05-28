@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-public abstract class CommonProxy
+public abstract class CSCommonProxy
 {
     public void preInit(FMLPreInitializationEvent e) {
         CraftStudioPacketHandler.INSTANCE.registerMessage(FireAnimationHandler.class, FireAnimationMessage.class, CraftStudioPacketHandler.getNewId(),

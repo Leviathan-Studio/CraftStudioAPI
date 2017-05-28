@@ -7,7 +7,7 @@ import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
-import com.leviathanstudio.craftstudio.proxy.CommonProxy;
+import com.leviathanstudio.craftstudio.proxy.CSCommonProxy;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -36,8 +36,8 @@ public class CraftStudioApi
     public static final String  API_ID = "craftstudioapi";
     static final String         NAME   = "CraftStudio API";
 
-    @SidedProxy(clientSide = "com.leviathanstudio.craftstudio.proxy.ClientProxy", serverSide = "com.leviathanstudio.craftstudio.proxy.ServerProxy")
-    private static CommonProxy  proxy;
+    @SidedProxy(clientSide = "com.leviathanstudio.craftstudio.proxy.CSClientProxy", serverSide = "com.leviathanstudio.craftstudio.proxy.CSServerProxy")
+    private static CSCommonProxy  proxy;
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
