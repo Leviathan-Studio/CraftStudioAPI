@@ -25,9 +25,10 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.artifactory'
 
 // Maven
-version = "0.1-beta"
+version = "0.1"
 group= "com.leviathanstudio"
 archivesBaseName = "CraftStudioAPI"
+ext.suffix="beta"
 
 // Jenkins build
 ext.buildnumber = 0
@@ -48,6 +49,13 @@ minecraft {
     runDir = "run"
     mappings = "snapshot_20170523"
     replace "@VERSION@",  project.version
+}
+
+//Full version
+ext.fullVersion="${project.version}-mc${project.minecraft.version}"
+
+if(ext.suffix != "") {
+	ext.fullVersion += "-${project.ext.suffix}"
 }
 
 repositories {
@@ -94,7 +102,7 @@ jar {
         attributes  'group':project.group
     }
     appendix = 'universal'
-    version = "${project.version}-mc${project.minecraft.version}"
+    version = "${project.ext.fullVersion}"
 }
 
 task devJar(type: Jar) {
@@ -108,14 +116,14 @@ task devJar(type: Jar) {
         attributes  'group':project.group
     }
     classifier = 'dev'
-    version = "${project.version}-mc${project.minecraft.version}"
+    version = "${project.ext.fullVersion}"
 }
 
 // Publish the library
 artifactory {
     contextUrl = "${artifactory_contextUrl}"
     publish {
-        version = "${project.version}-mc${project.minecraft.version}"
+        version = "${project.ext.fullVersion}"
         repository {
             repoKey = 'leviathan'
             username = "${artifactory_user}"
