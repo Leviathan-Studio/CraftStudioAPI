@@ -232,6 +232,11 @@ public class ClientAnimationHandler extends AnimationHandler
             boolean anyRotationApplied = false;
             boolean anyTranslationApplied = false;
             boolean anyCustomAnimationRunning = false;
+            
+            Vector3f defaultPos = new Vector3f(block.getDefaultRotationPointX(), block.getDefaultRotationPointY(),
+                    block.getDefaultRotationPointZ());
+            block.resetRotationPoint();
+            block.resetRotationMatrix();
 
             for (ClientChannel channel : animHandler.animCurrentChannels)
                 if (channel.getAnimationMode() != ClientChannel.EnumAnimationMode.CUSTOM) {
@@ -249,7 +254,7 @@ public class ClientAnimationHandler extends AnimationHandler
                             / (nextRotationKeyFramePosition - prevRotationKeyFramePosition);
                     if (SLERPProgress > 1F || SLERPProgress < 0F)
                         SLERPProgress = 1F;
-
+                    
                     if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame == null && !(nextRotationKeyFramePosition == 0)) {
                         Quaternion currentQuat = new Quaternion();
                         currentQuat.slerp(block.getDefaultRotationAsQuaternion(), nextRotationKeyFrame.modelRenderersRotations.get(boxName),
@@ -280,9 +285,6 @@ public class ClientAnimationHandler extends AnimationHandler
                     KeyFrame nextTranslationKeyFrame = channel.getNextTranslationKeyFrameForBox(boxName,
                             animHandler.animCurrentFrame.get(channel.name));
                     int nextTranslationsKeyFramePosition = nextTranslationKeyFrame != null ? channel.getKeyFramePosition(nextTranslationKeyFrame) : 0;
-
-                    Vector3f defaultPos = new Vector3f(block.getDefaultRotationPointX(), block.getDefaultRotationPointY(),
-                            block.getDefaultRotationPointZ());
 
                     float LERPProgress = (currentFrame - prevTranslationsKeyFramePosition)
                             / (nextTranslationsKeyFramePosition - prevTranslationsKeyFramePosition);
