@@ -34,7 +34,7 @@ ext.suffix="beta"
 ext.buildnumber = 0
 if (System.getenv().BUILD_NUMBER) {
     project.buildnumber = System.getenv().BUILD_NUMBER
-    version += "." + System.getenv().BUILD_NUMBER
+    //version += "." + System.getenv().BUILD_NUMBER
 } else {
     logger.lifecycle "SETTING BUILDNUMBER TO 0"
 }
@@ -52,7 +52,7 @@ minecraft {
 }
 
 //Full version
-ext.fullVersion="${project.version}-mc${project.minecraft.version}"
+ext.fullVersion="${project.version}.${project.buildnumber}-mc${project.minecraft.version}"
 
 if(ext.suffix != "") {
 	ext.fullVersion += "-${project.ext.suffix}"
