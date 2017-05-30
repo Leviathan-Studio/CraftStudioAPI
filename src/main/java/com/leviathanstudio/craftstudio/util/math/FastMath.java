@@ -20,31 +20,36 @@ public class FastMath
     /**
      * Returns the square root of a given value.
      */
-    public static float sqrt(float fValue) {
+    public static float sqrt(float fValue)
+    {
         return (float) Math.sqrt(fValue);
     }
 
     /**
      * Returns 1/sqrt(fValue).
      */
-    public static float invSqrt(float fValue) {
+    public static float invSqrt(float fValue)
+    {
         return (float) (1.0f / Math.sqrt(fValue));
     }
 
     /**
      * Returns Absolute value of a float.
      */
-    public static float abs(float fValue) {
+    public static float abs(float fValue)
+    {
         if (fValue < 0)
             return -fValue;
         return fValue;
     }
 
-    public static float sin(float v) {
+    public static float sin(float v)
+    {
         return (float) Math.sin(v);
     }
 
-    public static float cos(float v) {
+    public static float cos(float v)
+    {
         return (float) Math.cos(v);
     }
 
@@ -57,7 +62,8 @@ public class FastMath
      * @return The tangent of fValue.
      * @see java.lang.Math#tan(double)
      */
-    public static float tan(float fValue) {
+    public static float tan(float fValue)
+    {
         return (float) Math.tan(fValue);
     }
 
@@ -66,8 +72,10 @@ public class FastMath
      * -1, then the result is -HALF_PI. If the argument is greater than 1, then
      * the result is HALF_PI.
      */
-    public static float asin(float fValue) {
-        if (-1.0f < fValue) {
+    public static float asin(float fValue)
+    {
+        if (-1.0f < fValue)
+        {
             if (fValue < 1.0f)
                 return (float) Math.asin(fValue);
 
@@ -82,8 +90,10 @@ public class FastMath
      * fValue is smaller than -1, then the result is PI. If the argument is
      * greater than 1, then the result is 0.
      */
-    public static float acos(float fValue) {
-        if (-1.0f < fValue) {
+    public static float acos(float fValue)
+    {
+        if (-1.0f < fValue)
+        {
             if (fValue < 1.0f)
                 return (float) Math.acos(fValue);
 
@@ -101,7 +111,8 @@ public class FastMath
      * @return fValue's atan
      * @see java.lang.Math#atan(double)
      */
-    public static float atan(float fValue) {
+    public static float atan(float fValue)
+    {
         return (float) Math.atan(fValue);
     }
 
@@ -113,7 +124,8 @@ public class FastMath
      * @return Math.atan2(fY,fX)
      * @see java.lang.Math#atan2(double, double)
      */
-    public static float atan2(float fY, float fX) {
+    public static float atan2(float fY, float fX)
+    {
         return (float) Math.atan2(fY, fX);
     }
 
@@ -125,7 +137,8 @@ public class FastMath
      * @return The fValue rounded up
      * @see java.lang.Math#ceil(double)
      */
-    public static float ceil(float fValue) {
+    public static float ceil(float fValue)
+    {
         return (float) Math.ceil(fValue);
     }
 
@@ -137,7 +150,8 @@ public class FastMath
      * @return The given number rounded down
      * @see java.lang.Math#floor(double)
      */
-    public static float floor(float fValue) {
+    public static float floor(float fValue)
+    {
         return (float) Math.floor(fValue);
     }
 }

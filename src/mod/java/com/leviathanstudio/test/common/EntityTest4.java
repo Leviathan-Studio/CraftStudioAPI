@@ -13,29 +13,34 @@ public class EntityTest4 extends EntityCreature implements IAnimated
 {
     protected AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(this);
 
-    public EntityTest4(World par1World) {
+    public EntityTest4(World par1World)
+    {
         super(par1World);
         this.animHandler.addAnim(Mod_Test.MODID, "rotation", "craftstudio_api_test2", true);
     }
 
     @Override
-    protected void entityInit() {
+    protected void entityInit()
+    {
         super.entityInit();
     }
 
     // Getter for animation handler
     @Override
-    public AnimationHandler getAnimationHandler() {
+    public AnimationHandler getAnimationHandler()
+    {
         return this.animHandler;
     }
 
     @Override
-    public void onUpdate() {
+    public void onUpdate()
+    {
         super.onUpdate();
     }
 
     @Override
-    public void onLivingUpdate() {
+    public void onLivingUpdate()
+    {
         super.onLivingUpdate();
         // Activate the animation in ticking method
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation"))
@@ -43,7 +48,8 @@ public class EntityTest4 extends EntityCreature implements IAnimated
     }
 
     @Override
-    public UUID getUUID() {
+    public UUID getUUID()
+    {
         return this.getPersistentID();
     }
 }

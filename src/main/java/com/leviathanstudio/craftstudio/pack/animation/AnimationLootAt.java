@@ -15,7 +15,8 @@ public class AnimationLootAt extends CustomChannel
     private String       headPart;
     private EntityLiving entityToAnimate;
 
-    public AnimationLootAt(EntityLiving entityToAnimateIn, String headPartIn) {
+    public AnimationLootAt(EntityLiving entityToAnimateIn, String headPartIn)
+    {
         super("lookAt");
         this.headPart = headPartIn;
         this.entityToAnimate = entityToAnimateIn;
@@ -23,11 +24,14 @@ public class AnimationLootAt extends CustomChannel
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void update(CSModelRenderer parts, IAnimated animated) {
+    public void update(CSModelRenderer parts, IAnimated animated)
+    {
         if (this.entityToAnimate instanceof IAnimated)
-            if (parts.boxName.equals(this.headPart)) {
+            if (parts.boxName.equals(this.headPart))
+            {
                 float diff = this.entityToAnimate.getRotationYawHead() - this.entityToAnimate.renderYawOffset;
-                Quaternion quat = CraftStudioHelper.getQuaternionFromEulers(-this.entityToAnimate.rotationPitch, -diff, 0.0F);
+                Quaternion quat = CraftStudioHelper.getQuaternionFromEulers(-this.entityToAnimate.rotationPitch, -diff,
+                        0.0F);
                 Quaternion quat2 = new Quaternion(parts.getDefaultRotationAsQuaternion());
                 quat.mul(quat2);
                 parts.getRotationMatrix().set(quat);

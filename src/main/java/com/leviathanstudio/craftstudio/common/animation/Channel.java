@@ -11,11 +11,13 @@ public class Channel
     /** Is the animation is animated or not */
     public boolean looped      = false;
 
-    public Channel(String channelName) {
+    public Channel(String channelName)
+    {
         this.name = channelName;
     }
 
-    public Channel(String channelName, float fps, boolean looped) {
+    public Channel(String channelName, float fps, boolean looped)
+    {
         this(channelName);
         this.fps = fps;
         this.looped = looped;

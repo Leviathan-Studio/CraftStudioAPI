@@ -9,36 +9,44 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class CustomChannel extends ClientChannel
 {
 
-    public CustomChannel(String channelName) {
+    public CustomChannel(String channelName)
+    {
         super(channelName, true);
         this.setAnimationMode(EnumAnimationMode.CUSTOM);
     }
 
     @Override
-    protected void initializeAllFrames() {}
+    protected void initializeAllFrames()
+    {
+    }
 
     @Override
-    public KeyFrame getPreviousRotationKeyFrameForBox(String boxName, float currentFrame) {
+    public KeyFrame getPreviousRotationKeyFrameForBox(String boxName, float currentFrame)
+    {
         return null;
     }
 
     @Override
-    public KeyFrame getNextRotationKeyFrameForBox(String boxName, float currentFrame) {
+    public KeyFrame getNextRotationKeyFrameForBox(String boxName, float currentFrame)
+    {
         return null;
     }
 
     @Override
-    public KeyFrame getPreviousTranslationKeyFrameForBox(String boxName, float currentFrame) {
+    public KeyFrame getPreviousTranslationKeyFrameForBox(String boxName, float currentFrame)
+    {
         return null;
     }
 
     @Override
-    public KeyFrame getNextTranslationKeyFrameForBox(String boxName, float currentFrame) {
+    public KeyFrame getNextTranslationKeyFrameForBox(String boxName, float currentFrame)
+    {
         return null;
     }
 
     @Override
-    public int getKeyFramePosition(KeyFrame keyFrame) {
+    public int getKeyFramePosition(KeyFrame keyFrame)
+    {
         return -1;
     }
 

@@ -16,18 +16,21 @@ public class KeyFrame implements Cloneable
     protected Map<String, Vector3f>   modelRenderersTranslations = new HashMap<>();
 
     /** Check if box is in rotations */
-    public boolean useBoxInRotations(String boxName) {
+    public boolean useBoxInRotations(String boxName)
+    {
         return this.modelRenderersRotations.get(boxName) != null;
     }
 
     /** Check if box is in translations */
-    public boolean useBoxInTranslations(String boxName) {
+    public boolean useBoxInTranslations(String boxName)
+    {
         return this.modelRenderersTranslations.get(boxName) != null;
     }
 
     /** Copy the keyframe */
     @Override
-    public KeyFrame clone() {
+    public KeyFrame clone()
+    {
         KeyFrame kf = new KeyFrame();
         kf.modelRenderersRotations = this.modelRenderersRotations;
         kf.modelRenderersTranslations = this.modelRenderersTranslations;
