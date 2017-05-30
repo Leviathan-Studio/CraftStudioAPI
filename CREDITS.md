@@ -16,3 +16,6 @@ The man who created the entire newest and fresh version of the API. The God. Per
 
 - *[ZeAmateis](twitter.com/ZeAmateis)*
 The man who want some cool animations in minecraft, and the creator of this project.
+
+- *[Phenix246](twitter.com/Phenix246)*
+Sys-admin for the project and CodeCleaner-Man !
