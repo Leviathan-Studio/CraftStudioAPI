@@ -10,7 +10,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.leviathanstudio.craftstudio.CraftStudioApi;
-import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.FrameType;
 import com.leviathanstudio.craftstudio.common.exception.CSMalformedJsonException;
 import com.leviathanstudio.craftstudio.common.exception.CSResourceNotFoundException;
 import com.leviathanstudio.craftstudio.util.math.Vector3f;
@@ -295,15 +294,15 @@ public class CSJsonReader
         JsonObject objBlock = entry.getValue().getAsJsonObject(), objField;
 
         objField = objBlock.get("position").getAsJsonObject();
-        addKFElement(objField, block, FrameType.POSITION);
+        addKFElement(objField, block, EnumFrameType.POSITION);
         objField = objBlock.get("offsetFromPivot").getAsJsonObject();
-        addKFElement(objField, block, FrameType.OFFSET);
+        addKFElement(objField, block, EnumFrameType.OFFSET);
         objField = objBlock.get("size").getAsJsonObject();
-        addKFElement(objField, block, FrameType.SIZE);
+        addKFElement(objField, block, EnumFrameType.SIZE);
         objField = objBlock.get("rotation").getAsJsonObject();
-        addKFElement(objField, block, FrameType.ROTATION);
+        addKFElement(objField, block, EnumFrameType.ROTATION);
         objField = objBlock.get("stretch").getAsJsonObject();
-        addKFElement(objField, block, FrameType.STRETCH);
+        addKFElement(objField, block, EnumFrameType.STRETCH);
     }
 
     /**
@@ -316,7 +315,7 @@ public class CSJsonReader
      * @param type
      *            type of element to add. See {@link CSReadedAnimBlock}.
      */
-    private static void addKFElement(JsonObject obj, CSReadedAnimBlock block, FrameType type)
+    private static void addKFElement(JsonObject obj, CSReadedAnimBlock block, EnumFrameType type)
     {
         int keyFrame;
         Vector3f value;
