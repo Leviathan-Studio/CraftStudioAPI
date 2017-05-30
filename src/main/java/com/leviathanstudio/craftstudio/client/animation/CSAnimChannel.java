@@ -5,9 +5,9 @@ import java.util.Map.Entry;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
-import com.leviathanstudio.craftstudio.common.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
+import com.leviathanstudio.craftstudio.common.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.util.math.Quaternion;
 
 import net.minecraft.util.ResourceLocation;
@@ -39,7 +39,9 @@ public class CSAnimChannel extends ClientChannel
      * @throws CSResourceNotRegisteredException
      *             If the animation or model if not registered
      */
-    public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, boolean looped) throws CSResourceNotRegisteredException {
+    public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, boolean looped)
+            throws CSResourceNotRegisteredException
+    {
         this(animIn, modelIn, 60.0F, looped);
     }
 
@@ -59,7 +61,9 @@ public class CSAnimChannel extends ClientChannel
      * @throws CSResourceNotRegisteredException
      *             If the animation or model if not registered
      */
-    public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, float fps, boolean looped) throws CSResourceNotRegisteredException {
+    public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, float fps, boolean looped)
+            throws CSResourceNotRegisteredException
+    {
         super(animIn.toString(), false);
         this.rAnim = GameRegistry.findRegistry(CSReadedAnim.class).getValue(animIn);
         if (this.rAnim == null)
@@ -78,7 +82,8 @@ public class CSAnimChannel extends ClientChannel
      * Initialize the keyframes.
      */
     @Override
-    protected void initializeAllFrames() {
+    protected void initializeAllFrames()
+    {
         KeyFrame keyFrame;
         ReadedKeyFrame rKeyFrame;
         int lastRK, lastTK;
@@ -87,28 +92,36 @@ public class CSAnimChannel extends ClientChannel
         if (this.rAnim.isHoldLastK())
             if (!this.getKeyFrames().containsKey(this.totalFrames))
                 this.getKeyFrames().put(this.totalFrames, new KeyFrame());
-        for (CSReadedAnimBlock block : this.rAnim.getBlocks()) {
+        for (CSReadedAnimBlock block : this.rAnim.getBlocks())
+        {
             CSReadedModelBlock mBlock = this.rModel.getBlockFromName(block.getName());
             lastRK = 0;
             lastTK = 0;
             if (mBlock != null)
-                for (Entry<Integer, ReadedKeyFrame> entry : block.getKeyFrames().entrySet()) {
+                for (Entry<Integer, ReadedKeyFrame> entry : block.getKeyFrames().entrySet())
+                {
                     keyFrame = this.getKeyFrames().get(entry.getKey());
                     rKeyFrame = entry.getValue();
-                    if (rKeyFrame.position != null) {
-                        keyFrame.modelRenderersTranslations.put(block.getName(), rKeyFrame.position.add(mBlock.getRotationPoint()));
+                    if (rKeyFrame.position != null)
+                    {
+                        keyFrame.modelRenderersTranslations.put(block.getName(),
+                                rKeyFrame.position.add(mBlock.getRotationPoint()));
                         if (lastTK < entry.getKey())
                             lastTK = entry.getKey();
                     }
-                    if (rKeyFrame.rotation != null) {
-                        keyFrame.modelRenderersRotations.put(block.getName(), new Quaternion(rKeyFrame.rotation.add(mBlock.getRotation())));
+                    if (rKeyFrame.rotation != null)
+                    {
+                        keyFrame.modelRenderersRotations.put(block.getName(),
+                                new Quaternion(rKeyFrame.rotation.add(mBlock.getRotation())));
                         if (lastRK < entry.getKey())
                             lastRK = entry.getKey();
                     }
                 }
             else
-                System.out.println("The block " + block.getName() + " doesn't exist in model " + this.rModel.getName() + " !");
-            if (this.rAnim.isHoldLastK()) {
+                System.out.println(
+                        "The block " + block.getName() + " doesn't exist in model " + this.rModel.getName() + " !");
+            if (this.rAnim.isHoldLastK())
+            {
                 if (lastTK != 0)
                     this.getKeyFrames().get(this.totalFrames).modelRenderersTranslations.put(block.getName(),
                             this.getKeyFrames().get(lastTK).modelRenderersTranslations.get(block.getName()));

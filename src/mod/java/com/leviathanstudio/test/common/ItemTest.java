@@ -6,7 +6,8 @@ import net.minecraft.item.Item;
 public class ItemTest extends Item
 {
 
-    public ItemTest() {
+    public ItemTest()
+    {
         this.setUnlocalizedName("itemTest");
         this.setCreativeTab(CreativeTabs.MISC);
     }

@@ -50,7 +50,7 @@ public class FireAnimationMessage extends CraftStudioBasePacket
                 ((ClientAnimationHandler) animated.getAnimationHandler()).clientStartAnimation(message.animationName,
                         message.startingKeyframe);
                 return new RFireAnimationMessage(message.animationName, animated,
-                        (float) ((ClientAnimationHandler) animated.getAnimationHandler()).getAnimChannels()
+                        ((ClientAnimationHandler) animated.getAnimationHandler()).getAnimChannels()
                                 .get(message.animationName).totalFrames);
             }
             return null;

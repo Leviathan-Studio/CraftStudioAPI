@@ -16,21 +16,25 @@ public class AnimTickHandler
     private final List<IAnimated> activeAnimated    = new LinkedList<>();
     private final List<IAnimated> removableAnimated = new LinkedList<>();
 
-    public AnimTickHandler() {
+    public AnimTickHandler()
+    {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public void addAnimated(IAnimated entity) {
+    public void addAnimated(IAnimated entity)
+    {
         this.activeAnimated.add(entity);
     }
 
     // Called when the client ticks.
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void onClientTick(TickEvent.ClientTickEvent event) {
+    public void onClientTick(TickEvent.ClientTickEvent event)
+    {
         if (!this.activeAnimated.isEmpty())
             if (event.phase == Phase.START)
-                for (final IAnimated entity : this.activeAnimated) {
+                for (final IAnimated entity : this.activeAnimated)
+                {
                     entity.getAnimationHandler().animationsUpdate();
 
                     if (entity instanceof Entity)
@@ -45,10 +49,13 @@ public class AnimTickHandler
     // Called when the server ticks. Usually 20 ticks a second.
     @SubscribeEvent
     @SideOnly(Side.SERVER)
-    public void onServerTick(TickEvent.ServerTickEvent event) {
+    public void onServerTick(TickEvent.ServerTickEvent event)
+    {
         if (!this.activeAnimated.isEmpty())
-            if (event.phase == Phase.START) {
-                for (final IAnimated entity : this.activeAnimated) {
+            if (event.phase == Phase.START)
+            {
+                for (final IAnimated entity : this.activeAnimated)
+                {
                     entity.getAnimationHandler().animationsUpdate();
 
                     if (entity instanceof Entity)

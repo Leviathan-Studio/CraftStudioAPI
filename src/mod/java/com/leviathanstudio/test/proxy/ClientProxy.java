@@ -18,7 +18,8 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 public class ClientProxy extends CommonProxy
 {
     @Override
-    public void registerModels() {
+    public void registerModels()
+    {
         super.registerModels();
         CSRegistryHelper registry = new CSRegistryHelper(Mod_Test.MODID);
         registry.register(EnumResourceType.MODEL, EnumRenderType.ENTITY, "model_dead_corpse");
@@ -29,7 +30,8 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void registerAnims() {
+    public void registerAnims()
+    {
         super.registerAnims();
         CSRegistryHelper registry = new CSRegistryHelper(Mod_Test.MODID);
         registry.register(EnumResourceType.ANIM, EnumRenderType.BLOCK, "position");
@@ -40,7 +42,8 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void preInit() {
+    public void preInit()
+    {
         super.preInit();
         // Registry Entity
         RenderingRegistry.registerEntityRenderingHandler(EntityTest.class, RenderTest.FACTORY);
