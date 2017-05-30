@@ -4,13 +4,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public enum ResourceType {
+public enum EnumResourceType {
 
     MODEL("craftstudio/models/", ".csjsmodel"), ANIM("craftstudio/animations/", ".csjsmodelanim");
 
     String path, extension;
 
-    private ResourceType(String pathIn, String extensionIn) {
+    private EnumResourceType(String pathIn, String extensionIn) {
         this.path = pathIn;
         this.extension = extensionIn;
     }

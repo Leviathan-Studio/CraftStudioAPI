@@ -13,8 +13,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.FrameType;
-import com.leviathanstudio.craftstudio.common.exceptions.CSMalformedJsonException;
-import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotFoundException;
+import com.leviathanstudio.craftstudio.common.exception.CSMalformedJsonException;
+import com.leviathanstudio.craftstudio.common.exception.CSResourceNotFoundException;
 import com.leviathanstudio.craftstudio.util.math.Vector3f;
 
 import net.minecraft.client.Minecraft;

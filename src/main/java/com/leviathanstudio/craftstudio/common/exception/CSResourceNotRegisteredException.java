@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.common.exceptions;
+package com.leviathanstudio.craftstudio.common.exception;
 
 public class CSResourceNotRegisteredException extends RuntimeException
 {

@@ -4,13 +4,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public enum RenderType {
+public enum EnumRenderType {
 
     BLOCK("blocks/"), ENTITY("entity/");
 
     String folderName;
 
-    private RenderType(String folderNameIn) {
+    private EnumRenderType(String folderNameIn) {
         this.folderName = folderNameIn;
     }
 

@@ -5,9 +5,9 @@ import java.util.Map.Entry;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
+import com.leviathanstudio.craftstudio.common.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
-import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.util.math.Quaternion;
 
 import net.minecraft.util.ResourceLocation;

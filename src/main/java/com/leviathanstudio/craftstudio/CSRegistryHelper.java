@@ -6,10 +6,10 @@ import java.util.List;
 import com.leviathanstudio.craftstudio.client.json.CSJsonReader;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
-import com.leviathanstudio.craftstudio.client.json.RenderType;
-import com.leviathanstudio.craftstudio.client.json.ResourceType;
-import com.leviathanstudio.craftstudio.common.exceptions.CSMalformedJsonException;
-import com.leviathanstudio.craftstudio.common.exceptions.CSResourceNotFoundException;
+import com.leviathanstudio.craftstudio.client.json.EnumRenderType;
+import com.leviathanstudio.craftstudio.client.json.EnumResourceType;
+import com.leviathanstudio.craftstudio.common.exception.CSMalformedJsonException;
+import com.leviathanstudio.craftstudio.common.exception.CSResourceNotFoundException;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -44,19 +44,19 @@ public class CSRegistryHelper
      *
      * @param resourceTypeIn
      *            Set your resource type, <br>
-     *            {@link ResourceType#ANIM} for animation,<br>
-     *            {@link ResourceType#MODELS} for models <br>
+     *            {@link EnumResourceType#ANIM} for animation,<br>
+     *            {@link EnumResourceType#MODELS} for models <br>
      *            <br>
      * @param renderTypeIn
      *            Set your render type, <br>
-     *            {@link RenderType#BLOCK} for a block<br>
-     *            {@link RenderType#ENTITY} for an entity<br>
+     *            {@link EnumRenderType#BLOCK} for a block<br>
+     *            {@link EnumRenderType#ENTITY} for an entity<br>
      *            <br>
      *
      * @param resourceNameIn
      *            The name of your resource in assets without extension
      */
-    public void register(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn) {
+    public void register(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn) {
         CSRegistryHelper.register(resourceTypeIn, renderTypeIn, resourceNameIn, this.modid);
     }
 
@@ -65,13 +65,13 @@ public class CSRegistryHelper
      *
      * @param resourceTypeIn
      *            Set your resource type, <br>
-     *            {@link ResourceType#ANIM} for animation,<br>
-     *            {@link ResourceType#MODELS} for models <br>
+     *            {@link EnumResourceType#ANIM} for animation,<br>
+     *            {@link EnumResourceType#MODELS} for models <br>
      *            <br>
      * @param renderTypeIn
      *            Set your render type, <br>
-     *            {@link RenderType#BLOCK} for a block<br>
-     *            {@link RenderType#ENTITY} for an entity<br>
+     *            {@link EnumRenderType#BLOCK} for a block<br>
+     *            {@link EnumRenderType#ENTITY} for an entity<br>
      *            <br>
      *
      * @param resourceNameIn
@@ -80,7 +80,7 @@ public class CSRegistryHelper
      * @param modid
      *            The ID of your mod
      */
-    private static void register(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn, String modid) {
+    private static void register(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn, String modid) {
         capitalCheck(resourceNameIn);
         register(resourceTypeIn,
                 new ResourceLocation(modid, resourceTypeIn.getPath() + renderTypeIn.getFolderName() + resourceNameIn + resourceTypeIn.getExtension()),
@@ -92,8 +92,8 @@ public class CSRegistryHelper
      *
      * @param resourceTypeIn
      *            Set your resource type, <br>
-     *            {@link ResourceType#ANIM} for animation,<br>
-     *            {@link ResourceType#MODELS} for models <br>
+     *            {@link EnumResourceType#ANIM} for animation,<br>
+     *            {@link EnumResourceType#MODELS} for models <br>
      *            <br>
      * @param resourceLocationIn
      *            Custom location of your resource
@@ -101,7 +101,7 @@ public class CSRegistryHelper
      * @param resourceNameIn
      *            The name of your resource in assets without extension
      */
-    public static void register(ResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn) {
+    public static void register(EnumResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn) {
         switch (resourceTypeIn) {
             case MODEL:
                 if (CSRegistryHelper.loadModelList != null)
@@ -126,7 +126,7 @@ public class CSRegistryHelper
 
         for (LoadElement el : CSRegistryHelper.loadModelList) {
             progressBarModels.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
-            registry(ResourceType.MODEL, el.resourceLoc, el.ressourceName);
+            registry(EnumResourceType.MODEL, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarModels);
 
@@ -139,7 +139,7 @@ public class CSRegistryHelper
         progressBarAnim = ProgressManager.push("Registry Animations", CSRegistryHelper.loadAnimList.size());
         for (LoadElement el : CSRegistryHelper.loadAnimList) {
             progressBarAnim.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
-            registry(ResourceType.ANIM, el.resourceLoc, el.ressourceName);
+            registry(EnumResourceType.ANIM, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarAnim);
 
@@ -150,33 +150,33 @@ public class CSRegistryHelper
     /**
      * @param resourceTypeIn
      *            Set your resource type, <br>
-     *            {@link ResourceType#ANIM} for animation,<br>
-     *            {@link ResourceType#MODELS} for models <br>
+     *            {@link EnumResourceType#ANIM} for animation,<br>
+     *            {@link EnumResourceType#MODELS} for models <br>
      *            <br>
      * @param renderTypeIn
      *            Set your render type, <br>
-     *            {@link RenderType#BLOCK} for a block<br>
-     *            {@link RenderType#ENTITY} for an entity<br>
+     *            {@link EnumRenderType#BLOCK} for a block<br>
+     *            {@link EnumRenderType#ENTITY} for an entity<br>
      *            <br>
      *
      * @param resourceNameIn
      *            The name of your resource in assets without extension
      */
-    private void registry(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn) {
+    private void registry(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn) {
         CSRegistryHelper.registry(resourceTypeIn, renderTypeIn, resourceNameIn, this.modid);
     }
 
     /**
      * @param resourceTypeIn
      *            Set your resource type, <br>
-     *            {@link ResourceType#ANIM} for animation,<br>
-     *            {@link ResourceType#MODELS} for models <br>
+     *            {@link EnumResourceType#ANIM} for animation,<br>
+     *            {@link EnumResourceType#MODELS} for models <br>
      *            <br>
      *
      * @param renderTypeIn
      *            Set your render type, <br>
-     *            {@link RenderType#BLOCK} for a block<br>
-     *            {@link RenderType#ENTITY} for an entity<br>
+     *            {@link EnumRenderType#BLOCK} for a block<br>
+     *            {@link EnumRenderType#ENTITY} for an entity<br>
      *            <br>
      *
      * @param resourceNameIn
@@ -185,7 +185,7 @@ public class CSRegistryHelper
      * @param modid
      *            The ID of your mod
      */
-    private static void registry(ResourceType resourceTypeIn, RenderType renderTypeIn, String resourceNameIn, String modid) {
+    private static void registry(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn, String modid) {
         capitalCheck(resourceNameIn);
         registry(resourceTypeIn,
                 new ResourceLocation(modid, resourceTypeIn.getPath() + renderTypeIn.getFolderName() + resourceNameIn + resourceTypeIn.getExtension()),
@@ -195,8 +195,8 @@ public class CSRegistryHelper
     /**
      * @param resourceTypeIn
      *            Set your resource type, <br>
-     *            {@link ResourceType#ANIM} for animation,<br>
-     *            {@link ResourceType#MODELS} for models <br>
+     *            {@link EnumResourceType#ANIM} for animation,<br>
+     *            {@link EnumResourceType#MODELS} for models <br>
      *            <br>
      * @param resourceLocationIn
      *            Custom location of your resource
@@ -204,7 +204,7 @@ public class CSRegistryHelper
      * @param resourceNameIn
      *            The name of your resource in assets without extension
      */
-    private static void registry(ResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn) {
+    private static void registry(EnumResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn) {
         CSJsonReader jsonReader;
         CSReadedModel model;
         CSReadedAnim anim;
