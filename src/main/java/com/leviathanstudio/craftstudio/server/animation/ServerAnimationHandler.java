@@ -11,8 +11,8 @@ import com.leviathanstudio.craftstudio.client.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.Channel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
-import com.leviathanstudio.craftstudio.network.EndAnimationMessage;
-import com.leviathanstudio.craftstudio.network.FireAnimationMessage;
+import com.leviathanstudio.craftstudio.common.network.EndAnimationMessage;
+import com.leviathanstudio.craftstudio.common.network.FireAnimationMessage;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;

@@ -3,7 +3,7 @@ package com.leviathanstudio.craftstudio.client.json;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.leviathanstudio.craftstudio.util.math.Vector3f;
+import com.leviathanstudio.craftstudio.client.util.math.Vector3f;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.network;
+package com.leviathanstudio.craftstudio.common.network;
 
 import com.leviathanstudio.craftstudio.client.animation.ClientAnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;

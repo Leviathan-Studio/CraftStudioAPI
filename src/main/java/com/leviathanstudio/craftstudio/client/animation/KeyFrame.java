@@ -3,8 +3,8 @@ package com.leviathanstudio.craftstudio.client.animation;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.leviathanstudio.craftstudio.util.math.Quaternion;
-import com.leviathanstudio.craftstudio.util.math.Vector3f;
+import com.leviathanstudio.craftstudio.client.util.math.Quaternion;
+import com.leviathanstudio.craftstudio.client.util.math.Vector3f;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

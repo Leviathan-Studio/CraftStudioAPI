@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.network;
+package com.leviathanstudio.craftstudio.common.network;
 
 import java.util.List;
 import java.util.UUID;

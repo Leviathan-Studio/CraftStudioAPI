@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.util.math;
+package com.leviathanstudio.craftstudio.client.util.math;
 
 /**
  * A double precision floating point 3 by 3 matrix. Primarily to support 3D

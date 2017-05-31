@@ -10,9 +10,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.leviathanstudio.craftstudio.CraftStudioApi;
+import com.leviathanstudio.craftstudio.client.util.math.Vector3f;
 import com.leviathanstudio.craftstudio.common.exception.CSMalformedJsonException;
 import com.leviathanstudio.craftstudio.common.exception.CSResourceNotFoundException;
-import com.leviathanstudio.craftstudio.util.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;

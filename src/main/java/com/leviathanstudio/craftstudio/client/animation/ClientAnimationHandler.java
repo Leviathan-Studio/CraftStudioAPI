@@ -8,11 +8,11 @@ import java.util.Map;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.model.CSModelRenderer;
+import com.leviathanstudio.craftstudio.client.util.math.Quaternion;
+import com.leviathanstudio.craftstudio.client.util.math.Vector3f;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.Channel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
-import com.leviathanstudio.craftstudio.util.math.Quaternion;
-import com.leviathanstudio.craftstudio.util.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;

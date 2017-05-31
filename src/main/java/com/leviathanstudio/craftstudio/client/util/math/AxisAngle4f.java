@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.util.math;
+package com.leviathanstudio.craftstudio.client.util.math;
 
 /**
  * A four-element axis angle represented by single-precision floating point

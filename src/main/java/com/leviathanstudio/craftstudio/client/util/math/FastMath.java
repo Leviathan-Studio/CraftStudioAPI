@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.util.math;
+package com.leviathanstudio.craftstudio.client.util.math;
 
 public class FastMath
 {

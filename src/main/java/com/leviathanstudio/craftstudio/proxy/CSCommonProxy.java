@@ -3,12 +3,12 @@ package com.leviathanstudio.craftstudio.proxy;
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
-import com.leviathanstudio.craftstudio.network.EndAnimationMessage;
-import com.leviathanstudio.craftstudio.network.EndAnimationMessage.EndAnimationHandler;
-import com.leviathanstudio.craftstudio.network.FireAnimationMessage;
-import com.leviathanstudio.craftstudio.network.FireAnimationMessage.FireAnimationHandler;
-import com.leviathanstudio.craftstudio.network.RFireAnimationMessage;
-import com.leviathanstudio.craftstudio.network.RFireAnimationMessage.RFireAnimationHandler;
+import com.leviathanstudio.craftstudio.common.network.EndAnimationMessage;
+import com.leviathanstudio.craftstudio.common.network.FireAnimationMessage;
+import com.leviathanstudio.craftstudio.common.network.RFireAnimationMessage;
+import com.leviathanstudio.craftstudio.common.network.EndAnimationMessage.EndAnimationHandler;
+import com.leviathanstudio.craftstudio.common.network.FireAnimationMessage.FireAnimationHandler;
+import com.leviathanstudio.craftstudio.common.network.RFireAnimationMessage.RFireAnimationHandler;
 
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;

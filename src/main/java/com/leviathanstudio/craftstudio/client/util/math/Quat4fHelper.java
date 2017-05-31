@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.util.math;
+package com.leviathanstudio.craftstudio.client.util.math;
 
 import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;

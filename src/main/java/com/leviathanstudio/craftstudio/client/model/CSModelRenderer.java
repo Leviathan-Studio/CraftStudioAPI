@@ -4,11 +4,11 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.leviathanstudio.craftstudio.util.CraftStudioHelper;
-import com.leviathanstudio.craftstudio.util.math.Matrix4f;
-import com.leviathanstudio.craftstudio.util.math.Quat4fHelper;
-import com.leviathanstudio.craftstudio.util.math.Quaternion;
-import com.leviathanstudio.craftstudio.util.math.Vector3f;
+import com.leviathanstudio.craftstudio.client.util.CraftStudioHelper;
+import com.leviathanstudio.craftstudio.client.util.math.Matrix4f;
+import com.leviathanstudio.craftstudio.client.util.math.Quat4fHelper;
+import com.leviathanstudio.craftstudio.client.util.math.Quaternion;
+import com.leviathanstudio.craftstudio.client.util.math.Vector3f;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

@@ -1,12 +1,12 @@
-package com.leviathanstudio.craftstudio.util;
+package com.leviathanstudio.craftstudio.client.util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import com.leviathanstudio.craftstudio.util.math.Matrix4f;
-import com.leviathanstudio.craftstudio.util.math.Quaternion;
-import com.leviathanstudio.craftstudio.util.math.Vector3f;
+import com.leviathanstudio.craftstudio.client.util.math.Matrix4f;
+import com.leviathanstudio.craftstudio.client.util.math.Quaternion;
+import com.leviathanstudio.craftstudio.client.util.math.Vector3f;
 
 public class CraftStudioHelper
 {
