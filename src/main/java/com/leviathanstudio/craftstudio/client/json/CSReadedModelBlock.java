@@ -110,6 +110,15 @@ public class CSReadedModelBlock
     {
         return this.size;
     }
+    
+    public Vector3f getAbsSize()
+    {
+    	Vector3f size = this.size;
+    	size.x = Math.abs(size.x);
+    	size.y = Math.abs(size.y);
+    	size.z = Math.abs(size.z);
+        return size;
+    }
 
     public void setSize(Vector3f size)
     {
