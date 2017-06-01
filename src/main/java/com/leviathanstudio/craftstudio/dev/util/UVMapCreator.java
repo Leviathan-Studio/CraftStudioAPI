@@ -27,14 +27,14 @@ public class UVMapCreator {
 	
 	private CSReadedModel rModel;
 	private BufferedImage bi;
-	private List<UVs> uvsList = new ArrayList(),
-			revertUvsList = new ArrayList();
+	private List<UVs> uvsList = new ArrayList();
+			//revertUvsList = new ArrayList();
 	
 	public UVMapCreator(ResourceLocation modelIn){
 		this.rModel = GameRegistry.findRegistry(CSReadedModel.class).getValue(modelIn);
 		if (this.rModel == null)
 			throw new CSResourceNotRegisteredException(modelIn.toString());
-		this.revertUvsList.add(new UVs(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE));
+		//this.revertUvsList.add(new UVs(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE));
 	}
 	
 	public void createUVMap(){
@@ -51,58 +51,94 @@ public class UVMapCreator {
 		for (CSReadedModelBlock block : this.rModel.getParents()){
 			this.createUVForBlock(block);
 		}
-		this.revertUvsList = null;
+		//this.revertUvsList = null;
 	}
 	
 	private void createUVForBlock(CSReadedModelBlock block){
 		CraftStudioApiDev.getLogger().info(block.getName());
 		Vector3f size = block.getAbsSize();
-		UVs uvs = this.getBestUVs(2*(int)(size.x+size.z), (int)(size.y + size.z));
+		UVs uvs = this.getBlockUV(block);
 		uvs.name = block.getName();
+		this.uvsList.add(uvs);
 		
 		for (CSReadedModelBlock child : block.getChilds()){
 			this.createUVForBlock(child);
 		}
 	}
 	
-	private void addUVs(UVs uvs){
-		List<UVs> toRemove = new ArrayList<>();
-		UVs[] nUvs = new UVs[4];
-		this.uvsList.add(uvs);
-		for (int i = 0 ; i < this.revertUvsList.size(); i++){
-			UVs revertUvs = this.revertUvsList.get(i);
-			if (revertUvs.contains(uvs)){
-				toRemove.add(revertUvs);
-				nUvs[0] = new UVs(revertUvs.u1, revertUvs.v1, uvs.u2, uvs.v1);
-				nUvs[1] = new UVs(revertUvs.u1, uvs.v1, uvs.u1, revertUvs.v2);
-				nUvs[2] = new UVs(uvs.u1, uvs.v2, revertUvs.u2, revertUvs.v2);
-				nUvs[3] = new UVs(uvs.u2, revertUvs.v1, revertUvs.u2, uvs.v2);
-				for (UVs aUvs : nUvs)
-					if (!aUvs.isNulOrNegativ())
-						this.revertUvsList.add(aUvs);
-			}
+	private UVs getBlockUV(CSReadedModelBlock block){
+		Vector3f size = block.getSize();
+		int[][] uvs = CSModelBox.getTextureUVsForRect(block.getTexOffset()[0], block.getTexOffset()[1], size.x, -size.y, -size.z);
+		
+		int u1 = uvs[0][0], v1 = uvs[0][1], u2 = uvs[0][0], v2 = uvs[0][1];
+		
+		for (int[] ti : uvs){
+			if (ti[0] < u1)
+				u1 = ti[0];
+			if (ti[2] < u1)
+				u1 = ti[2];
+			if (ti[0] > u2)
+				u2 = ti[0];
+			if (ti[2] > u2)
+				u2 = ti[2];
+			if (ti[1] < v1)
+				v1 = ti[1];
+			if (ti[3] < v1)
+				v1 = ti[3];
+			if (ti[1] > v2)
+				v2 = ti[1];
+			if (ti[3] > v2)
+				v2 = ti[3];
 		}
-		this.revertUvsList.remove(toRemove);
-		//this.revertUvsList.sort(new UVsComparator());
+		if (u1 < 0){
+			u2 = u2 - u1;
+			u1 = 0;
+		}
+		if (v1 < 0){
+			v2 = v2 - v1;
+			v1 = 0;
+		}
+		return new UVs(u1, v1, u2, v2);
 	}
 	
-	private UVs getBestUVs(int uSize, int vSize){
-		UVs testUvs = null;
-		boolean flag;
-		for (UVs uvs : this.revertUvsList){
-			testUvs = new UVs(uvs.u1, uvs.v1, uvs.u1 + uSize, uvs.v1 + vSize);
-			flag = true;
-			for (UVs takenUvs : this.uvsList)
-				if (takenUvs.contains(testUvs)){
-					flag = false;
-					break;
-				}
-			if (flag)
-				break;
-		}
-		this.addUVs(testUvs);
-		return testUvs;
-	}
+//	private void addUVs(UVs uvs){
+//		List<UVs> toRemove = new ArrayList<>();
+//		UVs[] nUvs = new UVs[4];
+//		this.uvsList.add(uvs);
+//		for (int i = 0 ; i < this.revertUvsList.size(); i++){
+//			UVs revertUvs = this.revertUvsList.get(i);
+//			if (revertUvs.contains(uvs)){
+//				toRemove.add(revertUvs);
+//				nUvs[0] = new UVs(revertUvs.u1, revertUvs.v1, uvs.u2, uvs.v1);
+//				nUvs[1] = new UVs(revertUvs.u1, uvs.v1, uvs.u1, revertUvs.v2);
+//				nUvs[2] = new UVs(uvs.u1, uvs.v2, revertUvs.u2, revertUvs.v2);
+//				nUvs[3] = new UVs(uvs.u2, revertUvs.v1, revertUvs.u2, uvs.v2);
+//				for (UVs aUvs : nUvs)
+//					if (!aUvs.isNullOrNegative())
+//						this.revertUvsList.add(aUvs);
+//			}
+//		}
+//		this.revertUvsList.remove(toRemove);
+//		//this.revertUvsList.sort(new UVsComparator());
+//	}
+//	
+//	private UVs getBestUVs(int uSize, int vSize){
+//		UVs testUvs = null;
+//		boolean flag;
+//		for (UVs uvs : this.revertUvsList){
+//			testUvs = new UVs(uvs.u1, uvs.v1, uvs.u1 + uSize, uvs.v1 + vSize);
+//			flag = true;
+//			for (UVs takenUvs : this.uvsList)
+//				if (takenUvs.contains(testUvs)){
+//					flag = false;
+//					break;
+//				}
+//			if (flag)
+//				break;
+//		}
+//		this.addUVs(testUvs);
+//		return testUvs;
+//	}
 	
 	private void generateMap(){
 		int[] size = this.getTextSize();
@@ -129,8 +165,8 @@ public class UVMapCreator {
 	
 	private void drawUVs(UVs uvs, Graphics2D ig){
 		CSReadedModelBlock block = this.rModel.getBlockFromName(uvs.name);
-		Vector3f size = block.getAbsSize();
-		int[][] textUvs = CSModelBox.getTextureUVsForRect(uvs.u1, uvs.v1, size.x, -size.y, -size.z);
+		Vector3f size = block.getSize();
+		int[][] textUvs = CSModelBox.getTextureUVsForRect(block.getTexOffset()[0], block.getTexOffset()[1], size.x, -size.y, -size.z);
 		ig.setPaint(Color.MAGENTA);
 		drawRect(textUvs[0], ig);
 		ig.setPaint(Color.RED);
@@ -144,11 +180,15 @@ public class UVMapCreator {
 		ig.setPaint(Color.CYAN);
 		drawRect(textUvs[5], ig);
 		
+//		ig.setPaint(Color.CYAN);
+//		ig.fillRect(uvs.u1, uvs.v1, uvs.u2 - uvs.u1, uvs.v2 - uvs.v1);
+		
 		FontMetrics fm = ig.getFontMetrics();
 		int strWidth = fm.stringWidth(block.getName());
 		int strHeight = fm.getAscent();
 		ig.setPaint(Color.BLACK);
-		ig.drawString(block.getName(), uvs.u1 + (uvs.u2 - uvs.u1 - strWidth)/2, uvs.v1 + (uvs.v2 - uvs.v1 + strHeight)/2);
+//		if (uvs.u2 - uvs.u1 >= strWidth && uvs.v2 - uvs.v1 >= strHeight)
+//			ig.drawString(block.getName(), uvs.u1 + (uvs.u2 - uvs.u1 - strWidth)/2, uvs.v1 + (uvs.v2 - uvs.v1 + strHeight)/2);
 	}
 	
 	private static void drawRect(int[] coord, Graphics2D ig){
@@ -191,8 +231,8 @@ public class UVMapCreator {
 		
 		private boolean contains(UVs uvs, boolean innerCheck){
 			if (this.containPoint(uvs.u1, uvs.v1)|| this.containPoint(uvs.u2, uvs.v1)
-					|| this.containPoint(uvs.u1, uvs.v2)|| this.containPoint(uvs.u2, uvs.v2) || this.equals(uvs)
-					|| (!innerCheck && uvs.contains(this, true)))
+					|| this.containPoint(uvs.u1, uvs.v2)|| this.containPoint(uvs.u2, uvs.v2)
+					|| this.equals(uvs) || (!innerCheck && uvs.contains(this, true)))
 				return true;
 			return false;
 		}
@@ -203,7 +243,7 @@ public class UVMapCreator {
 			return false;
 		}
 		
-		boolean isNulOrNegativ(){
+		boolean isNullOrNegative(){
 			if (this.u2 - this.u1 <=0 || this.v2 - this.v1 <= 0)
 				return true;
 			return false;
