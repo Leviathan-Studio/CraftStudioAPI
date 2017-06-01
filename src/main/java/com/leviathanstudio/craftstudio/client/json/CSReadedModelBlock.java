@@ -43,7 +43,7 @@ public class CSReadedModelBlock
         return null;
     }
 
-    /**
+    /** TODO
      * Get if the block as a name already in the list or not. If not it add his
      * name to the list.</br>
      * If it is, the list is wiped and the block's name is add.
@@ -52,19 +52,18 @@ public class CSReadedModelBlock
      *            A list of name.
      * @return True, if the name isn't in the list. False, otherwise.
      */
-    boolean getAnimability(List<String> names)
+    String whyUnAnimable(List<String> names)
     {
+    	String str;
         if (names.contains(this.name))
-        {
-            names = new ArrayList<>();
-            names.add(this.name);
-            return false;
-        }
+            return this.name;
         names.add(this.name);
-        for (CSReadedModelBlock block : this.childs)
-            if (block.getAnimability(names) == false)
-                return false;
-        return true;
+        for (CSReadedModelBlock block : this.childs){
+        	str = block.whyUnAnimable(names);
+            if (str != null)
+                return str;
+        }
+        return null;
     }
 
     public String getName()

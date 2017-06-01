@@ -2,6 +2,7 @@ package com.leviathanstudio.craftstudio.client.animation;
 
 import java.util.Map.Entry;
 
+import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
@@ -71,6 +72,11 @@ public class CSAnimChannel extends ClientChannel
         this.rModel = GameRegistry.findRegistry(CSReadedModel.class).getValue(modelIn);
         if (this.rModel == null)
             throw new CSResourceNotRegisteredException(modelIn.toString());
+        if (!rModel.isAnimable()){
+        	CraftStudioApi.getLogger().warn("You are trying to animate the model \"" + modelIn.toString() + "\"");
+        	CraftStudioApi.getLogger().warn("But it contains at least two blocks with the name \"" + rModel.whyUnAnimable() + "\"");
+        	CraftStudioApi.getLogger().warn("There could be weird result with your animation");
+        }
         this.fps = fps;
         this.totalFrames = this.rAnim.getDuration();
         if (looped)

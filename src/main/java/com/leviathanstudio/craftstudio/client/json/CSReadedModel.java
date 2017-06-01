@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
-public class CSReadedModel extends Impl<CSReadedModel> implements IForgeRegistryEntry<CSReadedModel>
+public class CSReadedModel extends Impl<CSReadedModel>
 {
     private String                   name, modid;
     private int                      textureWidth, textureHeight;
@@ -49,32 +49,26 @@ public class CSReadedModel extends Impl<CSReadedModel> implements IForgeRegistry
      */
     public boolean isAnimable()
     {
-        List<String> names = new ArrayList<>();
-        for (CSReadedModelBlock block : this.parents)
-            if (block.getAnimability(names) == false)
-                return false;
-        return true;
+        if (this.whyUnAnimable() == null)
+        	return true;
+        return false;
     }
 
     /**
-     * Get the name that is duplicated and make the model unanimable.
+     * Get the name of the block that is duplicated, if there is any.
      *
      * @return The name of the block. <i>null</i>, if the model if animable.
      */
-    String whyUnAnimable()
+    public String whyUnAnimable()
     {
-        boolean flag = true;
+    	String str;
         List<String> names = new ArrayList<>();
-        for (CSReadedModelBlock block : this.parents)
-            if (block.getAnimability(names) == false)
-            {
-                flag = false;
-                break;
-            }
-        if (flag)
-            return null;
-        else
-            return names.get(0);
+        for (CSReadedModelBlock block : this.parents){
+        	str = block.whyUnAnimable(names);
+            if (str != null)
+            	return str;
+        }
+        return null;
     }
 
     public String getName()

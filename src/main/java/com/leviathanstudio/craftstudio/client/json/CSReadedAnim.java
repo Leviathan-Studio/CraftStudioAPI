@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
-public class CSReadedAnim extends Impl<CSReadedAnim> implements IForgeRegistryEntry<CSReadedAnim>
+public class CSReadedAnim extends Impl<CSReadedAnim>
 {
     private String                  modid;
     private String                  name;
