@@ -188,10 +188,4 @@ public class ClientChannel extends Channel
     {
         return this.animationMode;
     }
-
-    public enum EnumAnimationMode
-    {
-        LINEAR, LOOP, CUSTOM;
-    }
-
 }

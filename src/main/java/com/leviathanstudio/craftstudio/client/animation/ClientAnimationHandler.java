@@ -149,9 +149,9 @@ public class ClientAnimationHandler extends AnimationHandler
     }
 
     /**
-     * Check if linear animation is active
+     * Check if hold animation is active
      */
-    public boolean isLinearAnimationActive(String name)
+    public boolean isHoldAnimationActive(String name)
     {
         boolean animAlreadyUsed = false;
         for (ClientChannel anim : this.animCurrentChannels)
@@ -176,7 +176,7 @@ public class ClientAnimationHandler extends AnimationHandler
         ClientChannel clientChannel = (ClientChannel) channel;
         if (!ClientAnimationHandler.isGamePaused())
         {
-            if (!(clientChannel.getAnimationMode() == ClientChannel.EnumAnimationMode.CUSTOM))
+            if (!(clientChannel.getAnimationMode() == EnumAnimationMode.CUSTOM))
             {
                 long prevTime = this.animPrevTime.get(channel.name);
                 float prevFrame = this.animCurrentFrame.get(channel.name);
@@ -198,13 +198,13 @@ public class ClientAnimationHandler extends AnimationHandler
                 }
                 else
                 {
-                    if (clientChannel.getAnimationMode() == ClientChannel.EnumAnimationMode.LOOP)
+                    if (clientChannel.getAnimationMode() == EnumAnimationMode.LOOP)
                     {
                         this.animPrevTime.put(channel.name, currentTime);
                         this.animCurrentFrame.put(channel.name, 0F);
                         return true;
                     }
-                    else if (clientChannel.getAnimationMode() == ClientChannel.EnumAnimationMode.LINEAR)
+                    else if (clientChannel.getAnimationMode() == EnumAnimationMode.HOLD)
                     {
                         this.animPrevTime.put(channel.name, currentTime);
                         this.animCurrentFrame.put(channel.name, (float) channel.totalFrames - 1);
@@ -273,7 +273,7 @@ public class ClientAnimationHandler extends AnimationHandler
             block.resetRotationMatrix();
 
             for (ClientChannel channel : animHandler.animCurrentChannels)
-                if (channel.getAnimationMode() != ClientChannel.EnumAnimationMode.CUSTOM)
+                if (channel.getAnimationMode() != EnumAnimationMode.CUSTOM)
                 {
                     float currentFrame = animHandler.animCurrentFrame.get(channel.name);
 
