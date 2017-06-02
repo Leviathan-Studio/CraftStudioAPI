@@ -35,14 +35,18 @@ public class UVMapCreator {
 			throw new CSResourceNotRegisteredException(modelIn.toString());
 	}
 	
-	public void createUVMap(){
+	public boolean createUVMap(){
 		CraftStudioApiDev.getLogger().info("Getting the size of the UV Map ...");
 		this.getUVSize();
 		CraftStudioApiDev.getLogger().info("Generate UV Map ...");
 		this.generateMap();
 		CraftStudioApiDev.getLogger().info("Write UV Map ...");
-		this.writeMap();
-		CraftStudioApiDev.getLogger().info("Creation of UV Map Complete");
+		boolean w = this.writeMap();
+		if (w)
+			CraftStudioApiDev.getLogger().info("Creation of UV Map Complete");
+		else
+			CraftStudioApiDev.getLogger().error("Unable to save the file " + this.rModel.getName() + ".png");
+		return w;
 	}
 	
 	private void getUVSize(){
@@ -110,12 +114,13 @@ public class UVMapCreator {
 		ig.fillRect(a, b, A, B);
 	}
 	
-	private void writeMap(){
+	private boolean writeMap(){
 		try {
 			ImageIO.write(bi, "PNG", new File(this.rModel.getName() + ".png"));
 		} catch (IOException e) {
-			CraftStudioApiDev.getLogger().error("Unable to save the file " + this.rModel.getName() + ".png");
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 }

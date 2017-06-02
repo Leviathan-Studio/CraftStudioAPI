@@ -43,7 +43,7 @@ public class CSReadedModelBlock
         return null;
     }
 
-    /** TODO
+    /** TODO Change doc
      * Get if the block as a name already in the list or not. If not it add his
      * name to the list.</br>
      * If it is, the list is wiped and the block's name is add.
