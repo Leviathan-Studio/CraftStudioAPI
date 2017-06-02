@@ -101,6 +101,9 @@ jar {
     manifest {
         attributes  'group':project.group
     }
+	from(sourceSets.main.allSource) {
+        exclude 'com.leviathanstudio.craftstudio.dev/**'
+    }
     appendix = 'universal'
     version = "${project.ext.fullVersion}"
 }
