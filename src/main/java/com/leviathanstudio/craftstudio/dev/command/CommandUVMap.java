@@ -16,9 +16,10 @@ import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.client.IClientCommand;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class CommandUVMap extends CommandBase {
+public class CommandUVMap extends CommandBase implements IClientCommand {
 
 	private static String name = "uvmap";
 	private static String usage = "uvmap model";
@@ -61,6 +62,11 @@ public class CommandUVMap extends CommandBase {
 	@Override
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos){
 		return args.length == 1 ? getListOfStringsMatchingLastWord(args, GameRegistry.findRegistry(CSReadedModel.class).getKeys()) : Collections.<String>emptyList();
+	}
+
+	@Override
+	public boolean allowUsageWithoutPrefix(ICommandSender sender, String message) {
+		return false;
 	}
 
 }
