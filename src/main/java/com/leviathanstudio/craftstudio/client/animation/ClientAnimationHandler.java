@@ -140,12 +140,7 @@ public class ClientAnimationHandler extends AnimationHandler
     /**
      * Check if hold animation is active
      */
-<<<<<<< Updated upstream
-    public boolean isHoldAnimationActive(String name)
-    {
-=======
-    public boolean isLinearAnimationActive(String name) {
->>>>>>> Stashed changes
+    public boolean isHoldAnimationActive(String name) {
         boolean animAlreadyUsed = false;
         for (ClientChannel anim : this.animCurrentChannels)
             if (anim.name != null)
@@ -165,15 +160,8 @@ public class ClientAnimationHandler extends AnimationHandler
         if (!(channel instanceof ClientChannel))
             return false;
         ClientChannel clientChannel = (ClientChannel) channel;
-<<<<<<< Updated upstream
-        if (!ClientAnimationHandler.isGamePaused())
-        {
-            if (!(clientChannel.getAnimationMode() == EnumAnimationMode.CUSTOM))
-            {
-=======
         if (!ClientAnimationHandler.isGamePaused()) {
-            if (!(clientChannel.getAnimationMode() == ClientChannel.EnumAnimationMode.CUSTOM)) {
->>>>>>> Stashed changes
+            if (!(clientChannel.getAnimationMode() == EnumAnimationMode.CUSTOM)) {
                 long prevTime = this.animPrevTime.get(channel.name);
                 float prevFrame = this.animCurrentFrame.get(channel.name);
 
@@ -191,25 +179,13 @@ public class ClientAnimationHandler extends AnimationHandler
                     this.animCurrentFrame.put(channel.name, currentFrame);
                     return true;
                 }
-<<<<<<< Updated upstream
-                else
-                {
-                    if (clientChannel.getAnimationMode() == EnumAnimationMode.LOOP)
-                    {
-=======
                 else {
-                    if (clientChannel.getAnimationMode() == ClientChannel.EnumAnimationMode.LOOP) {
->>>>>>> Stashed changes
+                    if (clientChannel.getAnimationMode() == EnumAnimationMode.LOOP) {
                         this.animPrevTime.put(channel.name, currentTime);
                         this.animCurrentFrame.put(channel.name, 0F);
                         return true;
                     }
-<<<<<<< Updated upstream
-                    else if (clientChannel.getAnimationMode() == EnumAnimationMode.HOLD)
-                    {
-=======
-                    else if (clientChannel.getAnimationMode() == ClientChannel.EnumAnimationMode.LINEAR) {
->>>>>>> Stashed changes
+                    else if (clientChannel.getAnimationMode() == EnumAnimationMode.HOLD) {
                         this.animPrevTime.put(channel.name, currentTime);
                         this.animCurrentFrame.put(channel.name, (float) channel.totalFrames - 1);
                         return true;
@@ -269,12 +245,7 @@ public class ClientAnimationHandler extends AnimationHandler
             block.resetRotationMatrix();
 
             for (ClientChannel channel : animHandler.animCurrentChannels)
-<<<<<<< Updated upstream
-                if (channel.getAnimationMode() != EnumAnimationMode.CUSTOM)
-                {
-=======
-                if (channel.getAnimationMode() != ClientChannel.EnumAnimationMode.CUSTOM) {
->>>>>>> Stashed changes
+                if (channel.getAnimationMode() != EnumAnimationMode.CUSTOM) {
                     float currentFrame = animHandler.animCurrentFrame.get(channel.name);
 
                     // Rotations
