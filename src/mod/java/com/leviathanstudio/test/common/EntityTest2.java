@@ -18,11 +18,10 @@ import net.minecraft.world.World;
 
 public class EntityTest2 extends EntityAnimal implements IAnimated
 {
-    protected AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(this);
+    protected AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(this, this.getEntityWorld());
     protected boolean          fanOpen     = true;
 
-    public EntityTest2(World par1World)
-    {
+    public EntityTest2(World par1World) {
         super(par1World);
         this.animHandler.addAnim(Mod_Test.MODID, "close_fan", "peacock", false);
         this.animHandler.addAnim(Mod_Test.MODID, "open_fan", "close_fan");
@@ -35,14 +34,12 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     }
 
     @Override
-    protected void entityInit()
-    {
+    protected void entityInit() {
         super.entityInit();
     }
 
     @Override
-    protected void applyEntityAttributes()
-    {
+    protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
@@ -50,30 +47,25 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
 
     // Getter for animation handler
     @Override
-    public AnimationHandler getAnimationHandler()
-    {
+    public AnimationHandler getAnimationHandler() {
         return this.animHandler;
     }
 
     @Override
-    public void onUpdate()
-    {
+    public void onUpdate() {
         super.onUpdate();
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand)
-    {
+    public boolean processInteract(EntityPlayer player, EnumHand hand) {
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "close_fan")
                 && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "open_fan"))
-            if (this.fanOpen)
-            {
+            if (this.fanOpen) {
                 this.getAnimationHandler().stopAnimation(Mod_Test.MODID, "open_fan");
                 this.getAnimationHandler().startAnimation(Mod_Test.MODID, "close_fan");
                 this.fanOpen = false;
             }
-            else
-            {
+            else {
                 this.getAnimationHandler().stopAnimation(Mod_Test.MODID, "close_fan");
                 this.getAnimationHandler().startAnimation(Mod_Test.MODID, "open_fan");
                 this.fanOpen = true;
@@ -82,20 +74,17 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     }
 
     @Override
-    public void onLivingUpdate()
-    {
+    public void onLivingUpdate() {
         super.onLivingUpdate();
     }
 
     @Override
-    public EntityAgeable createChild(EntityAgeable ageable)
-    {
+    public EntityAgeable createChild(EntityAgeable ageable) {
         return null;
     }
 
     @Override
-    public UUID getUUID()
-    {
+    public UUID getUUID() {
         return this.getPersistentID();
     }
 }

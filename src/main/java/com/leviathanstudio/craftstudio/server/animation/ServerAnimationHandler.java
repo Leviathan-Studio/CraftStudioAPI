@@ -15,6 +15,7 @@ import com.leviathanstudio.craftstudio.common.network.EndAnimationMessage;
 import com.leviathanstudio.craftstudio.common.network.FireAnimationMessage;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.profiler.Profiler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
@@ -34,37 +35,38 @@ public class ServerAnimationHandler extends AnimationHandler
 
     private Map<String, Float>  startingFrames      = new HashMap<>();
 
-    public ServerAnimationHandler(IAnimated animated)
-    {
-        super(animated);
+    public ServerAnimationHandler(IAnimated animated, Profiler profiler) {
+        super(animated, profiler);
     }
 
     @Override
-    public void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped)
-    {
+    public void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped) {
         ResourceLocation anim = new ResourceLocation(modid, animNameIn);
+        this.profiler.startSection("putAnim");
         this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, looped));
+        this.profiler.endSection();
     }
 
     @Override
-    public void addAnim(String modid, String animNameIn, String modelNameIn, CustomChannel customChannelIn)
-    {
+    public void addAnim(String modid, String animNameIn, String modelNameIn, CustomChannel customChannelIn) {
         ResourceLocation anim = new ResourceLocation(modid, animNameIn);
+        this.profiler.startSection("putAnim");
         this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, false));
+        this.profiler.endSection();
     }
 
     @Override
-    public void addAnim(String modid, String invertedAnimationName, String animationToInvert)
-    {
+    public void addAnim(String modid, String invertedAnimationName, String animationToInvert) {
         ResourceLocation anim = new ResourceLocation(modid, invertedAnimationName);
         ResourceLocation inverted = new ResourceLocation(modid, animationToInvert);
         boolean looped = this.animChannels.get(inverted.toString()).looped;
+        this.profiler.startSection("putAnim");
         this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, looped));
+        this.profiler.endSection();
     }
 
     @Override
-    public void startAnimation(String ress, float startingFrame)
-    {
+    public void startAnimation(String ress, float startingFrame) {
         this.startingFrames.put(ress, startingFrame);
         if (!(this.animatedElement instanceof Entity))
             return;
@@ -73,10 +75,8 @@ public class ServerAnimationHandler extends AnimationHandler
                 new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 100));
     }
 
-    public void serverStartAnimation(String ress, float endingFrame)
-    {
-        if (this.animChannels.get(ress) != null && this.startingFrames.get(ress) != null)
-        {
+    public void serverStartAnimation(String ress, float endingFrame) {
+        if (this.animChannels.get(ress) != null && this.startingFrames.get(ress) != null) {
             Channel anim = this.animChannels.get(ress);
             anim.totalFrames = (int) endingFrame;
             int indexToRemove = this.animCurrentChannels.indexOf(ress);
@@ -92,18 +92,15 @@ public class ServerAnimationHandler extends AnimationHandler
     }
 
     @Override
-    public void stopAnimation(String res)
-    {
+    public void stopAnimation(String res) {
         if (!(this.animatedElement instanceof Entity))
             return;
         Entity e = (Entity) this.animatedElement;
         CraftStudioApi.NETWORK.sendToAllAround(new EndAnimationMessage(res, this.animatedElement),
                 new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 100));
-        if (this.animChannels.get(res) != null)
-        {
+        if (this.animChannels.get(res) != null) {
             int indexToRemove = this.animCurrentChannels.indexOf(res);
-            if (indexToRemove != -1)
-            {
+            if (indexToRemove != -1) {
                 this.animCurrentChannels.remove(indexToRemove);
                 this.animPrevTime.remove(res);
                 this.animCurrentFrame.remove(res);
@@ -114,17 +111,14 @@ public class ServerAnimationHandler extends AnimationHandler
     }
 
     @Override
-    public void animationsUpdate()
-    {
-        for (final Iterator<String> it = this.animCurrentChannels.iterator(); it.hasNext();)
-        {
+    public void animationsUpdate() {
+        for (final Iterator<String> it = this.animCurrentChannels.iterator(); it.hasNext();) {
             final String anim = it.next();
             final float prevFrame = this.animCurrentFrame.get(anim);
             final boolean animStatus = this.canUpdateAnimation(this.animChannels.get(anim));
             if (this.animCurrentFrame.get(anim) != null)
                 this.fireAnimationEvent(this.animChannels.get(anim), prevFrame, this.animCurrentFrame.get(anim));
-            if (!animStatus)
-            {
+            if (!animStatus) {
                 it.remove();
                 this.animPrevTime.remove(anim);
                 this.animCurrentFrame.remove(anim);
@@ -133,12 +127,10 @@ public class ServerAnimationHandler extends AnimationHandler
     }
 
     @Override
-    public boolean isAnimationActive(String name)
-    {
+    public boolean isAnimationActive(String name) {
         boolean animAlreadyUsed = false;
         for (String anim : this.animCurrentChannels)
-            if (anim.equals(name))
-            {
+            if (anim.equals(name)) {
                 animAlreadyUsed = true;
                 break;
             }
@@ -147,8 +139,7 @@ public class ServerAnimationHandler extends AnimationHandler
 
     /** Update animation values. Return false if the animation should stop. */
     @Override
-    public boolean canUpdateAnimation(Channel channel)
-    {
+    public boolean canUpdateAnimation(Channel channel) {
         long currentTime = System.nanoTime();
         long prevTime = this.animPrevTime.get(channel.name);
         float prevFrame = this.animCurrentFrame.get(channel.name);
@@ -162,16 +153,13 @@ public class ServerAnimationHandler extends AnimationHandler
          * -1 as the first frame mustn't be "executed" as it is the starting
          * situation
          */
-        if (currentFrame < channel.totalFrames - 1)
-        {
+        if (currentFrame < channel.totalFrames - 1) {
             this.animPrevTime.put(channel.name, currentTime);
             this.animCurrentFrame.put(channel.name, currentFrame);
             return true;
         }
-        else
-        {
-            if (channel.looped)
-            {
+        else {
+            if (channel.looped) {
                 this.animPrevTime.put(channel.name, currentTime);
                 this.animCurrentFrame.put(channel.name, 0F);
                 return true;
@@ -181,7 +169,5 @@ public class ServerAnimationHandler extends AnimationHandler
     }
 
     @Override
-    public void fireAnimationEvent(Channel anim, float prevFrame, float frame)
-    {
-    }
+    public void fireAnimationEvent(Channel anim, float prevFrame, float frame) {}
 }
