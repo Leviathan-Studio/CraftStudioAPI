@@ -81,6 +81,8 @@ public class CSAnimChannel extends ClientChannel
         this.totalFrames = this.rAnim.getDuration();
         if (looped)
             this.setAnimationMode(EnumAnimationMode.LOOP);
+        else if (this.rAnim.isHoldLastK())
+        	this.setAnimationMode(EnumAnimationMode.HOLD);
         this.initializeAllFrames();
     }
 
