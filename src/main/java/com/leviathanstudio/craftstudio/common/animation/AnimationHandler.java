@@ -3,6 +3,7 @@ package com.leviathanstudio.craftstudio.common.animation;
 import com.leviathanstudio.craftstudio.client.animation.CustomChannel;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.profiler.Profiler;
 import net.minecraft.tileentity.TileEntity;
 
 public abstract class AnimationHandler
@@ -11,12 +12,14 @@ public abstract class AnimationHandler
     /** Owner of this handler. */
     protected final IAnimated     animatedElement;
 
-    public AnimationHandler(IAnimated animated)
-    {
+    protected final Profiler      profiler;
+
+    public AnimationHandler(IAnimated animated, Profiler worldProfiler) {
         if (AnimationHandler.animTickHandler == null)
             AnimationHandler.animTickHandler = new AnimTickHandler();
         AnimationHandler.animTickHandler.addAnimated(animated);
         this.animatedElement = animated;
+        this.profiler = worldProfiler;
     }
 
     /**
@@ -59,8 +62,7 @@ public abstract class AnimationHandler
      */
     public abstract void addAnim(String modid, String invertedAnimationName, String animationToInvert);
 
-    protected IAnimated getAnimated()
-    {
+    protected IAnimated getAnimated() {
         return this.animatedElement;
     }
 
@@ -74,8 +76,7 @@ public abstract class AnimationHandler
      * @param animationName
      *            The name of your animation you want to start
      */
-    public void startAnimation(String modid, String animationName)
-    {
+    public void startAnimation(String modid, String animationName) {
         this.startAnimation(modid, animationName, 0.0F);
     }
 
@@ -90,8 +91,7 @@ public abstract class AnimationHandler
      *            The frame you want your animation to start
      *
      */
-    public void startAnimation(String modid, String animationName, float startingFrame)
-    {
+    public void startAnimation(String modid, String animationName, float startingFrame) {
         this.startAnimation(modid + ":" + animationName, startingFrame);
     }
 
@@ -105,8 +105,7 @@ public abstract class AnimationHandler
      * @param animationName
      *            The name of your animation you want to start
      */
-    public void stopAnimation(String modid, String animationName)
-    {
+    public void stopAnimation(String modid, String animationName) {
         this.stopAnimation(modid + ":" + animationName);
     }
 
@@ -120,8 +119,7 @@ public abstract class AnimationHandler
      * @param animationName
      *            The name of the animation you want to check
      */
-    public boolean isAnimationActive(String modid, String animationName)
-    {
+    public boolean isAnimationActive(String modid, String animationName) {
         return this.isAnimationActive(modid + ":" + animationName);
     }
 
@@ -132,8 +130,7 @@ public abstract class AnimationHandler
     public abstract void fireAnimationEvent(Channel anim, float prevFrame, float frame);
 
     /** Get world object from an IAnimated */
-    public static boolean isWorldRemote(IAnimated animated)
-    {
+    public static boolean isWorldRemote(IAnimated animated) {
         if (animated instanceof Entity)
             return ((Entity) animated).getEntityWorld().isRemote;
         else if (animated instanceof TileEntity)
