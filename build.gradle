@@ -47,7 +47,7 @@ targetCompatibility = 1.8
 minecraft {
     version = "1.10.2-12.18.3.2297"
     runDir = "run"
-    mappings = "snapshot_20161117"
+    mappings = "snapshot_20161111"
     replace "@VERSION@",  project.version
 }
 

@@ -13,6 +13,7 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
@@ -62,7 +63,7 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand)
+    public boolean processInteract(EntityPlayer player, EnumHand hand, ItemStack stack)
     {
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "close_fan")
                 && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "open_fan"))

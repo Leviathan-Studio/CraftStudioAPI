@@ -30,7 +30,7 @@ import org.apache.logging.log4j.Logger;
  * @author Timmypote
  */
 @Mod.EventBusSubscriber
-@Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, version = "0.1-beta", updateJSON = "https://leviathan-studio.com/craftstudioapi/update.json", acceptedMinecraftVersions = "1.11.2")
+@Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, version = "0.1-beta", updateJSON = "https://leviathan-studio.com/craftstudioapi/update.json", acceptedMinecraftVersions = "1.10.2")
 public class CraftStudioApi
 {
     private static final Logger              LOGGER  = LogManager.getLogger("CraftStudio");
