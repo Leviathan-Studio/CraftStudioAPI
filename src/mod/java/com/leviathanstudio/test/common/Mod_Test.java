@@ -6,7 +6,6 @@ import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.test.proxy.CommonProxy;
 
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -60,16 +59,13 @@ public class Mod_Test
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-        EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest"), EntityTest.class, "entityTest",
-                420, Mod_Test.instance, 40, 1, true, new Color(0, 255, 0).getRGB(), new Color(255, 0, 0).getRGB());
-        EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest2"), EntityTest2.class,
-                "entityTest2", 421, Mod_Test.instance, 40, 1, true, new Color(255, 0, 0).getRGB(),
+        EntityRegistry.registerModEntity(EntityTest.class, "entityTest", 420, Mod_Test.instance, 40, 1, true, new Color(0, 255, 0).getRGB(),
+                new Color(255, 0, 0).getRGB());
+        EntityRegistry.registerModEntity(EntityTest2.class, "entityTest2", 421, Mod_Test.instance, 40, 1, true, new Color(255, 0, 0).getRGB(),
                 new Color(0, 0, 0).getRGB());
-        EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest3"), EntityTest3.class,
-                "entityTest3", 422, Mod_Test.instance, 40, 1, true, new Color(0, 0, 255).getRGB(),
+        EntityRegistry.registerModEntity(EntityTest3.class, "entityTest3", 422, Mod_Test.instance, 40, 1, true, new Color(0, 0, 255).getRGB(),
                 new Color(0, 0, 0).getRGB());
-        EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest4"), EntityTest4.class,
-                "entityTest4", 423, Mod_Test.instance, 40, 1, true, new Color(255, 255, 0).getRGB(),
+        EntityRegistry.registerModEntity(EntityTest4.class, "entityTest4", 423, Mod_Test.instance, 40, 1, true, new Color(255, 255, 0).getRGB(),
                 new Color(0, 0, 0).getRGB());
 
         MinecraftForge.EVENT_BUS.register(this);
