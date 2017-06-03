@@ -3,7 +3,8 @@ package com.leviathanstudio.craftstudio.dev;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.leviathanstudio.craftstudio.dev.command.CommandUVMap;
+import com.leviathanstudio.craftstudio.dev.command.CommandCSList;
+import com.leviathanstudio.craftstudio.dev.command.CommandCSUVMap;
 
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -20,7 +21,8 @@ public class CraftStudioApiDev {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        ClientCommandHandler.instance.registerCommand(new CommandUVMap());
+        ClientCommandHandler.instance.registerCommand(new CommandCSUVMap());
+        ClientCommandHandler.instance.registerCommand(new CommandCSList());
     }
 
     public static Logger getLogger()
