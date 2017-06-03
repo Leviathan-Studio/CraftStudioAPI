@@ -45,9 +45,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = "1.11.2-13.20.0.2304"
+    version = "1.10.2-12.18.3.2297"
     runDir = "run"
-    mappings = "snapshot_20170523"
+    mappings = "snapshot_20161117"
     replace "@VERSION@",  project.version
 }
 
