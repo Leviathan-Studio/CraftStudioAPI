@@ -1,10 +1,13 @@
 package com.leviathanstudio.craftstudio.dev.command;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.common.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.dev.util.UVMapCreator;
@@ -12,17 +15,18 @@ import com.leviathanstudio.craftstudio.dev.util.UVMapCreator;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.item.Item;
+import net.minecraft.command.SyntaxErrorException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.IClientCommand;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class CommandUVMap extends CommandBase implements IClientCommand {
+public class CommandCSUVMap extends CommandBase implements IClientCommand {
 
-	private static String name = "uvmap";
-	private static String usage = "uvmap model";
+	private static String name = "csuvmap";
+	private static String usage = "csuvmap model";
 	private static int permLevel = 0;
 	
 	@Override
