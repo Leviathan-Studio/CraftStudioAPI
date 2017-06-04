@@ -14,8 +14,10 @@ public class CSServerProxy extends CSCommonProxy
         super.preInit(e);
     }
 
-    @Override
-    public AnimationHandler getNewAnimationHandler(IAnimated animated, Profiler profiler) {
-        return new ServerAnimationHandler(animated, profiler);
-    }
+	@Override
+	public <T extends IAnimated> AnimationHandler<T> getNewAnimationHandler(Class<T> animatedClass) {
+		return new ServerAnimationHandler<T>();
+	}
+
+    
 }

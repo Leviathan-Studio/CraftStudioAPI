@@ -22,5 +22,5 @@ public abstract class CSCommonProxy
         CraftStudioApi.NETWORK.registerMessage(EndAnimationHandler.class, EndAnimationMessage.class, 2, Side.CLIENT);
     }
 
-    public abstract AnimationHandler getNewAnimationHandler(IAnimated animated, Profiler profiler);
+    public abstract <T extends IAnimated> AnimationHandler<T> getNewAnimationHandler(Class<T> animatedClass);
 }

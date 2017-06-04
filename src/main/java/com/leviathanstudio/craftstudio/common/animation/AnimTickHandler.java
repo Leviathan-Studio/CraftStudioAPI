@@ -33,15 +33,15 @@ public class AnimTickHandler
     {
         if (!this.activeAnimated.isEmpty())
             if (event.phase == Phase.START)
-                for (final IAnimated entity : this.activeAnimated)
+                for (IAnimated entity : this.activeAnimated)
                 {
-                    entity.getAnimationHandler().animationsUpdate();
+                    entity.getAnimationHandler().animationsUpdate(entity);
 
                     if (entity instanceof Entity)
                         if (((Entity) entity).isDead)
                             this.removableAnimated.add(entity);
                 }
-        for (final IAnimated entity : this.removableAnimated)
+        for (IAnimated entity : this.removableAnimated)
             this.activeAnimated.remove(entity);
         this.removableAnimated.clear();
     }
@@ -54,15 +54,15 @@ public class AnimTickHandler
         if (!this.activeAnimated.isEmpty())
             if (event.phase == Phase.START)
             {
-                for (final IAnimated entity : this.activeAnimated)
+                for (IAnimated entity : this.activeAnimated)
                 {
-                    entity.getAnimationHandler().animationsUpdate();
+                    entity.getAnimationHandler().animationsUpdate(entity);
 
                     if (entity instanceof Entity)
                         if (((Entity) entity).isDead)
                             this.removableAnimated.add(entity);
                 }
-                for (final IAnimated entity : this.removableAnimated)
+                for (IAnimated entity : this.removableAnimated)
                     this.activeAnimated.remove(entity);
                 this.removableAnimated.clear();
             }

@@ -1,23 +1,19 @@
 package com.leviathanstudio.craftstudio.common.animation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.tileentity.TileEntity;
 
-public abstract class AnimationHandler
+public abstract class AnimationHandler<T extends IAnimated>
 {
     public static AnimTickHandler animTickHandler;
-    /** Owner of this handler. */
-    protected final IAnimated     animatedElement;
 
-    protected final Profiler      profiler;
-
-    public AnimationHandler(IAnimated animated, Profiler worldProfiler) {
+    public AnimationHandler() {
         if (AnimationHandler.animTickHandler == null)
             AnimationHandler.animTickHandler = new AnimTickHandler();
-        AnimationHandler.animTickHandler.addAnimated(animated);
-        this.animatedElement = animated;
-        this.profiler = worldProfiler;
     }
 
     /**
@@ -60,11 +56,7 @@ public abstract class AnimationHandler
      */
     public abstract void addAnim(String modid, String invertedAnimationName, String animationToInvert);
 
-    protected IAnimated getAnimated() {
-        return this.animatedElement;
-    }
-
-    public abstract void startAnimation(String res, float startingFrame);
+    public abstract void startAnimation(String res, float startingFrame, T animatedElement);
 
     /**
      * Start your animation
@@ -74,8 +66,8 @@ public abstract class AnimationHandler
      * @param animationName
      *            The name of your animation you want to start
      */
-    public void startAnimation(String modid, String animationName) {
-        this.startAnimation(modid, animationName, 0.0F);
+    public void startAnimation(String modid, String animationName, T animatedElement) {
+        this.startAnimation(modid, animationName, 0.0F, animatedElement);
     }
 
     /**
@@ -89,11 +81,11 @@ public abstract class AnimationHandler
      *            The frame you want your animation to start
      *
      */
-    public void startAnimation(String modid, String animationName, float startingFrame) {
-        this.startAnimation(modid + ":" + animationName, startingFrame);
+    public void startAnimation(String modid, String animationName, float startingFrame, T animatedElement) {
+        this.startAnimation(modid + ":" + animationName, startingFrame, animatedElement);
     }
 
-    public abstract void stopAnimation(String res);
+    public abstract void stopAnimation(String res, T animatedElement);
 
     /**
      * Stop your animation
@@ -103,11 +95,11 @@ public abstract class AnimationHandler
      * @param animationName
      *            The name of your animation you want to start
      */
-    public void stopAnimation(String modid, String animationName) {
-        this.stopAnimation(modid + ":" + animationName);
+    public void stopAnimation(String modid, String animationName, T animatedElement) {
+        this.stopAnimation(modid + ":" + animationName, animatedElement);
     }
 
-    public abstract void animationsUpdate();
+    public abstract void animationsUpdate(T animatedElement);
 
     /**
      * Check if your animation is activated or not
@@ -117,15 +109,17 @@ public abstract class AnimationHandler
      * @param animationName
      *            The name of the animation you want to check
      */
-    public boolean isAnimationActive(String modid, String animationName) {
-        return this.isAnimationActive(modid + ":" + animationName);
+    public boolean isAnimationActive(String modid, String animationName, T animatedElement) {
+        return this.isAnimationActive(modid + ":" + animationName, animatedElement);
     }
 
-    public abstract boolean isAnimationActive(String name);
+    public abstract boolean isAnimationActive(String name, T animatedElement);
 
-    public abstract boolean canUpdateAnimation(Channel channel);
-
-    public abstract void fireAnimationEvent(Channel anim, float prevFrame, float frame);
+    public abstract boolean canUpdateAnimation(Channel channel, T animatedElement);
+    
+    public void addAnimated(T animated){
+    	AnimationHandler.animTickHandler.addAnimated(animated);
+    }
 
     /** Get world object from an IAnimated */
     public static boolean isWorldRemote(IAnimated animated) {
@@ -136,4 +130,14 @@ public abstract class AnimationHandler
         else
             return false;
     }
+    
+    public static class AnimInfo {
+		public long prevTime;
+		public float currentFrame;
+
+		public AnimInfo(long prevTime, float currentFrame) {
+			this.prevTime = prevTime;
+			this.currentFrame = currentFrame;
+		}
+	}
 }
