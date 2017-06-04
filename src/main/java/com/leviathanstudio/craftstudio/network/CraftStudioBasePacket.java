@@ -29,18 +29,18 @@ public class CraftStudioBasePacket implements IMessage
     @Override
     public void fromBytes(ByteBuf buf)
     {
-        ByteBufUtils.writeUTF8String(buf, this.animationName);
-        buf.writeLong(this.uuid.getMostSignificantBits());
-        buf.writeLong(this.uuid.getLeastSignificantBits());
+        this.animationName = ByteBufUtils.readUTF8String(buf);
+        long most = buf.readLong();
+        long least = buf.readLong();
+        this.uuid = new UUID(most, least);
     }
 
     @Override
     public void toBytes(ByteBuf buf)
     {
         ByteBufUtils.writeUTF8String(buf, this.animationName);
-        long most = buf.readLong();
-        long least = buf.readLong();
-        this.uuid = new UUID(most, least);
+        buf.writeLong(this.uuid.getMostSignificantBits());
+        buf.writeLong(this.uuid.getLeastSignificantBits());
     }
 
     public Entity getEntityByUUID(List<Entity> list, UUID uuid)
