@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
-import com.leviathanstudio.craftstudio.client.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.Channel;
+import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.common.network.EndAnimationMessage;
 import com.leviathanstudio.craftstudio.common.network.FireAnimationMessage;

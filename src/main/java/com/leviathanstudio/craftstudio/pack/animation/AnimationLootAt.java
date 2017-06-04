@@ -1,9 +1,9 @@
 package com.leviathanstudio.craftstudio.pack.animation;
 
-import com.leviathanstudio.craftstudio.client.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.client.model.CSModelRenderer;
 import com.leviathanstudio.craftstudio.client.util.CraftStudioHelper;
 import com.leviathanstudio.craftstudio.client.util.math.Quaternion;
+import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
 import net.minecraft.entity.EntityLiving;

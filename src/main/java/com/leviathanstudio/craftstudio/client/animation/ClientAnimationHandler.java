@@ -12,23 +12,28 @@ import com.leviathanstudio.craftstudio.client.util.math.Quaternion;
 import com.leviathanstudio.craftstudio.client.util.math.Vector3f;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.Channel;
+import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
+import com.leviathanstudio.craftstudio.common.animation.InfoChannel;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class ClientAnimationHandler extends AnimationHandler
 {
     /** List of all the activated animations of this element. */
-    private List<ClientChannel>            animCurrentChannels = new ArrayList<>();
+    private List<InfoChannel>            animCurrentChannels = new ArrayList<>();
     /** Previous time of every active animation. */
     private Map<String, Long>              animPrevTime        = new HashMap<>();
     /** Current frame of every active animation. */
     private Map<String, Float>             animCurrentFrame    = new HashMap<>();
     /** Map with all the animations. */
-    private HashMap<String, ClientChannel> animChannels        = new HashMap<>();
+    private HashMap<String, InfoChannel> animChannels        = new HashMap<>();
 
     public ClientAnimationHandler(IAnimated animated, Profiler profiler) {
         super(animated, profiler);
@@ -54,11 +59,13 @@ public class ClientAnimationHandler extends AnimationHandler
     public void addAnim(String modid, String invertedAnimationName, String animationToInvert) {
         ResourceLocation anim = new ResourceLocation(modid, invertedAnimationName);
         ResourceLocation inverted = new ResourceLocation(modid, animationToInvert);
-        ClientChannel channel = this.animChannels.get(inverted.toString()).getInvertedChannel(invertedAnimationName);
-        channel.name = anim.toString();
-        this.profiler.startSection("putAnim");
-        this.animChannels.put(anim.toString(), channel);
-        this.profiler.endSection();
+        if (this.animChannels.get(inverted.toString()) instanceof ClientChannel){
+        	ClientChannel channel = ((ClientChannel)this.animChannels.get(inverted.toString())).getInvertedChannel(invertedAnimationName);
+        	channel.name = anim.toString();
+        	this.profiler.startSection("putAnim");
+        	this.animChannels.put(anim.toString(), channel);
+        	this.profiler.endSection();
+        }
     }
 
     @Override
@@ -69,7 +76,7 @@ public class ClientAnimationHandler extends AnimationHandler
 
     public void clientStartAnimation(String res, float startingFrame) {
         if (this.animChannels.get(res) != null) {
-            ClientChannel selectedChannel = this.animChannels.get(res);
+            InfoChannel selectedChannel = this.animChannels.get(res);
             int indexToRemove = this.animCurrentChannels.indexOf(selectedChannel);
             if (indexToRemove != -1)
                 this.animCurrentChannels.remove(indexToRemove);
@@ -89,7 +96,7 @@ public class ClientAnimationHandler extends AnimationHandler
     }
 
     public void clientStopAnimation(String res) {
-        ClientChannel selectedChannel = this.animChannels.get(res);
+        InfoChannel selectedChannel = this.animChannels.get(res);
         if (selectedChannel != null) {
             int indexToRemove = this.animCurrentChannels.indexOf(selectedChannel);
             if (indexToRemove != -1) {
@@ -108,8 +115,8 @@ public class ClientAnimationHandler extends AnimationHandler
     @Override
     public void animationsUpdate() {
 
-        for (Iterator<ClientChannel> it = this.animCurrentChannels.iterator(); it.hasNext();) {
-            ClientChannel anim = it.next();
+        for (Iterator<InfoChannel> it = this.animCurrentChannels.iterator(); it.hasNext();) {
+            InfoChannel anim = it.next();
             float prevFrame = this.animCurrentFrame.get(anim.name);
             boolean canUpdate = this.canUpdateAnimation(anim);
             if (this.animCurrentFrame.get(anim.name) != null)
@@ -128,7 +135,7 @@ public class ClientAnimationHandler extends AnimationHandler
     @Override
     public boolean isAnimationActive(String name) {
         boolean animAlreadyUsed = false;
-        for (ClientChannel anim : this.animCurrentChannels)
+        for (InfoChannel anim : this.animCurrentChannels)
             if (anim.name != null)
                 if (anim.name.equals(name) && this.animCurrentFrame.get(anim.name) < anim.totalFrames - 1) {
                     animAlreadyUsed = true;
@@ -142,7 +149,7 @@ public class ClientAnimationHandler extends AnimationHandler
      */
     public boolean isHoldAnimationActive(String name) {
         boolean animAlreadyUsed = false;
-        for (ClientChannel anim : this.animCurrentChannels)
+        for (InfoChannel anim : this.animCurrentChannels)
             if (anim.name != null)
                 if (anim.name.equals(name)) {
                     animAlreadyUsed = true;
@@ -157,11 +164,12 @@ public class ClientAnimationHandler extends AnimationHandler
     @Override
     public boolean canUpdateAnimation(Channel channel) {
         long currentTime = System.nanoTime();
-        if (!(channel instanceof ClientChannel))
+        if (!(channel instanceof InfoChannel))
             return false;
-        ClientChannel clientChannel = (ClientChannel) channel;
+        InfoChannel infoChannel = (InfoChannel) channel;
         if (!ClientAnimationHandler.isGamePaused()) {
-            if (!(clientChannel.getAnimationMode() == EnumAnimationMode.CUSTOM)) {
+            if (infoChannel instanceof ClientChannel) {
+            	ClientChannel clientChannel = (ClientChannel) infoChannel;
                 long prevTime = this.animPrevTime.get(channel.name);
                 float prevFrame = this.animCurrentFrame.get(channel.name);
 
@@ -240,17 +248,18 @@ public class ClientAnimationHandler extends AnimationHandler
             block.resetRotationPoint();
             block.resetRotationMatrix();
 
-            for (ClientChannel channel : animHandler.animCurrentChannels)
-                if (channel.getAnimationMode() != EnumAnimationMode.CUSTOM) {
-                    float currentFrame = animHandler.animCurrentFrame.get(channel.name);
+            for (InfoChannel channel : animHandler.animCurrentChannels)
+                if (channel instanceof ClientChannel) {
+                	ClientChannel clientChannel = (ClientChannel) channel;
+                    float currentFrame = animHandler.animCurrentFrame.get(clientChannel.name);
 
                     // Rotations
-                    KeyFrame prevRotationKeyFrame = channel.getPreviousRotationKeyFrameForBox(boxName,
-                            animHandler.animCurrentFrame.get(channel.name));
-                    int prevRotationKeyFramePosition = prevRotationKeyFrame != null ? channel.getKeyFramePosition(prevRotationKeyFrame) : 0;
+                    KeyFrame prevRotationKeyFrame = clientChannel.getPreviousRotationKeyFrameForBox(boxName,
+                            animHandler.animCurrentFrame.get(clientChannel.name));
+                    int prevRotationKeyFramePosition = prevRotationKeyFrame != null ? clientChannel.getKeyFramePosition(prevRotationKeyFrame) : 0;
 
-                    KeyFrame nextRotationKeyFrame = channel.getNextRotationKeyFrameForBox(boxName, animHandler.animCurrentFrame.get(channel.name));
-                    int nextRotationKeyFramePosition = nextRotationKeyFrame != null ? channel.getKeyFramePosition(nextRotationKeyFrame) : 0;
+                    KeyFrame nextRotationKeyFrame = clientChannel.getNextRotationKeyFrameForBox(boxName, animHandler.animCurrentFrame.get(clientChannel.name));
+                    int nextRotationKeyFramePosition = nextRotationKeyFrame != null ? clientChannel.getKeyFramePosition(nextRotationKeyFrame) : 0;
 
                     float SLERPProgress = (currentFrame - prevRotationKeyFramePosition)
                             / (nextRotationKeyFramePosition - prevRotationKeyFramePosition);
@@ -277,13 +286,13 @@ public class ClientAnimationHandler extends AnimationHandler
                     }
 
                     // Translations
-                    KeyFrame prevTranslationKeyFrame = channel.getPreviousTranslationKeyFrameForBox(boxName,
-                            animHandler.animCurrentFrame.get(channel.name));
-                    int prevTranslationsKeyFramePosition = prevTranslationKeyFrame != null ? channel.getKeyFramePosition(prevTranslationKeyFrame) : 0;
+                    KeyFrame prevTranslationKeyFrame = clientChannel.getPreviousTranslationKeyFrameForBox(boxName,
+                            animHandler.animCurrentFrame.get(clientChannel.name));
+                    int prevTranslationsKeyFramePosition = prevTranslationKeyFrame != null ? clientChannel.getKeyFramePosition(prevTranslationKeyFrame) : 0;
 
-                    KeyFrame nextTranslationKeyFrame = channel.getNextTranslationKeyFrameForBox(boxName,
-                            animHandler.animCurrentFrame.get(channel.name));
-                    int nextTranslationsKeyFramePosition = nextTranslationKeyFrame != null ? channel.getKeyFramePosition(nextTranslationKeyFrame) : 0;
+                    KeyFrame nextTranslationKeyFrame = clientChannel.getNextTranslationKeyFrameForBox(boxName,
+                            animHandler.animCurrentFrame.get(clientChannel.name));
+                    int nextTranslationsKeyFramePosition = nextTranslationKeyFrame != null ? clientChannel.getKeyFramePosition(nextTranslationKeyFrame) : 0;
 
                     float LERPProgress = (currentFrame - prevTranslationsKeyFramePosition)
                             / (nextTranslationsKeyFramePosition - prevTranslationsKeyFramePosition);
@@ -312,9 +321,8 @@ public class ClientAnimationHandler extends AnimationHandler
                         block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
                     }
                 }
-                else {
+                else if (channel instanceof CustomChannel)
                     ((CustomChannel) channel).update(block, entity);
-                }
         }
 
     }
@@ -323,7 +331,7 @@ public class ClientAnimationHandler extends AnimationHandler
     public void fireAnimationEvent(Channel anim, float prevFrame, float frame) {}
 
     /** Getters */
-    public List<ClientChannel> getAnimCurrentChannels() {
+    public List<InfoChannel> getAnimCurrentChannels() {
         return this.animCurrentChannels;
     }
 
@@ -338,7 +346,7 @@ public class ClientAnimationHandler extends AnimationHandler
     }
 
     /** Getters */
-    public HashMap<String, ClientChannel> getAnimChannels() {
+    public HashMap<String, InfoChannel> getAnimChannels() {
         return this.animChannels;
     }
 

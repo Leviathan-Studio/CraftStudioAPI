@@ -1,7 +1,5 @@
 package com.leviathanstudio.craftstudio.common.animation;
 
-import com.leviathanstudio.craftstudio.client.animation.CustomChannel;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.tileentity.TileEntity;
