@@ -138,7 +138,7 @@ public class ClientAnimationHandler extends AnimationHandler
     }
 
     /**
-     * Check if hold animation is active
+     * Check if an hold animation is active
      */
     public boolean isHoldAnimationActive(String name) {
         boolean animAlreadyUsed = false;
@@ -236,10 +236,6 @@ public class ClientAnimationHandler extends AnimationHandler
                         performAnimationForBlock(childModel, entity);
                     }
 
-            boolean anyRotationApplied = false;
-            boolean anyTranslationApplied = false;
-            boolean anyCustomAnimationRunning = false;
-
             Vector3f defaultPos = new Vector3f(block.getDefaultRotationPointX(), block.getDefaultRotationPointY(), block.getDefaultRotationPointZ());
             block.resetRotationPoint();
             block.resetRotationMatrix();
@@ -266,21 +262,18 @@ public class ClientAnimationHandler extends AnimationHandler
                         currentQuat.slerp(block.getDefaultRotationAsQuaternion(), nextRotationKeyFrame.modelRenderersRotations.get(boxName),
                                 SLERPProgress);
                         block.getRotationMatrix().set(currentQuat).transpose();
-                        anyRotationApplied = true;
                     }
                     else if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame != null && !(nextRotationKeyFramePosition == 0)) {
                         Quaternion currentQuat = new Quaternion();
                         currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
                                 nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
                         block.getRotationMatrix().set(currentQuat).transpose();
-                        anyRotationApplied = true;
                     }
-                    else if (!(prevRotationKeyFramePosition == 0) && !(nextRotationKeyFramePosition == 0)) {
+                    else if (prevRotationKeyFramePosition != 0 && nextRotationKeyFramePosition != 0) {
                         Quaternion currentQuat = new Quaternion();
                         currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
                                 nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
                         block.getRotationMatrix().set(currentQuat).transpose();
-                        anyRotationApplied = true;
                     }
 
                     // Translations
@@ -303,7 +296,6 @@ public class ClientAnimationHandler extends AnimationHandler
                         Vector3f currentPosition = new Vector3f(startPosition);
                         currentPosition.interpolate(endPosition, LERPProgress);
                         block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
-                        anyTranslationApplied = true;
                     }
                     else if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame != null && !(nextTranslationsKeyFramePosition == 0)) {
                         Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName);
@@ -311,26 +303,18 @@ public class ClientAnimationHandler extends AnimationHandler
                         Vector3f currentPosition = new Vector3f(startPosition);
                         currentPosition.interpolate(endPosition, LERPProgress);
                         block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
-                        anyTranslationApplied = true;
                     }
-                    else if (!(prevTranslationsKeyFramePosition == 0) && !(nextTranslationsKeyFramePosition == 0)) {
+                    else if (prevTranslationsKeyFramePosition != 0 && nextTranslationsKeyFramePosition != 0) {
                         Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName);
                         Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
                         Vector3f currentPosition = new Vector3f(startPosition);
                         currentPosition.interpolate(endPosition, LERPProgress);
                         block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
-                        anyTranslationApplied = true;
                     }
                 }
                 else {
-                    anyCustomAnimationRunning = true;
                     ((CustomChannel) channel).update(block, entity);
                 }
-
-            if (!anyRotationApplied && !anyCustomAnimationRunning)
-                block.resetRotationMatrix();
-            if (!anyTranslationApplied && !anyCustomAnimationRunning)
-                block.resetRotationPoint();
         }
 
     }
