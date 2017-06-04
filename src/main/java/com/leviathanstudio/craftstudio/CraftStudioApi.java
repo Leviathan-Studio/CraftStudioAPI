@@ -82,12 +82,13 @@ public class CraftStudioApi
     /**
      * Helper to create an AnimationHandler to registry animation to your
      * entity/block
+     * @param <T>
      *
      * @param animated
      *            Class whiches implements IAnimated (Entity or TileEntity)
      */
-    public static AnimationHandler getNewAnimationHandler(IAnimated animated, World worldIn) {
-        return CraftStudioApi.proxy.getNewAnimationHandler(animated, worldIn.profiler);
+    public static <T extends IAnimated> AnimationHandler<T> getNewAnimationHandler(Class<T> animatedClass) {
+        return CraftStudioApi.proxy.getNewAnimationHandler(animatedClass);
 
     }
 }

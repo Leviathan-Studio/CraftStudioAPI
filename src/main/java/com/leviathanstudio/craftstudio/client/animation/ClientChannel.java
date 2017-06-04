@@ -4,9 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.leviathanstudio.craftstudio.common.animation.Channel;
+import com.leviathanstudio.craftstudio.common.animation.InfoChannel;
 
-public class ClientChannel extends Channel
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+@SideOnly(Side.CLIENT)
+public class ClientChannel extends InfoChannel
 {
     /** KeyFrames. Key is the position of that keyFrame in the frames list. */
     private Map<Integer, KeyFrame> keyFrames     = new HashMap<>();

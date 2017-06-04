@@ -1,14 +1,15 @@
 package com.leviathanstudio.craftstudio.common.network;
 
 import com.leviathanstudio.craftstudio.client.animation.ClientAnimationHandler;
+import com.leviathanstudio.craftstudio.client.animation.ClientChannel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
+import com.leviathanstudio.craftstudio.common.animation.InfoChannel;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import io.netty.buffer.ByteBuf;
 
 public class FireAnimationMessage extends CraftStudioBasePacket
 {
@@ -48,10 +49,14 @@ public class FireAnimationMessage extends CraftStudioBasePacket
             {
                 IAnimated animated = (IAnimated) entity;
                 ((ClientAnimationHandler) animated.getAnimationHandler()).clientStartAnimation(message.animationName,
-                        message.startingKeyframe);
-                return new RFireAnimationMessage(message.animationName, animated,
-                        ((ClientAnimationHandler) animated.getAnimationHandler()).getAnimChannels()
-                                .get(message.animationName).totalFrames);
+                        message.startingKeyframe, animated);
+                Object infoChannel = ((ClientAnimationHandler) animated.getAnimationHandler()).getAnimChannels()
+                        .get(message.animationName);
+                if (infoChannel instanceof ClientChannel){
+                	return new RFireAnimationMessage(message.animationName, animated,
+                        ((ClientChannel) infoChannel).totalFrames);
+                }
+                return new RFireAnimationMessage(message.animationName, animated, 0);
             }
             return null;
         }

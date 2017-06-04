@@ -5,11 +5,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
-import com.leviathanstudio.craftstudio.client.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.Channel;
+import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.common.network.EndAnimationMessage;
 import com.leviathanstudio.craftstudio.common.network.FireAnimationMessage;
@@ -22,152 +23,153 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.SERVER)
-public class ServerAnimationHandler extends AnimationHandler
-{
-    /** List of all the activated animations of this element. */
-    public List<String>         animCurrentChannels = new ArrayList<>();
-    /** Previous time of every active animation. */
-    public Map<String, Long>    animPrevTime        = new HashMap<>();
-    /** Current frame of every active animation. */
-    public Map<String, Float>   animCurrentFrame    = new HashMap<>();
-    /** Map with all the animations. */
-    public Map<String, Channel> animChannels        = new HashMap<>();
+public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandler<T> {
+	/** Map with all the animations. */
+	public Map<String, Channel> animChannels = new HashMap<>();
 
-    private Map<String, Float>  startingFrames      = new HashMap<>();
+	public Map<T, Map<String, AnimInfo>> currentAnimInfo = new HashMap<>();
 
-    public ServerAnimationHandler(IAnimated animated, Profiler profiler) {
-        super(animated, profiler);
-    }
+	private Map<T, Map<String, Float>> startingAnimations = new HashMap<>();
 
-    @Override
-    public void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped) {
-        ResourceLocation anim = new ResourceLocation(modid, animNameIn);
-        this.profiler.startSection("putAnim");
-        this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, looped));
-        this.profiler.endSection();
-    }
+	public ServerAnimationHandler() {
+		super();
+	}
 
-    @Override
-    public void addAnim(String modid, String animNameIn, String modelNameIn, CustomChannel customChannelIn) {
-        ResourceLocation anim = new ResourceLocation(modid, animNameIn);
-        this.profiler.startSection("putAnim");
-        this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, false));
-        this.profiler.endSection();
-    }
+	@Override
+	public void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped) {
+		ResourceLocation anim = new ResourceLocation(modid, animNameIn);
+		this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, looped));
+	}
 
-    @Override
-    public void addAnim(String modid, String invertedAnimationName, String animationToInvert) {
-        ResourceLocation anim = new ResourceLocation(modid, invertedAnimationName);
-        ResourceLocation inverted = new ResourceLocation(modid, animationToInvert);
-        boolean looped = this.animChannels.get(inverted.toString()).looped;
-        this.profiler.startSection("putAnim");
-        this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, looped));
-        this.profiler.endSection();
-    }
+	@Override
+	public void addAnim(String modid, String animNameIn, String modelNameIn, CustomChannel customChannelIn) {
+		ResourceLocation anim = new ResourceLocation(modid, animNameIn);
+		this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, false));
+	}
 
-    @Override
-    public void startAnimation(String ress, float startingFrame) {
-        this.startingFrames.put(ress, startingFrame);
-        if (!(this.animatedElement instanceof Entity))
-            return;
-        Entity e = (Entity) this.animatedElement;
-        CraftStudioApi.NETWORK.sendToAllAround(new FireAnimationMessage(ress, this.animatedElement, startingFrame),
-                new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 100));
-    }
+	@Override
+	public void addAnim(String modid, String invertedAnimationName, String animationToInvert) {
+		ResourceLocation anim = new ResourceLocation(modid, invertedAnimationName);
+		ResourceLocation inverted = new ResourceLocation(modid, animationToInvert);
+		boolean looped = this.animChannels.get(inverted.toString()).looped;
+		this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, looped));
+	}
 
-    public void serverStartAnimation(String ress, float endingFrame) {
-        if (this.animChannels.get(ress) != null && this.startingFrames.get(ress) != null) {
-            Channel anim = this.animChannels.get(ress);
-            anim.totalFrames = (int) endingFrame;
-            int indexToRemove = this.animCurrentChannels.indexOf(ress);
-            if (indexToRemove != -1)
-                this.animCurrentChannels.remove(indexToRemove);
+	@Override
+	public void startAnimation(String ress, float startingFrame, T animatedElement) {
+		if (!this.animChannels.containsKey(ress))
+			return;
+		if (!(animatedElement instanceof Entity))
+			return;
+		Map<String, Float> startingAnimMap = this.startingAnimations.get(animatedElement);
+		if (startingAnimMap == null)
+			this.startingAnimations.put(animatedElement, startingAnimMap = new HashMap<>());
+		startingAnimMap.put(ress, startingFrame);
+		Entity e = (Entity) animatedElement;
+		CraftStudioApi.NETWORK.sendToAllAround(new FireAnimationMessage(ress, animatedElement, startingFrame),
+				new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 100));
+	}
 
-            this.animCurrentChannels.add(ress);
-            this.animPrevTime.put(ress, System.nanoTime());
-            this.animCurrentFrame.put(ress, this.startingFrames.get(ress));
-        }
-        else
-            CraftStudioApi.getLogger().warn("The animation called " + ress + " doesn't exist!");
-    }
+	public void serverStartAnimation(String ress, float endingFrame, T animatedElement) {
+		if (!this.animChannels.containsKey(ress))
+			return;
 
-    @Override
-    public void stopAnimation(String res) {
-        if (!(this.animatedElement instanceof Entity))
-            return;
-        Entity e = (Entity) this.animatedElement;
-        CraftStudioApi.NETWORK.sendToAllAround(new EndAnimationMessage(res, this.animatedElement),
-                new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 100));
-        if (this.animChannels.get(res) != null) {
-            int indexToRemove = this.animCurrentChannels.indexOf(res);
-            if (indexToRemove != -1) {
-                this.animCurrentChannels.remove(indexToRemove);
-                this.animPrevTime.remove(res);
-                this.animCurrentFrame.remove(res);
-            }
-        }
-        else
-            CraftStudioApi.getLogger().warn("The animation stopped " + res + " doesn't exist!");
-    }
+		Map<String, Float> startingAnimMap = this.startingAnimations.get(animatedElement);
+		if (startingAnimMap == null)
+			return;
 
-    @Override
-    public void animationsUpdate() {
-        for (final Iterator<String> it = this.animCurrentChannels.iterator(); it.hasNext();) {
-            final String anim = it.next();
-            final float prevFrame = this.animCurrentFrame.get(anim);
-            final boolean animStatus = this.canUpdateAnimation(this.animChannels.get(anim));
-            if (this.animCurrentFrame.get(anim) != null)
-                this.fireAnimationEvent(this.animChannels.get(anim), prevFrame, this.animCurrentFrame.get(anim));
-            if (!animStatus) {
-                it.remove();
-                this.animPrevTime.remove(anim);
-                this.animCurrentFrame.remove(anim);
-            }
-        }
-    }
+		Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
+		if (animInfoMap == null)
+			this.currentAnimInfo.put(animatedElement, animInfoMap = new HashMap<>());
 
-    @Override
-    public boolean isAnimationActive(String name) {
-        boolean animAlreadyUsed = false;
-        for (String anim : this.animCurrentChannels)
-            if (anim.equals(name)) {
-                animAlreadyUsed = true;
-                break;
-            }
-        return animAlreadyUsed;
-    }
+		if (startingAnimMap.get(ress) == null) {
+			CraftStudioApi.getLogger().warn("The animation called " + ress + " doesn't exist!");
+			return;
+		}
 
-    /** Update animation values. Return false if the animation should stop. */
-    @Override
-    public boolean canUpdateAnimation(Channel channel) {
-        long currentTime = System.nanoTime();
-        long prevTime = this.animPrevTime.get(channel.name);
-        float prevFrame = this.animCurrentFrame.get(channel.name);
+		Channel anim = this.animChannels.get(ress);
+		anim.totalFrames = (int) endingFrame;
+		animInfoMap.remove(ress);
 
-        double deltaTime = (currentTime - prevTime) / 1000000000.0;
-        float numberOfSkippedFrames = (float) (deltaTime * channel.fps);
+		animInfoMap.put(ress, new AnimInfo(System.nanoTime(), startingAnimMap.get(ress)));
+		startingAnimMap.remove(ress);
+	}
 
-        float currentFrame = prevFrame + numberOfSkippedFrames;
+	@Override
+	public void stopAnimation(String res, T animatedElement) {
+		if (!(animatedElement instanceof Entity))
+			return;
+		
+		if (!this.animChannels.containsKey(res)) {
+			CraftStudioApi.getLogger().warn("The animation stopped " + res + " doesn't exist!");
+			return;
+		}
+		
+		Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
+		if (animInfoMap == null)
+			return;
+		
+		Entity e = (Entity) animatedElement;
+		CraftStudioApi.NETWORK.sendToAllAround(new EndAnimationMessage(res, animatedElement),
+				new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 100));
+		animInfoMap.remove(res);
+	}
 
-        /*
-         * -1 as the first frame mustn't be "executed" as it is the starting
-         * situation
-         */
-        if (currentFrame < channel.totalFrames - 1) {
-            this.animPrevTime.put(channel.name, currentTime);
-            this.animCurrentFrame.put(channel.name, currentFrame);
-            return true;
-        }
-        else {
-            if (channel.looped) {
-                this.animPrevTime.put(channel.name, currentTime);
-                this.animCurrentFrame.put(channel.name, 0F);
-                return true;
-            }
-            return false;
-        }
-    }
+	@Override
+	public void animationsUpdate(T animatedElement) {
+		Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
+		if (animInfoMap == null)
+			return;
+		
+		for (Iterator<Entry<String, AnimInfo>> it = animInfoMap.entrySet().iterator(); it.hasNext();) {
+			Entry<String, AnimInfo> animInfo = it.next();
+			float prevFrame = animInfo.getValue().prevTime;
+			boolean animStatus = this.canUpdateAnimation(this.animChannels.get(animInfo.getKey()), animatedElement);
+			if (!animStatus)
+				it.remove();
+		}
+	}
 
-    @Override
-    public void fireAnimationEvent(Channel anim, float prevFrame, float frame) {}
+	@Override
+	public boolean isAnimationActive(String name, T animatedElement) {
+		Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
+		if (animInfoMap == null)
+			return false;
+		
+		for (Entry<String, AnimInfo> animInfo : animInfoMap.entrySet())
+			if (animInfo.getKey().equals(name)) 
+				return true;
+		return false;
+	}
+
+	/** Update animation values. Return false if the animation should stop. */
+	@Override
+	public boolean canUpdateAnimation(Channel channel, T animatedElement) {
+		Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
+		if (animInfoMap == null)
+			return false;
+		
+		AnimInfo animInfo = animInfoMap.get(channel.name);
+		if (animInfo == null)
+			return false;
+		
+		long currentTime = System.nanoTime();
+
+		double deltaTime = (currentTime - animInfo.prevTime) / 1000000000.0;
+		float numberOfSkippedFrames = (float) (deltaTime * channel.fps);
+
+		float currentFrame = animInfo.currentFrame + numberOfSkippedFrames;
+
+		if (currentFrame < channel.totalFrames - 1) {
+			animInfo.prevTime = currentTime;
+			animInfo.currentFrame = currentFrame;
+			return true;
+		}
+		if (channel.looped) {
+			animInfo.prevTime = currentTime;
+			animInfo.currentFrame = 0F;
+			return true;
+		}
+		return false;
+	}
 }

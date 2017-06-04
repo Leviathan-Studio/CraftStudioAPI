@@ -48,7 +48,7 @@ public class RFireAnimationMessage extends CraftStudioBasePacket
             {
                 IAnimated animated = (IAnimated) entity;
                 ((ServerAnimationHandler) animated.getAnimationHandler()).serverStartAnimation(message.animationName,
-                        message.endingKeyframe);
+                        message.endingKeyframe, animated);
             }
             return null;
         }

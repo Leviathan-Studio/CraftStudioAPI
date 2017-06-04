@@ -11,11 +11,15 @@ import net.minecraft.world.World;
 
 public class EntityTest4 extends EntityCreature implements IAnimated
 {
-    protected AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(this, this.getEntityWorld());
+    protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(EntityTest4.class);
+    
+    static{
+    	animHandler.addAnim(Mod_Test.MODID, "rotation", "craftstudio_api_test2", true);
+    }
 
     public EntityTest4(World par1World) {
         super(par1World);
-        this.animHandler.addAnim(Mod_Test.MODID, "rotation", "craftstudio_api_test2", true);
+        animHandler.addAnimated(this);
     }
 
     @Override
@@ -38,8 +42,8 @@ public class EntityTest4 extends EntityCreature implements IAnimated
     public void onLivingUpdate() {
         super.onLivingUpdate();
         // Activate the animation in ticking method
-        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation"))
-            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "rotation");
+        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation", this))
+            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "rotation", this);
     }
 
     @Override

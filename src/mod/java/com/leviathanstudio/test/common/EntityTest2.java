@@ -18,18 +18,22 @@ import net.minecraft.world.World;
 
 public class EntityTest2 extends EntityAnimal implements IAnimated
 {
-    protected AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(this, this.getEntityWorld());
+    protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(EntityTest2.class);
     protected boolean          fanOpen     = true;
+    
+    static{
+    	animHandler.addAnim(Mod_Test.MODID, "close_fan", "peacock", false);
+        animHandler.addAnim(Mod_Test.MODID, "open_fan", "close_fan");
+        animHandler.addAnim(Mod_Test.MODID, "custom", "peacock", new AnimationLootAt("Head"));
+    }
 
     public EntityTest2(World par1World) {
         super(par1World);
-        this.animHandler.addAnim(Mod_Test.MODID, "close_fan", "peacock", false);
-        this.animHandler.addAnim(Mod_Test.MODID, "open_fan", "close_fan");
-        this.animHandler.addAnim(Mod_Test.MODID, "custom", "peacock", new AnimationLootAt(this, "Head"));
+        animHandler.addAnimated(this);
         this.setSize(1.0F, 1.5F);
         this.tasks.addTask(1, new EntityAILookIdle(this));
         this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 10));
-        this.getAnimationHandler().startAnimation(Mod_Test.MODID, "custom");
+        this.getAnimationHandler().startAnimation(Mod_Test.MODID, "custom", this);
         this.initEntityAI();
     }
 
@@ -58,16 +62,16 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
 
     @Override
     public boolean processInteract(EntityPlayer player, EnumHand hand) {
-        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "close_fan")
-                && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "open_fan"))
+        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "close_fan", this)
+                && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "open_fan", this))
             if (this.fanOpen) {
-                this.getAnimationHandler().stopAnimation(Mod_Test.MODID, "open_fan");
-                this.getAnimationHandler().startAnimation(Mod_Test.MODID, "close_fan");
+                this.getAnimationHandler().stopAnimation(Mod_Test.MODID, "open_fan", this);
+                this.getAnimationHandler().startAnimation(Mod_Test.MODID, "close_fan", this);
                 this.fanOpen = false;
             }
             else {
-                this.getAnimationHandler().stopAnimation(Mod_Test.MODID, "close_fan");
-                this.getAnimationHandler().startAnimation(Mod_Test.MODID, "open_fan");
+                this.getAnimationHandler().stopAnimation(Mod_Test.MODID, "close_fan", this);
+                this.getAnimationHandler().startAnimation(Mod_Test.MODID, "open_fan", this);
                 this.fanOpen = true;
             }
         return true;
