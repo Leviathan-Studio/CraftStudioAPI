@@ -26,9 +26,6 @@ public class CSRegistryHelper
 {
     private String                   modid;
 
-    private static List<LoadElement> loadModelList = new ArrayList();
-    private static List<LoadElement> loadAnimList  = new ArrayList();
-
     /**
      * Constructor for the registry
      *
@@ -110,53 +107,12 @@ public class CSRegistryHelper
         switch (resourceTypeIn)
         {
             case MODEL:
-                if (CSRegistryHelper.loadModelList != null)
-                    CSRegistryHelper.loadModelList.add(new LoadElement(resourceLocationIn, resourceNameIn));
-                else
-                    CraftStudioApi.getLogger().error(
-                            "Unable to load model outside of the RegistryEvent.Register<CSReadedModel> event, use forceRegister instead");
+            	registry(EnumResourceType.MODEL, resourceLocationIn, resourceNameIn);
                 break;
             case ANIM:
-                if (CSRegistryHelper.loadAnimList != null)
-                    CSRegistryHelper.loadAnimList.add(new LoadElement(resourceLocationIn, resourceNameIn));
-                else
-                    CraftStudioApi.getLogger().error(
-                            "Unable to load animations outside of the RegistryEvent.Register<CSReadedAnim> event, use forceRegister instead");
+            	registry(EnumResourceType.ANIM, resourceLocationIn, resourceNameIn);
                 break;
         }
-    }
-
-    static void loadModels()
-    {
-        ProgressManager.ProgressBar progressBarModels;
-        progressBarModels = ProgressManager.push("Registry Models", CSRegistryHelper.loadModelList.size());
-
-        for (LoadElement el : CSRegistryHelper.loadModelList)
-        {
-            progressBarModels.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
-            registry(EnumResourceType.MODEL, el.resourceLoc, el.ressourceName);
-        }
-        ProgressManager.pop(progressBarModels);
-
-        CraftStudioApi.getLogger()
-                .info(String.format("CraftStudioAPI loaded %s models", CSRegistryHelper.loadModelList.size()));
-        CSRegistryHelper.loadModelList = null;
-    }
-
-    static void loadAnims()
-    {
-        ProgressManager.ProgressBar progressBarAnim;
-        progressBarAnim = ProgressManager.push("Registry Animations", CSRegistryHelper.loadAnimList.size());
-        for (LoadElement el : CSRegistryHelper.loadAnimList)
-        {
-            progressBarAnim.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
-            registry(EnumResourceType.ANIM, el.resourceLoc, el.ressourceName);
-        }
-        ProgressManager.pop(progressBarAnim);
-
-        CraftStudioApi.getLogger()
-                .info(String.format("CraftStudioAPI loaded %s animations", CSRegistryHelper.loadAnimList.size()));
-        CSRegistryHelper.loadAnimList = null;
     }
 
     /**
@@ -229,10 +185,6 @@ public class CSRegistryHelper
             jsonReader = new CSJsonReader(resourceLocationIn);
             if (resourceLocationIn.getResourceDomain() != CraftStudioApi.API_ID)
             {
-                ModContainer activeMod = Loader.instance().activeModContainer();
-                ModContainer mod = FMLCommonHandler.instance().findContainerFor(resourceLocationIn.getResourceDomain());
-                if (activeMod != mod)
-                    Loader.instance().setActiveModContainer(mod);
                 switch (resourceTypeIn)
                 {
                     case MODEL:
@@ -242,7 +194,6 @@ public class CSRegistryHelper
                         GameRegistry.register(jsonReader.readAnim().setRegistryName(resourceNameIn));
                         break;
                 }
-                Loader.instance().setActiveModContainer(activeMod);
             }
             else
                 CraftStudioApi.getLogger()
@@ -262,18 +213,6 @@ public class CSRegistryHelper
             CraftStudioApi.getLogger()
                     .warn("The resource name \"" + str + "\" contains capitals letters, which is not supported.");
             CraftStudioApi.getLogger().warn("A CSResourceNotFoundException could be raised !");
-        }
-    }
-
-    private static class LoadElement
-    {
-        ResourceLocation resourceLoc;
-        String           ressourceName;
-
-        LoadElement(ResourceLocation resourceLoc, String ressourceName)
-        {
-            this.resourceLoc = resourceLoc;
-            this.ressourceName = ressourceName;
         }
     }
 }

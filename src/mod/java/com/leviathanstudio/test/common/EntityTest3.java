@@ -2,12 +2,15 @@ package com.leviathanstudio.test.common;
 
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
@@ -43,7 +46,7 @@ public class EntityTest3 extends EntityCreature implements IAnimated
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand)
+    public boolean processInteract(EntityPlayer player, EnumHand hand, @Nullable ItemStack stack)
     {
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly"))
             this.fly = true;

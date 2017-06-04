@@ -12,5 +12,7 @@ public class CommonProxy
 
     public void preInit()
     {
+    	this.registerModels();
+    	this.registerAnims();
     }
 }

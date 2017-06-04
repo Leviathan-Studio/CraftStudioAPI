@@ -43,7 +43,7 @@ public class RFireAnimationMessage extends CraftStudioBasePacket
         @Override
         public IMessage onMessage(RFireAnimationMessage message, MessageContext ctx)
         {
-            Entity entity = message.getEntityByUUID(ctx.getServerHandler().player.world.loadedEntityList, message.uuid);
+            Entity entity = message.getEntityByUUID(ctx.getServerHandler().playerEntity.worldObj.loadedEntityList, message.uuid);
             if (entity != null && entity instanceof IAnimated)
             {
                 IAnimated animated = (IAnimated) entity;
