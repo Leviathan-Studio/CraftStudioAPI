@@ -36,6 +36,8 @@ public class ClientProxy extends CommonProxy
         CSRegistryHelper registry = new CSRegistryHelper(Mod_Test.MODID);
         registry.register(EnumResourceType.ANIM, EnumRenderType.BLOCK, "position");
         registry.register(EnumResourceType.ANIM, EnumRenderType.BLOCK, "rotation");
+        registry.register(EnumResourceType.ANIM, EnumRenderType.BLOCK, "offset");
+        registry.register(EnumResourceType.ANIM, EnumRenderType.BLOCK, "streching");
         registry.register(EnumResourceType.ANIM, EnumRenderType.ENTITY, "fly");
         registry.register(EnumResourceType.ANIM, EnumRenderType.ENTITY, "idle");
         registry.register(EnumResourceType.ANIM, EnumRenderType.ENTITY, "close_fan");

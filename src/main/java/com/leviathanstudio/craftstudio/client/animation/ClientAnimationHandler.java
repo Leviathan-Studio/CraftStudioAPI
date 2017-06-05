@@ -236,10 +236,10 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 						performAnimationForBlock(childModel, entity);
 					}
 
-			Vector3f defaultPos = new Vector3f(block.getDefaultRotationPointX(), block.getDefaultRotationPointY(),
-					block.getDefaultRotationPointZ());
 			block.resetRotationPoint();
 			block.resetRotationMatrix();
+			block.resetOffset();
+			block.resetStretch();
 			
 			Map<InfoChannel, AnimInfo> animInfoMap = (Map<InfoChannel, AnimInfo>) animHandler.currentAnimInfo.get(entity);
 			if (animInfoMap == null)
@@ -309,6 +309,68 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 						currentPosition.interpolate(endPosition, LERPProgress);
 						block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
 					}
+					
+					// Offsets
+                    KeyFrame prevOffsetKeyFrame = clientChannel.getPreviousOffsetKeyFrameForBox(boxName,
+                            currentFrame);
+                    int prevOffsetKeyFramePosition = prevOffsetKeyFrame != null
+                            ? clientChannel.getKeyFramePosition(prevOffsetKeyFrame) : 0;
+
+                    KeyFrame nextOffsetKeyFrame = clientChannel.getNextOffsetKeyFrameForBox(boxName,
+                            currentFrame);
+                    int nextOffsetKeyFramePosition = nextOffsetKeyFrame != null
+                            ? clientChannel.getKeyFramePosition(nextOffsetKeyFrame) : 0;
+
+                    float OffProgress = (currentFrame - prevOffsetKeyFramePosition)
+                            / (nextOffsetKeyFramePosition - prevOffsetKeyFramePosition);
+                    if (OffProgress > 1F)
+                        OffProgress = 1F;
+                    
+                    if (prevOffsetKeyFramePosition == 0 && prevOffsetKeyFrame == null
+                            && !(nextOffsetKeyFramePosition == 0)) {
+                        Vector3f startPosition = block.getOffsetAsVector();
+                        Vector3f endPosition = nextOffsetKeyFrame.modelRenderersOffsets.get(boxName);
+                        Vector3f currentPosition = new Vector3f(startPosition);
+                        currentPosition.interpolate(endPosition, OffProgress);
+                        block.setOffset(currentPosition.x, currentPosition.y, currentPosition.z);
+                    } else if (nextOffsetKeyFramePosition != 0) {
+                        Vector3f startPosition = prevOffsetKeyFrame.modelRenderersOffsets.get(boxName);
+                        Vector3f endPosition = nextOffsetKeyFrame.modelRenderersOffsets.get(boxName);
+                        Vector3f currentPosition = new Vector3f(startPosition);
+                        currentPosition.interpolate(endPosition, OffProgress);
+                        block.setOffset(currentPosition.x, currentPosition.y, currentPosition.z);
+                    }
+                    
+                    // Stretch
+                    KeyFrame prevStretchKeyFrame = clientChannel.getPreviousStretchKeyFrameForBox(boxName,
+                            currentFrame);
+                    int prevStretchKeyFramePosition = prevStretchKeyFrame != null
+                            ? clientChannel.getKeyFramePosition(prevStretchKeyFrame) : 0;
+
+                    KeyFrame nextStretchKeyFrame = clientChannel.getNextStretchKeyFrameForBox(boxName,
+                            currentFrame);
+                    int nextStretchKeyFramePosition = nextStretchKeyFrame != null
+                            ? clientChannel.getKeyFramePosition(nextStretchKeyFrame) : 0;
+
+                    float strProgress = (currentFrame - prevStretchKeyFramePosition)
+                            / (nextStretchKeyFramePosition - prevStretchKeyFramePosition);
+                    if (strProgress > 1F)
+                        strProgress = 1F;
+                    
+                    if (prevStretchKeyFramePosition == 0 && prevStretchKeyFrame == null
+                            && !(nextStretchKeyFramePosition == 0)) {
+                        Vector3f startPosition = block.getStretchAsVector();
+                        Vector3f endPosition = nextStretchKeyFrame.modelRenderersStretchs.get(boxName);
+                        Vector3f currentPosition = new Vector3f(startPosition);
+                        currentPosition.interpolate(endPosition, strProgress);
+                        block.setStretch(currentPosition.x, currentPosition.y, currentPosition.z);
+                    } else if (nextStretchKeyFramePosition != 0) {
+                        Vector3f startPosition = prevStretchKeyFrame.modelRenderersStretchs.get(boxName);
+                        Vector3f endPosition = nextStretchKeyFrame.modelRenderersStretchs.get(boxName);
+                        Vector3f currentPosition = new Vector3f(startPosition);
+                        currentPosition.interpolate(endPosition, strProgress);
+                        block.setStretch(currentPosition.x, currentPosition.y, currentPosition.z);
+                    }
 					
 				} else if (animInfo.getKey() instanceof CustomChannel)
 					((CustomChannel) animInfo.getKey()).update(block, entity);

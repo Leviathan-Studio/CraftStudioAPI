@@ -7,6 +7,7 @@ import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
 import com.leviathanstudio.craftstudio.client.util.math.Quaternion;
+import com.leviathanstudio.craftstudio.client.util.math.Vector3f;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
 import com.leviathanstudio.craftstudio.common.exception.CSResourceNotRegisteredException;
@@ -94,7 +95,7 @@ public class CSAnimChannel extends ClientChannel
     {
         KeyFrame keyFrame;
         ReadedKeyFrame rKeyFrame;
-        int lastRK, lastTK;
+        int lastRK, lastTK, lastOK, lastSK;
         for (int i : this.rAnim.getKeyFrames())
             this.getKeyFrames().put(i, new KeyFrame());
         if (this.rAnim.isHoldLastK())
@@ -105,6 +106,8 @@ public class CSAnimChannel extends ClientChannel
             CSReadedModelBlock mBlock = this.rModel.getBlockFromName(block.getName());
             lastRK = 0;
             lastTK = 0;
+            lastOK = 0;
+            lastSK = 0;
             if (mBlock != null)
                 for (Entry<Integer, ReadedKeyFrame> entry : block.getKeyFrames().entrySet())
                 {
@@ -124,6 +127,20 @@ public class CSAnimChannel extends ClientChannel
                         if (lastRK < entry.getKey())
                             lastRK = entry.getKey();
                     }
+                    if (rKeyFrame.offset != null)
+                    {
+                        keyFrame.modelRenderersOffsets.put(block.getName(),
+                                rKeyFrame.offset.add(new Vector3f(0, 0, 0)));
+                        if (lastOK < entry.getKey())
+                            lastOK = entry.getKey();
+                    }
+                    if (rKeyFrame.stretching != null)
+                    {
+                        keyFrame.modelRenderersStretchs.put(block.getName(),
+                                rKeyFrame.stretching.add(new Vector3f(1,1,1)));
+                        if (lastSK < entry.getKey())
+                            lastSK = entry.getKey();
+                    }
                 }
             else
                 System.out.println(
@@ -136,6 +153,12 @@ public class CSAnimChannel extends ClientChannel
                 if (lastRK != 0)
                     this.getKeyFrames().get(this.totalFrames).modelRenderersRotations.put(block.getName(),
                             this.getKeyFrames().get(lastRK).modelRenderersRotations.get(block.getName()));
+                if (lastOK != 0)
+                    this.getKeyFrames().get(this.totalFrames).modelRenderersOffsets.put(block.getName(),
+                            this.getKeyFrames().get(lastOK).modelRenderersOffsets.get(block.getName()));
+                if (lastSK != 0)
+                    this.getKeyFrames().get(this.totalFrames).modelRenderersStretchs.put(block.getName(),
+                            this.getKeyFrames().get(lastSK).modelRenderersStretchs.get(block.getName()));
             }
 
         }

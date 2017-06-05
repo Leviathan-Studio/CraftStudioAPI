@@ -144,6 +144,110 @@ public class ClientChannel extends InfoChannel
 
         return nextKeyFrame;
     }
+    
+    /**
+     * Return the previous translation KeyFrame before this frame that uses this
+     * box, if it exists. If curretFrame is a keyFrame that uses this box, it is
+     * returned.
+     */
+    public KeyFrame getPreviousOffsetKeyFrameForBox(String boxName, float currentFrame)
+    {
+        int latestFramePosition = -1;
+        KeyFrame latestKeyFrame = null;
+        for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet())
+        {
+            final Integer key = entry.getKey();
+            final KeyFrame value = entry.getValue();
+
+            if (key <= currentFrame && key > latestFramePosition)
+                if (value.useBoxInOffsets(boxName))
+                {
+                    latestFramePosition = key;
+                    latestKeyFrame = value;
+                }
+        }
+
+        return latestKeyFrame;
+    }
+
+    /**
+     * Return the next translation KeyFrame before this frame that uses this
+     * box, if it exists. If currentFrame is a keyFrame that uses this box, it
+     * is NOT considered.
+     */
+    public KeyFrame getNextOffsetKeyFrameForBox(String boxName, float currentFrame)
+    {
+        int nextFramePosition = -1;
+        KeyFrame nextKeyFrame = null;
+        if (currentFrame > this.totalFrames)
+            return this.keyFrames.get(this.totalFrames);
+        for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet())
+        {
+            final Integer key = entry.getKey();
+            final KeyFrame value = entry.getValue();
+
+            if (key > currentFrame && (key < nextFramePosition || nextFramePosition == -1))
+                if (value.useBoxInOffsets(boxName))
+                {
+                    nextFramePosition = key;
+                    nextKeyFrame = value;
+                }
+        }
+
+        return nextKeyFrame;
+    }
+    
+    /**
+     * Return the previous translation KeyFrame before this frame that uses this
+     * box, if it exists. If curretFrame is a keyFrame that uses this box, it is
+     * returned.
+     */
+    public KeyFrame getPreviousStretchKeyFrameForBox(String boxName, float currentFrame)
+    {
+        int latestFramePosition = -1;
+        KeyFrame latestKeyFrame = null;
+        for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet())
+        {
+            final Integer key = entry.getKey();
+            final KeyFrame value = entry.getValue();
+
+            if (key <= currentFrame && key > latestFramePosition)
+                if (value.useBoxInStretchs(boxName))
+                {
+                    latestFramePosition = key;
+                    latestKeyFrame = value;
+                }
+        }
+
+        return latestKeyFrame;
+    }
+
+    /**
+     * Return the next translation KeyFrame before this frame that uses this
+     * box, if it exists. If currentFrame is a keyFrame that uses this box, it
+     * is NOT considered.
+     */
+    public KeyFrame getNextStretchKeyFrameForBox(String boxName, float currentFrame)
+    {
+        int nextFramePosition = -1;
+        KeyFrame nextKeyFrame = null;
+        if (currentFrame > this.totalFrames)
+            return this.keyFrames.get(this.totalFrames);
+        for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet())
+        {
+            final Integer key = entry.getKey();
+            final KeyFrame value = entry.getValue();
+
+            if (key > currentFrame && (key < nextFramePosition || nextFramePosition == -1))
+                if (value.useBoxInStretchs(boxName))
+                {
+                    nextFramePosition = key;
+                    nextKeyFrame = value;
+                }
+        }
+
+        return nextKeyFrame;
+    }
 
     /**
      * Get the position of the keyframe in this animation, if the keyframe

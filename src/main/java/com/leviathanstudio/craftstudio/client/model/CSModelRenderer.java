@@ -40,6 +40,8 @@ public class CSModelRenderer extends ModelRenderer
     private final Matrix4f  rotationMatrix        = new Matrix4f();
     /** Previous value of the matrix */
     private Matrix4f        prevRotationMatrix    = new Matrix4f();
+    
+    private Vector3f stretch = new Vector3f(1, 1, 1);
 
     /** Default informations for un-animated models */
     private float           defaultRotationPointX;
@@ -47,6 +49,11 @@ public class CSModelRenderer extends ModelRenderer
     private float           defaultRotationPointZ;
     private Matrix4f        defaultRotationMatrix = new Matrix4f();
     private Quaternion      defaultRotationAsQuaternion;
+    private float           defaultOffsetX        = 0;
+    private float           defaultOffsetY        = 0;
+    private float           defaultOffsetZ        = 0;
+    private Vector3f defaultStretch = new Vector3f(1, 1, 1);
+    
 
     public CSModelRenderer(ModelBase modelbase, String partName, int xTextureOffset, int yTextureOffset) {
         super(modelbase, partName);
@@ -125,45 +132,23 @@ public class CSModelRenderer extends ModelRenderer
             if (this.showModel) {
                 if (!this.compiled)
                     this.compileDisplayList(scale);
+                
+                GlStateManager.pushMatrix();
+                
+                
+                GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+                GlStateManager.scale(this.stretch.x, this.stretch.y, this.stretch.z);
+                FloatBuffer buf = CraftStudioHelper.makeFloatBuffer(this.rotationMatrix.intoArray());
+                GlStateManager.multMatrix(buf);
+                GlStateManager.translate(this.offsetX*scale, this.offsetY*scale, this.offsetZ*scale);
+                
+                GlStateManager.callList(this.displayList);
 
-                GlStateManager.translate(this.offsetX, this.offsetY, this.offsetZ);
-                int i;
+                if (this.childModels != null)
+                    for (int i = 0; i < this.childModels.size(); ++i)
+                        this.childModels.get(i).render(scale);
 
-                if (this.rotationMatrix.isEmptyRotationMatrix()) {
-                    if (this.rotationPointX == 0.0F && this.rotationPointY == 0.0F && this.rotationPointZ == 0.0F) {
-                        GlStateManager.callList(this.displayList);
-
-                        if (this.childModels != null)
-                            for (i = 0; i < this.childModels.size(); ++i)
-                                this.childModels.get(i).render(scale);
-                    }
-                    else {
-                        GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
-                        GlStateManager.callList(this.displayList);
-
-                        if (this.childModels != null)
-                            for (i = 0; i < this.childModels.size(); ++i)
-                                this.childModels.get(i).render(scale);
-
-                        GlStateManager.translate(-this.rotationPointX * scale, -this.rotationPointY * scale, -this.rotationPointZ * scale);
-                    }
-                }
-                else {
-                    GlStateManager.pushMatrix();
-                    GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
-                    final FloatBuffer buf = CraftStudioHelper.makeFloatBuffer(this.rotationMatrix.intoArray());
-                    GlStateManager.multMatrix(buf);
-
-                    GlStateManager.callList(this.displayList);
-
-                    if (this.childModels != null)
-                        for (i = 0; i < this.childModels.size(); ++i)
-                            this.childModels.get(i).render(scale);
-
-                    GlStateManager.popMatrix();
-                }
-
-                GlStateManager.translate(-this.offsetX, -this.offsetY, -this.offsetZ);
+                GlStateManager.popMatrix();
 
                 this.prevRotationMatrix = this.rotationMatrix;
             }
@@ -174,21 +159,6 @@ public class CSModelRenderer extends ModelRenderer
      */
     @Override
     public void postRender(float scale) {
-        if (!this.isHidden)
-            if (this.showModel) {
-                if (!this.compiled)
-                    this.compileDisplayList(scale);
-
-                if (this.rotationMatrix.equals(this.prevRotationMatrix)) {
-                    if (this.rotationPointX != 0.0F || this.rotationPointY != 0.0F || this.rotationPointZ != 0.0F)
-                        GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
-                }
-                else {
-                    GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
-
-                    GlStateManager.multMatrix(FloatBuffer.wrap(this.rotationMatrix.intoArray()));
-                }
-            }
     }
 
     @Override
@@ -198,11 +168,11 @@ public class CSModelRenderer extends ModelRenderer
      * Set default rotation point (model with no animations) and set the current
      * rotation point.
      */
-    public void setDefaultRotationPoint(float par1, float par2, float par3) {
-        this.defaultRotationPointX = par1;
-        this.defaultRotationPointY = par2;
-        this.defaultRotationPointZ = par3;
-        this.setRotationPoint(par1, par2, par3);
+    public void setDefaultRotationPoint(float x, float y, float z) {
+        this.defaultRotationPointX = x;
+        this.defaultRotationPointY = y;
+        this.defaultRotationPointZ = z;
+        this.setRotationPoint(x, y, z);
     }
 
     public float getDefaultRotationPointX() {
@@ -219,10 +189,10 @@ public class CSModelRenderer extends ModelRenderer
 
     /** Set the rotation point */
     @Override
-    public void setRotationPoint(float par1, float par2, float par3) {
-        this.rotationPointX = par1;
-        this.rotationPointY = par2;
-        this.rotationPointZ = par3;
+    public void setRotationPoint(float x, float y, float z) {
+        this.rotationPointX = x;
+        this.rotationPointY = y;
+        this.rotationPointZ = z;
     }
 
     /** Reset the rotation point to the default values. */
@@ -231,16 +201,49 @@ public class CSModelRenderer extends ModelRenderer
         this.rotationPointY = this.defaultRotationPointY;
         this.rotationPointZ = this.defaultRotationPointZ;
     }
-
+    
     public Vector3f getPositionAsVector() {
         return new Vector3f(this.rotationPointX, this.rotationPointY, this.rotationPointZ);
     }
+    
+    public void setDefaultOffset(float x, float y, float z) {
+        this.defaultOffsetX = x;
+        this.defaultOffsetY = y;
+        this.defaultOffsetZ = z;
+        this.setOffset(x, y, z);
+    }
 
-    @Deprecated
-    public Quaternion getRotationAsQuaternion() {
-        // Rotation from position ?!?
-        return new Quaternion(Quat4fHelper.quaternionFromEulerAnglesInDegrees(this.getPositionAsVector().getX(), this.getPositionAsVector().getY(),
-                this.getPositionAsVector().getZ()));
+    public void setOffset(float x, float y, float z) {
+        this.offsetX = x;
+        this.offsetY = y;
+        this.offsetZ = z;
+    }
+
+    public void resetOffset() {
+        this.offsetX = this.defaultOffsetX;
+        this.offsetY = this.defaultOffsetY;
+        this.offsetZ = this.defaultOffsetZ;
+    }
+    
+    public Vector3f getOffsetAsVector() {
+        return new Vector3f(this.offsetX, this.offsetY, this.offsetZ);
+    }
+    
+    public void setDefaultStretch(float x, float y, float z) {
+        this.defaultStretch = new Vector3f(x, y, z);
+        this.setOffset(x, y, z);
+    }
+
+    public void setStretch(float x, float y, float z) {
+        this.stretch = new Vector3f(x, y, z);
+    }
+
+    public void resetStretch() {
+        this.stretch = this.defaultStretch;
+    }
+    
+    public Vector3f getStretchAsVector() {
+        return this.stretch.clone();
     }
 
     /**
