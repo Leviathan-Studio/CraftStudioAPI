@@ -48,15 +48,16 @@ public class FireAnimationMessage extends CraftStudioBasePacket
             if (entity != null && entity instanceof IAnimated)
             {
                 IAnimated animated = (IAnimated) entity;
-                ((ClientAnimationHandler) animated.getAnimationHandler()).clientStartAnimation(message.animationName,
+                String animName = animated.getAnimationHandler().getAnimNameFromId(message.animationId);
+                ((ClientAnimationHandler) animated.getAnimationHandler()).clientStartAnimation(animName,
                         message.startingKeyframe, animated);
                 Object infoChannel = ((ClientAnimationHandler) animated.getAnimationHandler()).getAnimChannels()
-                        .get(message.animationName);
+                        .get(animName);
                 if (infoChannel instanceof ClientChannel){
-                	return new RFireAnimationMessage(message.animationName, animated,
+                	return new RFireAnimationMessage(animName, animated,
                         ((ClientChannel) infoChannel).totalFrames);
                 }
-                return new RFireAnimationMessage(message.animationName, animated, 0);
+                return new RFireAnimationMessage(animName, animated, 0);
             }
             return null;
         }

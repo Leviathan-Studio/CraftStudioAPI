@@ -13,7 +13,7 @@ import io.netty.buffer.ByteBuf;
 
 public class CraftStudioBasePacket implements IMessage
 {
-    protected String animationName;
+    protected short animationId;
     protected UUID   uuid;
 
     public CraftStudioBasePacket()
@@ -22,14 +22,14 @@ public class CraftStudioBasePacket implements IMessage
 
     public CraftStudioBasePacket(String animationNameIn, IAnimated animated)
     {
-        this.animationName = animationNameIn;
+        this.animationId = animated.getAnimationHandler().getAnimIdFromName(animationNameIn);
         this.uuid = animated.getUUID();
     }
 
     @Override
     public void fromBytes(ByteBuf buf)
     {
-        this.animationName = ByteBufUtils.readUTF8String(buf);
+        this.animationId = buf.readShort();
         long most = buf.readLong();
         long least = buf.readLong();
         this.uuid = new UUID(most, least);
@@ -38,7 +38,7 @@ public class CraftStudioBasePacket implements IMessage
     @Override
     public void toBytes(ByteBuf buf)
     {
-        ByteBufUtils.writeUTF8String(buf, this.animationName);
+        buf.writeShort(this.animationId);
         buf.writeLong(this.uuid.getMostSignificantBits());
         buf.writeLong(this.uuid.getLeastSignificantBits());
     }

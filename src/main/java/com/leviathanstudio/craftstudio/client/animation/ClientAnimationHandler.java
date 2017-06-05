@@ -25,7 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandler<T> {
 	/** Map with all the animations. */
-	private HashMap<String, InfoChannel> animChannels = new HashMap<>();
+	private Map<String, InfoChannel> animChannels = new HashMap<>();
 
 	private Map<T, Map<InfoChannel, AnimInfo>> currentAnimInfo = new HashMap<>();
 
@@ -38,6 +38,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 		ResourceLocation anim = new ResourceLocation(modid, animNameIn),
 				model = new ResourceLocation(modid, modelNameIn);
 		this.animChannels.put(anim.toString(), new CSAnimChannel(anim, model, false));
+		this.channelIds.add(anim.toString());
 	}
 
 	@Override
@@ -45,6 +46,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 		ResourceLocation anim = new ResourceLocation(modid, animNameIn),
 				model = new ResourceLocation(modid, modelNameIn);
 		this.animChannels.put(anim.toString(), customChannelIn);
+		this.channelIds.add(anim.toString());
 	}
 
 	@Override
@@ -56,6 +58,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 					.getInvertedChannel(invertedAnimationName);
 			channel.name = anim.toString();
 			this.animChannels.put(anim.toString(), channel);
+			this.channelIds.add(anim.toString());
 		}
 	}
 
@@ -326,7 +329,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 	}
 
 	/** Getters */
-	public HashMap<String, InfoChannel> getAnimChannels() {
+	public Map<String, InfoChannel> getAnimChannels() {
 		return this.animChannels;
 	}
 }

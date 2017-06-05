@@ -30,7 +30,7 @@ public class EndAnimationMessage extends CraftStudioBasePacket
             if (entity != null && entity instanceof IAnimated)
             {
                 IAnimated animated = (IAnimated) entity;
-                ((ClientAnimationHandler) animated.getAnimationHandler()).clientStopAnimation(message.animationName, animated);
+                ((ClientAnimationHandler) animated.getAnimationHandler()).clientStopAnimation(animated.getAnimationHandler().getAnimNameFromId(message.animationId), animated);
             }
             return null;
         }

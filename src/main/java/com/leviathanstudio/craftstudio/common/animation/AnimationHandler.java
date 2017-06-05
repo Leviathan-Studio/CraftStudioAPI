@@ -10,6 +10,8 @@ import net.minecraft.tileentity.TileEntity;
 public abstract class AnimationHandler<T extends IAnimated>
 {
     public static AnimTickHandler animTickHandler;
+    
+    protected List<String> channelIds = new ArrayList<>();
 
     public AnimationHandler() {
         if (AnimationHandler.animTickHandler == null)
@@ -119,6 +121,14 @@ public abstract class AnimationHandler<T extends IAnimated>
     
     public void addAnimated(T animated){
     	AnimationHandler.animTickHandler.addAnimated(animated);
+    }
+    
+    public String getAnimNameFromId(short id) {
+        return this.channelIds.get(id);
+    }
+
+    public short getAnimIdFromName(String name) {
+        return (short) this.channelIds.indexOf(name);
     }
 
     /** Get world object from an IAnimated */

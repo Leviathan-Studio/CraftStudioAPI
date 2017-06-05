@@ -25,9 +25,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.SERVER)
 public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandler<T> {
 	/** Map with all the animations. */
-	public Map<String, Channel> animChannels = new HashMap<>();
+	private Map<String, Channel> animChannels = new HashMap<>();
 
-	public Map<T, Map<String, AnimInfo>> currentAnimInfo = new HashMap<>();
+	private Map<T, Map<String, AnimInfo>> currentAnimInfo = new HashMap<>();
 
 	private Map<T, Map<String, Float>> startingAnimations = new HashMap<>();
 
@@ -39,12 +39,14 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
 	public void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped) {
 		ResourceLocation anim = new ResourceLocation(modid, animNameIn);
 		this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, looped));
+		this.channelIds.add(anim.toString());
 	}
 
 	@Override
 	public void addAnim(String modid, String animNameIn, String modelNameIn, CustomChannel customChannelIn) {
 		ResourceLocation anim = new ResourceLocation(modid, animNameIn);
 		this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, false));
+		this.channelIds.add(anim.toString());
 	}
 
 	@Override
@@ -53,6 +55,7 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
 		ResourceLocation inverted = new ResourceLocation(modid, animationToInvert);
 		boolean looped = this.animChannels.get(inverted.toString()).looped;
 		this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, looped));
+		this.channelIds.add(anim.toString());
 	}
 
 	@Override
