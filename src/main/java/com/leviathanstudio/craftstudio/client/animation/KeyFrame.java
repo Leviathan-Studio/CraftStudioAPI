@@ -48,6 +48,8 @@ public class KeyFrame implements Cloneable
         KeyFrame kf = new KeyFrame();
         kf.modelRenderersRotations = this.modelRenderersRotations;
         kf.modelRenderersTranslations = this.modelRenderersTranslations;
+        kf.modelRenderersOffsets = this.modelRenderersOffsets;
+        kf.modelRenderersStretchs = this.modelRenderersStretchs;
         return kf;
     }
 }
