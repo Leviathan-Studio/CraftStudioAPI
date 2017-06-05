@@ -126,7 +126,6 @@ public class CSModelRenderer extends ModelRenderer
                 if (!this.compiled)
                     this.compileDisplayList(scale);
 
-                // pushMatrix();
                 GlStateManager.translate(this.offsetX, this.offsetY, this.offsetZ);
                 int i;
 
@@ -139,7 +138,6 @@ public class CSModelRenderer extends ModelRenderer
                                 this.childModels.get(i).render(scale);
                     }
                     else {
-                        // pushMatrix();
                         GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
                         GlStateManager.callList(this.displayList);
 
@@ -148,7 +146,6 @@ public class CSModelRenderer extends ModelRenderer
                                 this.childModels.get(i).render(scale);
 
                         GlStateManager.translate(-this.rotationPointX * scale, -this.rotationPointY * scale, -this.rotationPointZ * scale);
-                        // popMatrix();
                     }
                 }
                 else {
@@ -167,7 +164,6 @@ public class CSModelRenderer extends ModelRenderer
                 }
 
                 GlStateManager.translate(-this.offsetX, -this.offsetY, -this.offsetZ);
-                // popMatrix();
 
                 this.prevRotationMatrix = this.rotationMatrix;
             }
@@ -301,13 +297,13 @@ public class CSModelRenderer extends ModelRenderer
     /**
      * Compiles a GL display list for this model.
      */
-    public void compileDisplayList(float par1) {
+    public void compileDisplayList(float scale) {
         this.displayList = GLAllocation.generateDisplayLists(1);
         GlStateManager.glNewList(this.displayList, 4864);
         final VertexBuffer vertexbuffer = Tessellator.getInstance().getBuffer();
 
         for (int i = 0; i < this.cubeCSList.size(); ++i)
-            this.cubeCSList.get(i).render(vertexbuffer, par1);
+            this.cubeCSList.get(i).render(vertexbuffer, scale);
 
         GlStateManager.glEndList();
         this.compiled = true;

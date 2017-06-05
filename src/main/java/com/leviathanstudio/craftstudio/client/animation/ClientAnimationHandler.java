@@ -272,13 +272,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 						currentQuat.slerp(block.getDefaultRotationAsQuaternion(),
 								nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
 						block.getRotationMatrix().set(currentQuat).transpose();
-					} else if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame != null
-							&& !(nextRotationKeyFramePosition == 0)) {
-						Quaternion currentQuat = new Quaternion();
-						currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
-								nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
-						block.getRotationMatrix().set(currentQuat).transpose();
-					} else if (prevRotationKeyFramePosition != 0 && nextRotationKeyFramePosition != 0) {
+					} else if (nextRotationKeyFramePosition != 0) {
 						Quaternion currentQuat = new Quaternion();
 						currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
 								nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
@@ -308,20 +302,14 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 						Vector3f currentPosition = new Vector3f(startPosition);
 						currentPosition.interpolate(endPosition, LERPProgress);
 						block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
-					} else if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame != null
-							&& !(nextTranslationsKeyFramePosition == 0)) {
-						Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName);
-						Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
-						Vector3f currentPosition = new Vector3f(startPosition);
-						currentPosition.interpolate(endPosition, LERPProgress);
-						block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
-					} else if (prevTranslationsKeyFramePosition != 0 && nextTranslationsKeyFramePosition != 0) {
+					} else if (nextTranslationsKeyFramePosition != 0) {
 						Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName);
 						Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
 						Vector3f currentPosition = new Vector3f(startPosition);
 						currentPosition.interpolate(endPosition, LERPProgress);
 						block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
 					}
+					
 				} else if (animInfo.getKey() instanceof CustomChannel)
 					((CustomChannel) animInfo.getKey()).update(block, entity);
 		}
