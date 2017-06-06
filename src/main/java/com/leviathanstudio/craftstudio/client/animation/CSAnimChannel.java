@@ -130,14 +130,14 @@ public class CSAnimChannel extends ClientChannel
                     if (rKeyFrame.offset != null)
                     {
                         keyFrame.modelRenderersOffsets.put(block.getName(),
-                                rKeyFrame.offset.add(new Vector3f(0, 0, 0)));
+                                rKeyFrame.offset.add(mBlock.getOffset()));
                         if (lastOK < entry.getKey())
                             lastOK = entry.getKey();
                     }
                     if (rKeyFrame.stretching != null)
                     {
                         keyFrame.modelRenderersStretchs.put(block.getName(),
-                                rKeyFrame.stretching.add(new Vector3f(1,1,1)));
+                                rKeyFrame.stretching.add(mBlock.getStretch()));
                         if (lastSK < entry.getKey())
                             lastSK = entry.getKey();
                     }

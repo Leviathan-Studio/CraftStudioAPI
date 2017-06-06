@@ -136,13 +136,15 @@ public class CSModelRenderer extends ModelRenderer
                 GlStateManager.pushMatrix();
                 
                 
-                GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
-                GlStateManager.scale(this.stretch.x, this.stretch.y, this.stretch.z);
+                GlStateManager.translate(this.rotationPointX * scale * this.stretch.x, this.rotationPointY * scale * this.stretch.y, this.rotationPointZ * scale * this.stretch.z);
                 FloatBuffer buf = CraftStudioHelper.makeFloatBuffer(this.rotationMatrix.intoArray());
                 GlStateManager.multMatrix(buf);
-                GlStateManager.translate(this.offsetX*scale, this.offsetY*scale, this.offsetZ*scale);
+                GlStateManager.translate(this.offsetX*scale*this.stretch.x, this.offsetY*scale*this.stretch.y, this.offsetZ*scale*this.stretch.z);
                 
+                GlStateManager.pushMatrix();
+                GlStateManager.scale(this.stretch.x, this.stretch.y, this.stretch.z);
                 GlStateManager.callList(this.displayList);
+                GlStateManager.popMatrix();
 
                 if (this.childModels != null)
                     for (int i = 0; i < this.childModels.size(); ++i)

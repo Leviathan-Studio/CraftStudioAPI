@@ -196,21 +196,28 @@ public class CSJsonReader
             for (int i = 0; i < 8; i++)
             {
                 vertexArray = array.get(vertexOrderConvert[i]).getAsJsonArray();
-                block.getVertex()[i][0] = vertexArray.get(0).getAsFloat() + pivotOffsetX;
-                block.getVertex()[i][1] = -vertexArray.get(1).getAsFloat() - pivotOffsetY;
-                block.getVertex()[i][2] = -vertexArray.get(2).getAsFloat() - pivotOffsetZ;
+                block.getVertex()[i][0] = vertexArray.get(0).getAsFloat();
+                block.getVertex()[i][1] = -vertexArray.get(1).getAsFloat();
+                block.getVertex()[i][2] = -vertexArray.get(2).getAsFloat();
             }
+            float stretchx = (block.getVertex()[1][0] - block.getVertex()[0][0])/sizeX;
+            float stretchy = (block.getVertex()[3][1] - block.getVertex()[0][1])/sizeY;
+            float stretchz = (block.getVertex()[4][2] - block.getVertex()[0][2])/sizeZ;
+            
+            block.setStretch(new Vector3f(stretchx, stretchy, stretchz));
         }
-        else
+        else{
             block.setBoxSetup(
                     new Vector3f(-sizeX / 2 + pivotOffsetX, sizeY / 2 - pivotOffsetY, sizeZ / 2 - pivotOffsetZ));
+            block.setStretch(new Vector3f(1,1,1));
+        }
 
         if (parentOffset == null)
             block.setRotationPoint(new Vector3f(posX, -posY + 24, -posZ));
         else
-            block.setRotationPoint(new Vector3f(posX + parentOffset.x, -posY + parentOffset.y, -posZ + parentOffset.z));
+            block.setRotationPoint(new Vector3f(posX, -posY, -posZ));
         block.setRotation(new Vector3f(rotationX, -rotationY, -rotationZ));
-
+        block.setOffset(new Vector3f(pivotOffsetX, -pivotOffsetY, -pivotOffsetZ));
         block.setSize(new Vector3f(sizeX, -sizeY, -sizeZ));
 
         array = jsonBlock.getAsJsonArray("texOffset");

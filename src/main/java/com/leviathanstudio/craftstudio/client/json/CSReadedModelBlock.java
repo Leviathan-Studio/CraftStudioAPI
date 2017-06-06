@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class CSReadedModelBlock
 {
     private String                   name;
-    private Vector3f                 boxSetup, rotationPoint, rotation, size;
+    private Vector3f                 boxSetup, rotationPoint, rotation, size, stretch, offset;
     private float                    vertex[][];
     private int[]                    texOffset = new int[2];
     private List<CSReadedModelBlock> childs    = new ArrayList<>();
@@ -114,6 +114,22 @@ public class CSReadedModelBlock
     public void setSize(Vector3f size)
     {
         this.size = size;
+    }
+
+    public Vector3f getStretch() {
+        return stretch;
+    }
+
+    public void setStretch(Vector3f stretch) {
+        this.stretch = stretch;
+    }
+
+    public Vector3f getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Vector3f offset) {
+        this.offset = offset;
     }
 
     public float[][] getVertex()
