@@ -170,6 +170,6 @@ public class ModelCraftStudio extends ModelBase
 
     /** Getter */
     public List<CSModelRenderer> getParentBlocks() {
-        return parentBlocks;
+        return this.parentBlocks;
     }
 }

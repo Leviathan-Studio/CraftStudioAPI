@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.profiler.Profiler;
 import net.minecraft.tileentity.TileEntity;
 
 public abstract class AnimationHandler<T extends IAnimated>
 {
     public static AnimTickHandler animTickHandler;
-    
-    protected List<String> channelIds = new ArrayList<>();
+
+    protected List<String>        channelIds = new ArrayList<>();
 
     public AnimationHandler() {
         if (AnimationHandler.animTickHandler == null)
@@ -118,11 +117,11 @@ public abstract class AnimationHandler<T extends IAnimated>
     public abstract boolean isAnimationActive(String name, T animatedElement);
 
     public abstract boolean canUpdateAnimation(Channel channel, T animatedElement);
-    
-    public void addAnimated(T animated){
-    	AnimationHandler.animTickHandler.addAnimated(animated);
+
+    public void addAnimated(T animated) {
+        AnimationHandler.animTickHandler.addAnimated(animated);
     }
-    
+
     public String getAnimNameFromId(short id) {
         return this.channelIds.get(id);
     }
@@ -140,14 +139,15 @@ public abstract class AnimationHandler<T extends IAnimated>
         else
             return false;
     }
-    
-    public static class AnimInfo {
-		public long prevTime;
-		public float currentFrame;
 
-		public AnimInfo(long prevTime, float currentFrame) {
-			this.prevTime = prevTime;
-			this.currentFrame = currentFrame;
-		}
-	}
+    public static class AnimInfo
+    {
+        public long  prevTime;
+        public float currentFrame;
+
+        public AnimInfo(long prevTime, float currentFrame) {
+            this.prevTime = prevTime;
+            this.currentFrame = currentFrame;
+        }
+    }
 }

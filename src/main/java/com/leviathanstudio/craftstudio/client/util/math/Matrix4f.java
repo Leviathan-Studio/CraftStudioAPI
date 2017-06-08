@@ -126,9 +126,8 @@ public class Matrix4f implements java.io.Serializable
      * @param m33
      *            the [3][3] element
      */
-    public Matrix4f(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20,
-            float m21, float m22, float m23, float m30, float m31, float m32, float m33)
-    {
+    public Matrix4f(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22,
+            float m23, float m30, float m31, float m32, float m33) {
         this.m00 = m00;
         this.m01 = m01;
         this.m02 = m02;
@@ -157,8 +156,7 @@ public class Matrix4f implements java.io.Serializable
      * @param v
      *            the array of length 16 containing in order
      */
-    public Matrix4f(float[] v)
-    {
+    public Matrix4f(float[] v) {
         this.m00 = v[0];
         this.m01 = v[1];
         this.m02 = v[2];
@@ -192,8 +190,7 @@ public class Matrix4f implements java.io.Serializable
      * @param s
      *            the scale value applied to the rotational components
      */
-    public Matrix4f(Quaternion q1, Vector3f t1, float s)
-    {
+    public Matrix4f(Quaternion q1, Vector3f t1, float s) {
         this.m00 = (float) (s * (1.0 - 2.0 * q1.y * q1.y - 2.0 * q1.z * q1.z));
         this.m10 = (float) (s * (2.0 * (q1.x * q1.y + q1.w * q1.z)));
         this.m20 = (float) (s * (2.0 * (q1.x * q1.z - q1.w * q1.y)));
@@ -222,8 +219,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            the source matrix
      */
-    public Matrix4f(Matrix4f m1)
-    {
+    public Matrix4f(Matrix4f m1) {
         this.m00 = m1.m00;
         this.m01 = m1.m01;
         this.m02 = m1.m02;
@@ -258,8 +254,7 @@ public class Matrix4f implements java.io.Serializable
      * @param s
      *            the scale value applied to the rotational components
      */
-    public Matrix4f(Matrix3f m1, Vector3f t1, float s)
-    {
+    public Matrix4f(Matrix3f m1, Vector3f t1, float s) {
         this.m00 = m1.m00 * s;
         this.m01 = m1.m01 * s;
         this.m02 = m1.m02 * s;
@@ -284,8 +279,7 @@ public class Matrix4f implements java.io.Serializable
     /**
      * Constructs and initializes a Matrix4f to all zeros.
      */
-    public Matrix4f()
-    {
+    public Matrix4f() {
         this.m00 = (float) 0.0;
         this.m01 = (float) 0.0;
         this.m02 = (float) 0.0;
@@ -313,18 +307,16 @@ public class Matrix4f implements java.io.Serializable
      * @return the String representation
      */
     @Override
-    public String toString()
-    {
-        return this.m00 + ", " + this.m01 + ", " + this.m02 + ", " + this.m03 + "\n" + this.m10 + ", " + this.m11 + ", "
-                + this.m12 + ", " + this.m13 + "\n" + this.m20 + ", " + this.m21 + ", " + this.m22 + ", " + this.m23
-                + "\n" + this.m30 + ", " + this.m31 + ", " + this.m32 + ", " + this.m33 + "\n";
+    public String toString() {
+        return this.m00 + ", " + this.m01 + ", " + this.m02 + ", " + this.m03 + "\n" + this.m10 + ", " + this.m11 + ", " + this.m12 + ", " + this.m13
+                + "\n" + this.m20 + ", " + this.m21 + ", " + this.m22 + ", " + this.m23 + "\n" + this.m30 + ", " + this.m31 + ", " + this.m32 + ", "
+                + this.m33 + "\n";
     }
 
     /**
      * Sets this Matrix4f to identity.
      */
-    public final void setIdentity()
-    {
+    public final void setIdentity() {
         this.m00 = (float) 1.0;
         this.m01 = (float) 0.0;
         this.m02 = (float) 0.0;
@@ -356,13 +348,10 @@ public class Matrix4f implements java.io.Serializable
      * @param value
      *            the new value
      */
-    public final void setElement(int row, int column, float value)
-    {
-        switch (row)
-        {
+    public final void setElement(int row, int column, float value) {
+        switch (row) {
             case 0:
-                switch (column)
-                {
+                switch (column) {
                     case 0:
                         this.m00 = value;
                         break;
@@ -381,8 +370,7 @@ public class Matrix4f implements java.io.Serializable
                 break;
 
             case 1:
-                switch (column)
-                {
+                switch (column) {
                     case 0:
                         this.m10 = value;
                         break;
@@ -401,8 +389,7 @@ public class Matrix4f implements java.io.Serializable
                 break;
 
             case 2:
-                switch (column)
-                {
+                switch (column) {
                     case 0:
                         this.m20 = value;
                         break;
@@ -421,8 +408,7 @@ public class Matrix4f implements java.io.Serializable
                 break;
 
             case 3:
-                switch (column)
-                {
+                switch (column) {
                     case 0:
                         this.m30 = value;
                         break;
@@ -454,13 +440,10 @@ public class Matrix4f implements java.io.Serializable
      *            the column number to be retrieved (zero indexed)
      * @return the value at the indexed element
      */
-    public final float getElement(int row, int column)
-    {
-        switch (row)
-        {
+    public final float getElement(int row, int column) {
+        switch (row) {
             case 0:
-                switch (column)
-                {
+                switch (column) {
                     case 0:
                         return this.m00;
                     case 1:
@@ -474,8 +457,7 @@ public class Matrix4f implements java.io.Serializable
                 }
                 break;
             case 1:
-                switch (column)
-                {
+                switch (column) {
                     case 0:
                         return this.m10;
                     case 1:
@@ -490,8 +472,7 @@ public class Matrix4f implements java.io.Serializable
                 break;
 
             case 2:
-                switch (column)
-                {
+                switch (column) {
                     case 0:
                         return this.m20;
                     case 1:
@@ -506,8 +487,7 @@ public class Matrix4f implements java.io.Serializable
                 break;
 
             case 3:
-                switch (column)
-                {
+                switch (column) {
                     case 0:
                         return this.m30;
                     case 1:
@@ -535,8 +515,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            matrix into which the rotational component is placed
      */
-    public final void get(Matrix3f m1)
-    {
+    public final void get(Matrix3f m1) {
         final double[] tmp_rot = new double[9]; // scratch matrix
         final double[] tmp_scale = new double[3]; // scratch matrix
 
@@ -564,8 +543,7 @@ public class Matrix4f implements java.io.Serializable
      * @param q1
      *            quaternion into which the rotation component is placed
      */
-    public final void get(Quaternion q1)
-    {
+    public final void get(Quaternion q1) {
         final double[] tmp_rot = new double[9]; // scratch matrix
         final double[] tmp_scale = new double[3]; // scratch matrix
         this.getScaleRotate(tmp_scale, tmp_rot);
@@ -573,8 +551,7 @@ public class Matrix4f implements java.io.Serializable
         double ww;
 
         ww = 0.25 * (1.0 + tmp_rot[0] + tmp_rot[4] + tmp_rot[8]);
-        if (!((ww < 0 ? -ww : ww) < 1.0e-30))
-        {
+        if (!((ww < 0 ? -ww : ww) < 1.0e-30)) {
             q1.w = (float) Math.sqrt(ww);
             ww = 0.25 / q1.w;
             q1.x = (float) ((tmp_rot[7] - tmp_rot[5]) * ww);
@@ -585,8 +562,7 @@ public class Matrix4f implements java.io.Serializable
 
         q1.w = 0.0f;
         ww = -0.5 * (tmp_rot[4] + tmp_rot[8]);
-        if (!((ww < 0 ? -ww : ww) < 1.0e-30))
-        {
+        if (!((ww < 0 ? -ww : ww) < 1.0e-30)) {
             q1.x = (float) Math.sqrt(ww);
             ww = 0.5 / q1.x;
             q1.y = (float) (tmp_rot[3] * ww);
@@ -596,8 +572,7 @@ public class Matrix4f implements java.io.Serializable
 
         q1.x = 0.0f;
         ww = 0.5 * (1.0 - tmp_rot[8]);
-        if (!((ww < 0 ? -ww : ww) < 1.0e-30))
-        {
+        if (!((ww < 0 ? -ww : ww) < 1.0e-30)) {
             q1.y = (float) Math.sqrt(ww);
             q1.z = (float) (tmp_rot[7] / (2.0 * q1.y));
             return;
@@ -613,8 +588,7 @@ public class Matrix4f implements java.io.Serializable
      * @param trans
      *            the vector that will receive the translational component
      */
-    public final void get(Vector3f trans)
-    {
+    public final void get(Vector3f trans) {
         trans.x = this.m03;
         trans.y = this.m13;
         trans.z = this.m23;
@@ -627,8 +601,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            the matrix that will hold the values
      */
-    public final void getRotationScale(Matrix3f m1)
-    {
+    public final void getRotationScale(Matrix3f m1) {
         m1.m00 = this.m00;
         m1.m01 = this.m01;
         m1.m02 = this.m02;
@@ -648,8 +621,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return the scale factor of this matrix
      */
-    public final float getScale()
-    {
+    public final float getScale() {
         final double[] tmp_rot = new double[9]; // scratch matrix
         final double[] tmp_scale = new double[3]; // scratch matrix
 
@@ -665,8 +637,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            the matrix that will be the new upper 3x3
      */
-    public final void setRotationScale(Matrix3f m1)
-    {
+    public final void setRotationScale(Matrix3f m1) {
         this.m00 = m1.m00;
         this.m01 = m1.m01;
         this.m02 = m1.m02;
@@ -692,10 +663,8 @@ public class Matrix4f implements java.io.Serializable
      * @param w
      *            the fourth column element
      */
-    public final void setRow(int row, float x, float y, float z, float w)
-    {
-        switch (row)
-        {
+    public final void setRow(int row, float x, float y, float z, float w) {
+        switch (row) {
             case 0:
                 this.m00 = x;
                 this.m01 = y;
@@ -738,10 +707,8 @@ public class Matrix4f implements java.io.Serializable
      * @param v
      *            the replacement row
      */
-    public final void setRow(int row, float v[])
-    {
-        switch (row)
-        {
+    public final void setRow(int row, float v[]) {
+        switch (row) {
             case 0:
                 this.m00 = v[0];
                 this.m01 = v[1];
@@ -789,10 +756,8 @@ public class Matrix4f implements java.io.Serializable
      * @param w
      *            the fourth row element
      */
-    public final void setColumn(int column, float x, float y, float z, float w)
-    {
-        switch (column)
-        {
+    public final void setColumn(int column, float x, float y, float z, float w) {
+        switch (column) {
             case 0:
                 this.m00 = x;
                 this.m10 = y;
@@ -834,10 +799,8 @@ public class Matrix4f implements java.io.Serializable
      * @param v
      *            the replacement column
      */
-    public final void setColumn(int column, float v[])
-    {
-        switch (column)
-        {
+    public final void setColumn(int column, float v[]) {
+        switch (column) {
             case 0:
                 this.m00 = v[0];
                 this.m10 = v[1];
@@ -877,8 +840,7 @@ public class Matrix4f implements java.io.Serializable
      * @param scalar
      *            the scalar adder
      */
-    public final void add(float scalar)
-    {
+    public final void add(float scalar) {
         this.m00 += scalar;
         this.m01 += scalar;
         this.m02 += scalar;
@@ -906,8 +868,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            the original matrix values
      */
-    public final void add(float scalar, Matrix4f m1)
-    {
+    public final void add(float scalar, Matrix4f m1) {
         this.m00 = m1.m00 + scalar;
         this.m01 = m1.m01 + scalar;
         this.m02 = m1.m02 + scalar;
@@ -934,8 +895,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m2
      *            the second matrix
      */
-    public final void add(Matrix4f m1, Matrix4f m2)
-    {
+    public final void add(Matrix4f m1, Matrix4f m2) {
         this.m00 = m1.m00 + m2.m00;
         this.m01 = m1.m01 + m2.m01;
         this.m02 = m1.m02 + m2.m02;
@@ -963,8 +923,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            the other matrix
      */
-    public final void add(Matrix4f m1)
-    {
+    public final void add(Matrix4f m1) {
         this.m00 += m1.m00;
         this.m01 += m1.m01;
         this.m02 += m1.m02;
@@ -995,8 +954,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m2
      *            the second matrix
      */
-    public final void sub(Matrix4f m1, Matrix4f m2)
-    {
+    public final void sub(Matrix4f m1, Matrix4f m2) {
         this.m00 = m1.m00 - m2.m00;
         this.m01 = m1.m01 - m2.m01;
         this.m02 = m1.m02 - m2.m02;
@@ -1025,8 +983,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            the other matrix
      */
-    public final void sub(Matrix4f m1)
-    {
+    public final void sub(Matrix4f m1) {
         this.m00 -= m1.m00;
         this.m01 -= m1.m01;
         this.m02 -= m1.m02;
@@ -1051,8 +1008,7 @@ public class Matrix4f implements java.io.Serializable
     /**
      * Sets the value of this matrix to its transpose in place.
      */
-    public final Matrix4f transpose()
-    {
+    public final Matrix4f transpose() {
         float temp;
 
         temp = this.m10;
@@ -1088,10 +1044,8 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            the matrix to be transposed
      */
-    public final void transpose(Matrix4f m1)
-    {
-        if (this != m1)
-        {
+    public final void transpose(Matrix4f m1) {
+        if (this != m1) {
             this.m00 = m1.m00;
             this.m01 = m1.m10;
             this.m02 = m1.m20;
@@ -1123,8 +1077,7 @@ public class Matrix4f implements java.io.Serializable
      * @param q1
      *            the quaternion to be converted
      */
-    public final Matrix4f set(Quaternion q1)
-    {
+    public final Matrix4f set(Quaternion q1) {
         /*
          * How it is done: 1.0f - 2.0f*qy*qy - 2.0f*qz*qz, 2.0f*qx*qy -
          * 2.0f*qz*qw, 2.0f*qx*qz + 2.0f*qy*qw, 0.0f, 2.0f*qx*qy + 2.0f*qz*qw,
@@ -1163,11 +1116,9 @@ public class Matrix4f implements java.io.Serializable
      * @param a1
      *            the axis and angle to be converted
      */
-    public final void set(AxisAngle4f a1)
-    {
+    public final void set(AxisAngle4f a1) {
         float mag = (float) Math.sqrt(a1.x * a1.x + a1.y * a1.y + a1.z * a1.z);
-        if (mag < Matrix4f.EPS)
-        {
+        if (mag < Matrix4f.EPS) {
             this.m00 = 1.0f;
             this.m01 = 0.0f;
             this.m02 = 0.0f;
@@ -1180,8 +1131,7 @@ public class Matrix4f implements java.io.Serializable
             this.m21 = 0.0f;
             this.m22 = 1.0f;
         }
-        else
-        {
+        else {
             mag = 1.0f / mag;
             final float ax = a1.x * mag;
             final float ay = a1.y * mag;
@@ -1228,8 +1178,7 @@ public class Matrix4f implements java.io.Serializable
      * @param s
      *            the scale value
      */
-    public final void set(Quaternion q1, Vector3f t1, float s)
-    {
+    public final void set(Quaternion q1, Vector3f t1, float s) {
         this.m00 = s * (1.0f - 2.0f * q1.y * q1.y - 2.0f * q1.z * q1.z);
         this.m10 = s * (2.0f * (q1.x * q1.y + q1.w * q1.z));
         this.m20 = s * (2.0f * (q1.x * q1.z - q1.w * q1.y));
@@ -1258,8 +1207,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            the matrix to be copied
      */
-    public final void set(Matrix4f m1)
-    {
+    public final void set(Matrix4f m1) {
         this.m00 = m1.m00;
         this.m01 = m1.m01;
         this.m02 = m1.m02;
@@ -1288,16 +1236,14 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            the matrix to be inverted
      */
-    public final void invert(Matrix4f m1)
-    {
+    public final void invert(Matrix4f m1) {
         this.invertGeneral(m1);
     }
 
     /**
      * Inverts this matrix in place.
      */
-    public final void invert()
-    {
+    public final void invert() {
         this.invertGeneral(this);
     }
 
@@ -1309,8 +1255,7 @@ public class Matrix4f implements java.io.Serializable
      * Also note that since this routine is slow anyway, we won't worry about
      * allocating a little bit of garbage.
      */
-    final void invertGeneral(Matrix4f m1)
-    {
+    final void invertGeneral(Matrix4f m1) {
         final double temp[] = new double[16];
         final double result[] = new double[16];
         final int row_perm[] = new int[4];
@@ -1344,12 +1289,10 @@ public class Matrix4f implements java.io.Serializable
         // Calculate LU decomposition: Is the matrix singular?
         if (!Matrix4f.luDecomposition(temp, row_perm))
             // Matrix has no inverse
-            try
-            {
-                throw new Exception("PROBLEM!!! Matrix4f12");
-            } catch (final Exception e)
-            {
-                e.printStackTrace();
+            try {
+            throw new Exception("PROBLEM!!! Matrix4f12");
+            } catch (final Exception e) {
+            e.printStackTrace();
             }
 
         // Perform back substitution on the identity matrix
@@ -1402,8 +1345,7 @@ public class Matrix4f implements java.io.Serializable
     // _Numerical_Recipes_in_C_, Cambridge University Press,
     // 1988, pp 40-45.
     //
-    static boolean luDecomposition(double[] matrix0, int[] row_perm)
-    {
+    static boolean luDecomposition(double[] matrix0, int[] row_perm) {
 
         final double row_scale[] = new double[4];
 
@@ -1418,14 +1360,12 @@ public class Matrix4f implements java.io.Serializable
 
             // For each row ...
             i = 4;
-            while (i-- != 0)
-            {
+            while (i-- != 0) {
                 big = 0.0;
 
                 // For each column, find the largest element in the row
                 j = 4;
-                while (j-- != 0)
-                {
+                while (j-- != 0) {
                     temp = matrix0[ptr++];
                     temp = Math.abs(temp);
                     if (temp > big)
@@ -1446,22 +1386,19 @@ public class Matrix4f implements java.io.Serializable
             mtx = 0;
 
             // For all columns, execute Crout's method
-            for (j = 0; j < 4; j++)
-            {
+            for (j = 0; j < 4; j++) {
                 int i, imax, k;
                 int target, p1, p2;
                 double sum, big, temp;
 
                 // Determine elements of upper diagonal matrix U
-                for (i = 0; i < j; i++)
-                {
+                for (i = 0; i < j; i++) {
                     target = mtx + 4 * i + j;
                     sum = matrix0[target];
                     k = i;
                     p1 = mtx + 4 * i;
                     p2 = mtx + j;
-                    while (k-- != 0)
-                    {
+                    while (k-- != 0) {
                         sum -= matrix0[p1] * matrix0[p2];
                         p1++;
                         p2 += 4;
@@ -1473,15 +1410,13 @@ public class Matrix4f implements java.io.Serializable
                 // intermediate elements of lower diagonal matrix L.
                 big = 0.0;
                 imax = -1;
-                for (i = j; i < 4; i++)
-                {
+                for (i = j; i < 4; i++) {
                     target = mtx + 4 * i + j;
                     sum = matrix0[target];
                     k = j;
                     p1 = mtx + 4 * i;
                     p2 = mtx + j;
-                    while (k-- != 0)
-                    {
+                    while (k-- != 0) {
                         sum -= matrix0[p1] * matrix0[p2];
                         p1++;
                         p2 += 4;
@@ -1489,8 +1424,7 @@ public class Matrix4f implements java.io.Serializable
                     matrix0[target] = sum;
 
                     // Is this the best pivot so far?
-                    if ((temp = row_scale[i] * Math.abs(sum)) >= big)
-                    {
+                    if ((temp = row_scale[i] * Math.abs(sum)) >= big) {
                         big = temp;
                         imax = i;
                     }
@@ -1500,14 +1434,12 @@ public class Matrix4f implements java.io.Serializable
                     throw new RuntimeException("PROBLEM!!! Matrix4f");
 
                 // Is a row exchange necessary?
-                if (j != imax)
-                {
+                if (j != imax) {
                     // Yes: exchange rows
                     k = 4;
                     p1 = mtx + 4 * imax;
                     p2 = mtx + 4 * j;
-                    while (k-- != 0)
-                    {
+                    while (k-- != 0) {
                         temp = matrix0[p1];
                         matrix0[p1++] = matrix0[p2];
                         matrix0[p2++] = temp;
@@ -1525,13 +1457,11 @@ public class Matrix4f implements java.io.Serializable
                     return false;
 
                 // Divide elements of lower diagonal matrix L by pivot
-                if (j != 4 - 1)
-                {
+                if (j != 4 - 1) {
                     temp = 1.0 / matrix0[mtx + 4 * j + j];
                     target = mtx + 4 * (j + 1) + j;
                     i = 3 - j;
-                    while (i-- != 0)
-                    {
+                    while (i-- != 0) {
                         matrix0[target] *= temp;
                         target += 4;
                     }
@@ -1560,8 +1490,7 @@ public class Matrix4f implements java.io.Serializable
     // _Numerical_Recipes_in_C_, Cambridge University Press,
     // 1988, pp 44-45.
     //
-    static void luBacksubstitution(double[] matrix1, int[] row_perm, double[] matrix2)
-    {
+    static void luBacksubstitution(double[] matrix1, int[] row_perm, double[] matrix2) {
 
         int i, ii, ip, j, k;
         int rp;
@@ -1571,22 +1500,19 @@ public class Matrix4f implements java.io.Serializable
         rp = 0;
 
         // For each column vector of matrix2 ...
-        for (k = 0; k < 4; k++)
-        {
+        for (k = 0; k < 4; k++) {
             // cv = &(matrix2[0][k]);
             cv = k;
             ii = -1;
 
             // Forward substitution
-            for (i = 0; i < 4; i++)
-            {
+            for (i = 0; i < 4; i++) {
                 double sum;
 
                 ip = row_perm[rp + i];
                 sum = matrix2[cv + 4 * ip];
                 matrix2[cv + 4 * ip] = matrix2[cv + 4 * i];
-                if (ii >= 0)
-                {
+                if (ii >= 0) {
                     // rv = &(matrix1[i][0]);
                     rv = i * 4;
                     for (j = ii; j <= i - 1; j++)
@@ -1606,12 +1532,12 @@ public class Matrix4f implements java.io.Serializable
             matrix2[cv + 4 * 2] = (matrix2[cv + 4 * 2] - matrix1[rv + 3] * matrix2[cv + 4 * 3]) / matrix1[rv + 2];
 
             rv -= 4;
-            matrix2[cv + 4 * 1] = (matrix2[cv + 4 * 1] - matrix1[rv + 2] * matrix2[cv + 4 * 2]
-                    - matrix1[rv + 3] * matrix2[cv + 4 * 3]) / matrix1[rv + 1];
+            matrix2[cv + 4 * 1] = (matrix2[cv + 4 * 1] - matrix1[rv + 2] * matrix2[cv + 4 * 2] - matrix1[rv + 3] * matrix2[cv + 4 * 3])
+                    / matrix1[rv + 1];
 
             rv -= 4;
-            matrix2[cv + 4 * 0] = (matrix2[cv + 4 * 0] - matrix1[rv + 1] * matrix2[cv + 4 * 1]
-                    - matrix1[rv + 2] * matrix2[cv + 4 * 2] - matrix1[rv + 3] * matrix2[cv + 4 * 3]) / matrix1[rv + 0];
+            matrix2[cv + 4 * 0] = (matrix2[cv + 4 * 0] - matrix1[rv + 1] * matrix2[cv + 4 * 1] - matrix1[rv + 2] * matrix2[cv + 4 * 2]
+                    - matrix1[rv + 3] * matrix2[cv + 4 * 3]) / matrix1[rv + 0];
         }
     }
 
@@ -1620,21 +1546,16 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return the determinate of the matrix
      */
-    public final float determinant()
-    {
+    public final float determinant() {
         float det;
-        det = this.m00 * (this.m11 * this.m22 * this.m33 + this.m12 * this.m23 * this.m31
-                + this.m13 * this.m21 * this.m32 - this.m13 * this.m22 * this.m31 - this.m11 * this.m23 * this.m32
-                - this.m12 * this.m21 * this.m33);
-        det -= this.m01 * (this.m10 * this.m22 * this.m33 + this.m12 * this.m23 * this.m30
-                + this.m13 * this.m20 * this.m32 - this.m13 * this.m22 * this.m30 - this.m10 * this.m23 * this.m32
-                - this.m12 * this.m20 * this.m33);
-        det += this.m02 * (this.m10 * this.m21 * this.m33 + this.m11 * this.m23 * this.m30
-                + this.m13 * this.m20 * this.m31 - this.m13 * this.m21 * this.m30 - this.m10 * this.m23 * this.m31
-                - this.m11 * this.m20 * this.m33);
-        det -= this.m03 * (this.m10 * this.m21 * this.m32 + this.m11 * this.m22 * this.m30
-                + this.m12 * this.m20 * this.m31 - this.m12 * this.m21 * this.m30 - this.m10 * this.m22 * this.m31
-                - this.m11 * this.m20 * this.m32);
+        det = this.m00 * (this.m11 * this.m22 * this.m33 + this.m12 * this.m23 * this.m31 + this.m13 * this.m21 * this.m32
+                - this.m13 * this.m22 * this.m31 - this.m11 * this.m23 * this.m32 - this.m12 * this.m21 * this.m33);
+        det -= this.m01 * (this.m10 * this.m22 * this.m33 + this.m12 * this.m23 * this.m30 + this.m13 * this.m20 * this.m32
+                - this.m13 * this.m22 * this.m30 - this.m10 * this.m23 * this.m32 - this.m12 * this.m20 * this.m33);
+        det += this.m02 * (this.m10 * this.m21 * this.m33 + this.m11 * this.m23 * this.m30 + this.m13 * this.m20 * this.m31
+                - this.m13 * this.m21 * this.m30 - this.m10 * this.m23 * this.m31 - this.m11 * this.m20 * this.m33);
+        det -= this.m03 * (this.m10 * this.m21 * this.m32 + this.m11 * this.m22 * this.m30 + this.m12 * this.m20 * this.m31
+                - this.m12 * this.m21 * this.m30 - this.m10 * this.m22 * this.m31 - this.m11 * this.m20 * this.m32);
 
         return det;
     }
@@ -1648,8 +1569,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            the single-precision 3x3 matrix
      */
-    public final void set(Matrix3f m1)
-    {
+    public final void set(Matrix3f m1) {
         this.m00 = m1.m00;
         this.m01 = m1.m01;
         this.m02 = m1.m02;
@@ -1675,8 +1595,7 @@ public class Matrix4f implements java.io.Serializable
      * @param scale
      *            the scale factor for the matrix
      */
-    public final void set(float scale)
-    {
+    public final void set(float scale) {
         this.m00 = scale;
         this.m01 = (float) 0.0;
         this.m02 = (float) 0.0;
@@ -1706,8 +1625,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m
      *            the single precision array of length 16
      */
-    public final void set(float[] m)
-    {
+    public final void set(float[] m) {
         this.m00 = m[0];
         this.m01 = m[1];
         this.m02 = m[2];
@@ -1733,8 +1651,7 @@ public class Matrix4f implements java.io.Serializable
      * @param v1
      *            the translation amount
      */
-    public final void set(Vector3f v1)
-    {
+    public final void set(Vector3f v1) {
         this.m00 = (float) 1.0;
         this.m01 = (float) 0.0;
         this.m02 = (float) 0.0;
@@ -1766,8 +1683,7 @@ public class Matrix4f implements java.io.Serializable
      * @param t1
      *            the translation amount
      */
-    public final void set(float scale, Vector3f t1)
-    {
+    public final void set(float scale, Vector3f t1) {
         this.m00 = scale;
         this.m01 = (float) 0.0;
         this.m02 = (float) 0.0;
@@ -1799,8 +1715,7 @@ public class Matrix4f implements java.io.Serializable
      * @param scale
      *            the scale factor for the matrix
      */
-    public final void set(Vector3f t1, float scale)
-    {
+    public final void set(Vector3f t1, float scale) {
         this.m00 = scale;
         this.m01 = (float) 0.0;
         this.m02 = (float) 0.0;
@@ -1834,8 +1749,7 @@ public class Matrix4f implements java.io.Serializable
      * @param scale
      *            the scale component
      */
-    public final void set(Matrix3f m1, Vector3f t1, float scale)
-    {
+    public final void set(Matrix3f m1, Vector3f t1, float scale) {
         this.m00 = m1.m00 * scale;
         this.m01 = m1.m01 * scale;
         this.m02 = m1.m02 * scale;
@@ -1864,8 +1778,7 @@ public class Matrix4f implements java.io.Serializable
      * @param trans
      *            the translational component
      */
-    public final void setTranslation(Vector3f trans)
-    {
+    public final void setTranslation(Vector3f trans) {
         this.m03 = trans.x;
         this.m13 = trans.y;
         this.m23 = trans.z;
@@ -1878,8 +1791,7 @@ public class Matrix4f implements java.io.Serializable
      * @param angle
      *            the angle to rotate about the X axis in radians
      */
-    public final void rotX(float angle)
-    {
+    public final void rotX(float angle) {
         float sinAngle, cosAngle;
 
         sinAngle = (float) Math.sin(angle);
@@ -1913,8 +1825,7 @@ public class Matrix4f implements java.io.Serializable
      * @param angle
      *            the angle to rotate about the Y axis in radians
      */
-    public final void rotY(float angle)
-    {
+    public final void rotY(float angle) {
         float sinAngle, cosAngle;
 
         sinAngle = (float) Math.sin(angle);
@@ -1948,8 +1859,7 @@ public class Matrix4f implements java.io.Serializable
      * @param angle
      *            the angle to rotate about the Z axis in radians
      */
-    public final void rotZ(float angle)
-    {
+    public final void rotZ(float angle) {
         float sinAngle, cosAngle;
 
         sinAngle = (float) Math.sin(angle);
@@ -1982,8 +1892,7 @@ public class Matrix4f implements java.io.Serializable
      * @param scalar
      *            the scalar multiplier.
      */
-    public final void mul(float scalar)
-    {
+    public final void mul(float scalar) {
         this.m00 *= scalar;
         this.m01 *= scalar;
         this.m02 *= scalar;
@@ -2011,8 +1920,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            the original matrix.
      */
-    public final void mul(float scalar, Matrix4f m1)
-    {
+    public final void mul(float scalar, Matrix4f m1) {
         this.m00 = m1.m00 * scalar;
         this.m01 = m1.m01 * scalar;
         this.m02 = m1.m02 * scalar;
@@ -2038,8 +1946,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            the other matrix
      */
-    public final void mul(Matrix4f m1)
-    {
+    public final void mul(Matrix4f m1) {
         float m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33; // vars
                                                                                               // for
                                                                                               // temp
@@ -2093,10 +2000,8 @@ public class Matrix4f implements java.io.Serializable
      * @param m2
      *            the second matrix
      */
-    public final void mul(Matrix4f m1, Matrix4f m2)
-    {
-        if (this != m1 && this != m2)
-        {
+    public final void mul(Matrix4f m1, Matrix4f m2) {
+        if (this != m1 && this != m2) {
 
             this.m00 = m1.m00 * m2.m00 + m1.m01 * m2.m10 + m1.m02 * m2.m20 + m1.m03 * m2.m30;
             this.m01 = m1.m00 * m2.m01 + m1.m01 * m2.m11 + m1.m02 * m2.m21 + m1.m03 * m2.m31;
@@ -2118,8 +2023,7 @@ public class Matrix4f implements java.io.Serializable
             this.m32 = m1.m30 * m2.m02 + m1.m31 * m2.m12 + m1.m32 * m2.m22 + m1.m33 * m2.m32;
             this.m33 = m1.m30 * m2.m03 + m1.m31 * m2.m13 + m1.m32 * m2.m23 + m1.m33 * m2.m33;
         }
-        else
-        {
+        else {
             float m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33; // vars
                                                                                                   // for
                                                                                                   // temp
@@ -2173,10 +2077,8 @@ public class Matrix4f implements java.io.Serializable
      * @param m2
      *            the matrix on the right hand side of the multiplication
      */
-    public final void mulTransposeBoth(Matrix4f m1, Matrix4f m2)
-    {
-        if (this != m1 && this != m2)
-        {
+    public final void mulTransposeBoth(Matrix4f m1, Matrix4f m2) {
+        if (this != m1 && this != m2) {
             this.m00 = m1.m00 * m2.m00 + m1.m10 * m2.m01 + m1.m20 * m2.m02 + m1.m30 * m2.m03;
             this.m01 = m1.m00 * m2.m10 + m1.m10 * m2.m11 + m1.m20 * m2.m12 + m1.m30 * m2.m13;
             this.m02 = m1.m00 * m2.m20 + m1.m10 * m2.m21 + m1.m20 * m2.m22 + m1.m30 * m2.m23;
@@ -2197,8 +2099,7 @@ public class Matrix4f implements java.io.Serializable
             this.m32 = m1.m03 * m2.m20 + m1.m13 * m2.m21 + m1.m23 * m2.m22 + m1.m33 * m2.m23;
             this.m33 = m1.m03 * m2.m30 + m1.m13 * m2.m31 + m1.m23 * m2.m32 + m1.m33 * m2.m33;
         }
-        else
-        {
+        else {
             float m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, // vars
                                                                               // for
                                                                               // temp
@@ -2255,10 +2156,8 @@ public class Matrix4f implements java.io.Serializable
      * @param m2
      *            the matrix on the right hand side of the multiplication
      */
-    public final void mulTransposeRight(Matrix4f m1, Matrix4f m2)
-    {
-        if (this != m1 && this != m2)
-        {
+    public final void mulTransposeRight(Matrix4f m1, Matrix4f m2) {
+        if (this != m1 && this != m2) {
             this.m00 = m1.m00 * m2.m00 + m1.m01 * m2.m01 + m1.m02 * m2.m02 + m1.m03 * m2.m03;
             this.m01 = m1.m00 * m2.m10 + m1.m01 * m2.m11 + m1.m02 * m2.m12 + m1.m03 * m2.m13;
             this.m02 = m1.m00 * m2.m20 + m1.m01 * m2.m21 + m1.m02 * m2.m22 + m1.m03 * m2.m23;
@@ -2279,8 +2178,7 @@ public class Matrix4f implements java.io.Serializable
             this.m32 = m1.m30 * m2.m20 + m1.m31 * m2.m21 + m1.m32 * m2.m22 + m1.m33 * m2.m23;
             this.m33 = m1.m30 * m2.m30 + m1.m31 * m2.m31 + m1.m32 * m2.m32 + m1.m33 * m2.m33;
         }
-        else
-        {
+        else {
             float m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, // vars
                                                                               // for
                                                                               // temp
@@ -2337,10 +2235,8 @@ public class Matrix4f implements java.io.Serializable
      * @param m2
      *            the matrix on the right hand side of the multiplication
      */
-    public final void mulTransposeLeft(Matrix4f m1, Matrix4f m2)
-    {
-        if (this != m1 && this != m2)
-        {
+    public final void mulTransposeLeft(Matrix4f m1, Matrix4f m2) {
+        if (this != m1 && this != m2) {
             this.m00 = m1.m00 * m2.m00 + m1.m10 * m2.m10 + m1.m20 * m2.m20 + m1.m30 * m2.m30;
             this.m01 = m1.m00 * m2.m01 + m1.m10 * m2.m11 + m1.m20 * m2.m21 + m1.m30 * m2.m31;
             this.m02 = m1.m00 * m2.m02 + m1.m10 * m2.m12 + m1.m20 * m2.m22 + m1.m30 * m2.m32;
@@ -2361,8 +2257,7 @@ public class Matrix4f implements java.io.Serializable
             this.m32 = m1.m03 * m2.m02 + m1.m13 * m2.m12 + m1.m23 * m2.m22 + m1.m33 * m2.m32;
             this.m33 = m1.m03 * m2.m03 + m1.m13 * m2.m13 + m1.m23 * m2.m23 + m1.m33 * m2.m33;
         }
-        else
-        {
+        else {
             float m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, // vars
                                                                               // for
                                                                               // temp
@@ -2418,16 +2313,12 @@ public class Matrix4f implements java.io.Serializable
      *            the matrix with which the comparison is made.
      * @return true or false
      */
-    public boolean equals(Matrix4f m1)
-    {
-        try
-        {
-            return this.m00 == m1.m00 && this.m01 == m1.m01 && this.m02 == m1.m02 && this.m03 == m1.m03
-                    && this.m10 == m1.m10 && this.m11 == m1.m11 && this.m12 == m1.m12 && this.m13 == m1.m13
-                    && this.m20 == m1.m20 && this.m21 == m1.m21 && this.m22 == m1.m22 && this.m23 == m1.m23
-                    && this.m30 == m1.m30 && this.m31 == m1.m31 && this.m32 == m1.m32 && this.m33 == m1.m33;
-        } catch (final NullPointerException e)
-        {
+    public boolean equals(Matrix4f m1) {
+        try {
+            return this.m00 == m1.m00 && this.m01 == m1.m01 && this.m02 == m1.m02 && this.m03 == m1.m03 && this.m10 == m1.m10 && this.m11 == m1.m11
+                    && this.m12 == m1.m12 && this.m13 == m1.m13 && this.m20 == m1.m20 && this.m21 == m1.m21 && this.m22 == m1.m22
+                    && this.m23 == m1.m23 && this.m30 == m1.m30 && this.m31 == m1.m31 && this.m32 == m1.m32 && this.m33 == m1.m33;
+        } catch (final NullPointerException e) {
             return false;
         }
 
@@ -2443,20 +2334,15 @@ public class Matrix4f implements java.io.Serializable
      * @return true or false
      */
     @Override
-    public boolean equals(Object t1)
-    {
-        try
-        {
+    public boolean equals(Object t1) {
+        try {
             final Matrix4f m2 = (Matrix4f) t1;
-            return this.m00 == m2.m00 && this.m01 == m2.m01 && this.m02 == m2.m02 && this.m03 == m2.m03
-                    && this.m10 == m2.m10 && this.m11 == m2.m11 && this.m12 == m2.m12 && this.m13 == m2.m13
-                    && this.m20 == m2.m20 && this.m21 == m2.m21 && this.m22 == m2.m22 && this.m23 == m2.m23
-                    && this.m30 == m2.m30 && this.m31 == m2.m31 && this.m32 == m2.m32 && this.m33 == m2.m33;
-        } catch (final ClassCastException e1)
-        {
+            return this.m00 == m2.m00 && this.m01 == m2.m01 && this.m02 == m2.m02 && this.m03 == m2.m03 && this.m10 == m2.m10 && this.m11 == m2.m11
+                    && this.m12 == m2.m12 && this.m13 == m2.m13 && this.m20 == m2.m20 && this.m21 == m2.m21 && this.m22 == m2.m22
+                    && this.m23 == m2.m23 && this.m30 == m2.m30 && this.m31 == m2.m31 && this.m32 == m2.m32 && this.m33 == m2.m33;
+        } catch (final ClassCastException e1) {
             return false;
-        } catch (final NullPointerException e2)
-        {
+        } catch (final NullPointerException e2) {
             return false;
         }
     }
@@ -2472,8 +2358,7 @@ public class Matrix4f implements java.io.Serializable
      * @param epsilon
      *            the threshold value
      */
-    public boolean epsilonEquals(Matrix4f m1, float epsilon)
-    {
+    public boolean epsilonEquals(Matrix4f m1, float epsilon) {
 
         boolean status = true;
 
@@ -2526,8 +2411,7 @@ public class Matrix4f implements java.io.Serializable
      * @param normalOut
      *            the transformed normal
      */
-    public final void transform(Vector3f normal, Vector3f normalOut)
-    {
+    public final void transform(Vector3f normal, Vector3f normalOut) {
         float x, y;
         x = this.m00 * normal.x + this.m01 * normal.y + this.m02 * normal.z;
         y = this.m10 * normal.x + this.m11 * normal.y + this.m12 * normal.z;
@@ -2543,8 +2427,7 @@ public class Matrix4f implements java.io.Serializable
      * @param normal
      *            the input normal to be transformed.
      */
-    public final void transform(Vector3f normal)
-    {
+    public final void transform(Vector3f normal) {
         float x, y;
 
         x = this.m00 * normal.x + this.m01 * normal.y + this.m02 * normal.z;
@@ -2565,8 +2448,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            single precision 3x3 matrix
      */
-    public final void setRotation(Matrix3f m1)
-    {
+    public final void setRotation(Matrix3f m1) {
         final double[] tmp_rot = new double[9]; // scratch matrix
         final double[] tmp_scale = new double[3]; // scratch matrix
 
@@ -2596,8 +2478,7 @@ public class Matrix4f implements java.io.Serializable
      * @param q1
      *            the quaternion that specifies the rotation
      */
-    public final void setRotation(Quaternion q1)
-    {
+    public final void setRotation(Quaternion q1) {
         final double[] tmp_rot = new double[9]; // scratch matrix
         final double[] tmp_scale = new double[3]; // scratch matrix
         this.getScaleRotate(tmp_scale, tmp_rot);
@@ -2626,16 +2507,14 @@ public class Matrix4f implements java.io.Serializable
      * @param a1
      *            the axis-angle to be converted (x, y, z, angle)
      */
-    public final void setRotation(AxisAngle4f a1)
-    {
+    public final void setRotation(AxisAngle4f a1) {
         final double[] tmp_rot = new double[9]; // scratch matrix
         final double[] tmp_scale = new double[3]; // scratch matrix
 
         this.getScaleRotate(tmp_scale, tmp_rot);
 
         double mag = Math.sqrt(a1.x * a1.x + a1.y * a1.y + a1.z * a1.z);
-        if (mag < Matrix4f.EPS)
-        {
+        if (mag < Matrix4f.EPS) {
             this.m00 = 1.0f;
             this.m01 = 0.0f;
             this.m02 = 0.0f;
@@ -2648,8 +2527,7 @@ public class Matrix4f implements java.io.Serializable
             this.m21 = 0.0f;
             this.m22 = 1.0f;
         }
-        else
-        {
+        else {
             mag = 1.0 / mag;
             final double ax = a1.x * mag;
             final double ay = a1.y * mag;
@@ -2680,8 +2558,7 @@ public class Matrix4f implements java.io.Serializable
     /**
      * Sets this matrix to all zeros.
      */
-    public final void setZero()
-    {
+    public final void setZero() {
         this.m00 = 0.0f;
         this.m01 = 0.0f;
         this.m02 = 0.0f;
@@ -2703,8 +2580,7 @@ public class Matrix4f implements java.io.Serializable
     /**
      * Negates the value of this matrix: this = -this.
      */
-    public final void negate()
-    {
+    public final void negate() {
         this.m00 = -this.m00;
         this.m01 = -this.m01;
         this.m02 = -this.m02;
@@ -2730,8 +2606,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m1
      *            the source matrix
      */
-    public final void negate(Matrix4f m1)
-    {
+    public final void negate(Matrix4f m1) {
         this.m00 = -m1.m00;
         this.m01 = -m1.m01;
         this.m02 = -m1.m02;
@@ -2750,8 +2625,7 @@ public class Matrix4f implements java.io.Serializable
         this.m33 = -m1.m33;
     }
 
-    private final void getScaleRotate(double scales[], double rots[])
-    {
+    private final void getScaleRotate(double scales[], double rots[]) {
 
         final double[] tmp = new double[9]; // scratch matrix
         tmp[0] = this.m00;
@@ -2780,14 +2654,11 @@ public class Matrix4f implements java.io.Serializable
      * @see java.lang.Cloneable
      */
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         Matrix4f m1 = null;
-        try
-        {
+        try {
             m1 = (Matrix4f) super.clone();
-        } catch (final CloneNotSupportedException e)
-        {
+        } catch (final CloneNotSupportedException e) {
             // this shouldn't happen, since we are Cloneable
             throw new InternalError();
         }
@@ -2800,8 +2671,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m00.
      */
-    public final float getM00()
-    {
+    public final float getM00() {
         return this.m00;
     }
 
@@ -2811,8 +2681,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m00
      *            The m00 to set.
      */
-    public final void setM00(float m00)
-    {
+    public final void setM00(float m00) {
         this.m00 = m00;
     }
 
@@ -2821,8 +2690,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m01.
      */
-    public final float getM01()
-    {
+    public final float getM01() {
         return this.m01;
     }
 
@@ -2832,8 +2700,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m01
      *            The m01 to set.
      */
-    public final void setM01(float m01)
-    {
+    public final void setM01(float m01) {
         this.m01 = m01;
     }
 
@@ -2842,8 +2709,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m02.
      */
-    public final float getM02()
-    {
+    public final float getM02() {
         return this.m02;
     }
 
@@ -2853,8 +2719,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m02
      *            The m02 to set.
      */
-    public final void setM02(float m02)
-    {
+    public final void setM02(float m02) {
         this.m02 = m02;
     }
 
@@ -2863,8 +2728,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m10.
      */
-    public final float getM10()
-    {
+    public final float getM10() {
         return this.m10;
     }
 
@@ -2874,8 +2738,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m10
      *            The m10 to set.
      */
-    public final void setM10(float m10)
-    {
+    public final void setM10(float m10) {
         this.m10 = m10;
     }
 
@@ -2884,8 +2747,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m11.
      */
-    public final float getM11()
-    {
+    public final float getM11() {
         return this.m11;
     }
 
@@ -2895,8 +2757,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m11
      *            The m11 to set.
      */
-    public final void setM11(float m11)
-    {
+    public final void setM11(float m11) {
         this.m11 = m11;
     }
 
@@ -2905,8 +2766,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m12.
      */
-    public final float getM12()
-    {
+    public final float getM12() {
         return this.m12;
     }
 
@@ -2916,8 +2776,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m12
      *            The m12 to set.
      */
-    public final void setM12(float m12)
-    {
+    public final void setM12(float m12) {
         this.m12 = m12;
     }
 
@@ -2926,8 +2785,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m20.
      */
-    public final float getM20()
-    {
+    public final float getM20() {
         return this.m20;
     }
 
@@ -2937,8 +2795,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m20
      *            The m20 to set.
      */
-    public final void setM20(float m20)
-    {
+    public final void setM20(float m20) {
         this.m20 = m20;
     }
 
@@ -2947,8 +2804,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m21.
      */
-    public final float getM21()
-    {
+    public final float getM21() {
         return this.m21;
     }
 
@@ -2958,8 +2814,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m21
      *            The m21 to set.
      */
-    public final void setM21(float m21)
-    {
+    public final void setM21(float m21) {
         this.m21 = m21;
     }
 
@@ -2968,8 +2823,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m22.
      */
-    public final float getM22()
-    {
+    public final float getM22() {
         return this.m22;
     }
 
@@ -2979,8 +2833,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m22
      *            The m22 to set.
      */
-    public final void setM22(float m22)
-    {
+    public final void setM22(float m22) {
         this.m22 = m22;
     }
 
@@ -2989,8 +2842,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m03.
      */
-    public final float getM03()
-    {
+    public final float getM03() {
         return this.m03;
     }
 
@@ -3000,8 +2852,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m03
      *            The m03 to set.
      */
-    public final void setM03(float m03)
-    {
+    public final void setM03(float m03) {
         this.m03 = m03;
     }
 
@@ -3010,8 +2861,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m13.
      */
-    public final float getM13()
-    {
+    public final float getM13() {
         return this.m13;
     }
 
@@ -3021,8 +2871,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m13
      *            The m13 to set.
      */
-    public final void setM13(float m13)
-    {
+    public final void setM13(float m13) {
         this.m13 = m13;
     }
 
@@ -3031,8 +2880,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m23.
      */
-    public final float getM23()
-    {
+    public final float getM23() {
         return this.m23;
     }
 
@@ -3042,8 +2890,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m23
      *            The m23 to set.
      */
-    public final void setM23(float m23)
-    {
+    public final void setM23(float m23) {
         this.m23 = m23;
     }
 
@@ -3052,8 +2899,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m30.
      */
-    public final float getM30()
-    {
+    public final float getM30() {
         return this.m30;
     }
 
@@ -3063,8 +2909,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m30
      *            The m30 to set.
      */
-    public final void setM30(float m30)
-    {
+    public final void setM30(float m30) {
         this.m30 = m30;
     }
 
@@ -3073,8 +2918,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m31.
      */
-    public final float getM31()
-    {
+    public final float getM31() {
         return this.m31;
     }
 
@@ -3084,8 +2928,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m31
      *            The m31 to set.
      */
-    public final void setM31(float m31)
-    {
+    public final void setM31(float m31) {
         this.m31 = m31;
     }
 
@@ -3094,8 +2937,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m32.
      */
-    public final float getM32()
-    {
+    public final float getM32() {
         return this.m32;
     }
 
@@ -3105,8 +2947,7 @@ public class Matrix4f implements java.io.Serializable
      * @param m32
      *            The m32 to set.
      */
-    public final void setM32(float m32)
-    {
+    public final void setM32(float m32) {
         this.m32 = m32;
     }
 
@@ -3115,8 +2956,7 @@ public class Matrix4f implements java.io.Serializable
      *
      * @return Returns the m33.
      */
-    public final float getM33()
-    {
+    public final float getM33() {
         return this.m33;
     }
 
@@ -3126,16 +2966,14 @@ public class Matrix4f implements java.io.Serializable
      * @param m33
      *            The m33 to set.
      */
-    public final void setM33(float m33)
-    {
+    public final void setM33(float m33) {
         this.m33 = m33;
     }
 
     /**
      * Return a new Array with the 16 values of this matrix in order
      */
-    public final float[] intoArray()
-    {
+    public final float[] intoArray() {
         final float[] m = new float[16];
 
         m[0] = this.m00;
@@ -3162,16 +3000,13 @@ public class Matrix4f implements java.io.Serializable
      * Check if this rotation matrix is rotating about 0 degrees (be sure this
      * is a rotationMatrix!).
      */
-    public final boolean isEmptyRotationMatrix()
-    {
-        if (this.m00 == 1 && this.m11 == 1 && this.m22 == 1)
-        {
+    public final boolean isEmptyRotationMatrix() {
+        if (this.m00 == 1 && this.m11 == 1 && this.m22 == 1) {
             final float[] m = this.intoArray();
             boolean isEmptyRotationMatrix = true;
             for (int i = 0; i < m.length; i++)
                 if (i != 0 && i != 5 && i != 10 && i <= 10)
-                    if (m[i] != 0)
-                    {
+                    if (m[i] != 0) {
                         isEmptyRotationMatrix = false;
                         break;
                     }

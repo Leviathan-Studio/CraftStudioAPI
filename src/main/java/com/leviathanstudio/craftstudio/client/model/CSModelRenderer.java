@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.leviathanstudio.craftstudio.client.util.CraftStudioHelper;
 import com.leviathanstudio.craftstudio.client.util.math.Matrix4f;
-import com.leviathanstudio.craftstudio.client.util.math.Quat4fHelper;
 import com.leviathanstudio.craftstudio.client.util.math.Quaternion;
 import com.leviathanstudio.craftstudio.client.util.math.Vector3f;
 
@@ -40,8 +39,8 @@ public class CSModelRenderer extends ModelRenderer
     private final Matrix4f  rotationMatrix        = new Matrix4f();
     /** Previous value of the matrix */
     private Matrix4f        prevRotationMatrix    = new Matrix4f();
-    
-    private Vector3f stretch = new Vector3f(1, 1, 1);
+
+    private Vector3f        stretch               = new Vector3f(1, 1, 1);
 
     /** Default informations for un-animated models */
     private float           defaultRotationPointX;
@@ -52,8 +51,7 @@ public class CSModelRenderer extends ModelRenderer
     private float           defaultOffsetX        = 0;
     private float           defaultOffsetY        = 0;
     private float           defaultOffsetZ        = 0;
-    private Vector3f defaultStretch = new Vector3f(1, 1, 1);
-    
+    private Vector3f        defaultStretch        = new Vector3f(1, 1, 1);
 
     public CSModelRenderer(ModelBase modelbase, String partName, int xTextureOffset, int yTextureOffset) {
         super(modelbase, partName);
@@ -132,15 +130,14 @@ public class CSModelRenderer extends ModelRenderer
             if (this.showModel) {
                 if (!this.compiled)
                     this.compileDisplayList(scale);
-                
+
                 GlStateManager.pushMatrix();
-                
-                
+
                 GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
                 FloatBuffer buf = CraftStudioHelper.makeFloatBuffer(this.rotationMatrix.intoArray());
                 GlStateManager.multMatrix(buf);
-                GlStateManager.translate(this.offsetX*scale, this.offsetY*scale, this.offsetZ*scale);
-                
+                GlStateManager.translate(this.offsetX * scale, this.offsetY * scale, this.offsetZ * scale);
+
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(this.stretch.x, this.stretch.y, this.stretch.z);
                 GlStateManager.callList(this.displayList);
@@ -160,8 +157,7 @@ public class CSModelRenderer extends ModelRenderer
      * Allows the changing of Angles after a box has been rendered
      */
     @Override
-    public void postRender(float scale) {
-    }
+    public void postRender(float scale) {}
 
     @Override
     public void renderWithRotation(float scale) {}
@@ -203,11 +199,11 @@ public class CSModelRenderer extends ModelRenderer
         this.rotationPointY = this.defaultRotationPointY;
         this.rotationPointZ = this.defaultRotationPointZ;
     }
-    
+
     public Vector3f getPositionAsVector() {
         return new Vector3f(this.rotationPointX, this.rotationPointY, this.rotationPointZ);
     }
-    
+
     public void setDefaultOffset(float x, float y, float z) {
         this.defaultOffsetX = x;
         this.defaultOffsetY = y;
@@ -226,11 +222,11 @@ public class CSModelRenderer extends ModelRenderer
         this.offsetY = this.defaultOffsetY;
         this.offsetZ = this.defaultOffsetZ;
     }
-    
+
     public Vector3f getOffsetAsVector() {
         return new Vector3f(this.offsetX, this.offsetY, this.offsetZ);
     }
-    
+
     public void setDefaultStretch(float x, float y, float z) {
         this.defaultStretch = new Vector3f(x, y, z);
         this.setStretch(x, y, z);
@@ -243,7 +239,7 @@ public class CSModelRenderer extends ModelRenderer
     public void resetStretch() {
         this.stretch = this.defaultStretch;
     }
-    
+
     public Vector3f getStretchAsVector() {
         return this.stretch.clone();
     }
@@ -316,7 +312,7 @@ public class CSModelRenderer extends ModelRenderer
 
     /** Getter */
     public List<CSModelBox> getCubeCSList() {
-        return cubeCSList;
+        return this.cubeCSList;
     }
 
 }

@@ -29,12 +29,10 @@ public class CSReadedAnimBlock
      * @param value
      *            Value of the element.
      */
-    public void addKFElement(int keyFrame, EnumFrameType type, Vector3f value)
-    {
+    public void addKFElement(int keyFrame, EnumFrameType type, Vector3f value) {
         if (!this.keyFrames.containsKey(keyFrame))
             this.keyFrames.put(keyFrame, new ReadedKeyFrame());
-        switch (type)
-        {
+        switch (type) {
             case POSITION:
                 this.keyFrames.get(keyFrame).position = value;
                 break;
@@ -61,23 +59,19 @@ public class CSReadedAnimBlock
         public Vector3f position, rotation, offset, size, stretching;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Map<Integer, ReadedKeyFrame> getKeyFrames()
-    {
+    public Map<Integer, ReadedKeyFrame> getKeyFrames() {
         return this.keyFrames;
     }
 
-    public void setKeyFrames(Map<Integer, ReadedKeyFrame> keyFrames)
-    {
+    public void setKeyFrames(Map<Integer, ReadedKeyFrame> keyFrames) {
         this.keyFrames = keyFrames;
     }
 }
