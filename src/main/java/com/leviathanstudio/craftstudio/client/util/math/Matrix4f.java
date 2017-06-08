@@ -242,41 +242,6 @@ public class Matrix4f implements java.io.Serializable
     }
 
     /**
-     * Constructs and initializes a Matrix4f from the rotation matrix,
-     * translation, and scale values; the scale is applied only to the
-     * rotational components of the matrix (upper 3x3) and not to the
-     * translational components of the matrix.
-     *
-     * @param m1
-     *            the rotation matrix representing the rotational components
-     * @param t1
-     *            the translational components of the matrix
-     * @param s
-     *            the scale value applied to the rotational components
-     */
-    public Matrix4f(Matrix3f m1, Vector3f t1, float s) {
-        this.m00 = m1.m00 * s;
-        this.m01 = m1.m01 * s;
-        this.m02 = m1.m02 * s;
-        this.m03 = t1.x;
-
-        this.m10 = m1.m10 * s;
-        this.m11 = m1.m11 * s;
-        this.m12 = m1.m12 * s;
-        this.m13 = t1.y;
-
-        this.m20 = m1.m20 * s;
-        this.m21 = m1.m21 * s;
-        this.m22 = m1.m22 * s;
-        this.m23 = t1.z;
-
-        this.m30 = 0.0f;
-        this.m31 = 0.0f;
-        this.m32 = 0.0f;
-        this.m33 = 1.0f;
-    }
-
-    /**
      * Constructs and initializes a Matrix4f to all zeros.
      */
     public Matrix4f() {
@@ -517,44 +482,6 @@ public class Matrix4f implements java.io.Serializable
         trans.x = this.m03;
         trans.y = this.m13;
         trans.z = this.m23;
-    }
-
-    /**
-     * Gets the upper 3x3 values of this matrix and places them into the matrix
-     * m1.
-     *
-     * @param m1
-     *            the matrix that will hold the values
-     */
-    public final void getRotationScale(Matrix3f m1) {
-        m1.m00 = this.m00;
-        m1.m01 = this.m01;
-        m1.m02 = this.m02;
-        m1.m10 = this.m10;
-        m1.m11 = this.m11;
-        m1.m12 = this.m12;
-        m1.m20 = this.m20;
-        m1.m21 = this.m21;
-        m1.m22 = this.m22;
-    }
-
-    /**
-     * Replaces the upper 3x3 matrix values of this matrix with the values in
-     * the matrix m1.
-     *
-     * @param m1
-     *            the matrix that will be the new upper 3x3
-     */
-    public final void setRotationScale(Matrix3f m1) {
-        this.m00 = m1.m00;
-        this.m01 = m1.m01;
-        this.m02 = m1.m02;
-        this.m10 = m1.m10;
-        this.m11 = m1.m11;
-        this.m12 = m1.m12;
-        this.m20 = m1.m20;
-        this.m21 = m1.m21;
-        this.m22 = m1.m22;
     }
 
     /**
@@ -1411,34 +1338,6 @@ public class Matrix4f implements java.io.Serializable
     }
 
     /**
-     * Sets the rotational component (upper 3x3) of this matrix to the matrix
-     * values in the single precision Matrix3f argument; the other elements of
-     * this matrix are initialized as if this were an identity matrix (i.e.,
-     * affine matrix with no translational component).
-     *
-     * @param m1
-     *            the single-precision 3x3 matrix
-     */
-    public final void set(Matrix3f m1) {
-        this.m00 = m1.m00;
-        this.m01 = m1.m01;
-        this.m02 = m1.m02;
-        this.m03 = 0.0f;
-        this.m10 = m1.m10;
-        this.m11 = m1.m11;
-        this.m12 = m1.m12;
-        this.m13 = 0.0f;
-        this.m20 = m1.m20;
-        this.m21 = m1.m21;
-        this.m22 = m1.m22;
-        this.m23 = 0.0f;
-        this.m30 = 0.0f;
-        this.m31 = 0.0f;
-        this.m32 = 0.0f;
-        this.m33 = 1.0f;
-    }
-
-    /**
      * Sets the value of this matrix to a scale matrix with the the passed scale
      * amount.
      *
@@ -1585,40 +1484,6 @@ public class Matrix4f implements java.io.Serializable
         this.m31 = (float) 0.0;
         this.m32 = (float) 0.0;
         this.m33 = (float) 1.0;
-    }
-
-    /**
-     * Sets the value of this matrix from the rotation expressed by the rotation
-     * matrix m1, the translation t1, and the scale factor. The translation is
-     * not modified by the scale.
-     *
-     * @param m1
-     *            the rotation component
-     * @param t1
-     *            the translation component
-     * @param scale
-     *            the scale component
-     */
-    public final void set(Matrix3f m1, Vector3f t1, float scale) {
-        this.m00 = m1.m00 * scale;
-        this.m01 = m1.m01 * scale;
-        this.m02 = m1.m02 * scale;
-        this.m03 = t1.x;
-
-        this.m10 = m1.m10 * scale;
-        this.m11 = m1.m11 * scale;
-        this.m12 = m1.m12 * scale;
-        this.m13 = t1.y;
-
-        this.m20 = m1.m20 * scale;
-        this.m21 = m1.m21 * scale;
-        this.m22 = m1.m22 * scale;
-        this.m23 = t1.z;
-
-        this.m30 = 0.0f;
-        this.m31 = 0.0f;
-        this.m32 = 0.0f;
-        this.m33 = 1.0f;
     }
 
     /**
