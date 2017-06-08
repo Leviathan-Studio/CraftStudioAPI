@@ -92,7 +92,7 @@ public class ModelCraftStudio extends ModelBase
                     rBlock.getSize().y, rBlock.getSize().z));
         }
         else
-            modelRend.addBox(-rBlock.getSize().x/2, -rBlock.getSize().y/2, -rBlock.getSize().z/2, rBlock.getSize().x, rBlock.getSize().y,
+            modelRend.addBox(-rBlock.getSize().x / 2, -rBlock.getSize().y / 2, -rBlock.getSize().z / 2, rBlock.getSize().x, rBlock.getSize().y,
                     rBlock.getSize().z);
         modelRend.setDefaultRotationPoint(rBlock.getRotationPoint().x, rBlock.getRotationPoint().y, rBlock.getRotationPoint().z);
         modelRend.setInitialRotationMatrix(rBlock.getRotation().x, rBlock.getRotation().y, rBlock.getRotation().z);

@@ -136,10 +136,10 @@ public class CSModelRenderer extends ModelRenderer
                 GlStateManager.pushMatrix();
                 
                 
-                GlStateManager.translate(this.rotationPointX * scale * this.stretch.x, this.rotationPointY * scale * this.stretch.y, this.rotationPointZ * scale * this.stretch.z);
+                GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
                 FloatBuffer buf = CraftStudioHelper.makeFloatBuffer(this.rotationMatrix.intoArray());
                 GlStateManager.multMatrix(buf);
-                GlStateManager.translate(this.offsetX*scale*this.stretch.x, this.offsetY*scale*this.stretch.y, this.offsetZ*scale*this.stretch.z);
+                GlStateManager.translate(this.offsetX*scale, this.offsetY*scale, this.offsetZ*scale);
                 
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(this.stretch.x, this.stretch.y, this.stretch.z);
@@ -233,7 +233,7 @@ public class CSModelRenderer extends ModelRenderer
     
     public void setDefaultStretch(float x, float y, float z) {
         this.defaultStretch = new Vector3f(x, y, z);
-        this.setOffset(x, y, z);
+        this.setStretch(x, y, z);
     }
 
     public void setStretch(float x, float y, float z) {

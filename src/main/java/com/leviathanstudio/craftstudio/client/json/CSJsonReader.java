@@ -189,7 +189,6 @@ public class CSJsonReader
         // It may need improvement
 
         array = jsonBlock.getAsJsonArray("vertexCoords");
-        Vector3f vertex;
         if (array != null)
         {
             block.setVertex(new float[8][3]);
@@ -200,9 +199,17 @@ public class CSJsonReader
                 block.getVertex()[i][1] = -vertexArray.get(1).getAsFloat();
                 block.getVertex()[i][2] = -vertexArray.get(2).getAsFloat();
             }
-            float stretchx = (block.getVertex()[1][0] - block.getVertex()[0][0])/sizeX;
-            float stretchy = (block.getVertex()[3][1] - block.getVertex()[0][1])/sizeY;
-            float stretchz = (block.getVertex()[4][2] - block.getVertex()[0][2])/sizeZ;
+            float stretchx = sizeX != 0.0F ? Math.abs(block.getVertex()[1][0] - block.getVertex()[0][0])/sizeX : 1;
+            float stretchy = sizeY != 0.0F ? Math.abs(block.getVertex()[3][1] - block.getVertex()[0][1])/sizeY : 1;
+            float stretchz = sizeZ != 0.0F ? Math.abs(block.getVertex()[4][2] - block.getVertex()[0][2])/sizeZ : 1;
+            
+            for (int i = 0; i < 8; i++)
+            {
+                float vertex[] = block.getVertex()[i];
+                vertex[0] = vertex[0]/stretchx;
+                vertex[1] = vertex[1]/stretchy;
+                vertex[2] = vertex[2]/stretchz;
+            }
             
             block.setStretch(new Vector3f(stretchx, stretchy, stretchz));
         }
