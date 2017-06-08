@@ -82,13 +82,20 @@ public class Quaternion implements Cloneable
                 this.w = (float) ((mat.m10 - mat.m01) / S);
             }
     }
+    
+    public void set(Quaternion q){
+        this.w = q.w;
+        this.x = q.x;
+        this.y = q.y;
+        this.z = q.z;
+    }
 
     /**
      * Sets the value of this quaternion to the quaternion product of this and
      * q1.
      */
     public final void mul(Quaternion q1) {
-        mul(this, q1);
+        this.set(mul(this, q1));
     }
 
     /**
@@ -97,12 +104,13 @@ public class Quaternion implements Cloneable
      * aliasing (e.g. this can be q1 or q2). This operation is used for adding
      * the 2 orientations.
      */
-    public static final void mul(Quaternion q1, Quaternion q2) {
+    public static final Quaternion mul(Quaternion q1, Quaternion q2) {
         Quaternion nq = new Quaternion();
         nq.w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
         nq.x = q1.w * q2.x + q2.w * q1.x + q1.y * q2.z - q1.z * q2.y;
         nq.y = q1.w * q2.y + q2.w * q1.y - q1.x * q2.z + q1.z * q2.x;
         nq.z = q1.w * q2.z + q2.w * q1.z + q1.x * q2.y - q1.y * q2.x;
+        return nq;
     }
 
     /**
@@ -116,11 +124,12 @@ public class Quaternion implements Cloneable
      * @param t
      *            the amount to interpolate between the two quaternions.
      */
-    public static Quaternion slerp(Quaternion q1, Quaternion q2, float t) {
-        Quaternion nq = q1.clone();
+    public Quaternion slerp(Quaternion q1, Quaternion q2, float t) {
         // Create a local quaternion to store the interpolated quaternion
-        if (q1.x == q2.x && q1.y == q2.y && q1.z == q2.z && q1.w == q2.w)
-            return nq;
+        if (q1.x == q2.x && q1.y == q2.y && q1.z == q2.z && q1.w == q2.w){
+            this.set(q1);
+            return this;
+        }
 
         float result = q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w;
 
@@ -153,13 +162,13 @@ public class Quaternion implements Cloneable
         // Calculate the x, y, z and w values for the quaternion by using a
         // special
         // form of linear interpolation for quaternions.
-        nq.x = scale0 * q1.x + scale1 * q2.x;
-        nq.y = scale0 * q1.y + scale1 * q2.y;
-        nq.z = scale0 * q1.z + scale1 * q2.z;
-        nq.w = scale0 * q1.w + scale1 * q2.w;
+        this.x = scale0 * q1.x + scale1 * q2.x;
+        this.y = scale0 * q1.y + scale1 * q2.y;
+        this.z = scale0 * q1.z + scale1 * q2.z;
+        this.w = scale0 * q1.w + scale1 * q2.w;
 
         // Return the interpolated quaternion
-        return nq;
+        return this;
     }
 
     /**
@@ -172,7 +181,7 @@ public class Quaternion implements Cloneable
      *            The amount diffrence
      */
     public void slerp(Quaternion q2, float changeAmnt) {
-        slerp(this, q2, changeAmnt);
+        this.slerp(this, q2, changeAmnt);
     }
 
     @Override
