@@ -6,20 +6,9 @@ import javax.vecmath.Quat4f;
  * A 4 element unit quaternion represented by single precision floating point
  * x,y,z,w coordinates. The quaternion is always normalized.
  */
-public class Quaternion implements java.io.Serializable, Cloneable
+public class Quaternion implements Cloneable
 {
-
-    /**
-     *
-     */
-    private static final long      serialVersionUID = -5611643611647729829L;
-    public static final Quaternion EMPTY            = new Quaternion(0, 0, 0, 0);
-    final static double            EPS              = 0.000001;
-
-    public float                   x;
-    public float                   y;
-    public float                   z;
-    public float                   w;
+    public float x, y, z, w;
 
     public Quaternion(float x, float y, float z, float w) {
         float mag;
@@ -43,19 +32,19 @@ public class Quaternion implements java.io.Serializable, Cloneable
         pitch = (float) Math.toRadians(pitch);
         yaw = (float) Math.toRadians(yaw);
         roll = (float) Math.toRadians(roll);
-        
-        final Vector3f coss = new Vector3f(); 
-        coss.x = (float) Math.cos(pitch * 0.5F); 
-        coss.y = (float) Math.cos(yaw * 0.5F); 
-        coss.z = (float) Math.cos(roll * 0.5F); 
-        final Vector3f sins = new Vector3f(); 
-        sins.x = (float) Math.sin(pitch * 0.5F); 
-        sins.y = (float) Math.sin(yaw * 0.5F); 
-        sins.z = (float) Math.sin(roll * 0.5F); 
- 
-        this.w = coss.x * coss.y * coss.z + sins.x * sins.y * sins.z; 
-        this.x = sins.x * coss.y * coss.z + coss.x * sins.y * sins.z; 
-        this.y = coss.x * sins.y * coss.z - sins.x * coss.y * sins.z; 
+
+        final Vector3f coss = new Vector3f();
+        coss.x = (float) Math.cos(pitch * 0.5F);
+        coss.y = (float) Math.cos(yaw * 0.5F);
+        coss.z = (float) Math.cos(roll * 0.5F);
+        final Vector3f sins = new Vector3f();
+        sins.x = (float) Math.sin(pitch * 0.5F);
+        sins.y = (float) Math.sin(yaw * 0.5F);
+        sins.z = (float) Math.sin(roll * 0.5F);
+
+        this.w = coss.x * coss.y * coss.z + sins.x * sins.y * sins.z;
+        this.x = sins.x * coss.y * coss.z + coss.x * sins.y * sins.z;
+        this.y = coss.x * sins.y * coss.z - sins.x * coss.y * sins.z;
         this.z = coss.x * coss.y * sins.z - sins.x * sins.y * coss.z;
     }
 
@@ -95,28 +84,11 @@ public class Quaternion implements java.io.Serializable, Cloneable
     }
 
     /**
-     * Sets the data in this <code>Quaternion</code> object to be equal to the
-     * passed <code>Quaternion</code> object. The values are copied producing a
-     * new object.
-     *
-     * @param q
-     *            The Quaternion to copy values from.
-     * @return this
-     */
-    public Quaternion set(Quaternion q) {
-        this.x = q.x;
-        this.y = q.y;
-        this.z = q.z;
-        this.w = q.w;
-        return this;
-    }
-
-    /**
      * Sets the value of this quaternion to the quaternion product of this and
      * q1.
      */
     public final void mul(Quaternion q1) {
-        this.mul(this, q1);
+        mul(this, q1);
     }
 
     /**
@@ -125,24 +97,12 @@ public class Quaternion implements java.io.Serializable, Cloneable
      * aliasing (e.g. this can be q1 or q2). This operation is used for adding
      * the 2 orientations.
      */
-    public final void mul(Quaternion q1, Quaternion q2) {
-        if (this != q1 && this != q2) {
-            this.w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
-            this.x = q1.w * q2.x + q2.w * q1.x + q1.y * q2.z - q1.z * q2.y;
-            this.y = q1.w * q2.y + q2.w * q1.y - q1.x * q2.z + q1.z * q2.x;
-            this.z = q1.w * q2.z + q2.w * q1.z + q1.x * q2.y - q1.y * q2.x;
-        }
-        else {
-            float x, y, w;
-
-            w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
-            x = q1.w * q2.x + q2.w * q1.x + q1.y * q2.z - q1.z * q2.y;
-            y = q1.w * q2.y + q2.w * q1.y - q1.x * q2.z + q1.z * q2.x;
-            this.z = q1.w * q2.z + q2.w * q1.z + q1.x * q2.y - q1.y * q2.x;
-            this.w = w;
-            this.x = x;
-            this.y = y;
-        }
+    public static final void mul(Quaternion q1, Quaternion q2) {
+        Quaternion nq = new Quaternion();
+        nq.w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
+        nq.x = q1.w * q2.x + q2.w * q1.x + q1.y * q2.z - q1.z * q2.y;
+        nq.y = q1.w * q2.y + q2.w * q1.y - q1.x * q2.z + q1.z * q2.x;
+        nq.z = q1.w * q2.z + q2.w * q1.z + q1.x * q2.y - q1.y * q2.x;
     }
 
     /**
@@ -157,12 +117,10 @@ public class Quaternion implements java.io.Serializable, Cloneable
      *            the amount to interpolate between the two quaternions.
      */
     public static Quaternion slerp(Quaternion q1, Quaternion q2, float t) {
-        Quaternion nq = new Quaternion();
+        Quaternion nq = q1.clone();
         // Create a local quaternion to store the interpolated quaternion
-        if (q1.x == q2.x && q1.y == q2.y && q1.z == q2.z && q1.w == q2.w) {
-            nq.set(q1);
+        if (q1.x == q2.x && q1.y == q2.y && q1.z == q2.z && q1.w == q2.w)
             return nq;
-        }
 
         float result = q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w;
 
