@@ -1110,64 +1110,6 @@ public class Matrix4f implements java.io.Serializable
     }
 
     /**
-     * Sets the value of this matrix to the matrix conversion of the (single
-     * precision) axis and angle argument.
-     *
-     * @param a1
-     *            the axis and angle to be converted
-     */
-    public final void set(AxisAngle4f a1) {
-        float mag = (float) Math.sqrt(a1.x * a1.x + a1.y * a1.y + a1.z * a1.z);
-        if (mag < Matrix4f.EPS) {
-            this.m00 = 1.0f;
-            this.m01 = 0.0f;
-            this.m02 = 0.0f;
-
-            this.m10 = 0.0f;
-            this.m11 = 1.0f;
-            this.m12 = 0.0f;
-
-            this.m20 = 0.0f;
-            this.m21 = 0.0f;
-            this.m22 = 1.0f;
-        }
-        else {
-            mag = 1.0f / mag;
-            final float ax = a1.x * mag;
-            final float ay = a1.y * mag;
-            final float az = a1.z * mag;
-
-            final float sinTheta = (float) Math.sin(a1.angle);
-            final float cosTheta = (float) Math.cos(a1.angle);
-            final float t = 1.0f - cosTheta;
-
-            final float xz = ax * az;
-            final float xy = ax * ay;
-            final float yz = ay * az;
-
-            this.m00 = t * ax * ax + cosTheta;
-            this.m01 = t * xy - sinTheta * az;
-            this.m02 = t * xz + sinTheta * ay;
-
-            this.m10 = t * xy + sinTheta * az;
-            this.m11 = t * ay * ay + cosTheta;
-            this.m12 = t * yz - sinTheta * ax;
-
-            this.m20 = t * xz - sinTheta * ay;
-            this.m21 = t * yz + sinTheta * ax;
-            this.m22 = t * az * az + cosTheta;
-        }
-        this.m03 = 0.0f;
-        this.m13 = 0.0f;
-        this.m23 = 0.0f;
-
-        this.m30 = 0.0f;
-        this.m31 = 0.0f;
-        this.m32 = 0.0f;
-        this.m33 = 1.0f;
-    }
-
-    /**
      * Sets the value of this matrix from the rotation expressed by the
      * quaternion q1, the translation t1, and the scale s.
      *
@@ -2494,65 +2436,6 @@ public class Matrix4f implements java.io.Serializable
         this.m02 = (float) (2.0f * (q1.x * q1.z + q1.w * q1.y) * tmp_scale[2]);
         this.m12 = (float) (2.0f * (q1.y * q1.z - q1.w * q1.x) * tmp_scale[2]);
         this.m22 = (float) ((1.0f - 2.0f * q1.x * q1.x - 2.0f * q1.y * q1.y) * tmp_scale[2]);
-    }
-
-    /**
-     * Sets the rotational component (upper 3x3) of this matrix to the matrix
-     * equivalent values of the axis-angle argument; the other elements of this
-     * matrix are unchanged; a singular value decomposition is performed on this
-     * object's upper 3x3 matrix to factor out the scale, then this object's
-     * upper 3x3 matrix components are replaced by the matrix equivalent of the
-     * axis-angle, and then the scale is reapplied to the rotational components.
-     *
-     * @param a1
-     *            the axis-angle to be converted (x, y, z, angle)
-     */
-    public final void setRotation(AxisAngle4f a1) {
-        final double[] tmp_rot = new double[9]; // scratch matrix
-        final double[] tmp_scale = new double[3]; // scratch matrix
-
-        this.getScaleRotate(tmp_scale, tmp_rot);
-
-        double mag = Math.sqrt(a1.x * a1.x + a1.y * a1.y + a1.z * a1.z);
-        if (mag < Matrix4f.EPS) {
-            this.m00 = 1.0f;
-            this.m01 = 0.0f;
-            this.m02 = 0.0f;
-
-            this.m10 = 0.0f;
-            this.m11 = 1.0f;
-            this.m12 = 0.0f;
-
-            this.m20 = 0.0f;
-            this.m21 = 0.0f;
-            this.m22 = 1.0f;
-        }
-        else {
-            mag = 1.0 / mag;
-            final double ax = a1.x * mag;
-            final double ay = a1.y * mag;
-            final double az = a1.z * mag;
-
-            final double sinTheta = Math.sin(a1.angle);
-            final double cosTheta = Math.cos(a1.angle);
-            final double t = 1.0 - cosTheta;
-
-            final double xz = a1.x * a1.z;
-            final double xy = a1.x * a1.y;
-            final double yz = a1.y * a1.z;
-
-            this.m00 = (float) ((t * ax * ax + cosTheta) * tmp_scale[0]);
-            this.m01 = (float) ((t * xy - sinTheta * az) * tmp_scale[1]);
-            this.m02 = (float) ((t * xz + sinTheta * ay) * tmp_scale[2]);
-
-            this.m10 = (float) ((t * xy + sinTheta * az) * tmp_scale[0]);
-            this.m11 = (float) ((t * ay * ay + cosTheta) * tmp_scale[1]);
-            this.m12 = (float) ((t * yz - sinTheta * ax) * tmp_scale[2]);
-
-            this.m20 = (float) ((t * xz - sinTheta * ay) * tmp_scale[0]);
-            this.m21 = (float) ((t * yz + sinTheta * ax) * tmp_scale[1]);
-            this.m22 = (float) ((t * az * az + cosTheta) * tmp_scale[2]);
-        }
     }
 
     /**

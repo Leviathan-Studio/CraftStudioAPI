@@ -885,55 +885,6 @@ public class Matrix3d implements java.io.Serializable, Cloneable
     }
 
     /**
-     * Sets the value of this matrix to the matrix conversion of the single
-     * precision axis and angle argument.
-     *
-     * @param a1
-     *            the axis and angle to be converted
-     */
-    public final void set(AxisAngle4f a1) {
-        double mag = Math.sqrt(a1.x * a1.x + a1.y * a1.y + a1.z * a1.z);
-        if (mag < Matrix3d.EPS) {
-            this.m00 = 1.0;
-            this.m01 = 0.0;
-            this.m02 = 0.0;
-
-            this.m10 = 0.0;
-            this.m11 = 1.0;
-            this.m12 = 0.0;
-
-            this.m20 = 0.0;
-            this.m21 = 0.0;
-            this.m22 = 1.0;
-        }
-        else {
-            mag = 1.0 / mag;
-            final double ax = a1.x * mag;
-            final double ay = a1.y * mag;
-            final double az = a1.z * mag;
-            final double sinTheta = Math.sin(a1.angle);
-            final double cosTheta = Math.cos(a1.angle);
-            final double t = 1.0 - cosTheta;
-
-            final double xz = ax * az;
-            final double xy = ax * ay;
-            final double yz = ay * az;
-
-            this.m00 = t * ax * ax + cosTheta;
-            this.m01 = t * xy - sinTheta * az;
-            this.m02 = t * xz + sinTheta * ay;
-
-            this.m10 = t * xy + sinTheta * az;
-            this.m11 = t * ay * ay + cosTheta;
-            this.m12 = t * yz - sinTheta * ax;
-
-            this.m20 = t * xz - sinTheta * ay;
-            this.m21 = t * yz + sinTheta * ax;
-            this.m22 = t * az * az + cosTheta;
-        }
-    }
-
-    /**
      * Sets the value of this matrix to the double value of the Matrix3f
      * argument.
      *
