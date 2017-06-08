@@ -40,6 +40,10 @@ public class Quaternion implements java.io.Serializable
 
     /** Most used constructor to directly use degrees angles */
     public Quaternion(float pitch, float yaw, float roll) {
+        pitch = (float) Math.toRadians(pitch);
+        yaw = (float) Math.toRadians(yaw);
+        roll = (float) Math.toRadians(roll);
+        
         final Vector3f coss = new Vector3f(); 
         coss.x = (float) Math.cos(pitch * 0.5F); 
         coss.y = (float) Math.cos(yaw * 0.5F); 
