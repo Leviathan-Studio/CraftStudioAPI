@@ -508,81 +508,6 @@ public class Matrix4f implements java.io.Serializable
     }
 
     /**
-     * Performs an SVD normalization of this matrix in order to acquire the
-     * normalized rotational component; the values are placed into the Matrix3f
-     * parameter.
-     *
-     * @param m1
-     *            matrix into which the rotational component is placed
-     */
-    public final void get(Matrix3f m1) {
-        final double[] tmp_rot = new double[9]; // scratch matrix
-        final double[] tmp_scale = new double[3]; // scratch matrix
-
-        this.getScaleRotate(tmp_scale, tmp_rot);
-
-        m1.m00 = (float) tmp_rot[0];
-        m1.m01 = (float) tmp_rot[1];
-        m1.m02 = (float) tmp_rot[2];
-
-        m1.m10 = (float) tmp_rot[3];
-        m1.m11 = (float) tmp_rot[4];
-        m1.m12 = (float) tmp_rot[5];
-
-        m1.m20 = (float) tmp_rot[6];
-        m1.m21 = (float) tmp_rot[7];
-        m1.m22 = (float) tmp_rot[8];
-
-    }
-
-    /**
-     * Performs an SVD normalization of this matrix in order to acquire the
-     * normalized rotational component; the values are placed into the
-     * Quaternion parameter.
-     *
-     * @param q1
-     *            quaternion into which the rotation component is placed
-     */
-    public final void get(Quaternion q1) {
-        final double[] tmp_rot = new double[9]; // scratch matrix
-        final double[] tmp_scale = new double[3]; // scratch matrix
-        this.getScaleRotate(tmp_scale, tmp_rot);
-
-        double ww;
-
-        ww = 0.25 * (1.0 + tmp_rot[0] + tmp_rot[4] + tmp_rot[8]);
-        if (!((ww < 0 ? -ww : ww) < 1.0e-30)) {
-            q1.w = (float) Math.sqrt(ww);
-            ww = 0.25 / q1.w;
-            q1.x = (float) ((tmp_rot[7] - tmp_rot[5]) * ww);
-            q1.y = (float) ((tmp_rot[2] - tmp_rot[6]) * ww);
-            q1.z = (float) ((tmp_rot[3] - tmp_rot[1]) * ww);
-            return;
-        }
-
-        q1.w = 0.0f;
-        ww = -0.5 * (tmp_rot[4] + tmp_rot[8]);
-        if (!((ww < 0 ? -ww : ww) < 1.0e-30)) {
-            q1.x = (float) Math.sqrt(ww);
-            ww = 0.5 / q1.x;
-            q1.y = (float) (tmp_rot[3] * ww);
-            q1.z = (float) (tmp_rot[6] * ww);
-            return;
-        }
-
-        q1.x = 0.0f;
-        ww = 0.5 * (1.0 - tmp_rot[8]);
-        if (!((ww < 0 ? -ww : ww) < 1.0e-30)) {
-            q1.y = (float) Math.sqrt(ww);
-            q1.z = (float) (tmp_rot[7] / (2.0 * q1.y));
-            return;
-        }
-
-        q1.y = 0.0f;
-        q1.z = 1.0f;
-    }
-
-    /**
      * Retrieves the translational components of this matrix.
      *
      * @param trans
@@ -611,23 +536,6 @@ public class Matrix4f implements java.io.Serializable
         m1.m20 = this.m20;
         m1.m21 = this.m21;
         m1.m22 = this.m22;
-    }
-
-    /**
-     * Performs an SVD normalization of this matrix to calculate and return the
-     * uniform scale factor. If the matrix has non-uniform scale factors, the
-     * largest of the x, y, and z scale factors will be returned. This matrix is
-     * not modified.
-     *
-     * @return the scale factor of this matrix
-     */
-    public final float getScale() {
-        final double[] tmp_rot = new double[9]; // scratch matrix
-        final double[] tmp_scale = new double[3]; // scratch matrix
-
-        this.getScaleRotate(tmp_scale, tmp_rot);
-
-        return (float) Matrix3d.max3(tmp_scale);
     }
 
     /**
@@ -2380,65 +2288,6 @@ public class Matrix4f implements java.io.Serializable
     }
 
     /**
-     * Sets the rotational component (upper 3x3) of this matrix to the matrix
-     * values in the single precision Matrix3f argument; the other elements of
-     * this matrix are unchanged; a singular value decomposition is performed on
-     * this object's upper 3x3 matrix to factor out the scale, then this
-     * object's upper 3x3 matrix components are replaced by the passed rotation
-     * components, and then the scale is reapplied to the rotational components.
-     *
-     * @param m1
-     *            single precision 3x3 matrix
-     */
-    public final void setRotation(Matrix3f m1) {
-        final double[] tmp_rot = new double[9]; // scratch matrix
-        final double[] tmp_scale = new double[3]; // scratch matrix
-
-        this.getScaleRotate(tmp_scale, tmp_rot);
-
-        this.m00 = (float) (m1.m00 * tmp_scale[0]);
-        this.m01 = (float) (m1.m01 * tmp_scale[1]);
-        this.m02 = (float) (m1.m02 * tmp_scale[2]);
-
-        this.m10 = (float) (m1.m10 * tmp_scale[0]);
-        this.m11 = (float) (m1.m11 * tmp_scale[1]);
-        this.m12 = (float) (m1.m12 * tmp_scale[2]);
-
-        this.m20 = (float) (m1.m20 * tmp_scale[0]);
-        this.m21 = (float) (m1.m21 * tmp_scale[1]);
-        this.m22 = (float) (m1.m22 * tmp_scale[2]);
-    }
-
-    /**
-     * Sets the rotational component (upper 3x3) of this matrix to the matrix
-     * equivalent values of the quaternion argument; the other elements of this
-     * matrix are unchanged; a singular value decomposition is performed on this
-     * object's upper 3x3 matrix to factor out the scale, then this object's
-     * upper 3x3 matrix components are replaced by the matrix equivalent of the
-     * quaternion, and then the scale is reapplied to the rotational components.
-     *
-     * @param q1
-     *            the quaternion that specifies the rotation
-     */
-    public final void setRotation(Quaternion q1) {
-        final double[] tmp_rot = new double[9]; // scratch matrix
-        final double[] tmp_scale = new double[3]; // scratch matrix
-        this.getScaleRotate(tmp_scale, tmp_rot);
-
-        this.m00 = (float) ((1.0f - 2.0f * q1.y * q1.y - 2.0f * q1.z * q1.z) * tmp_scale[0]);
-        this.m10 = (float) (2.0f * (q1.x * q1.y + q1.w * q1.z) * tmp_scale[0]);
-        this.m20 = (float) (2.0f * (q1.x * q1.z - q1.w * q1.y) * tmp_scale[0]);
-
-        this.m01 = (float) (2.0f * (q1.x * q1.y - q1.w * q1.z) * tmp_scale[1]);
-        this.m11 = (float) ((1.0f - 2.0f * q1.x * q1.x - 2.0f * q1.z * q1.z) * tmp_scale[1]);
-        this.m21 = (float) (2.0f * (q1.y * q1.z + q1.w * q1.x) * tmp_scale[1]);
-
-        this.m02 = (float) (2.0f * (q1.x * q1.z + q1.w * q1.y) * tmp_scale[2]);
-        this.m12 = (float) (2.0f * (q1.y * q1.z - q1.w * q1.x) * tmp_scale[2]);
-        this.m22 = (float) ((1.0f - 2.0f * q1.x * q1.x - 2.0f * q1.y * q1.y) * tmp_scale[2]);
-    }
-
-    /**
      * Sets this matrix to all zeros.
      */
     public final void setZero() {
@@ -2506,26 +2355,6 @@ public class Matrix4f implements java.io.Serializable
         this.m31 = -m1.m31;
         this.m32 = -m1.m32;
         this.m33 = -m1.m33;
-    }
-
-    private final void getScaleRotate(double scales[], double rots[]) {
-
-        final double[] tmp = new double[9]; // scratch matrix
-        tmp[0] = this.m00;
-        tmp[1] = this.m01;
-        tmp[2] = this.m02;
-
-        tmp[3] = this.m10;
-        tmp[4] = this.m11;
-        tmp[5] = this.m12;
-
-        tmp[6] = this.m20;
-        tmp[7] = this.m21;
-        tmp[8] = this.m22;
-
-        Matrix3d.compute_svd(tmp, scales, rots);
-
-        return;
     }
 
     /**
