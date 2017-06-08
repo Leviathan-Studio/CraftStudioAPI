@@ -80,15 +80,15 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
      * Takes the absolute value of all matrix fields locally.
      */
     public void absoluteLocal() {
-        this.m00 = FastMath.abs(this.m00);
-        this.m01 = FastMath.abs(this.m01);
-        this.m02 = FastMath.abs(this.m02);
-        this.m10 = FastMath.abs(this.m10);
-        this.m11 = FastMath.abs(this.m11);
-        this.m12 = FastMath.abs(this.m12);
-        this.m20 = FastMath.abs(this.m20);
-        this.m21 = FastMath.abs(this.m21);
-        this.m22 = FastMath.abs(this.m22);
+        this.m00 = Math.abs(this.m00);
+        this.m01 = Math.abs(this.m01);
+        this.m02 = Math.abs(this.m02);
+        this.m10 = Math.abs(this.m10);
+        this.m11 = Math.abs(this.m11);
+        this.m12 = Math.abs(this.m12);
+        this.m20 = Math.abs(this.m20);
+        this.m21 = Math.abs(this.m21);
+        this.m22 = Math.abs(this.m22);
     }
 
     /**
@@ -658,8 +658,8 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
      *            the axis of rotation (already normalized).
      */
     public void fromAngleNormalAxis(float angle, Vector3f axis) {
-        final float fCos = FastMath.cos(angle);
-        final float fSin = FastMath.sin(angle);
+        final float fCos = (float) Math.cos(angle);
+        final float fSin = (float) Math.sin(angle);
         final float fOneMinusCos = (float) 1.0 - fCos;
         final float fX2 = axis.x * axis.x;
         final float fY2 = axis.y * axis.y;
@@ -873,7 +873,7 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
             store = new Matrix3f();
 
         final float det = this.determinant();
-        if (FastMath.abs(det) <= FastMath.FLT_EPSILON)
+        if (Math.abs(det) <= 1e-6)
             return store.zero();
 
         store.m00 = this.m11 * this.m22 - this.m12 * this.m21;
@@ -897,7 +897,7 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
      */
     public Matrix3f invertLocal() {
         final float det = this.determinant();
-        if (FastMath.abs(det) <= FastMath.FLT_EPSILON)
+        if (Math.abs(det) <= 1e-6)
             return this.zero();
 
         final float f00 = this.m11 * this.m22 - this.m12 * this.m21;
@@ -1108,98 +1108,6 @@ public final class Matrix3f implements Cloneable, java.io.Serializable
             return false;
 
         return true;
-    }
-
-    /**
-     * A function for creating a rotation matrix that rotates a vector called
-     * "start" into another vector called "end".
-     *
-     * @param start
-     *            normalized non-zero starting vector
-     * @param end
-     *            normalized non-zero ending vector
-     * @see "Tomas Miller, John Hughes \"Efficiently Building a Matrix to Rotate
-     *      \ One Vector to Another\" Journal of Graphics Tools, 4(4):1-4, 1999"
-     */
-    public void fromStartEndVectors(Vector3f start, Vector3f end) {
-        final Vector3f v = new Vector3f();
-        float e, h, f;
-
-        start.cross(end, v);
-        e = start.dot(end);
-        f = e < 0 ? -e : e;
-
-        // if "from" and "to" vectors are nearly parallel
-        if (f > 1.0f - FastMath.ZERO_TOLERANCE) {
-            final Vector3f u = new Vector3f();
-            final Vector3f x = new Vector3f();
-            float c1, c2, c3; /* coefficients for later use */
-            int i, j;
-
-            x.x = start.x > 0.0 ? start.x : -start.x;
-            x.y = start.y > 0.0 ? start.y : -start.y;
-            x.z = start.z > 0.0 ? start.z : -start.z;
-
-            if (x.x < x.y) {
-                if (x.x < x.z) {
-                    x.x = 1.0f;
-                    x.y = x.z = 0.0f;
-                }
-                else {
-                    x.z = 1.0f;
-                    x.x = x.y = 0.0f;
-                }
-            }
-            else if (x.y < x.z) {
-                x.y = 1.0f;
-                x.x = x.z = 0.0f;
-            }
-            else {
-                x.z = 1.0f;
-                x.x = x.y = 0.0f;
-            }
-
-            u.x = x.x - start.x;
-            u.y = x.y - start.y;
-            u.z = x.z - start.z;
-            v.x = x.x - end.x;
-            v.y = x.y - end.y;
-            v.z = x.z - end.z;
-
-            c1 = 2.0f / u.dot(u);
-            c2 = 2.0f / v.dot(v);
-            c3 = c1 * c2 * u.dot(v);
-
-            for (i = 0; i < 3; i++) {
-                for (j = 0; j < 3; j++) {
-                    final float val = -c1 * u.get(i) * u.get(j) - c2 * v.get(i) * v.get(j) + c3 * v.get(i) * u.get(j);
-                    this.set(i, j, val);
-                }
-                final float val = this.get(i, i);
-                this.set(i, i, val + 1.0f);
-            }
-        }
-        else {
-            // the most common case, unless "start"="end", or "start"=-"end"
-            float hvx, hvz, hvxy, hvxz, hvyz;
-            h = 1.0f / (1.0f + e);
-            hvx = h * v.x;
-            hvz = h * v.z;
-            hvxy = hvx * v.y;
-            hvxz = hvx * v.z;
-            hvyz = hvz * v.y;
-            this.set(0, 0, e + hvx * v.x);
-            this.set(0, 1, hvxy - v.z);
-            this.set(0, 2, hvxz + v.y);
-
-            this.set(1, 0, hvxy + v.z);
-            this.set(1, 1, e + h * v.y * v.y);
-            this.set(1, 2, hvyz - v.x);
-
-            this.set(2, 0, hvxz - v.y);
-            this.set(2, 1, hvyz + v.x);
-            this.set(2, 2, e + hvz * v.z);
-        }
     }
 
     /**

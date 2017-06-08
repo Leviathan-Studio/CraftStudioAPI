@@ -321,7 +321,7 @@ public class Quaternion implements java.io.Serializable
      * internally.
      */
     public Quaternion normalizeLocal() {
-        final float n = FastMath.invSqrt(this.norm());
+        final float n = (float) (1/Math.sqrt(this.norm()));
         this.x *= n;
         this.y *= n;
         this.z *= n;
@@ -366,13 +366,13 @@ public class Quaternion implements java.io.Serializable
         // warrant such calculations
         if (1 - result > 0.1f) {// Get the angle between the 2 quaternions,
                                 // and then store the sin() of that angle
-            final float theta = FastMath.acos(result);
-            final float invSinTheta = 1f / FastMath.sin(theta);
+            final float theta = (float) Math.acos(result);
+            final float invSinTheta = (float) (1 / Math.sin(theta));
 
             // Calculate the scale for q1 and q2, according to the angle and
             // it's sine value
-            scale0 = FastMath.sin((1 - t) * theta) * invSinTheta;
-            scale1 = FastMath.sin(t * theta) * invSinTheta;
+            scale0 = (float) (Math.sin((1 - t) * theta) * invSinTheta);
+            scale1 = (float) (Math.sin(t * theta) * invSinTheta);
         }
 
         // Calculate the x, y, z and w values for the quaternion by using a
@@ -420,13 +420,13 @@ public class Quaternion implements java.io.Serializable
         if (1 - result > 0.1f) {
             // Get the angle between the 2 quaternions, and then store the sin()
             // of that angle
-            final float theta = FastMath.acos(result);
-            final float invSinTheta = 1f / FastMath.sin(theta);
+            final float theta = (float) Math.acos(result);
+            final float invSinTheta = (float) (1 / Math.sin(theta));
 
             // Calculate the scale for q1 and q2, according to the angle and
             // it's sine value
-            scale0 = FastMath.sin((1 - changeAmnt) * theta) * invSinTheta;
-            scale1 = FastMath.sin(changeAmnt * theta) * invSinTheta;
+            scale0 = (float) (Math.sin((1 - changeAmnt) * theta) * invSinTheta);
+            scale1 = (float) (Math.sin(changeAmnt * theta) * invSinTheta);
         }
 
         // Calculate the x, y, z and w values for the quaternion by using a

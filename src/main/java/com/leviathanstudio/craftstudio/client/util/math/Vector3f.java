@@ -358,7 +358,7 @@ public final class Vector3f implements Cloneable, java.io.Serializable
      * @return the length or magnitude of the vector.
      */
     public float length() {
-        return FastMath.sqrt(this.lengthSquared());
+        return (float) Math.sqrt(this.lengthSquared());
     }
 
     /**
@@ -394,7 +394,7 @@ public final class Vector3f implements Cloneable, java.io.Serializable
      * @return the distance between the two vectors.
      */
     public float distance(Vector3f v) {
-        return FastMath.sqrt(this.distanceSquared(v));
+        return (float) Math.sqrt(this.distanceSquared(v));
     }
 
     /**
@@ -699,7 +699,7 @@ public final class Vector3f implements Cloneable, java.io.Serializable
     public Vector3f normalize() {
         float length = this.x * this.x + this.y * this.y + this.z * this.z;
         if (length != 1f && length != 0f) {
-            length = 1.0f / FastMath.sqrt(length);
+            length = (float) (1 / Math.sqrt(length));
             return new Vector3f(this.x * length, this.y * length, this.z * length);
         }
         return this.clone();
@@ -713,7 +713,7 @@ public final class Vector3f implements Cloneable, java.io.Serializable
     public Vector3f normalizeLocal() {
         float length = this.x * this.x + this.y * this.y + this.z * this.z;
         if (length != 1f && length != 0f) {
-            length = 1.0f / FastMath.sqrt(length);
+            length = (float) (1 / Math.sqrt(length));
             this.x *= length;
             this.y *= length;
             this.z *= length;
@@ -764,7 +764,7 @@ public final class Vector3f implements Cloneable, java.io.Serializable
      */
     public float angleBetween(Vector3f otherVector) {
         final float dotProduct = this.dot(otherVector);
-        final float angle = FastMath.acos(dotProduct);
+        final float angle = (float) Math.acos(dotProduct);
         return angle;
     }
 
@@ -830,9 +830,9 @@ public final class Vector3f implements Cloneable, java.io.Serializable
     public static void generateComplementBasis(Vector3f u, Vector3f v, Vector3f w) {
         float fInvLength;
 
-        if (FastMath.abs(w.x) >= FastMath.abs(w.y)) {
+        if (Math.abs(w.x) >= Math.abs(w.y)) {
             // w.x or w.z is the largest magnitude component, swap them
-            fInvLength = FastMath.invSqrt(w.x * w.x + w.z * w.z);
+            fInvLength = (float) (1/Math.sqrt(w.x * w.x + w.z * w.z));
             u.x = -w.z * fInvLength;
             u.y = 0.0f;
             u.z = +w.x * fInvLength;
@@ -842,7 +842,7 @@ public final class Vector3f implements Cloneable, java.io.Serializable
         }
         else {
             // w.y or w.z is the largest magnitude component, swap them
-            fInvLength = FastMath.invSqrt(w.y * w.y + w.z * w.z);
+            fInvLength = (float) (1/Math.sqrt(w.y * w.y + w.z * w.z));
             u.x = 0.0f;
             u.y = +w.z * fInvLength;
             u.z = -w.y * fInvLength;
