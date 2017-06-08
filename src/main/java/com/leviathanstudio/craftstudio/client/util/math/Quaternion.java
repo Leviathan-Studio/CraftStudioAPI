@@ -39,12 +39,20 @@ public class Quaternion implements java.io.Serializable
     }
 
     /** Most used constructor to directly use degrees angles */
-    public Quaternion(float x, float y, float z) {
-        final Quat4f quat4f = Quat4fHelper.quaternionFromEulerAnglesInDegrees(x, y, z);
-        this.x = quat4f.getX();
-        this.y = quat4f.getY();
-        this.z = quat4f.getZ();
-        this.w = quat4f.getW();
+    public Quaternion(float pitch, float yaw, float roll) {
+        final Vector3f coss = new Vector3f(); 
+        coss.x = (float) Math.cos(pitch * 0.5F); 
+        coss.y = (float) Math.cos(yaw * 0.5F); 
+        coss.z = (float) Math.cos(roll * 0.5F); 
+        final Vector3f sins = new Vector3f(); 
+        sins.x = (float) Math.sin(pitch * 0.5F); 
+        sins.y = (float) Math.sin(yaw * 0.5F); 
+        sins.z = (float) Math.sin(roll * 0.5F); 
+ 
+        this.w = coss.x * coss.y * coss.z + sins.x * sins.y * sins.z; 
+        this.x = sins.x * coss.y * coss.z + coss.x * sins.y * sins.z; 
+        this.y = coss.x * sins.y * coss.z - sins.x * coss.y * sins.z; 
+        this.z = coss.x * coss.y * sins.z - sins.x * sins.y * coss.z;
     }
 
     public Quaternion(Quaternion q1) {
