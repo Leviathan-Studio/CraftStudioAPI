@@ -251,8 +251,7 @@ public class CSModelRenderer extends ModelRenderer
     public void setInitialRotationMatrix(Matrix4f matrix) {
         this.defaultRotationMatrix = matrix;
         this.setRotationMatrix(matrix);
-        Matrix4f copy = new Matrix4f(this.rotationMatrix);
-        this.defaultRotationAsQuaternion = new Quaternion(copy.transpose());
+        this.defaultRotationAsQuaternion = new Quaternion(this.rotationMatrix.clone().transpose());
     }
 
     /**
