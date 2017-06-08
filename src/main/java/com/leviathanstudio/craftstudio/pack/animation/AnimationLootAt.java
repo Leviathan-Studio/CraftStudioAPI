@@ -26,7 +26,7 @@ public class AnimationLootAt extends CustomChannel
                 EntityLiving entityL = (EntityLiving) animated;
                 float diff = entityL.getRotationYawHead() - entityL.renderYawOffset;
                 Quaternion quat = new Quaternion(-entityL.rotationPitch, -diff, 0.0F);
-                Quaternion quat2 = new Quaternion(parts.getDefaultRotationAsQuaternion());
+                Quaternion quat2 = parts.getDefaultRotationAsQuaternion().clone();
                 quat.mul(quat2);
                 parts.getRotationMatrix().set(quat);
             }
