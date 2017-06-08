@@ -3,7 +3,6 @@ package com.leviathanstudio.craftstudio.client.json;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry.Impl;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,11 +28,9 @@ public class CSReadedModel extends Impl<CSReadedModel>
      *         name.</br>
      *         If multiple block with the same name, return one of them.
      */
-    public CSReadedModelBlock getBlockFromName(String name)
-    {
+    public CSReadedModelBlock getBlockFromName(String name) {
         CSReadedModelBlock b;
-        for (CSReadedModelBlock block : this.parents)
-        {
+        for (CSReadedModelBlock block : this.parents) {
             b = block.getBlockFromName(name);
             if (b != null)
                 return b;
@@ -47,10 +44,9 @@ public class CSReadedModel extends Impl<CSReadedModel>
      *
      * @return True, if animable. False, otherwise.
      */
-    public boolean isAnimable()
-    {
+    public boolean isAnimable() {
         if (this.whyUnAnimable() == null)
-        	return true;
+            return true;
         return false;
     }
 
@@ -59,65 +55,54 @@ public class CSReadedModel extends Impl<CSReadedModel>
      *
      * @return The name of the block. <i>null</i>, if the model if animable.
      */
-    public String whyUnAnimable()
-    {
-    	String str;
+    public String whyUnAnimable() {
+        String str;
         List<String> names = new ArrayList<>();
-        for (CSReadedModelBlock block : this.parents){
-        	str = block.whyUnAnimable(names);
+        for (CSReadedModelBlock block : this.parents) {
+            str = block.whyUnAnimable(names);
             if (str != null)
-            	return str;
+                return str;
         }
         return null;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getModid()
-    {
+    public String getModid() {
         return this.modid;
     }
 
-    public void setModid(String modid)
-    {
+    public void setModid(String modid) {
         this.modid = modid;
     }
 
-    public int getTextureWidth()
-    {
+    public int getTextureWidth() {
         return this.textureWidth;
     }
 
-    public void setTextureWidth(int textureWidth)
-    {
+    public void setTextureWidth(int textureWidth) {
         this.textureWidth = textureWidth;
     }
 
-    public int getTextureHeight()
-    {
+    public int getTextureHeight() {
         return this.textureHeight;
     }
 
-    public void setTextureHeight(int textureHeight)
-    {
+    public void setTextureHeight(int textureHeight) {
         this.textureHeight = textureHeight;
     }
 
-    public List<CSReadedModelBlock> getParents()
-    {
+    public List<CSReadedModelBlock> getParents() {
         return this.parents;
     }
 
-    public void setParents(List<CSReadedModelBlock> parents)
-    {
+    public void setParents(List<CSReadedModelBlock> parents) {
         this.parents = parents;
     }
 }

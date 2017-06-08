@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.Map.Entry;
 
+import org.apache.commons.io.Charsets;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -19,8 +21,6 @@ import net.minecraft.client.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.apache.commons.io.Charsets;
 
 /**
  * Class used to read json and extract a {@link CSReadedModel} or a
@@ -48,16 +48,14 @@ public class CSJsonReader
      * @see #readModel()
      * @see #readAnim()
      */
-    public CSJsonReader(ResourceLocation resourceIn) throws CSResourceNotFoundException
-    {
+    public CSJsonReader(ResourceLocation resourceIn) throws CSResourceNotFoundException {
         JsonParser jsonParser = new JsonParser();
         BufferedReader reader = null;
         IResource iResource = null;
         StringBuilder strBuilder = new StringBuilder();
         this.ress = resourceIn.toString();
 
-        try
-        {
+        try {
             iResource = Minecraft.getMinecraft().getResourceManager().getResource(resourceIn);
             reader = new BufferedReader(new InputStreamReader(iResource.getInputStream(), Charsets.UTF_8));
             String s;
@@ -66,22 +64,17 @@ public class CSJsonReader
             Object object = jsonParser.parse(strBuilder.toString());
             this.root = (JsonObject) object;
             this.modid = iResource.getResourceLocation().getResourceDomain();
-        } catch (FileNotFoundException fnfe)
-        {
+        } catch (FileNotFoundException fnfe) {
             throw new CSResourceNotFoundException(this.ress);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-        } finally
-        {
-            try
-            {
+        } finally {
+            try {
                 if (reader != null)
                     reader.close();
                 if (iResource != null)
                     iResource.close();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -95,8 +88,7 @@ public class CSJsonReader
      * @throws CSMalformedJsonException
      *             If the json does match the model structure
      */
-    public CSReadedModel readModel() throws CSMalformedJsonException
-    {
+    public CSReadedModel readModel() throws CSMalformedJsonException {
 
         CSReadedModel model = new CSReadedModel();
         CSReadedModelBlock parent;
@@ -113,21 +105,17 @@ public class CSJsonReader
         if (tree == null)
             throw new CSMalformedJsonException("tree", "Array", this.ress);
         for (JsonElement element : tree)
-            if (element.isJsonObject())
-            {
+            if (element.isJsonObject()) {
                 jsonBlock = element.getAsJsonObject();
 
                 parent = new CSReadedModelBlock();
                 model.getParents().add(parent);
 
-                try
-                {
+                try {
                     readModelBlock(jsonBlock, parent);
-                } catch (NullPointerException | ClassCastException | IllegalStateException e)
-                {
+                } catch (NullPointerException | ClassCastException | IllegalStateException e) {
                     // e.printStackTrace();
-                    throw new CSMalformedJsonException(
-                            parent.getName() != null ? parent.getName() : "a parent block without name", this.ress);
+                    throw new CSMalformedJsonException(parent.getName() != null ? parent.getName() : "a parent block without name", this.ress);
                 }
             }
         return model;
@@ -142,8 +130,7 @@ public class CSJsonReader
      * @param block
      *            The block to place the information.
      */
-    private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block)
-    {
+    private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block) {
         readModelBlock(jsonBlock, block, null);
     }
 
@@ -158,8 +145,7 @@ public class CSJsonReader
      * @param parentOffset
      *            The offset from pivot of the parent block.
      */
-    private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block, Vector3f parentOffset)
-    {
+    private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block, Vector3f parentOffset) {
         final int[] vertexOrderConvert = new int[] { 3, 2, 1, 0, 6, 7, 4, 5 };
         JsonObject jsonChild;
         CSReadedModelBlock child;
@@ -189,28 +175,36 @@ public class CSJsonReader
         // It may need improvement
 
         array = jsonBlock.getAsJsonArray("vertexCoords");
-        Vector3f vertex;
-        if (array != null)
-        {
+        if (array != null) {
             block.setVertex(new float[8][3]);
-            for (int i = 0; i < 8; i++)
-            {
+            for (int i = 0; i < 8; i++) {
                 vertexArray = array.get(vertexOrderConvert[i]).getAsJsonArray();
-                block.getVertex()[i][0] = vertexArray.get(0).getAsFloat() + pivotOffsetX;
-                block.getVertex()[i][1] = -vertexArray.get(1).getAsFloat() - pivotOffsetY;
-                block.getVertex()[i][2] = -vertexArray.get(2).getAsFloat() - pivotOffsetZ;
+                block.getVertex()[i][0] = vertexArray.get(0).getAsFloat();
+                block.getVertex()[i][1] = -vertexArray.get(1).getAsFloat();
+                block.getVertex()[i][2] = -vertexArray.get(2).getAsFloat();
             }
+            float stretchx = sizeX != 0.0F ? Math.abs(block.getVertex()[1][0] - block.getVertex()[0][0]) / sizeX : 1;
+            float stretchy = sizeY != 0.0F ? Math.abs(block.getVertex()[3][1] - block.getVertex()[0][1]) / sizeY : 1;
+            float stretchz = sizeZ != 0.0F ? Math.abs(block.getVertex()[4][2] - block.getVertex()[0][2]) / sizeZ : 1;
+
+            for (int i = 0; i < 8; i++) {
+                float vertex[] = block.getVertex()[i];
+                vertex[0] = vertex[0] / stretchx;
+                vertex[1] = vertex[1] / stretchy;
+                vertex[2] = vertex[2] / stretchz;
+            }
+
+            block.setStretch(new Vector3f(stretchx, stretchy, stretchz));
         }
         else
-            block.setBoxSetup(
-                    new Vector3f(-sizeX / 2 + pivotOffsetX, sizeY / 2 - pivotOffsetY, sizeZ / 2 - pivotOffsetZ));
+            block.setStretch(new Vector3f(1, 1, 1));
 
         if (parentOffset == null)
             block.setRotationPoint(new Vector3f(posX, -posY + 24, -posZ));
         else
-            block.setRotationPoint(new Vector3f(posX + parentOffset.x, -posY + parentOffset.y, -posZ + parentOffset.z));
+            block.setRotationPoint(new Vector3f(posX, -posY, -posZ));
         block.setRotation(new Vector3f(rotationX, -rotationY, -rotationZ));
-
+        block.setOffset(new Vector3f(pivotOffsetX, -pivotOffsetY, -pivotOffsetZ));
         block.setSize(new Vector3f(sizeX, -sizeY, -sizeZ));
 
         array = jsonBlock.getAsJsonArray("texOffset");
@@ -218,8 +212,7 @@ public class CSJsonReader
         block.getTexOffset()[1] = array.get(1).getAsInt();
 
         array = jsonBlock.getAsJsonArray("children");
-        for (JsonElement element : array)
-        {
+        for (JsonElement element : array) {
             jsonChild = element.getAsJsonObject();
             child = new CSReadedModelBlock();
             block.getChilds().add(child);
@@ -236,8 +229,7 @@ public class CSJsonReader
      * @throws CSMalformedJsonException
      *             If the json does match the animation structure
      */
-    public CSReadedAnim readAnim() throws CSMalformedJsonException
-    {
+    public CSReadedAnim readAnim() throws CSMalformedJsonException {
 
         CSReadedAnim anim = new CSReadedAnim();
         CSReadedAnimBlock block;
@@ -262,18 +254,14 @@ public class CSJsonReader
         if (jsEl == null)
             throw new CSMalformedJsonException("nodeAnimations", "Object", this.ress);
         JsonObject nodeAnims = jsEl.getAsJsonObject();
-        for (Entry<String, JsonElement> entry : nodeAnims.entrySet())
-        {
+        for (Entry<String, JsonElement> entry : nodeAnims.entrySet()) {
             block = new CSReadedAnimBlock();
             anim.getBlocks().add(block);
-            try
-            {
+            try {
                 readAnimBlock(entry, block);
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 CraftStudioApi.getLogger().error(e.getMessage());
-                throw new CSMalformedJsonException(block.getName() != null ? block.getName() : "a block without name",
-                        this.ress);
+                throw new CSMalformedJsonException(block.getName() != null ? block.getName() : "a block without name", this.ress);
             }
         }
         return anim;
@@ -288,8 +276,7 @@ public class CSJsonReader
      * @param block
      *            The block to store the informations.
      */
-    private static void readAnimBlock(Entry<String, JsonElement> entry, CSReadedAnimBlock block)
-    {
+    private static void readAnimBlock(Entry<String, JsonElement> entry, CSReadedAnimBlock block) {
         block.setName(strNormalize(entry.getKey()));
         JsonObject objBlock = entry.getValue().getAsJsonObject(), objField;
 
@@ -315,36 +302,29 @@ public class CSJsonReader
      * @param type
      *            type of element to add. See {@link CSReadedAnimBlock}.
      */
-    private static void addKFElement(JsonObject obj, CSReadedAnimBlock block, EnumFrameType type)
-    {
+    private static void addKFElement(JsonObject obj, CSReadedAnimBlock block, EnumFrameType type) {
         int keyFrame;
         Vector3f value;
         JsonArray array;
 
-        for (Entry<String, JsonElement> entry : obj.entrySet())
-        {
+        for (Entry<String, JsonElement> entry : obj.entrySet()) {
             keyFrame = Integer.parseInt(entry.getKey());
             array = entry.getValue().getAsJsonArray();
-            switch (type)
-            {
+            switch (type) {
                 case POSITION:
-                    value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(),
-                            -array.get(2).getAsFloat());
+                    value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
                     break;
                 case ROTATION:
-                    value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(),
-                            -array.get(2).getAsFloat());
+                    value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
                     break;
                 default:
-                    value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(),
-                            array.get(2).getAsFloat());
+                    value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
             }
             block.addKFElement(keyFrame, type, value);
         }
     }
 
-    private static String strNormalize(String str)
-    {
+    private static String strNormalize(String str) {
         return str.replaceAll("[^\\dA-Za-z ]", "_").replaceAll("\\s+", "_").replaceAll("[^\\p{ASCII}]", "_");
     }
 

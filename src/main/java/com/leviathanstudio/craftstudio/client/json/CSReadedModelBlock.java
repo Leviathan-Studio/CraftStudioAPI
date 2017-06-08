@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class CSReadedModelBlock
 {
     private String                   name;
-    private Vector3f                 boxSetup, rotationPoint, rotation, size;
+    private Vector3f                 rotationPoint, rotation, size, stretch, offset;
     private float                    vertex[][];
     private int[]                    texOffset = new int[2];
     private List<CSReadedModelBlock> childs    = new ArrayList<>();
@@ -29,13 +29,11 @@ public class CSReadedModelBlock
      *            The name of the block.
      * @return The new block.
      */
-    CSReadedModelBlock getBlockFromName(String name)
-    {
+    CSReadedModelBlock getBlockFromName(String name) {
         CSReadedModelBlock b;
         if (this.name.equals(name))
             return this;
-        for (CSReadedModelBlock block : this.childs)
-        {
+        for (CSReadedModelBlock block : this.childs) {
             b = block.getBlockFromName(name);
             if (b != null)
                 return b;
@@ -43,106 +41,97 @@ public class CSReadedModelBlock
         return null;
     }
 
-    /** TODO Change doc
-     * Get if the block as a name already in the list or not. If not it add his
-     * name to the list.</br>
+    /**
+     * TODO Change doc Get if the block as a name already in the list or not. If
+     * not it add his name to the list.</br>
      * If it is, the list is wiped and the block's name is add.
      *
      * @param names
      *            A list of name.
      * @return True, if the name isn't in the list. False, otherwise.
      */
-    String whyUnAnimable(List<String> names)
-    {
-    	String str;
+    String whyUnAnimable(List<String> names) {
+        String str;
         if (names.contains(this.name))
             return this.name;
         names.add(this.name);
-        for (CSReadedModelBlock block : this.childs){
-        	str = block.whyUnAnimable(names);
+        for (CSReadedModelBlock block : this.childs) {
+            str = block.whyUnAnimable(names);
             if (str != null)
                 return str;
         }
         return null;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Vector3f getBoxSetup()
-    {
-        return this.boxSetup;
-    }
-
-    public void setBoxSetup(Vector3f boxSetup)
-    {
-        this.boxSetup = boxSetup;
-    }
-
-    public Vector3f getRotationPoint()
-    {
+    public Vector3f getRotationPoint() {
         return this.rotationPoint;
     }
 
-    public void setRotationPoint(Vector3f rotationPoint)
-    {
+    public void setRotationPoint(Vector3f rotationPoint) {
         this.rotationPoint = rotationPoint;
     }
 
-    public Vector3f getRotation()
-    {
+    public Vector3f getRotation() {
         return this.rotation;
     }
 
-    public void setRotation(Vector3f rotation)
-    {
+    public void setRotation(Vector3f rotation) {
         this.rotation = rotation;
     }
 
-    public Vector3f getSize()
-    {
+    public Vector3f getSize() {
         return this.size;
     }
 
-    public void setSize(Vector3f size)
-    {
+    public void setSize(Vector3f size) {
         this.size = size;
     }
 
-    public float[][] getVertex()
-    {
+    public Vector3f getStretch() {
+        return this.stretch;
+    }
+
+    public void setStretch(Vector3f stretch) {
+        this.stretch = stretch;
+    }
+
+    public Vector3f getOffset() {
+        return this.offset;
+    }
+
+    public void setOffset(Vector3f offset) {
+        this.offset = offset;
+    }
+
+    public float[][] getVertex() {
         return this.vertex;
     }
 
-    public void setVertex(float[][] vertex)
-    {
+    public void setVertex(float[][] vertex) {
         this.vertex = vertex;
     }
 
-    public int[] getTexOffset()
-    {
+    public int[] getTexOffset() {
         return this.texOffset;
     }
 
-    public void setTexOffset(int[] texOffset)
-    {
+    public void setTexOffset(int[] texOffset) {
         this.texOffset = texOffset;
     }
 
-    public List<CSReadedModelBlock> getChilds()
-    {
+    public List<CSReadedModelBlock> getChilds() {
         return this.childs;
     }
 
-    public void setChilds(List<CSReadedModelBlock> childs)
-    {
+    public void setChilds(List<CSReadedModelBlock> childs) {
         this.childs = childs;
     }
 }

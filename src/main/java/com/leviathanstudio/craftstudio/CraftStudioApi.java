@@ -10,7 +10,6 @@ import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.proxy.CSCommonProxy;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -82,6 +81,7 @@ public class CraftStudioApi
     /**
      * Helper to create an AnimationHandler to registry animation to your
      * entity/block
+     * 
      * @param <T>
      *
      * @param animated

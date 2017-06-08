@@ -4,7 +4,6 @@ import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.server.animation.ServerAnimationHandler;
 
-import net.minecraft.profiler.Profiler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class CSServerProxy extends CSCommonProxy
@@ -14,10 +13,9 @@ public class CSServerProxy extends CSCommonProxy
         super.preInit(e);
     }
 
-	@Override
-	public <T extends IAnimated> AnimationHandler<T> getNewAnimationHandler(Class<T> animatedClass) {
-		return new ServerAnimationHandler<T>();
-	}
+    @Override
+    public <T extends IAnimated> AnimationHandler<T> getNewAnimationHandler(Class<T> animatedClass) {
+        return new ServerAnimationHandler<>();
+    }
 
-    
 }

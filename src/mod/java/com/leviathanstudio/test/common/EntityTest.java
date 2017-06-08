@@ -15,6 +15,8 @@ public class EntityTest extends EntityCreature implements IAnimated
     
     static {
     	animHandler.addAnim(Mod_Test.MODID, "position", "craftstudio_api_test", true);
+    	animHandler.addAnim(Mod_Test.MODID, "offset", "craftstudio_api_test", true);
+    	animHandler.addAnim(Mod_Test.MODID, "streching", "craftstudio_api_test", true);
     }
 
     public EntityTest(World par1World) {
@@ -42,8 +44,8 @@ public class EntityTest extends EntityCreature implements IAnimated
     public void onLivingUpdate() {
         super.onLivingUpdate();
         // Activate the animation in ticking method
-        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "position", this))
-            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "position", this);
+        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "streching", this))
+            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "streching", this);
     }
 
     @Override

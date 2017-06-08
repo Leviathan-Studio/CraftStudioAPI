@@ -12,21 +12,20 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid = CraftStudioApiDev.API_ID, name = CraftStudioApiDev.NAME, version = "0.1-beta", acceptedMinecraftVersions = "1.11.2", clientSideOnly = true)
-public class CraftStudioApiDev {
-	
-	private static final Logger              LOGGER  = LogManager.getLogger("CraftStudioAPIDev");
-    public static final String               API_ID  = "craftstudioapidev";
-    public static final String               NAME    = "CraftStudio API Dev";
-    
+public class CraftStudioApiDev
+{
+
+    private static final Logger LOGGER = LogManager.getLogger("CraftStudioAPIDev");
+    public static final String  API_ID = "craftstudioapidev";
+    public static final String  NAME   = "CraftStudio API Dev";
+
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) {
         ClientCommandHandler.instance.registerCommand(new CommandCSUVMap());
         ClientCommandHandler.instance.registerCommand(new CommandCSList());
     }
 
-    public static Logger getLogger()
-    {
+    public static Logger getLogger() {
         return CraftStudioApiDev.LOGGER;
     }
 }

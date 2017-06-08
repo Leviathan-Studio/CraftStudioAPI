@@ -10,7 +10,6 @@ import com.leviathanstudio.craftstudio.common.network.FireAnimationMessage.FireA
 import com.leviathanstudio.craftstudio.common.network.RFireAnimationMessage;
 import com.leviathanstudio.craftstudio.common.network.RFireAnimationMessage.RFireAnimationHandler;
 
-import net.minecraft.profiler.Profiler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
