@@ -1,42 +1,13 @@
 package com.leviathanstudio.craftstudio.client.util.math;
 
-import java.util.logging.Logger;
-
 /**
  * Vector3f defines a Vector for a three float value tuple. Vector3f can
  * represent any three dimensional value, such as a vertex, a normal, etc.
  * Utility methods are also included to aid in mathematical calculations.
  */
-public final class Vector3f implements Cloneable, java.io.Serializable
+public final class Vector3f implements Cloneable
 {
-
-    static final long            serialVersionUID  = 1;
-
-    private static final Logger  logger            = Logger.getLogger(Vector3f.class.getName());
-
-    public final static Vector3f ZERO              = new Vector3f(0, 0, 0);
-    public final static Vector3f NAN               = new Vector3f(Float.NaN, Float.NaN, Float.NaN);
-    public final static Vector3f UNIT_X            = new Vector3f(1, 0, 0);
-    public final static Vector3f UNIT_Y            = new Vector3f(0, 1, 0);
-    public final static Vector3f UNIT_Z            = new Vector3f(0, 0, 1);
-    public final static Vector3f UNIT_XYZ          = new Vector3f(1, 1, 1);
-    public final static Vector3f POSITIVE_INFINITY = new Vector3f(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY);
-    public final static Vector3f NEGATIVE_INFINITY = new Vector3f(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
-
-    /**
-     * the x value of the vector.
-     */
-    public float                 x;
-
-    /**
-     * the y value of the vector.
-     */
-    public float                 y;
-
-    /**
-     * the z value of the vector.
-     */
-    public float                 z;
+    public float x, y, z;
 
     /**
      * Constructor instantiates a new Vector3f with default values of (0,0,0).
