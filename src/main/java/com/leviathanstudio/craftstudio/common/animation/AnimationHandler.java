@@ -85,6 +85,16 @@ public abstract class AnimationHandler<T extends IAnimated>
     public void startAnimation(String modid, String animationName, float startingFrame, T animatedElement) {
         this.startAnimation(modid + ":" + animationName, startingFrame, animatedElement);
     }
+    
+    public abstract void clientStartAnimation(String res, float startingFrame, T animatedElement);
+    
+    public void clientStartAnimation(String modid, String animationName, float startingFrame, T animatedElement){
+        this.clientStartAnimation(modid + ":" + animationName, startingFrame, animatedElement);
+    }
+    
+    public void clientStartAnimation(String modid, String animationName, T animatedElement) {
+        this.clientStartAnimation(modid, animationName, 0.0F, animatedElement);
+    }
 
     public abstract void stopAnimation(String res, T animatedElement);
 

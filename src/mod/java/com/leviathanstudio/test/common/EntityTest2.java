@@ -33,7 +33,7 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
         this.setSize(1.0F, 1.5F);
         this.tasks.addTask(1, new EntityAILookIdle(this));
         this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 10));
-        this.getAnimationHandler().startAnimation(Mod_Test.MODID, "custom", this);
+        this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "custom", this);
         this.initEntityAI();
     }
 

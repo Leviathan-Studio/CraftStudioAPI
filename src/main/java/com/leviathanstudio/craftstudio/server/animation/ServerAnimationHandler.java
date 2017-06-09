@@ -173,4 +173,7 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
         }
         return false;
     }
+
+    @Override
+    public void clientStartAnimation(String res, float startingFrame, T animatedElement) {}
 }

@@ -44,8 +44,9 @@ public class EntityTest extends EntityCreature implements IAnimated
     public void onLivingUpdate() {
         super.onLivingUpdate();
         // Activate the animation in ticking method
-        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "streching", this))
-            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "streching", this);
+        if (this.world.isRemote)
+            if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "streching", this))
+                this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "streching", this);
     }
 
     @Override
