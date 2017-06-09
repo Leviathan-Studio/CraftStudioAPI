@@ -3,13 +3,13 @@ package com.leviathanstudio.craftstudio;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.leviathanstudio.craftstudio.client.exception.CSMalformedJsonException;
+import com.leviathanstudio.craftstudio.client.exception.CSResourceNotFoundException;
 import com.leviathanstudio.craftstudio.client.json.CSJsonReader;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.EnumRenderType;
 import com.leviathanstudio.craftstudio.client.json.EnumResourceType;
-import com.leviathanstudio.craftstudio.common.exception.CSMalformedJsonException;
-import com.leviathanstudio.craftstudio.common.exception.CSResourceNotFoundException;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;

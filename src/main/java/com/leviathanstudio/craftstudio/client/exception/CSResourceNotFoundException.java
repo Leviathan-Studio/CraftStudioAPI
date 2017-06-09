@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.common.exception;
+package com.leviathanstudio.craftstudio.client.exception;
 
 import java.io.FileNotFoundException;
 

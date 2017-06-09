@@ -7,17 +7,20 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.vecmath.Vector3f;
 
+import com.leviathanstudio.craftstudio.client.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
 import com.leviathanstudio.craftstudio.client.model.CSModelBox;
-import com.leviathanstudio.craftstudio.client.util.math.Vector3f;
-import com.leviathanstudio.craftstudio.common.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.dev.CraftStudioApiDev;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class UVMapCreator
 {
 

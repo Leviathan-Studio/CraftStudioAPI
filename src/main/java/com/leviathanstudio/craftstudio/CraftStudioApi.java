@@ -81,7 +81,7 @@ public class CraftStudioApi
     /**
      * Helper to create an AnimationHandler to registry animation to your
      * entity/block
-     * 
+     *
      * @param <T>
      *
      * @param animated

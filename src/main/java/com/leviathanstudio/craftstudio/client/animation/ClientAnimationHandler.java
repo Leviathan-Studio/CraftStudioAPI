@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.vecmath.Matrix4f;
+import javax.vecmath.Quat4f;
+import javax.vecmath.Vector3f;
+
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.model.CSModelRenderer;
-import com.leviathanstudio.craftstudio.client.util.math.Quaternion;
-import com.leviathanstudio.craftstudio.client.util.math.Vector3f;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.Channel;
 import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
@@ -261,16 +263,20 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
                         SLERPProgress = 1F;
 
                     if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame == null && !(nextRotationKeyFramePosition == 0)) {
-                        Quaternion currentQuat = new Quaternion();
-                        currentQuat.slerp(block.getDefaultRotationAsQuaternion(), nextRotationKeyFrame.modelRenderersRotations.get(boxName),
+                        Quat4f currentQuat = new Quat4f();
+                        currentQuat.interpolate(block.getDefaultRotationAsQuaternion(), nextRotationKeyFrame.modelRenderersRotations.get(boxName),
                                 SLERPProgress);
-                        block.getRotationMatrix().set(currentQuat).transpose();
+                        Matrix4f mat = block.getRotationMatrix();
+                        mat.set(currentQuat);
+                        mat.transpose();
                     }
                     else if (nextRotationKeyFramePosition != 0) {
-                        Quaternion currentQuat = new Quaternion();
-                        currentQuat.slerp(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
+                        Quat4f currentQuat = new Quat4f();
+                        currentQuat.interpolate(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
                                 nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
-                        block.getRotationMatrix().set(currentQuat).transpose();
+                        Matrix4f mat = block.getRotationMatrix();
+                        mat.set(currentQuat);
+                        mat.transpose();
                     }
 
                     // Translations

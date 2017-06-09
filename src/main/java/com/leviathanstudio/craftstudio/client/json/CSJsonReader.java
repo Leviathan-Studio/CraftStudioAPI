@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.Map.Entry;
 
+import javax.vecmath.Vector3f;
+
 import org.apache.commons.io.Charsets;
 
 import com.google.gson.JsonArray;
@@ -12,9 +14,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.leviathanstudio.craftstudio.CraftStudioApi;
-import com.leviathanstudio.craftstudio.client.util.math.Vector3f;
-import com.leviathanstudio.craftstudio.common.exception.CSMalformedJsonException;
-import com.leviathanstudio.craftstudio.common.exception.CSResourceNotFoundException;
+import com.leviathanstudio.craftstudio.client.exception.CSMalformedJsonException;
+import com.leviathanstudio.craftstudio.client.exception.CSResourceNotFoundException;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
