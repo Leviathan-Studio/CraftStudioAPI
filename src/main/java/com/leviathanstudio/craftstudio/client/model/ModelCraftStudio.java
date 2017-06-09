@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.leviathanstudio.craftstudio.client.animation.ClientAnimationHandler;
+import com.leviathanstudio.craftstudio.client.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
-import com.leviathanstudio.craftstudio.common.exception.CSResourceNotRegisteredException;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.leviathanstudio.craftstudio.client.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
-import com.leviathanstudio.craftstudio.common.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.dev.util.UVMapCreator;
 
 import net.minecraft.command.CommandBase;
@@ -17,7 +17,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.IClientCommand;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class CommandCSUVMap extends CommandBase implements IClientCommand
 {
 

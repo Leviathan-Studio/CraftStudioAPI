@@ -2,14 +2,16 @@ package com.leviathanstudio.craftstudio.client.animation;
 
 import java.util.Map.Entry;
 
+import javax.vecmath.Vector3f;
+
 import com.leviathanstudio.craftstudio.CraftStudioApi;
+import com.leviathanstudio.craftstudio.client.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
-import com.leviathanstudio.craftstudio.client.util.math.Quaternion;
-import com.leviathanstudio.craftstudio.common.exception.CSResourceNotRegisteredException;
+import com.leviathanstudio.craftstudio.client.util.MathHelper;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -103,25 +105,34 @@ public class CSAnimChannel extends ClientChannel
             lastSK = 0;
             if (mBlock != null)
                 for (Entry<Integer, ReadedKeyFrame> entry : block.getKeyFrames().entrySet()) {
+                    Vector3f vector;
                     keyFrame = this.getKeyFrames().get(entry.getKey());
                     rKeyFrame = entry.getValue();
                     if (rKeyFrame.position != null) {
-                        keyFrame.modelRenderersTranslations.put(block.getName(), rKeyFrame.position.add(mBlock.getRotationPoint()));
+                        vector = new Vector3f(rKeyFrame.position);
+                        vector.add(mBlock.getRotationPoint());
+                        keyFrame.modelRenderersTranslations.put(block.getName(), vector);
                         if (lastTK < entry.getKey())
                             lastTK = entry.getKey();
                     }
                     if (rKeyFrame.rotation != null) {
-                        keyFrame.modelRenderersRotations.put(block.getName(), new Quaternion(rKeyFrame.rotation.add(mBlock.getRotation())));
+                        vector = new Vector3f(rKeyFrame.rotation);
+                        vector.add(mBlock.getRotation());
+                        keyFrame.modelRenderersRotations.put(block.getName(), MathHelper.quatFromEuler(vector));
                         if (lastRK < entry.getKey())
                             lastRK = entry.getKey();
                     }
                     if (rKeyFrame.offset != null) {
-                        keyFrame.modelRenderersOffsets.put(block.getName(), rKeyFrame.offset.add(mBlock.getOffset()));
+                        vector = new Vector3f(rKeyFrame.offset);
+                        vector.add(mBlock.getOffset());
+                        keyFrame.modelRenderersOffsets.put(block.getName(), vector);
                         if (lastOK < entry.getKey())
                             lastOK = entry.getKey();
                     }
                     if (rKeyFrame.stretching != null) {
-                        keyFrame.modelRenderersStretchs.put(block.getName(), rKeyFrame.stretching.add(mBlock.getStretch()));
+                        vector = new Vector3f(rKeyFrame.stretching);
+                        vector.add(mBlock.getStretch());
+                        keyFrame.modelRenderersStretchs.put(block.getName(), vector);
                         if (lastSK < entry.getKey())
                             lastSK = entry.getKey();
                     }

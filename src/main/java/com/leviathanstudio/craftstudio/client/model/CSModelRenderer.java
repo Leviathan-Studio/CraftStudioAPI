@@ -4,10 +4,11 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.vecmath.Matrix4f;
+import javax.vecmath.Quat4f;
+import javax.vecmath.Vector3f;
+
 import com.leviathanstudio.craftstudio.client.util.MathHelper;
-import com.leviathanstudio.craftstudio.client.util.math.Matrix4f;
-import com.leviathanstudio.craftstudio.client.util.math.Quaternion;
-import com.leviathanstudio.craftstudio.client.util.math.Vector3f;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -47,7 +48,7 @@ public class CSModelRenderer extends ModelRenderer
     private float           defaultRotationPointY;
     private float           defaultRotationPointZ;
     private Matrix4f        defaultRotationMatrix = new Matrix4f();
-    private Quaternion      defaultRotationAsQuaternion;
+    private Quat4f          defaultRotationAsQuaternion;
     private float           defaultOffsetX        = 0;
     private float           defaultOffsetY        = 0;
     private float           defaultOffsetZ        = 0;
@@ -134,7 +135,7 @@ public class CSModelRenderer extends ModelRenderer
                 GlStateManager.pushMatrix();
 
                 GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
-                FloatBuffer buf = MathHelper.makeFloatBuffer((this.rotationMatrix.intoArray()));
+                FloatBuffer buf = MathHelper.makeFloatBuffer(this.rotationMatrix);
                 GlStateManager.multMatrix(buf);
                 GlStateManager.translate(this.offsetX * scale, this.offsetY * scale, this.offsetZ * scale);
 
@@ -241,7 +242,7 @@ public class CSModelRenderer extends ModelRenderer
     }
 
     public Vector3f getStretchAsVector() {
-        return this.stretch.clone();
+        return new Vector3f(this.stretch);
     }
 
     /**
@@ -251,7 +252,11 @@ public class CSModelRenderer extends ModelRenderer
     public void setInitialRotationMatrix(Matrix4f matrix) {
         this.defaultRotationMatrix = matrix;
         this.setRotationMatrix(matrix);
-        this.defaultRotationAsQuaternion = new Quaternion(this.rotationMatrix.clone().transpose());
+        Matrix4f mat = (Matrix4f) this.rotationMatrix.clone();
+        mat.transpose();
+        if (this.defaultRotationAsQuaternion == null)
+            this.defaultRotationAsQuaternion = new Quat4f();
+        this.defaultRotationAsQuaternion.set(mat);
     }
 
     /**
@@ -259,7 +264,10 @@ public class CSModelRenderer extends ModelRenderer
      * animations).
      */
     public void setInitialRotationMatrix(float x, float y, float z) {
-        this.setInitialRotationMatrix(new Matrix4f().set(new Quaternion(x, y, z)).transpose());
+        Matrix4f mat = new Matrix4f();
+        mat.set(MathHelper.quatFromEuler(x, y, z));
+        mat.transpose();
+        this.setInitialRotationMatrix(mat);
     }
 
     /** Set the rotation matrix values based on the given matrix. */
@@ -291,8 +299,8 @@ public class CSModelRenderer extends ModelRenderer
         return this.rotationMatrix;
     }
 
-    public Quaternion getDefaultRotationAsQuaternion() {
-        return this.defaultRotationAsQuaternion.clone();
+    public Quat4f getDefaultRotationAsQuaternion() {
+        return new Quat4f(this.defaultRotationAsQuaternion);
     }
 
     /**

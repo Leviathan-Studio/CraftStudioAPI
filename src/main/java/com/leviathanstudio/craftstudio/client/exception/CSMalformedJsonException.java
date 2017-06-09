@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.common.exception;
+package com.leviathanstudio.craftstudio.client.exception;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

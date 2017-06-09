@@ -1,7 +1,9 @@
 package com.leviathanstudio.craftstudio.pack.animation;
 
+import javax.vecmath.Quat4f;
+
 import com.leviathanstudio.craftstudio.client.model.CSModelRenderer;
-import com.leviathanstudio.craftstudio.client.util.math.Quaternion;
+import com.leviathanstudio.craftstudio.client.util.MathHelper;
 import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
@@ -25,8 +27,8 @@ public class AnimationLootAt extends CustomChannel
             if (parts.boxName.equals(this.headPart)) {
                 EntityLiving entityL = (EntityLiving) animated;
                 float diff = entityL.getRotationYawHead() - entityL.renderYawOffset;
-                Quaternion quat = new Quaternion(-entityL.rotationPitch, -diff, 0.0F);
-                Quaternion quat2 = parts.getDefaultRotationAsQuaternion().clone();
+                Quat4f quat = MathHelper.quatFromEuler(-entityL.rotationPitch, -diff, 0.0F);
+                Quat4f quat2 = new Quat4f(parts.getDefaultRotationAsQuaternion());
                 quat.mul(quat2);
                 parts.getRotationMatrix().set(quat);
             }
