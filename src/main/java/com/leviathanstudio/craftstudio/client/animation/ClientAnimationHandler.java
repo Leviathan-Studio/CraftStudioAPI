@@ -105,6 +105,12 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
         if (animInfoMap.isEmpty())
             this.currentAnimInfo.remove(animatedElement);
     }
+    
+    @Override
+    public void stopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
+        this.stopAnimation(animToStop, animatedElement);
+        this.startAnimation(animToStart, startingFrame, animatedElement);
+    }
 
     /**
      * Update the animation

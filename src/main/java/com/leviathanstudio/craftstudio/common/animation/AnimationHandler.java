@@ -109,6 +109,20 @@ public abstract class AnimationHandler<T extends IAnimated>
     public void stopAnimation(String modid, String animationName, T animatedElement) {
         this.stopAnimation(modid + ":" + animationName, animatedElement);
     }
+    
+    public abstract void stopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement);
+    
+    public void stopStartAnimation(String modid1, String animToStop, String modid2, String animToStart, float startingFrame, T animatedElement){
+        this.stopStartAnimation(modid1 + ":" + animToStop, modid2 + ":" + animToStart, startingFrame, animatedElement);
+    }
+    
+    public void stopStartAnimation(String modid, String animToStop, String animToStart, float startingFrame, T animatedElement){
+        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, startingFrame, animatedElement);
+    }
+    
+    public void stopStartAnimation(String modid, String animToStop, String animToStart, T animatedElement){
+        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement);
+    }
 
     public abstract void animationsUpdate(T animatedElement);
 

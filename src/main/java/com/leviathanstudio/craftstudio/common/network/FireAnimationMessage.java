@@ -14,7 +14,7 @@ public class FireAnimationMessage extends CraftStudioBasePacket
 {
     public FireAnimationMessage() {}
 
-    private float startingKeyframe;
+    protected float startingKeyframe;
 
     public FireAnimationMessage(String animationNameIn, IAnimated animated, float startingKeyframeIn) {
         super(animationNameIn, animated);

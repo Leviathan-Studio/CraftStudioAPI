@@ -65,13 +65,11 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "close_fan", this)
                 && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "open_fan", this))
             if (this.fanOpen) {
-                this.getAnimationHandler().stopAnimation(Mod_Test.MODID, "open_fan", this);
-                this.getAnimationHandler().startAnimation(Mod_Test.MODID, "close_fan", this);
+                this.getAnimationHandler().stopStartAnimation(Mod_Test.MODID, "open_fan", "close_fan", this);
                 this.fanOpen = false;
             }
             else {
-                this.getAnimationHandler().stopAnimation(Mod_Test.MODID, "close_fan", this);
-                this.getAnimationHandler().startAnimation(Mod_Test.MODID, "open_fan", this);
+                this.getAnimationHandler().stopStartAnimation(Mod_Test.MODID, "close_fan", "open_fan", this);
                 this.fanOpen = true;
             }
         return true;
