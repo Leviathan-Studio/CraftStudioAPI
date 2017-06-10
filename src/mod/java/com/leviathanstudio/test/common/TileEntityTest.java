@@ -7,15 +7,16 @@ import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public class TileEntityTest extends TileEntity implements IAnimated
 {
-    private AnimationHandler animHandler;
+    static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(TileEntityTest.class);
 
-    public TileEntityTest() {
-        this.animHandler = CraftStudioApi.getNewAnimationHandler(this, this.world);
-        this.animHandler.addAnim(Mod_Test.MODID, "position", "craftstudio_api_test", true);
-        this.animHandler.startAnimation(Mod_Test.MODID, "position");
+    public TileEntityTest(World worldIn) {
+        this.world = worldIn;
+        animHandler.addAnim(Mod_Test.MODID, "position", "craftstudio_api_test", true);
+        animHandler.startAnimation(Mod_Test.MODID, "position", this);
     }
 
     @Override

@@ -37,9 +37,7 @@ public class BlockTest extends Block implements ITileEntityProvider
 
     @Override
     public TileEntityTest createNewTileEntity(World worldIn, int meta) {
-        TileEntityTest tileTest = new TileEntityTest();
-        tileTest.setWorld(worldIn);
-        return tileTest;
+        return new TileEntityTest(worldIn);
     }
 
 }
