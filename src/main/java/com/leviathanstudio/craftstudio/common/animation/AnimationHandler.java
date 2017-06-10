@@ -13,8 +13,6 @@ public abstract class AnimationHandler<T extends IAnimated>
     protected List<String>        channelIds = new ArrayList<>();
 
     public AnimationHandler() {
-        if (AnimationHandler.animTickHandler == null)
-            AnimationHandler.animTickHandler = new AnimTickHandler();
     }
 
     /**
@@ -143,6 +141,8 @@ public abstract class AnimationHandler<T extends IAnimated>
     public abstract boolean canUpdateAnimation(Channel channel, T animatedElement);
 
     public void addAnimated(T animated) {
+        if (AnimationHandler.animTickHandler == null)
+            AnimationHandler.animTickHandler = new AnimTickHandler();
         AnimationHandler.animTickHandler.addAnimated(animated);
     }
 

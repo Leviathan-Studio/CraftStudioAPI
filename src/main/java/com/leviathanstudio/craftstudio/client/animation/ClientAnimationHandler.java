@@ -64,7 +64,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     @Override
     public void startAnimation(String animationNameIn, float startingFrame, T animatedElement) {
-        if (AnimationHandler.isWorldRemote(animatedElement))
+        if (Minecraft.getMinecraft().isSingleplayer())
             this.clientStartAnimation(animationNameIn, startingFrame, animatedElement);
     }
 
@@ -86,7 +86,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     @Override
     public void stopAnimation(String res, T animatedElement) {
-        if (AnimationHandler.isWorldRemote(animatedElement))
+        if (Minecraft.getMinecraft().isSingleplayer())
             this.clientStopAnimation(res, animatedElement);
     }
 

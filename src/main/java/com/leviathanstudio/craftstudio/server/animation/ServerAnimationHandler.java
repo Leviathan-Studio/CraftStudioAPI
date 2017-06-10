@@ -127,13 +127,12 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
             CraftStudioApi.getLogger().warn("The animation stopped " + animToStop + " doesn't exist!");
             return;
         }
-        Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
-        if (animInfoMap == null)
-            return;
-        animInfoMap.remove(animToStop);
-        
         if (!this.animChannels.containsKey(animToStart))
             return;
+        Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
+        if (animInfoMap != null)
+            animInfoMap.remove(animToStop);
+        
         Map<String, Float> startingAnimMap = this.startingAnimations.get(animatedElement);
         if (startingAnimMap == null)
             this.startingAnimations.put(animatedElement, startingAnimMap = new HashMap<>());

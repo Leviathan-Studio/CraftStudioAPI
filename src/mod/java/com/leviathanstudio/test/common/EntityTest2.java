@@ -24,7 +24,7 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     static{
     	animHandler.addAnim(Mod_Test.MODID, "close_fan", "peacock", false);
         animHandler.addAnim(Mod_Test.MODID, "open_fan", "close_fan");
-        animHandler.addAnim(Mod_Test.MODID, "custom", "peacock", new AnimationLootAt("Head"));
+        animHandler.addAnim(Mod_Test.MODID, "lookat", "peacock", new AnimationLootAt("Head"));
     }
 
     public EntityTest2(World par1World) {

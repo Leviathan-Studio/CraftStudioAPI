@@ -17,7 +17,7 @@ public class AnimationLootAt extends CustomChannel
     private String headPart;
 
     public AnimationLootAt(String headPartIn) {
-        super("lookAt");
+        super("lookat");
         this.headPart = headPartIn;
     }
 
