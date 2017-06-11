@@ -39,7 +39,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
     @Override
     public void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped) {
         ResourceLocation anim = new ResourceLocation(modid, animNameIn), model = new ResourceLocation(modid, modelNameIn);
-        this.animChannels.put(anim.toString(), new CSAnimChannel(anim, model, false));
+        this.animChannels.put(anim.toString(), new CSAnimChannel(anim, model, looped));
         this.channelIds.add(anim.toString());
     }
 
