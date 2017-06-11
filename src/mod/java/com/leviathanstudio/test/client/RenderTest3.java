@@ -14,22 +14,19 @@ public class RenderTest3<T extends EntityTest3> extends RenderLiving<T>
 {
     public static final Factory FACTORY = new Factory();
 
-    public RenderTest3(RenderManager manager)
-    {
+    public RenderTest3(RenderManager manager) {
         super(manager, new ModelCraftStudio(Mod_Test.MODID, "dragon_brun", 256), 0.5F);
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(T entity)
-    {
+    protected ResourceLocation getEntityTexture(T entity) {
         return new ResourceLocation(Mod_Test.MODID, "textures/entity/dragon_brun.png");
     }
 
     public static class Factory<T extends EntityTest3> implements IRenderFactory<T>
     {
         @Override
-        public Render<? super T> createRenderFor(RenderManager manager)
-        {
+        public Render<? super T> createRenderFor(RenderManager manager) {
             return new RenderTest3(manager);
         }
     }

@@ -25,8 +25,8 @@ public class CSClientProxy extends CSCommonProxy
     }
 
     @Override
-    public AnimationHandler getNewAnimationHandler(IAnimated animated)
-    {
-        return new ClientAnimationHandler(animated);
+    public <T extends IAnimated> AnimationHandler<T> getNewAnimationHandler(Class<T> animatedClass) {
+        return new ClientAnimationHandler<>();
     }
+
 }

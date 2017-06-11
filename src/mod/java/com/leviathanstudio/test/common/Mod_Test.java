@@ -23,9 +23,9 @@ public class Mod_Test {
 	@Instance(Mod_Test.MODID)
 	private static Mod_Test instance;
 
-	public static Mod_Test getInstance() {
-		return Mod_Test.instance;
-	}
+    public static Mod_Test getInstance() {
+        return Mod_Test.instance;
+    }
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {

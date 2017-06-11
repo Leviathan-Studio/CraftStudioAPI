@@ -1,23 +1,18 @@
 package com.leviathanstudio.craftstudio.common.animation;
 
-import com.leviathanstudio.craftstudio.client.animation.CustomChannel;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 
-public abstract class AnimationHandler
+public abstract class AnimationHandler<T extends IAnimated>
 {
     public static AnimTickHandler animTickHandler;
-    /** Owner of this handler. */
-    protected final IAnimated     animatedElement;
 
-    public AnimationHandler(IAnimated animated)
-    {
-        if (AnimationHandler.animTickHandler == null)
-            AnimationHandler.animTickHandler = new AnimTickHandler();
-        AnimationHandler.animTickHandler.addAnimated(animated);
-        this.animatedElement = animated;
-    }
+    protected List<String>        channelIds = new ArrayList<>();
+
+    public AnimationHandler() {}
 
     /**
      * Add animation to the IAnimated instance, entity or block
@@ -59,12 +54,7 @@ public abstract class AnimationHandler
      */
     public abstract void addAnim(String modid, String invertedAnimationName, String animationToInvert);
 
-    protected IAnimated getAnimated()
-    {
-        return this.animatedElement;
-    }
-
-    public abstract void startAnimation(String res, float startingFrame);
+    public abstract void startAnimation(String res, float startingFrame, T animatedElement);
 
     /**
      * Start your animation
@@ -73,10 +63,10 @@ public abstract class AnimationHandler
      *            The ID of your mod
      * @param animationName
      *            The name of your animation you want to start
+     * @param animatedElement The IAnimated that is animated.
      */
-    public void startAnimation(String modid, String animationName)
-    {
-        this.startAnimation(modid, animationName, 0.0F);
+    public void startAnimation(String modid, String animationName, T animatedElement) {
+        this.startAnimation(modid, animationName, 0.0F, animatedElement);
     }
 
     /**
@@ -88,14 +78,30 @@ public abstract class AnimationHandler
      *            The name of your animation you want to start
      * @param startingFrame
      *            The frame you want your animation to start
-     *
+     * @param animatedElement The IAnimated that is animated.
      */
-    public void startAnimation(String modid, String animationName, float startingFrame)
-    {
-        this.startAnimation(modid + ":" + animationName, startingFrame);
+    public void startAnimation(String modid, String animationName, float startingFrame, T animatedElement) {
+        this.startAnimation(modid + ":" + animationName, startingFrame, animatedElement);
     }
 
-    public abstract void stopAnimation(String res);
+    public abstract void clientStartAnimation(String res, float startingFrame, T animatedElement);
+
+    public void clientStartAnimation(String modid, String animationName, float startingFrame, T animatedElement) {
+        this.clientStartAnimation(modid + ":" + animationName, startingFrame, animatedElement);
+    }
+
+    /**
+     * Start your animation on the client only.
+     * 
+     * @param modid The ID of your mod.
+     * @param animationName The name of your animation you want to start.
+     * @param animatedElement The IAnimated that is animated.
+     */
+    public void clientStartAnimation(String modid, String animationName, T animatedElement) {
+        this.clientStartAnimation(modid, animationName, 0.0F, animatedElement);
+    }
+
+    public abstract void stopAnimation(String res, T animatedElement);
 
     /**
      * Stop your animation
@@ -104,13 +110,35 @@ public abstract class AnimationHandler
      *            The ID of your mod
      * @param animationName
      *            The name of your animation you want to start
+     * @param animatedElement The IAnimated that is animated.
      */
-    public void stopAnimation(String modid, String animationName)
-    {
-        this.stopAnimation(modid + ":" + animationName);
+    public void stopAnimation(String modid, String animationName, T animatedElement) {
+        this.stopAnimation(modid + ":" + animationName, animatedElement);
     }
 
-    public abstract void animationsUpdate();
+    public abstract void stopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement);
+
+    public void stopStartAnimation(String modid1, String animToStop, String modid2, String animToStart, float startingFrame, T animatedElement) {
+        this.stopStartAnimation(modid1 + ":" + animToStop, modid2 + ":" + animToStart, startingFrame, animatedElement);
+    }
+    
+    public void stopStartAnimation(String modid, String animToStop, String animToStart, float startingFrame, T animatedElement) {
+        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, startingFrame, animatedElement);
+    }
+    
+    /**
+     * Stop an animation and directly start an other.
+     * 
+     * @param modid The ID of your mod
+     * @param animToStop The name of your animation you want to stop
+     * @param animToStart The name of your animation you want to start
+     * @param animatedElement The IAnimated that is animated.
+     */
+    public void stopStartAnimation(String modid, String animToStop, String animToStart, T animatedElement) {
+        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement);
+    }
+
+    public abstract void animationsUpdate(T animatedElement);
 
     /**
      * Check if your animation is activated or not
@@ -119,26 +147,52 @@ public abstract class AnimationHandler
      *            The ID of your mod
      * @param animationName
      *            The name of the animation you want to check
+     * @param animatedElement The IAnimated that is animated.
      */
-    public boolean isAnimationActive(String modid, String animationName)
-    {
-        return this.isAnimationActive(modid + ":" + animationName);
+    public boolean isAnimationActive(String modid, String animationName, T animatedElement) {
+        return this.isAnimationActive(modid + ":" + animationName, animatedElement);
     }
 
-    public abstract boolean isAnimationActive(String name);
+    public abstract boolean isAnimationActive(String name, T animatedElement);
 
-    public abstract boolean canUpdateAnimation(Channel channel);
+    public abstract boolean canUpdateAnimation(Channel channel, T animatedElement);
 
-    public abstract void fireAnimationEvent(Channel anim, float prevFrame, float frame);
+    public void addAnimated(T animated) {
+        if (AnimationHandler.animTickHandler == null)
+            AnimationHandler.animTickHandler = new AnimTickHandler();
+        AnimationHandler.animTickHandler.addAnimated(animated);
+    }
+
+    public String getAnimNameFromId(short id) {
+        return this.channelIds.get(id);
+    }
+
+    public short getAnimIdFromName(String name) {
+        return (short) this.channelIds.indexOf(name);
+    }
+
+    public void removeAnimated(T animated) {
+        AnimationHandler.animTickHandler.removeAnimated(animated);
+    }
 
     /** Get world object from an IAnimated */
-    public static boolean isWorldRemote(IAnimated animated)
-    {
+    public static boolean isWorldRemote(IAnimated animated) {
         if (animated instanceof Entity)
             return ((Entity) animated).getEntityWorld().isRemote;
         else if (animated instanceof TileEntity)
             return ((TileEntity) animated).getWorld().isRemote;
         else
             return false;
+    }
+
+    public static class AnimInfo
+    {
+        public long  prevTime;
+        public float currentFrame;
+
+        public AnimInfo(long prevTime, float currentFrame) {
+            this.prevTime = prevTime;
+            this.currentFrame = currentFrame;
+        }
     }
 }

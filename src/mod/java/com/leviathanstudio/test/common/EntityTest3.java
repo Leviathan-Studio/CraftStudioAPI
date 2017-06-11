@@ -16,56 +16,54 @@ import net.minecraft.world.World;
 
 public class EntityTest3 extends EntityCreature implements IAnimated
 {
-    protected AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(this);
-    boolean                    fly         = false;
+    protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(EntityTest3.class);
+    boolean                           fly         = false;
 
-    public EntityTest3(World par1World)
-    {
+    static {
+        EntityTest3.animHandler.addAnim(Mod_Test.MODID, "fly", "dragon_brun", true);
+        EntityTest3.animHandler.addAnim(Mod_Test.MODID, "idle", "dragon_brun", true);
+    }
+
+    public EntityTest3(World par1World) {
         super(par1World);
-        this.animHandler.addAnim(Mod_Test.MODID, "fly", "dragon_brun", true);
-        this.animHandler.addAnim(Mod_Test.MODID, "idle", "dragon_brun", true);
+        EntityTest3.animHandler.addAnimated(this);
     }
 
     @Override
-    protected void entityInit()
-    {
+    protected void entityInit() {
         super.entityInit();
     }
 
     // Getter for animation handler
     @Override
-    public AnimationHandler getAnimationHandler()
-    {
-        return this.animHandler;
+    public AnimationHandler getAnimationHandler() {
+        return EntityTest3.animHandler;
     }
 
     @Override
-    public void onUpdate()
-    {
+    public void onUpdate() {
         super.onUpdate();
     }
 
     @Override
     public boolean processInteract(EntityPlayer player, EnumHand hand, @Nullable ItemStack stack)
     {
-        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly"))
+        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly", this))
             this.fly = true;
         return true;
     }
 
     @Override
-    public void onLivingUpdate()
-    {
+    public void onLivingUpdate() {
         super.onLivingUpdate();
         // Activate the animation in ticking method
-        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly") && this.fly)
-            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "fly");
+        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly", this) && this.fly)
+            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "fly", this);
 
     }
 
     @Override
-    public UUID getUUID()
-    {
+    public UUID getUUID() {
         return this.getPersistentID();
     }
 }
