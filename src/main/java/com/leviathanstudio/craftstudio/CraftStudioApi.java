@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
  * @author ZeAmateis
  * @author Timmypote
  */
-@Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, version = "0.1-beta", updateJSON = "https://leviathan-studio.com/craftstudioapi/update.json", acceptedMinecraftVersions = "1.9.4")
+@Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, version = "0.2-beta", updateJSON = "https://leviathan-studio.com/craftstudioapi/update.json", acceptedMinecraftVersions = "1.9.4")
 public class CraftStudioApi
 {
     private static final Logger              LOGGER  = LogManager.getLogger("CraftStudio");
