@@ -18,6 +18,7 @@ public class RenderBlockTest<T extends TileEntityTest> extends TileEntitySpecial
         GlStateManager.pushMatrix();
         GlStateManager.translate(x + 0.5D, y + 1.5D, z + 0.5D);
         GlStateManager.rotate(180F, 0, 0, 1);
+        GlStateManager.rotate(180F, 0, 1, 0);
         this.modelBlock.render(te);
         GlStateManager.popMatrix();
     }
