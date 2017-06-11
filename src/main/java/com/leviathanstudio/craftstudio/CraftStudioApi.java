@@ -1,5 +1,8 @@
 package com.leviathanstudio.craftstudio;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
@@ -19,9 +22,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.RegistryBuilder;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Main class of the CraftStudioApi
@@ -44,8 +44,7 @@ public class CraftStudioApi
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public static void createRegistries(RegistryEvent.NewRegistry event)
-    {
+    public static void createRegistries(RegistryEvent.NewRegistry event) {
         RegistryBuilder builder = new RegistryBuilder<CSReadedModel>();
         builder.setName(new ResourceLocation(CraftStudioApi.API_ID, "cs_models"));
         builder.setType(CSReadedModel.class);
@@ -60,26 +59,22 @@ public class CraftStudioApi
 
     @SubscribeEvent(priority = EventPriority.LOW)
     @SideOnly(Side.CLIENT)
-    public static void registerModels(RegistryEvent.Register<CSReadedModel> e)
-    {
+    public static void registerModels(RegistryEvent.Register<CSReadedModel> e) {
         CSRegistryHelper.loadModels();
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
     @SideOnly(Side.CLIENT)
-    public static void registerAnims(RegistryEvent.Register<CSReadedAnim> e)
-    {
+    public static void registerAnims(RegistryEvent.Register<CSReadedAnim> e) {
         CSRegistryHelper.loadAnims();
     }
 
     @EventHandler
-    void preInit(FMLPreInitializationEvent event)
-    {
+    void preInit(FMLPreInitializationEvent event) {
         CraftStudioApi.proxy.preInit(event);
     }
 
-    public static Logger getLogger()
-    {
+    public static Logger getLogger() {
         return CraftStudioApi.LOGGER;
     }
 
@@ -87,12 +82,13 @@ public class CraftStudioApi
      * Helper to create an AnimationHandler to registry animation to your
      * entity/block
      *
+     * @param <T>
+     *
      * @param animated
      *            Class whiches implements IAnimated (Entity or TileEntity)
      */
-    public static AnimationHandler getNewAnimationHandler(IAnimated animated)
-    {
-        return CraftStudioApi.proxy.getNewAnimationHandler(animated);
+    public static <T extends IAnimated> AnimationHandler<T> getNewAnimationHandler(Class<T> animatedClass) {
+        return CraftStudioApi.proxy.getNewAnimationHandler(animatedClass);
 
     }
 }

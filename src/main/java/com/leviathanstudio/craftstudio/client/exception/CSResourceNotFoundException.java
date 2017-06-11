@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.common.exception;
+package com.leviathanstudio.craftstudio.client.exception;
 
 import java.io.FileNotFoundException;
 
@@ -15,8 +15,12 @@ public class CSResourceNotFoundException extends FileNotFoundException
 {
     private static final long serialVersionUID = -3495512420502088386L;
 
-    public CSResourceNotFoundException(String resourceIn)
-    {
+    /**
+     * Create an exception for a resource not found.
+     * 
+     * @param resourceIn The resource that wasn't found.
+     */
+    public CSResourceNotFoundException(String resourceIn) {
         super("Resource not found: " + resourceIn);
     }
 }
