@@ -153,6 +153,8 @@ public abstract class AnimationHandler<T extends IAnimated>
     public short getAnimIdFromName(String name) {
         return (short) this.channelIds.indexOf(name);
     }
+    
+    public abstract void removeAnimated(T animated);
 
     /** Get world object from an IAnimated */
     public static boolean isWorldRemote(IAnimated animated) {

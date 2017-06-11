@@ -15,6 +15,8 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class EntityTest2 extends EntityAnimal implements IAnimated
 {
@@ -33,7 +35,6 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
         this.setSize(1.0F, 1.5F);
         this.tasks.addTask(1, new EntityAILookIdle(this));
         this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 10));
-        this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "custom", this);
         this.initEntityAI();
     }
 
@@ -78,6 +79,8 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
+        if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "lookat", this))
+            this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "lookat", this);
     }
 
     @Override

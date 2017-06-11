@@ -135,13 +135,17 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
      */
     @Override
     public boolean isAnimationActive(String name, T animatedElement) {
+        InfoChannel anim = this.animChannels.get(name);
+        if (anim == null)
+            return false;
         Map<InfoChannel, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
         if (animInfoMap == null)
             return false;
-
-        for (Entry<InfoChannel, AnimInfo> animInfo : animInfoMap.entrySet())
-            if (animInfo.getKey().name.equals(name) && animInfo.getValue().currentFrame < animInfo.getKey().totalFrames - 1)
+        if (animInfoMap.containsKey(anim)){
+            AnimInfo info = animInfoMap.get(anim);
+            if (anim instanceof CustomChannel || info.currentFrame < anim.totalFrames - 1)
                 return true;
+        }
         return false;
     }
 
@@ -149,12 +153,13 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
      * Check if an hold animation is active
      */
     public boolean isHoldAnimationActive(String name, T animatedElement) {
+        InfoChannel anim = this.animChannels.get(name);
+        if (anim == null)
+            return false;
         Map<InfoChannel, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
         if (animInfoMap == null)
             return false;
-
-        for (Entry<InfoChannel, AnimInfo> animInfo : animInfoMap.entrySet())
-            if (animInfo.getKey().name.equals(name))
+        if (animInfoMap.containsKey(anim))
                 return true;
         return false;
     }
@@ -376,5 +381,10 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
     /** Getters */
     public Map<String, InfoChannel> getAnimChannels() {
         return this.animChannels;
+    }
+
+    @Override
+    public void removeAnimated(T animated) {
+        this.currentAnimInfo.remove(animated);
     }
 }

@@ -202,4 +202,10 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     @Override
     public void clientStartAnimation(String res, float startingFrame, T animatedElement) {}
+
+    @Override
+    public void removeAnimated(T animated) {
+        this.currentAnimInfo.remove(animated);
+        this.startingAnimations.remove(animated);
+    }
 }

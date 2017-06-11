@@ -8,6 +8,8 @@ import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class EntityTest extends EntityCreature implements IAnimated
 {
@@ -45,7 +47,7 @@ public class EntityTest extends EntityCreature implements IAnimated
         super.onLivingUpdate();
         // Activate the animation in ticking method
         if (this.world.isRemote)
-            if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "streching", this))
+            if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "streching", this))
                 this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "streching", this);
     }
 
