@@ -1,5 +1,6 @@
 package com.leviathanstudio.craftstudio.pack.animation;
 
+import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
 
 import com.leviathanstudio.craftstudio.client.model.CSModelRenderer;
@@ -16,7 +17,7 @@ public class AnimationLootAt extends CustomChannel
     private String headPart;
 
     public AnimationLootAt(String headPartIn) {
-        super("lookAt");
+        super("lookat");
         this.headPart = headPartIn;
     }
 
@@ -27,10 +28,11 @@ public class AnimationLootAt extends CustomChannel
             if (parts.boxName.equals(this.headPart)) {
                 EntityLiving entityL = (EntityLiving) animated;
                 float diff = entityL.getRotationYawHead() - entityL.renderYawOffset;
-                Quat4f quat = MathHelper.quatFromEuler(-entityL.rotationPitch, -diff, 0.0F);
+                Quat4f quat = MathHelper.quatFromEuler(entityL.rotationPitch, 0.0F, diff);
                 Quat4f quat2 = new Quat4f(parts.getDefaultRotationAsQuaternion());
                 quat.mul(quat2);
                 parts.getRotationMatrix().set(quat);
+                parts.getRotationMatrix().transpose();
             }
     }
 

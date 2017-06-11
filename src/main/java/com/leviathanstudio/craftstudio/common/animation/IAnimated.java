@@ -16,8 +16,9 @@ public interface IAnimated
      * {@link AnimationHandler#stopAnimation stopAnimation()} <br>
      *
      * {@link AnimationHandler#isAnimationActive isAnimationActive()}
+     * @param <T>
      */
-    public AnimationHandler getAnimationHandler();
+    public <T extends IAnimated> AnimationHandler<T> getAnimationHandler();
 
     /**
      * Getter of Entity/Block for multiplayer sync compatibility

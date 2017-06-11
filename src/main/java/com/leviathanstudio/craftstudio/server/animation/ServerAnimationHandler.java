@@ -12,6 +12,7 @@ import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.common.network.EndAnimationMessage;
 import com.leviathanstudio.craftstudio.common.network.FireAnimationMessage;
+import com.leviathanstudio.craftstudio.common.network.FireEndAnimationMessage;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -115,6 +116,31 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
                 new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 100));
         animInfoMap.remove(res);
     }
+    
+    @Override
+    public void stopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
+        if (!(animatedElement instanceof Entity))
+            return;
+        Entity e = (Entity) animatedElement;
+        
+        if (!this.animChannels.containsKey(animToStop)) {
+            CraftStudioApi.getLogger().warn("The animation stopped " + animToStop + " doesn't exist!");
+            return;
+        }
+        if (!this.animChannels.containsKey(animToStart))
+            return;
+        Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
+        if (animInfoMap != null)
+            animInfoMap.remove(animToStop);
+        
+        Map<String, Float> startingAnimMap = this.startingAnimations.get(animatedElement);
+        if (startingAnimMap == null)
+            this.startingAnimations.put(animatedElement, startingAnimMap = new HashMap<>());
+        startingAnimMap.put(animToStart, startingFrame);
+        
+        CraftStudioApi.NETWORK.sendToAllAround(new FireEndAnimationMessage(animToStart, animatedElement, startingFrame, animToStop),
+                new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 100));
+    }
 
     @Override
     public void animationsUpdate(T animatedElement) {
@@ -172,5 +198,14 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void clientStartAnimation(String res, float startingFrame, T animatedElement) {}
+
+    @Override
+    public void removeAnimated(T animated) {
+        this.currentAnimInfo.remove(animated);
+        this.startingAnimations.remove(animated);
     }
 }

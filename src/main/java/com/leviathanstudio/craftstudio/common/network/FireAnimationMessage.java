@@ -14,7 +14,7 @@ public class FireAnimationMessage extends CraftStudioBasePacket
 {
     public FireAnimationMessage() {}
 
-    private float startingKeyframe;
+    protected float startingKeyframe;
 
     public FireAnimationMessage(String animationNameIn, IAnimated animated, float startingKeyframeIn) {
         super(animationNameIn, animated);
@@ -41,7 +41,7 @@ public class FireAnimationMessage extends CraftStudioBasePacket
             if (entity != null && entity instanceof IAnimated) {
                 IAnimated animated = (IAnimated) entity;
                 String animName = animated.getAnimationHandler().getAnimNameFromId(message.animationId);
-                ((ClientAnimationHandler) animated.getAnimationHandler()).clientStartAnimation(animName, message.startingKeyframe, animated);
+                animated.getAnimationHandler().clientStartAnimation(animName, message.startingKeyframe, animated);
                 Object infoChannel = ((ClientAnimationHandler) animated.getAnimationHandler()).getAnimChannels().get(animName);
                 if (infoChannel instanceof ClientChannel)
                     return new RFireAnimationMessage(animName, animated, ((ClientChannel) infoChannel).totalFrames);

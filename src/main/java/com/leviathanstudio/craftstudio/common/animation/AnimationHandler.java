@@ -13,8 +13,6 @@ public abstract class AnimationHandler<T extends IAnimated>
     protected List<String>        channelIds = new ArrayList<>();
 
     public AnimationHandler() {
-        if (AnimationHandler.animTickHandler == null)
-            AnimationHandler.animTickHandler = new AnimTickHandler();
     }
 
     /**
@@ -85,6 +83,16 @@ public abstract class AnimationHandler<T extends IAnimated>
     public void startAnimation(String modid, String animationName, float startingFrame, T animatedElement) {
         this.startAnimation(modid + ":" + animationName, startingFrame, animatedElement);
     }
+    
+    public abstract void clientStartAnimation(String res, float startingFrame, T animatedElement);
+    
+    public void clientStartAnimation(String modid, String animationName, float startingFrame, T animatedElement){
+        this.clientStartAnimation(modid + ":" + animationName, startingFrame, animatedElement);
+    }
+    
+    public void clientStartAnimation(String modid, String animationName, T animatedElement) {
+        this.clientStartAnimation(modid, animationName, 0.0F, animatedElement);
+    }
 
     public abstract void stopAnimation(String res, T animatedElement);
 
@@ -98,6 +106,20 @@ public abstract class AnimationHandler<T extends IAnimated>
      */
     public void stopAnimation(String modid, String animationName, T animatedElement) {
         this.stopAnimation(modid + ":" + animationName, animatedElement);
+    }
+    
+    public abstract void stopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement);
+    
+    public void stopStartAnimation(String modid1, String animToStop, String modid2, String animToStart, float startingFrame, T animatedElement){
+        this.stopStartAnimation(modid1 + ":" + animToStop, modid2 + ":" + animToStart, startingFrame, animatedElement);
+    }
+    
+    public void stopStartAnimation(String modid, String animToStop, String animToStart, float startingFrame, T animatedElement){
+        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, startingFrame, animatedElement);
+    }
+    
+    public void stopStartAnimation(String modid, String animToStop, String animToStart, T animatedElement){
+        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement);
     }
 
     public abstract void animationsUpdate(T animatedElement);
@@ -119,6 +141,8 @@ public abstract class AnimationHandler<T extends IAnimated>
     public abstract boolean canUpdateAnimation(Channel channel, T animatedElement);
 
     public void addAnimated(T animated) {
+        if (AnimationHandler.animTickHandler == null)
+            AnimationHandler.animTickHandler = new AnimTickHandler();
         AnimationHandler.animTickHandler.addAnimated(animated);
     }
 
@@ -129,6 +153,8 @@ public abstract class AnimationHandler<T extends IAnimated>
     public short getAnimIdFromName(String name) {
         return (short) this.channelIds.indexOf(name);
     }
+    
+    public abstract void removeAnimated(T animated);
 
     /** Get world object from an IAnimated */
     public static boolean isWorldRemote(IAnimated animated) {

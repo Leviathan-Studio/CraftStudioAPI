@@ -8,6 +8,8 @@ import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class EntityTest4 extends EntityCreature implements IAnimated
 {
@@ -42,8 +44,9 @@ public class EntityTest4 extends EntityCreature implements IAnimated
     public void onLivingUpdate() {
         super.onLivingUpdate();
         // Activate the animation in ticking method
-        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation", this))
-            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "rotation", this);
+        if (this.world.isRemote)
+            if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation", this))
+                this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "rotation", this);
     }
 
     @Override
