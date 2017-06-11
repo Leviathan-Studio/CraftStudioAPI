@@ -9,14 +9,13 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class CSClientProxy extends CSCommonProxy
 {
     @Override
-    public void preInit(FMLPreInitializationEvent e)
-    {
+    public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
     }
 
     @Override
-    public AnimationHandler getNewAnimationHandler(IAnimated animated)
-    {
-        return new ClientAnimationHandler(animated);
+    public <T extends IAnimated> AnimationHandler<T> getNewAnimationHandler(Class<T> animatedClass) {
+        return new ClientAnimationHandler<>();
     }
+
 }
