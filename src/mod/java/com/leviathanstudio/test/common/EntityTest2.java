@@ -5,7 +5,7 @@ import java.util.UUID;
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
-import com.leviathanstudio.craftstudio.pack.animation.AnimationLootAt;
+import com.leviathanstudio.test.pack.animation.AnimationLootAt;
 
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;

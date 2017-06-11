@@ -15,6 +15,11 @@ public class CSResourceNotFoundException extends FileNotFoundException
 {
     private static final long serialVersionUID = -3495512420502088386L;
 
+    /**
+     * Create an exception for a resource not found.
+     * 
+     * @param resourceIn The resource that wasn't found.
+     */
     public CSResourceNotFoundException(String resourceIn) {
         super("Resource not found: " + resourceIn);
     }

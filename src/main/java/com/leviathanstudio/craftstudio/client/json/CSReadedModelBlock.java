@@ -42,13 +42,10 @@ public class CSReadedModelBlock
     }
 
     /**
-     * TODO Change doc Get if the block as a name already in the list or not. If
-     * not it add his name to the list.</br>
-     * If it is, the list is wiped and the block's name is add.
+     * Check if the block or one of it's child as a name already in the list or not and complete the list.
      *
-     * @param names
-     *            A list of name.
-     * @return True, if the name isn't in the list. False, otherwise.
+     * @param names A list of name.
+     * @return null, if no block has duplicate name. One name that is duplicated, otherwise.
      */
     String whyUnAnimable(List<String> names) {
         String str;

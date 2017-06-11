@@ -34,7 +34,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class CSJsonReader
 {
+    /** The JsonObject that is the root of the file */
     private JsonObject root;
+    /** The resource location */
     private String     modid, ress;
 
     /**
@@ -323,6 +325,12 @@ public class CSJsonReader
         }
     }
 
+    /**
+     * Normalize a String.
+     * 
+     * @param str The String to normalize.
+     * @return The normalized String.
+     */
     private static String strNormalize(String str) {
         return str.replaceAll("[^\\dA-Za-z ]", "_").replaceAll("\\s+", "_").replaceAll("[^\\p{ASCII}]", "_");
     }

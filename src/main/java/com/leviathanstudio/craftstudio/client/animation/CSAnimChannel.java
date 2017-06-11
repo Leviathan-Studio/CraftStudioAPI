@@ -84,9 +84,6 @@ public class CSAnimChannel extends ClientChannel
         this.initializeAllFrames();
     }
 
-    /**
-     * Initialize the keyframes.
-     */
     @Override
     protected void initializeAllFrames() {
         KeyFrame keyFrame;
