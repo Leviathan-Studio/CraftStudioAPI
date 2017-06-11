@@ -15,6 +15,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.IClientCommand;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -43,10 +45,13 @@ public class CommandCSUVMap extends CommandBase implements IClientCommand
         if (args.length >= 1) {
             boolean succes = false;
             try {
+                sender.sendMessage(new TextComponentString("Starting UVMap creation ..."));
                 UVMapCreator uvc = new UVMapCreator(new ResourceLocation(args[0]));
                 succes = uvc.createUVMap();
                 if (!succes)
                     throw new CommandException("Fail to write the file");
+                else
+                    sender.sendMessage(new TextComponentString("UVMap finished."));
             } catch (CSResourceNotRegisteredException e) {
                 throw new CommandException("Model not registered");
             }
