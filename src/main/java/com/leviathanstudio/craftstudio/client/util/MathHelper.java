@@ -11,9 +11,20 @@ import javax.vecmath.Vector3f;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Class containing useful math methods for the api.
+ * 
+ * @author Timmypote
+ */
 @SideOnly(Side.CLIENT)
 public class MathHelper
 {
+    /**
+     * Create a direct FloatBuffer from a Matrix4f.
+     * 
+     * @param mat The Matrix4f.
+     * @return The FloatBuffer.
+     */
     public static FloatBuffer makeFloatBuffer(Matrix4f mat) {
         final ByteBuffer bb = ByteBuffer.allocateDirect(64);
         bb.order(ByteOrder.nativeOrder());
@@ -38,10 +49,24 @@ public class MathHelper
         return fb;
     }
 
+    /**
+     * Create a new Quat4f representing the yaw, pitch and roll given(applied in that order).
+     * 
+     * @param rot The pitch, yaw and roll as a Vector3f(x=pitch, y=yaw, z=roll).
+     * @return The new Quat4f.
+     */
     public static Quat4f quatFromEuler(Vector3f rot) {
         return quatFromEuler(rot.x, rot.y, rot.z);
     }
 
+    /**
+     * Create a new Quat4f representing the yaw, pitch and roll given(applied in that order).
+     * 
+     * @param pitch The pitch.
+     * @param yaw The yaw.
+     * @param roll The roll.
+     * @return The new Quat4f.
+     */
     public static Quat4f quatFromEuler(float pitch, float yaw, float roll) {
         Quat4f quat = new Quat4f();
         pitch = (float) Math.toRadians(pitch);

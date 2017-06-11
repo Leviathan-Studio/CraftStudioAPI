@@ -24,14 +24,28 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+
+/**
+ * The animation handler on Client side
+ * 
+ * @author Timmypote
+ * @author ZeAmateis
+ *
+ * @param <T> The Class implementing {@link IAnimated IAnimated} that this handler belong to.
+ */
 @SideOnly(Side.CLIENT)
 public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandler<T>
 {
     /** Map with all the animations. */
     private Map<String, InfoChannel>           animChannels    = new HashMap<>();
 
+    /** Map with the info about the animations. **/
     private Map<T, Map<InfoChannel, AnimInfo>> currentAnimInfo = new HashMap<>();
 
+    
+    /**
+     * Simple Constructor of the Handler.
+     */
     public ClientAnimationHandler() {
         super();
     }
@@ -90,6 +104,12 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
             this.clientStopAnimation(res, animatedElement);
     }
 
+    /**
+     * Stop an animation on the client side.
+     * 
+     * @param res The animation to stop.
+     * @param animatedElement The object that is animated.
+     */
     public void clientStopAnimation(String res, T animatedElement) {
         if (!this.animChannels.containsKey(res)) {
             CraftStudioApi.getLogger().warn("The animation stopped " + res + " doesn't exist!");
@@ -112,9 +132,6 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
         this.startAnimation(animToStart, startingFrame, animatedElement);
     }
 
-    /**
-     * Update the animation
-     */
     @Override
     public void animationsUpdate(T animatedElement) {
         Map<InfoChannel, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
@@ -129,10 +146,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
                 it.remove();
         }
     }
-
-    /**
-     * Check if animation is active
-     */
+    
     @Override
     public boolean isAnimationActive(String name, T animatedElement) {
         InfoChannel anim = this.animChannels.get(name);
@@ -150,7 +164,11 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
     }
 
     /**
-     * Check if an hold animation is active
+     * Check if an hold animation is active.
+     *
+     * @param name The animation you want to check.
+     * @param animatedElement The object that is animated.
+     * @return True if the animation is active, false otherwise.
      */
     public boolean isHoldAnimationActive(String name, T animatedElement) {
         InfoChannel anim = this.animChannels.get(name);
@@ -164,9 +182,6 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
         return false;
     }
 
-    /**
-     * Check if animation can be updated
-     */
     @Override
     public boolean canUpdateAnimation(Channel channel, T animatedElement) {
         Map<InfoChannel, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
@@ -223,8 +238,11 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
     }
 
     /**
-     * Apply animations if running or apply initial values. Must be called only
+     * Apply animations if running or apply initial values. Should be only called
      * by the model class.
+     *
+     * @param parts The list of block to update.
+     * @param entity The object that is animated.
      */
     public static void performAnimationInModel(List<CSModelRenderer> parts, IAnimated entity) {
         for (CSModelRenderer entry : parts)
@@ -232,7 +250,10 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
     }
 
     /**
-     * Apply animations for model block
+     * Apply animations for model block.
+     *
+     * @param block The block to update.
+     * @param entity The object that is animated.
      */
     public static void performAnimationForBlock(CSModelRenderer block, IAnimated entity) {
         String boxName = block.boxName;
@@ -378,14 +399,45 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     }
 
-    /** Getters */
-    public Map<String, InfoChannel> getAnimChannels() {
-        return this.animChannels;
-    }
-
     @Override
     public void removeAnimated(T animated) {
         super.removeAnimated(animated);
         this.currentAnimInfo.remove(animated);
+    }
+
+    /**
+     * Getter of currentAnimInfo.
+     * 
+     * @return the currentAnimInfo.
+     */
+    public Map<T, Map<InfoChannel, AnimInfo>> getCurrentAnimInfo() {
+        return currentAnimInfo;
+    }
+
+    /**
+     * Setter of currentAnimInfo.
+     * 
+     * @param currentAnimInfo the currentAnimInfo to set.
+     */
+    public void setCurrentAnimInfo(Map<T, Map<InfoChannel, AnimInfo>> currentAnimInfo) {
+        this.currentAnimInfo = currentAnimInfo;
+    }
+    
+    /**
+     * Getter of animChannels.
+     * 
+     * @return the animChannels.
+     */
+    public Map<String, InfoChannel> getAnimChannels() {
+        return this.animChannels;
+    }
+
+    /**
+     * Setter of animChannels.
+     * 
+     * @param animChannels the animChannels to set.
+     */
+    public void setAnimChannels(Map<String, InfoChannel> animChannels) {
+        this.animChannels = animChannels;
     }
 }
