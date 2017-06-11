@@ -44,9 +44,8 @@ public class EntityTest4 extends EntityCreature implements IAnimated
     public void onLivingUpdate() {
         super.onLivingUpdate();
         // Activate the animation in ticking method
-        if (this.world.isRemote)
-            if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation", this))
-                this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "rotation", this);
+        if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation", this))
+            this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "rotation", this);
     }
 
     @Override

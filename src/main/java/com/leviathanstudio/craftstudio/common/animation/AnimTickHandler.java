@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -36,9 +37,12 @@ public class AnimTickHandler
                     if (entity instanceof Entity)
                         if (((Entity) entity).isDead)
                             this.removableAnimated.add(entity);
+                    if (entity instanceof TileEntity)
+                        if (((TileEntity) entity).isInvalid())
+                            this.removableAnimated.add(entity);
                 }
         for (IAnimated entity : this.removableAnimated)
-            this.activeAnimated.remove(entity);
+            entity.getAnimationHandler().removeAnimated(entity);
         this.removableAnimated.clear();
     }
 
@@ -54,19 +58,17 @@ public class AnimTickHandler
                     if (entity instanceof Entity)
                         if (((Entity) entity).isDead)
                             this.removableAnimated.add(entity);
+                    if (entity instanceof TileEntity)
+                        if (((TileEntity) entity).isInvalid())
+                            this.removableAnimated.add(entity);
                 }
                 for (IAnimated entity : this.removableAnimated)
-                    this.activeAnimated.remove(entity);
+                    entity.getAnimationHandler().removeAnimated(entity);
                 this.removableAnimated.clear();
             }
     }
 
-    // // Called when a new frame is displayed (See fps)
-    // @SubscribeEvent
-    // @SideOnly(Side.CLIENT)
-    // public void onRenderTick(TickEvent.RenderTickEvent event) {}
-    //
-    // // Called when the world ticks
-    // @SubscribeEvent
-    // public void onWorldTick(TickEvent.WorldTickEvent event) {}
+    public void removeAnimated(IAnimated animated) {
+        this.activeAnimated.remove(animated);
+    }
 }

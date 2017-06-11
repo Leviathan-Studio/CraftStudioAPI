@@ -68,12 +68,12 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
             this.clientStartAnimation(animationNameIn, startingFrame, animatedElement);
     }
 
+    @Override
     public void clientStartAnimation(String res, float startingFrame, T animatedElement) {
         if (this.animChannels.get(res) == null) {
             CraftStudioApi.getLogger().warn("The animation called " + res + " doesn't exist!");
             return;
         }
-
         Map<InfoChannel, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
         if (animInfoMap == null)
             this.currentAnimInfo.put(animatedElement, animInfoMap = new HashMap<>());
@@ -105,7 +105,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
         if (animInfoMap.isEmpty())
             this.currentAnimInfo.remove(animatedElement);
     }
-    
+
     @Override
     public void stopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
         this.stopAnimation(animToStop, animatedElement);
@@ -141,7 +141,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
         Map<InfoChannel, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
         if (animInfoMap == null)
             return false;
-        if (animInfoMap.containsKey(anim)){
+        if (animInfoMap.containsKey(anim)) {
             AnimInfo info = animInfoMap.get(anim);
             if (anim instanceof CustomChannel || info.currentFrame < anim.totalFrames - 1)
                 return true;
@@ -160,7 +160,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
         if (animInfoMap == null)
             return false;
         if (animInfoMap.containsKey(anim))
-                return true;
+            return true;
         return false;
     }
 
@@ -385,6 +385,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     @Override
     public void removeAnimated(T animated) {
+        super.removeAnimated(animated);
         this.currentAnimInfo.remove(animated);
     }
 }
