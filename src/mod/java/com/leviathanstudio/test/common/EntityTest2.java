@@ -21,17 +21,17 @@ import net.minecraftforge.fml.relauncher.Side;
 public class EntityTest2 extends EntityAnimal implements IAnimated
 {
     protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(EntityTest2.class);
-    protected boolean          fanOpen     = true;
-    
-    static{
-    	animHandler.addAnim(Mod_Test.MODID, "close_fan", "peacock", false);
-        animHandler.addAnim(Mod_Test.MODID, "open_fan", "close_fan");
-        animHandler.addAnim(Mod_Test.MODID, "lookat", "peacock", new AnimationLootAt("Head"));
+    protected boolean                 fanOpen     = true;
+
+    static {
+        EntityTest2.animHandler.addAnim(Mod_Test.MODID, "close_fan", "peacock", false);
+        EntityTest2.animHandler.addAnim(Mod_Test.MODID, "open_fan", "close_fan");
+        EntityTest2.animHandler.addAnim(Mod_Test.MODID, "lookat", "peacock", new AnimationLootAt("Head"));
     }
 
     public EntityTest2(World par1World) {
         super(par1World);
-        animHandler.addAnimated(this);
+        EntityTest2.animHandler.addAnimated(this);
         this.setSize(1.0F, 1.5F);
         this.tasks.addTask(1, new EntityAILookIdle(this));
         this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 10));
@@ -53,7 +53,7 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     // Getter for animation handler
     @Override
     public AnimationHandler getAnimationHandler() {
-        return this.animHandler;
+        return EntityTest2.animHandler;
     }
 
     @Override

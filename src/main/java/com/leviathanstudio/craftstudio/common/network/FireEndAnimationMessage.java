@@ -13,14 +13,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class FireEndAnimationMessage extends FireAnimationMessage
 {
     public FireEndAnimationMessage() {}
-    
+
     protected short endAnimId;
-    
-    public FireEndAnimationMessage(String animationToStart, IAnimated animated, float startingKeyframeIn, String animationToEnd){
+
+    public FireEndAnimationMessage(String animationToStart, IAnimated animated, float startingKeyframeIn, String animationToEnd) {
         super(animationToStart, animated, startingKeyframeIn);
         this.endAnimId = animated.getAnimationHandler().getAnimIdFromName(animationToEnd);
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
@@ -32,7 +32,7 @@ public class FireEndAnimationMessage extends FireAnimationMessage
         super.fromBytes(buf);
         this.endAnimId = buf.readShort();
     }
-    
+
     public static class FireEndAnimationHandler implements IMessageHandler<FireEndAnimationMessage, RFireAnimationMessage>
     {
         @Override

@@ -1,6 +1,5 @@
 package com.leviathanstudio.craftstudio.pack.animation;
 
-import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
 
 import com.leviathanstudio.craftstudio.client.model.CSModelRenderer;

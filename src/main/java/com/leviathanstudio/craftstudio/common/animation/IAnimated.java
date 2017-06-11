@@ -16,6 +16,7 @@ public interface IAnimated
      * {@link AnimationHandler#stopAnimation stopAnimation()} <br>
      *
      * {@link AnimationHandler#isAnimationActive isAnimationActive()}
+     * 
      * @param <T>
      */
     public <T extends IAnimated> AnimationHandler<T> getAnimationHandler();

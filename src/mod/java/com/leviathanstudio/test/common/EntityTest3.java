@@ -14,16 +14,16 @@ import net.minecraft.world.World;
 public class EntityTest3 extends EntityCreature implements IAnimated
 {
     protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(EntityTest3.class);
-    boolean                    fly         = false;
-    
+    boolean                           fly         = false;
+
     static {
-    	animHandler.addAnim(Mod_Test.MODID, "fly", "dragon_brun", true);
-        animHandler.addAnim(Mod_Test.MODID, "idle", "dragon_brun", true);
+        EntityTest3.animHandler.addAnim(Mod_Test.MODID, "fly", "dragon_brun", true);
+        EntityTest3.animHandler.addAnim(Mod_Test.MODID, "idle", "dragon_brun", true);
     }
 
     public EntityTest3(World par1World) {
         super(par1World);
-        animHandler.addAnimated(this);
+        EntityTest3.animHandler.addAnimated(this);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class EntityTest3 extends EntityCreature implements IAnimated
     // Getter for animation handler
     @Override
     public AnimationHandler getAnimationHandler() {
-        return this.animHandler;
+        return EntityTest3.animHandler;
     }
 
     @Override

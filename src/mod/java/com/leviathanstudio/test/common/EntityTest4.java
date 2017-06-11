@@ -14,14 +14,14 @@ import net.minecraftforge.fml.relauncher.Side;
 public class EntityTest4 extends EntityCreature implements IAnimated
 {
     protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(EntityTest4.class);
-    
-    static{
-    	animHandler.addAnim(Mod_Test.MODID, "rotation", "craftstudio_api_test2", true);
+
+    static {
+        EntityTest4.animHandler.addAnim(Mod_Test.MODID, "rotation", "craftstudio_api_test2", true);
     }
 
     public EntityTest4(World par1World) {
         super(par1World);
-        animHandler.addAnimated(this);
+        EntityTest4.animHandler.addAnimated(this);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class EntityTest4 extends EntityCreature implements IAnimated
     // Getter for animation handler
     @Override
     public AnimationHandler getAnimationHandler() {
-        return this.animHandler;
+        return EntityTest4.animHandler;
     }
 
     @Override
@@ -44,9 +44,8 @@ public class EntityTest4 extends EntityCreature implements IAnimated
     public void onLivingUpdate() {
         super.onLivingUpdate();
         // Activate the animation in ticking method
-        if (this.world.isRemote)
-            if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation", this))
-                this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "rotation", this);
+        if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation", this))
+            this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "rotation", this);
     }
 
     @Override
