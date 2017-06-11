@@ -37,7 +37,7 @@ public class FireAnimationMessage extends CraftStudioBasePacket
     {
         @Override
         public RFireAnimationMessage onMessage(FireAnimationMessage message, MessageContext ctx) {
-            Entity entity = message.getEntityByUUID(Minecraft.getMinecraft().world.loadedEntityList, message.uuid);
+            Entity entity = message.getEntityByUUID(Minecraft.getMinecraft().theWorld.loadedEntityList, message.uuid);
             if (entity != null && entity instanceof IAnimated) {
                 IAnimated animated = (IAnimated) entity;
                 String animName = animated.getAnimationHandler().getAnimNameFromId(message.animationId);

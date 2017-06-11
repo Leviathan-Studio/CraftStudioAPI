@@ -37,7 +37,7 @@ public class FireEndAnimationMessage extends FireAnimationMessage
     {
         @Override
         public RFireAnimationMessage onMessage(FireEndAnimationMessage message, MessageContext ctx) {
-            Entity entity = message.getEntityByUUID(Minecraft.getMinecraft().world.loadedEntityList, message.uuid);
+            Entity entity = message.getEntityByUUID(Minecraft.getMinecraft().theWorld.loadedEntityList, message.uuid);
             if (entity != null && entity instanceof IAnimated) {
                 IAnimated animated = (IAnimated) entity;
                 ClientAnimationHandler handler = (ClientAnimationHandler) animated.getAnimationHandler();

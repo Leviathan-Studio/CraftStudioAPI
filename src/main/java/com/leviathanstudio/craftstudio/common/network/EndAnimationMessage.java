@@ -22,7 +22,7 @@ public class EndAnimationMessage extends CraftStudioBasePacket
     {
         @Override
         public RFireAnimationMessage onMessage(EndAnimationMessage message, MessageContext ctx) {
-            Entity entity = message.getEntityByUUID(Minecraft.getMinecraft().world.loadedEntityList, message.uuid);
+            Entity entity = message.getEntityByUUID(Minecraft.getMinecraft().theWorld.loadedEntityList, message.uuid);
             if (entity != null && entity instanceof IAnimated) {
                 IAnimated animated = (IAnimated) entity;
                 ((ClientAnimationHandler) animated.getAnimationHandler())

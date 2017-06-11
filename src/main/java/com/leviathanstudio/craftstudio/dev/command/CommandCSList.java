@@ -18,13 +18,12 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.client.IClientCommand;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class CommandCSList extends CommandBase implements IClientCommand
+public class CommandCSList extends CommandBase
 {
 
     private static String       name      = "cslist";
@@ -33,12 +32,12 @@ public class CommandCSList extends CommandBase implements IClientCommand
     private static List<String> autoC     = Arrays.<String> asList(new String[] { "models", "animations" });
 
     @Override
-    public String getName() {
+    public String getCommandName() {
         return CommandCSList.name;
     }
 
     @Override
-    public String getUsage(ICommandSender sender) {
+    public String getCommandUsage(ICommandSender sender) {
         return CommandCSList.usage;
     }
 
@@ -58,7 +57,7 @@ public class CommandCSList extends CommandBase implements IClientCommand
                     str = str + ", ";
                 str = str + res.toString();
             }
-            sender.sendMessage(new TextComponentString(str));
+            sender.addChatMessage(new TextComponentString(str));
         }
     }
 
@@ -68,12 +67,7 @@ public class CommandCSList extends CommandBase implements IClientCommand
     }
 
     @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, CommandCSList.autoC) : Collections.<String> emptyList();
-    }
-
-    @Override
-    public boolean allowUsageWithoutPrefix(ICommandSender sender, String message) {
-        return false;
     }
 }

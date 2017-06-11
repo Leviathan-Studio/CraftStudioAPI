@@ -17,13 +17,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.client.IClientCommand;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class CommandCSUVMap extends CommandBase implements IClientCommand
+public class CommandCSUVMap extends CommandBase
 {
 
     private static String name      = "csuvmap";
@@ -31,12 +30,12 @@ public class CommandCSUVMap extends CommandBase implements IClientCommand
     private static int    permLevel = 0;
 
     @Override
-    public String getName() {
+    public String getCommandName() {
         return CommandCSUVMap.name;
     }
 
     @Override
-    public String getUsage(ICommandSender sender) {
+    public String getCommandUsage(ICommandSender sender) {
         return CommandCSUVMap.usage;
     }
 
@@ -45,13 +44,13 @@ public class CommandCSUVMap extends CommandBase implements IClientCommand
         if (args.length >= 1) {
             boolean succes = false;
             try {
-                sender.sendMessage(new TextComponentString("Starting UVMap creation ..."));
+                sender.addChatMessage(new TextComponentString("Starting UVMap creation ..."));
                 UVMapCreator uvc = new UVMapCreator(new ResourceLocation(args[0]));
                 succes = uvc.createUVMap();
                 if (!succes)
                     throw new CommandException("Fail to write the file");
                 else
-                    sender.sendMessage(new TextComponentString("UVMap finished."));
+                    sender.addChatMessage(new TextComponentString("UVMap finished."));
             } catch (CSResourceNotRegisteredException e) {
                 throw new CommandException("Model not registered");
             }
@@ -66,14 +65,9 @@ public class CommandCSUVMap extends CommandBase implements IClientCommand
     }
 
     @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, GameRegistry.findRegistry(CSReadedModel.class).getKeys())
                 : Collections.<String> emptyList();
-    }
-
-    @Override
-    public boolean allowUsageWithoutPrefix(ICommandSender sender, String message) {
-        return false;
     }
 
 }

@@ -27,7 +27,7 @@ public class TileEntityTest extends TileEntity implements IAnimated, ITickable
 
     public TileEntityTest(World worldIn) {
         this();
-        this.world = worldIn;
+        this.worldObj = worldIn;
     }
 
     @Override
