@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.pack.animation;
+package com.leviathanstudio.test.pack.animation;
 
 import javax.vecmath.Quat4f;
 

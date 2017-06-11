@@ -63,6 +63,7 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            The ID of your mod
      * @param animationName
      *            The name of your animation you want to start
+     * @param animatedElement The IAnimated that is animated.
      */
     public void startAnimation(String modid, String animationName, T animatedElement) {
         this.startAnimation(modid, animationName, 0.0F, animatedElement);
@@ -77,7 +78,7 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            The name of your animation you want to start
      * @param startingFrame
      *            The frame you want your animation to start
-     *
+     * @param animatedElement The IAnimated that is animated.
      */
     public void startAnimation(String modid, String animationName, float startingFrame, T animatedElement) {
         this.startAnimation(modid + ":" + animationName, startingFrame, animatedElement);
@@ -89,6 +90,13 @@ public abstract class AnimationHandler<T extends IAnimated>
         this.clientStartAnimation(modid + ":" + animationName, startingFrame, animatedElement);
     }
 
+    /**
+     * Start your animation on the client only.
+     * 
+     * @param modid The ID of your mod.
+     * @param animationName The name of your animation you want to start.
+     * @param animatedElement The IAnimated that is animated.
+     */
     public void clientStartAnimation(String modid, String animationName, T animatedElement) {
         this.clientStartAnimation(modid, animationName, 0.0F, animatedElement);
     }
@@ -102,6 +110,7 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            The ID of your mod
      * @param animationName
      *            The name of your animation you want to start
+     * @param animatedElement The IAnimated that is animated.
      */
     public void stopAnimation(String modid, String animationName, T animatedElement) {
         this.stopAnimation(modid + ":" + animationName, animatedElement);
@@ -112,11 +121,19 @@ public abstract class AnimationHandler<T extends IAnimated>
     public void stopStartAnimation(String modid1, String animToStop, String modid2, String animToStart, float startingFrame, T animatedElement) {
         this.stopStartAnimation(modid1 + ":" + animToStop, modid2 + ":" + animToStart, startingFrame, animatedElement);
     }
-
+    
     public void stopStartAnimation(String modid, String animToStop, String animToStart, float startingFrame, T animatedElement) {
         this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, startingFrame, animatedElement);
     }
-
+    
+    /**
+     * Stop an animation and directly start an other.
+     * 
+     * @param modid The ID of your mod
+     * @param animToStop The name of your animation you want to stop
+     * @param animToStart The name of your animation you want to start
+     * @param animatedElement The IAnimated that is animated.
+     */
     public void stopStartAnimation(String modid, String animToStop, String animToStart, T animatedElement) {
         this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement);
     }
@@ -130,6 +147,7 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            The ID of your mod
      * @param animationName
      *            The name of the animation you want to check
+     * @param animatedElement The IAnimated that is animated.
      */
     public boolean isAnimationActive(String modid, String animationName, T animatedElement) {
         return this.isAnimationActive(modid + ":" + animationName, animatedElement);
