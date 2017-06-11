@@ -15,14 +15,14 @@ import net.minecraftforge.fml.relauncher.Side;
 public class TileEntityTest extends TileEntity implements IAnimated, ITickable
 {
     static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(TileEntityTest.class);
-    
-    static{
-        animHandler.addAnim(Mod_Test.MODID, "position", "craftstudio_api_test", true);
+
+    static {
+        TileEntityTest.animHandler.addAnim(Mod_Test.MODID, "position", "craftstudio_api_test", true);
     }
-    
-    public TileEntityTest(){
+
+    public TileEntityTest() {
         super();
-        animHandler.addAnimated(this);
+        TileEntityTest.animHandler.addAnimated(this);
     }
 
     public TileEntityTest(World worldIn) {
@@ -32,18 +32,20 @@ public class TileEntityTest extends TileEntity implements IAnimated, ITickable
 
     @Override
     public AnimationHandler getAnimationHandler() {
-        return this.animHandler;
+        return TileEntityTest.animHandler;
     }
 
     @Override
     public UUID getUUID() {
-        return this.getUUID();
+        // this.getPos();
+        return null;
     }
 
     @Override
     public void update() {
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "position", this))
             this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "position", this);
+        // Don't use startAnimation() on TileEntity for now
     }
 
 }

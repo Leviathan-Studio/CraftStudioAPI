@@ -14,14 +14,14 @@ import net.minecraftforge.fml.relauncher.Side;
 public class EntityTest4 extends EntityCreature implements IAnimated
 {
     protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(EntityTest4.class);
-    
-    static{
-    	animHandler.addAnim(Mod_Test.MODID, "rotation", "craftstudio_api_test2", true);
+
+    static {
+        EntityTest4.animHandler.addAnim(Mod_Test.MODID, "rotation", "craftstudio_api_test2", true);
     }
 
     public EntityTest4(World par1World) {
         super(par1World);
-        animHandler.addAnimated(this);
+        EntityTest4.animHandler.addAnimated(this);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class EntityTest4 extends EntityCreature implements IAnimated
     // Getter for animation handler
     @Override
     public AnimationHandler getAnimationHandler() {
-        return this.animHandler;
+        return EntityTest4.animHandler;
     }
 
     @Override

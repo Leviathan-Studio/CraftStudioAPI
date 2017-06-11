@@ -14,16 +14,16 @@ import net.minecraftforge.fml.relauncher.Side;
 public class EntityTest extends EntityCreature implements IAnimated
 {
     protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(EntityTest.class);
-    
+
     static {
-    	animHandler.addAnim(Mod_Test.MODID, "position", "craftstudio_api_test", true);
-    	animHandler.addAnim(Mod_Test.MODID, "offset", "craftstudio_api_test", true);
-    	animHandler.addAnim(Mod_Test.MODID, "streching", "craftstudio_api_test", true);
+        EntityTest.animHandler.addAnim(Mod_Test.MODID, "position", "craftstudio_api_test", true);
+        EntityTest.animHandler.addAnim(Mod_Test.MODID, "offset", "craftstudio_api_test", true);
+        EntityTest.animHandler.addAnim(Mod_Test.MODID, "streching", "craftstudio_api_test", true);
     }
 
     public EntityTest(World par1World) {
         super(par1World);
-        animHandler.addAnimated(this);
+        EntityTest.animHandler.addAnimated(this);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class EntityTest extends EntityCreature implements IAnimated
     // Getter for animation handler
     @Override
     public AnimationHandler getAnimationHandler() {
-        return this.animHandler;
+        return EntityTest.animHandler;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class EntityTest extends EntityCreature implements IAnimated
         super.onLivingUpdate();
         // Activate the animation in ticking method
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "streching", this))
-           this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "streching", this);
+            this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "streching", this);
     }
 
     @Override
