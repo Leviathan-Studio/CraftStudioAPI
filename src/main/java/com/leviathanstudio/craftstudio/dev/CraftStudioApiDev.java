@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 @Mod(modid = CraftStudioApiDev.API_ID, name = CraftStudioApiDev.NAME, clientSideOnly = true,
     version = "0.2.1-beta",
-    acceptedMinecraftVersions = "1.11.2")
+    acceptedMinecraftVersions = "1.10.2")
 public class CraftStudioApiDev
 {
 
