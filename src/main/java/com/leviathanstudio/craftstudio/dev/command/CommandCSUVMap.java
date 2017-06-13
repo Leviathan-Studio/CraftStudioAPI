@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class CommandCSUVMap extends CommandBase implements IClientCommand
+public class CommandCSUVMap extends CommandBase
 {
 
     private static String name      = "csuvmap";
@@ -70,10 +70,4 @@ public class CommandCSUVMap extends CommandBase implements IClientCommand
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, GameRegistry.findRegistry(CSReadedModel.class).getKeys())
                 : Collections.<String> emptyList();
     }
-
-    @Override
-    public boolean allowUsageWithoutPrefix(ICommandSender sender, String message) {
-        return false;
-    }
-
 }

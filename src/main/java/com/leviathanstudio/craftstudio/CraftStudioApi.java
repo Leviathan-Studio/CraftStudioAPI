@@ -30,7 +30,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author Timmypote
  */
 @Mod.EventBusSubscriber
-@Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, version = "0.2-beta", updateJSON = "https://leviathan-studio.com/craftstudioapi/update.json", acceptedMinecraftVersions = "1.11.2")
+@Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, updateJSON = "https://leviathan-studio.com/craftstudioapi/update.json",
+    version = "0.2.1-beta",
+    acceptedMinecraftVersions = "1.11.2")
 public class CraftStudioApi
 {
     private static final Logger              LOGGER  = LogManager.getLogger("CraftStudio");
