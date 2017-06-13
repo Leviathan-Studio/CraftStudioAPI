@@ -9,11 +9,11 @@ import com.leviathanstudio.craftstudio.dev.command.CommandCSUVMap;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
-@Mod(modid = CraftStudioApiDev.API_ID, name = CraftStudioApiDev.NAME, version = "0.2-beta", acceptedMinecraftVersions = "1.10.2", clientSideOnly = true)
+@Mod(modid = CraftStudioApiDev.API_ID, name = CraftStudioApiDev.NAME, clientSideOnly = true,
+    version = "0.2.1-beta",
+    acceptedMinecraftVersions = "1.11.2")
 public class CraftStudioApiDev
 {
 
@@ -22,7 +22,7 @@ public class CraftStudioApiDev
     public static final String  NAME   = "CraftStudio API Dev";
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
+    public void init(FMLInitializationEvent event) {
         ClientCommandHandler.instance.registerCommand(new CommandCSUVMap());
         ClientCommandHandler.instance.registerCommand(new CommandCSList());
     }

@@ -316,6 +316,7 @@ public class CSJsonReader
             switch (type) {
                 case POSITION:
                 case ROTATION:
+                case OFFSET:
                     value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
                     break;
                 default:

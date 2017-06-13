@@ -69,5 +69,4 @@ public class CommandCSUVMap extends CommandBase
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, GameRegistry.findRegistry(CSReadedModel.class).getKeys())
                 : Collections.<String> emptyList();
     }
-
 }
