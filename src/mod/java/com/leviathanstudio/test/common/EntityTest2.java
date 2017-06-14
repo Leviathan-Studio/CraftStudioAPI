@@ -31,16 +31,10 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
 
     public EntityTest2(World par1World) {
         super(par1World);
-        EntityTest2.animHandler.addAnimated(this);
         this.setSize(1.0F, 1.5F);
         this.tasks.addTask(1, new EntityAILookIdle(this));
         this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 10));
         this.initEntityAI();
-    }
-
-    @Override
-    protected void entityInit() {
-        super.entityInit();
     }
 
     @Override
@@ -54,11 +48,6 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     @Override
     public AnimationHandler getAnimationHandler() {
         return EntityTest2.animHandler;
-    }
-
-    @Override
-    public void onUpdate() {
-        super.onUpdate();
     }
 
     @Override
@@ -79,6 +68,8 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
+        this.getAnimationHandler().animationsUpdate(this);
+        
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "lookat", this))
             this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "lookat", this);
     }

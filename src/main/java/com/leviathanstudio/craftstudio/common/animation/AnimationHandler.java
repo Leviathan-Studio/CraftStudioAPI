@@ -8,8 +8,6 @@ import net.minecraft.tileentity.TileEntity;
 
 public abstract class AnimationHandler<T extends IAnimated>
 {
-    public static AnimTickHandler animTickHandler;
-
     protected List<String>        channelIds = new ArrayList<>();
 
     public AnimationHandler() {}
@@ -157,12 +155,6 @@ public abstract class AnimationHandler<T extends IAnimated>
 
     public abstract boolean canUpdateAnimation(Channel channel, T animatedElement);
 
-    public void addAnimated(T animated) {
-        if (AnimationHandler.animTickHandler == null)
-            AnimationHandler.animTickHandler = new AnimTickHandler();
-        AnimationHandler.animTickHandler.addAnimated(animated);
-    }
-
     public String getAnimNameFromId(short id) {
         return this.channelIds.get(id);
     }
@@ -171,9 +163,7 @@ public abstract class AnimationHandler<T extends IAnimated>
         return (short) this.channelIds.indexOf(name);
     }
 
-    public void removeAnimated(T animated) {
-        AnimationHandler.animTickHandler.removeAnimated(animated);
-    }
+    public abstract void removeAnimated(T animated);
 
     /** Get world object from an IAnimated */
     public static boolean isWorldRemote(IAnimated animated) {

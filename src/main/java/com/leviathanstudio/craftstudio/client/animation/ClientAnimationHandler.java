@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.WeakHashMap;
 
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
@@ -40,7 +41,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
     private Map<String, InfoChannel>           animChannels    = new HashMap<>();
 
     /** Map with the info about the animations. **/
-    private Map<T, Map<InfoChannel, AnimInfo>> currentAnimInfo = new HashMap<>();
+    private Map<T, Map<InfoChannel, AnimInfo>> currentAnimInfo = new WeakHashMap<>();
 
     
     /**
@@ -134,6 +135,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     @Override
     public void animationsUpdate(T animatedElement) {
+        System.out.println(this.currentAnimInfo.size());
         Map<InfoChannel, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
         if (animInfoMap == null)
             return;
@@ -401,7 +403,6 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     @Override
     public void removeAnimated(T animated) {
-        super.removeAnimated(animated);
         this.currentAnimInfo.remove(animated);
     }
 

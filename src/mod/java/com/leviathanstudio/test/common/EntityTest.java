@@ -23,12 +23,6 @@ public class EntityTest extends EntityCreature implements IAnimated
 
     public EntityTest(World par1World) {
         super(par1World);
-        EntityTest.animHandler.addAnimated(this);
-    }
-
-    @Override
-    protected void entityInit() {
-        super.entityInit();
     }
 
     // Getter for animation handler
@@ -38,14 +32,10 @@ public class EntityTest extends EntityCreature implements IAnimated
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-    }
-
-    @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        // Activate the animation in ticking method
+        this.getAnimationHandler().animationsUpdate(this);
+        
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "streching", this))
             this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "streching", this);
     }

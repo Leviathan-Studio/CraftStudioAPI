@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.WeakHashMap;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
@@ -26,9 +27,9 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
     /** Map with all the animations. */
     private Map<String, Channel>          animChannels       = new HashMap<>();
 
-    private Map<T, Map<String, AnimInfo>> currentAnimInfo    = new HashMap<>();
+    private Map<T, Map<String, AnimInfo>> currentAnimInfo    = new WeakHashMap<>();
 
-    private Map<T, Map<String, Float>>    startingAnimations = new HashMap<>();
+    private Map<T, Map<String, Float>>    startingAnimations = new WeakHashMap<>();
 
     public ServerAnimationHandler() {
         super();
@@ -205,7 +206,6 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     @Override
     public void removeAnimated(T animated) {
-        super.removeAnimated(animated);
         this.currentAnimInfo.remove(animated);
         this.startingAnimations.remove(animated);
     }

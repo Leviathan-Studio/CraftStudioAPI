@@ -22,7 +22,6 @@ public class TileEntityTest extends TileEntity implements IAnimated, ITickable
 
     public TileEntityTest() {
         super();
-        TileEntityTest.animHandler.addAnimated(this);
     }
 
     public TileEntityTest(World worldIn) {
@@ -43,6 +42,8 @@ public class TileEntityTest extends TileEntity implements IAnimated, ITickable
 
     @Override
     public void update() {
+        this.getAnimationHandler().animationsUpdate(this);
+        
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "position", this))
             this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "position", this);
         // Don't use startAnimation() on TileEntity for now
