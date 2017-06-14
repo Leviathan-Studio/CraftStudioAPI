@@ -2,6 +2,8 @@ package com.leviathanstudio.craftstudio.common.animation;
 
 import java.util.UUID;
 
+import net.minecraft.util.ITickable;
+
 /**
  * Implement object that must be animated with the api.
  * 

@@ -23,23 +23,12 @@ public class EntityTest3 extends EntityCreature implements IAnimated
 
     public EntityTest3(World par1World) {
         super(par1World);
-        EntityTest3.animHandler.addAnimated(this);
     }
-
-    @Override
-    protected void entityInit() {
-        super.entityInit();
-    }
-
+    
     // Getter for animation handler
     @Override
     public AnimationHandler getAnimationHandler() {
         return EntityTest3.animHandler;
-    }
-
-    @Override
-    public void onUpdate() {
-        super.onUpdate();
     }
 
     @Override
@@ -52,7 +41,8 @@ public class EntityTest3 extends EntityCreature implements IAnimated
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        // Activate the animation in ticking method
+        this.getAnimationHandler().animationsUpdate(this);
+        
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly", this) && this.fly)
             this.getAnimationHandler().startAnimation(Mod_Test.MODID, "fly", this);
 
