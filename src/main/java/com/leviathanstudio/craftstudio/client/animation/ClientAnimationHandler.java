@@ -135,7 +135,6 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     @Override
     public void animationsUpdate(T animatedElement) {
-        System.out.println(this.currentAnimInfo.size());
         Map<InfoChannel, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
         if (animInfoMap == null)
             return;
