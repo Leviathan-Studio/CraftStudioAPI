@@ -15,12 +15,11 @@ import net.minecraft.util.ResourceLocation;
 
 public class CSTileEntitySpecialRenderer<T extends TileEntity> extends TileEntitySpecialRenderer<T>
 {
-    private static final Quat4f ROTATION_CORRECTOR = MathHelper.quatFromEuler(180, 0, 0);
-    private static final FloatBuffer rot;
+    private static final FloatBuffer ROTATION_CORRECTOR;
     static{
         Matrix4f mat = new Matrix4f();
-        mat.set(ROTATION_CORRECTOR);
-        rot = MathHelper.makeFloatBuffer(mat);
+        mat.set(MathHelper.quatFromEuler(180, 0, 0));
+        ROTATION_CORRECTOR = MathHelper.makeFloatBuffer(mat);
     }
     
     protected ModelCraftStudio model;
@@ -35,7 +34,7 @@ public class CSTileEntitySpecialRenderer<T extends TileEntity> extends TileEntit
     public void renderTileEntityAt(T te, double x, double y, double z, float partialTicks, int destroyStage) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x + 0.5D, y + 1.5D, z + 0.5D);
-        GlStateManager.multMatrix(rot);
+        GlStateManager.multMatrix(ROTATION_CORRECTOR);
         this.bindTexture(this.texture);
         this.model.render(te);
         GlStateManager.popMatrix();

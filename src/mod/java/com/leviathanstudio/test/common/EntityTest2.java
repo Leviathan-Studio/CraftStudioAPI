@@ -44,7 +44,6 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
     }
 
-    // Getter for animation handler
     @Override
     public AnimationHandler getAnimationHandler() {
         return EntityTest2.animHandler;
@@ -70,10 +69,10 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
         super.onLivingUpdate();
         this.getAnimationHandler().animationsUpdate(this);
         
-        if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "lookat", this))
+        if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "lookat", this))
             this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "lookat", this);
     }
-
+    
     @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
         return null;

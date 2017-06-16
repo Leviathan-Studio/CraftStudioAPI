@@ -61,9 +61,9 @@ public class IAnimatedEventMessage implements IMessage
             this.hasEntity = true;
         }
         else {
-            int x = buf.readInt();
-            int y = buf.readInt();
-            int z = buf.readInt();
+            this.x = buf.readInt();
+            this.y = buf.readInt();
+            this.z = buf.readInt();
             this.event = (short) (actualEvent - EnumIAnimatedEvent.ID_COUNT);
             this.hasEntity = false;
         }

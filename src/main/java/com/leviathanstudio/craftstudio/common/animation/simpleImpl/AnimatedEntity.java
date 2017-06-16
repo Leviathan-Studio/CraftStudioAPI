@@ -22,7 +22,7 @@ public abstract class AnimatedEntity extends EntityCreature implements IAnimated
     @Override
     public void onLivingUpdate(){
         super.onLivingUpdate();
-        AnimatedEntity.animHandler.animationsUpdate(this);
+        this.getAnimationHandler().animationsUpdate(this);
     }
 
     @Override

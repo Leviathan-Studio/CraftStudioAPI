@@ -6,6 +6,7 @@ import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.animation.ClientAnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
+import com.leviathanstudio.craftstudio.common.animation.simpleImpl.AnimatedTileEntity;
 import com.leviathanstudio.craftstudio.server.animation.ServerAnimationHandler;
 
 import net.minecraft.tileentity.TileEntity;
@@ -14,9 +15,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class TileEntityTest extends TileEntity implements IAnimated, ITickable
+public class TileEntityTest extends AnimatedTileEntity
 {
-    static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(TileEntityTest.class);
+    protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(TileEntityTest.class);
 
     static {
         TileEntityTest.animHandler.addAnim(Mod_Test.MODID, "position", "craftstudio_api_test", true);
@@ -38,47 +39,10 @@ public class TileEntityTest extends TileEntity implements IAnimated, ITickable
 
     @Override
     public void update() {
-        this.getAnimationHandler().animationsUpdate(this);
+        super.update();
         
-        if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "position", this)){
-            this.world.addBlockEvent(this.pos, this.blockType, 0, this.getAnimationHandler().getAnimIdFromName(Mod_Test.MODID + ":" + "position"));
-        }
-        // Don't use startAnimation() on TileEntity for now
+        if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "position", this))
+            this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "position", this);
+        
     }
-    
-    public boolean receiveClientEvent(int id, int type){
-        if (id == 0)
-        {
-            String name = this.getAnimationHandler().getAnimNameFromId((short)type);
-            this.getAnimationHandler().clientStartAnimation(name, 0.0F, this);
-            return true;
-        }
-        return super.receiveClientEvent(id, type);
-    }
-
-    @Override
-    public int getDimension() {
-        return this.getDimension();
-    }
-
-    @Override
-    public double getX() {
-        return this.pos.getX();
-    }
-
-    @Override
-    public double getY() {
-        return this.pos.getY();
-    }
-
-    @Override
-    public double getZ() {
-        return this.pos.getX();
-    }
-
-    @Override
-    public boolean isWorldRemote() {
-        return this.world.isRemote;
-    }
-
 }

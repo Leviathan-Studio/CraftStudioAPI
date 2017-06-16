@@ -23,7 +23,7 @@ public abstract class AnimatedTileEntity extends TileEntity implements IAnimated
     
     @Override
     public void update() {
-        AnimatedTileEntity.animHandler.animationsUpdate(this);
+        this.getAnimationHandler().animationsUpdate(this);
     }
 
     @Override
@@ -33,11 +33,7 @@ public abstract class AnimatedTileEntity extends TileEntity implements IAnimated
 
     @Override
     public int getDimension() {
-        Integer[] ids = DimensionManager.getIDs();
-        for(int i: ids)
-            if (DimensionManager.getWorld(i) == this.world)
-                return i;
-        return 0;
+        return this.world.provider.getDimension();
     }
 
     @Override
@@ -58,6 +54,34 @@ public abstract class AnimatedTileEntity extends TileEntity implements IAnimated
     @Override
     public boolean isWorldRemote() {
         return this.world.isRemote;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + this.pos.getX();
+        result = prime * result + this.pos.getY();
+        result = prime * result + this.pos.getZ();
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AnimatedTileEntity other = (AnimatedTileEntity) obj;
+        if (this.pos.getX() != other.pos.getX())
+            return false;
+        if (this.pos.getY() != other.pos.getY())
+            return false;
+        if (this.pos.getZ() != other.pos.getZ())
+            return false;
+        return true;
     }
 
 }

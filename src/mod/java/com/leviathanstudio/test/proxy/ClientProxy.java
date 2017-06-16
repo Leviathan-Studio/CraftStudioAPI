@@ -3,7 +3,7 @@ package com.leviathanstudio.test.proxy;
 import com.leviathanstudio.craftstudio.CSRegistryHelper;
 import com.leviathanstudio.craftstudio.client.json.EnumRenderType;
 import com.leviathanstudio.craftstudio.client.json.EnumResourceType;
-import com.leviathanstudio.test.client.RenderBlockTest;
+import com.leviathanstudio.craftstudio.common.animation.simpleImpl.CSTileEntitySpecialRenderer;
 import com.leviathanstudio.test.client.RenderTest;
 import com.leviathanstudio.test.client.RenderTest2;
 import com.leviathanstudio.test.client.RenderTest3;
@@ -15,6 +15,7 @@ import com.leviathanstudio.test.common.EntityTest4;
 import com.leviathanstudio.test.common.Mod_Test;
 import com.leviathanstudio.test.common.TileEntityTest;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
@@ -53,6 +54,7 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntityTest3.class, RenderTest3.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityTest4.class, RenderTest4.FACTORY);
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTest.class, new RenderBlockTest());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTest.class, new CSTileEntitySpecialRenderer(Mod_Test.MODID, "craftstudio_api_test", 64,
+                32, new ResourceLocation(Mod_Test.MODID, "textures/entity/craftstudio_api_test.png")));
     }
 }

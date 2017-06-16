@@ -1,17 +1,14 @@
 package com.leviathanstudio.test.common;
 
-import java.util.UUID;
-
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
-import com.leviathanstudio.craftstudio.common.animation.IAnimated;
+import com.leviathanstudio.craftstudio.common.animation.simpleImpl.AnimatedEntity;
 
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class EntityTest extends EntityCreature implements IAnimated
+public class EntityTest extends AnimatedEntity
 {
     protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(EntityTest.class);
 
@@ -25,7 +22,6 @@ public class EntityTest extends EntityCreature implements IAnimated
         super(par1World);
     }
 
-    // Getter for animation handler
     @Override
     public AnimationHandler getAnimationHandler() {
         return EntityTest.animHandler;
@@ -34,35 +30,8 @@ public class EntityTest extends EntityCreature implements IAnimated
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        this.getAnimationHandler().animationsUpdate(this);
         
-        if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "streching", this))
+        if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "streching", this))
             this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "streching", this);
     }
-
-    @Override
-    public int getDimension() {
-        return this.dimension;
-    }
-
-    @Override
-    public double getX() {
-        return this.posX;
-    }
-
-    @Override
-    public double getY() {
-        return this.posY;
-    }
-
-    @Override
-    public double getZ() {
-        return this.posZ;
-    }
-
-    @Override
-    public boolean isWorldRemote() {
-        return this.world.isRemote;
-    }
-
 }

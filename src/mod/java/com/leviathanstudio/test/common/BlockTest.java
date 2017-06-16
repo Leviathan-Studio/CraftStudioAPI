@@ -24,12 +24,6 @@ public class BlockTest extends Block implements ITileEntityProvider
         GameRegistry.register(itemBlock);
         GameRegistry.register(this);
     }
-    
-    @Override
-    public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param){
-        TileEntity tile = worldIn.getTileEntity(pos);
-        return tile.receiveClientEvent(id, param);
-    }
 
     @Override
     public boolean isOpaqueCube(IBlockState state) {
