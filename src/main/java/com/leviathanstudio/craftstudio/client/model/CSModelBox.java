@@ -195,7 +195,6 @@ public class CSModelBox
             this.flipFaces();
     }
 
-    
     /**
      * Flip all the vertices of all the faces.
      */

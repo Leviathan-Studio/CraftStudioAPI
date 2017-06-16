@@ -3,8 +3,10 @@ package com.leviathanstudio.test.common;
 import java.util.UUID;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
+import com.leviathanstudio.craftstudio.client.animation.ClientAnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
+import com.leviathanstudio.craftstudio.server.animation.ServerAnimationHandler;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
@@ -35,18 +37,48 @@ public class TileEntityTest extends TileEntity implements IAnimated, ITickable
     }
 
     @Override
-    public UUID getUUID() {
-        // this.getPos();
-        return null;
-    }
-
-    @Override
     public void update() {
         this.getAnimationHandler().animationsUpdate(this);
         
-        if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "position", this))
-            this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "position", this);
+        if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "position", this)){
+            this.world.addBlockEvent(this.pos, this.blockType, 0, this.getAnimationHandler().getAnimIdFromName(Mod_Test.MODID + ":" + "position"));
+        }
         // Don't use startAnimation() on TileEntity for now
+    }
+    
+    public boolean receiveClientEvent(int id, int type){
+        if (id == 0)
+        {
+            String name = this.getAnimationHandler().getAnimNameFromId((short)type);
+            this.getAnimationHandler().clientStartAnimation(name, 0.0F, this);
+            return true;
+        }
+        return super.receiveClientEvent(id, type);
+    }
+
+    @Override
+    public int getDimension() {
+        return this.getDimension();
+    }
+
+    @Override
+    public double getX() {
+        return this.pos.getX();
+    }
+
+    @Override
+    public double getY() {
+        return this.pos.getY();
+    }
+
+    @Override
+    public double getZ() {
+        return this.pos.getX();
+    }
+
+    @Override
+    public boolean isWorldRemote() {
+        return this.world.isRemote;
     }
 
 }

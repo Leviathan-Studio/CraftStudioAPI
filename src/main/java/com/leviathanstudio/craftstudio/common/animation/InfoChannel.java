@@ -5,6 +5,7 @@ public abstract class InfoChannel extends Channel
 
     public InfoChannel(String channelName) {
         super(channelName);
+        this.totalFrames = 0;
     }
 
     public InfoChannel(String channelName, float fps, boolean looped) {

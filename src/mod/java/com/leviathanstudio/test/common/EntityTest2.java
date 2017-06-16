@@ -26,7 +26,7 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     static {
         EntityTest2.animHandler.addAnim(Mod_Test.MODID, "close_fan", "peacock", false);
         EntityTest2.animHandler.addAnim(Mod_Test.MODID, "open_fan", "close_fan");
-        EntityTest2.animHandler.addAnim(Mod_Test.MODID, "lookat", "peacock", new AnimationLootAt("Head"));
+        EntityTest2.animHandler.addAnim(Mod_Test.MODID, "lookat", new AnimationLootAt("Head"));
     }
 
     public EntityTest2(World par1World) {
@@ -80,7 +80,27 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     }
 
     @Override
-    public UUID getUUID() {
-        return this.getPersistentID();
+    public int getDimension() {
+        return this.dimension;
+    }
+
+    @Override
+    public double getX() {
+        return this.posX;
+    }
+
+    @Override
+    public double getY() {
+        return this.posY;
+    }
+
+    @Override
+    public double getZ() {
+        return this.posZ;
+    }
+
+    @Override
+    public boolean isWorldRemote() {
+        return this.world.isRemote;
     }
 }
