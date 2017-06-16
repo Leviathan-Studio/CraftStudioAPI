@@ -12,6 +12,7 @@ import com.leviathanstudio.craftstudio.dev.util.UVMapCreator;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -25,7 +26,7 @@ public class CommandCSUVMap extends CommandBase
 {
 
     private static String name      = "csuvmap";
-    private static String usage     = "csuvmap model";
+    private static String usage     = "/csuvmap model";
     private static int    permLevel = 0;
 
     @Override
@@ -56,6 +57,8 @@ public class CommandCSUVMap extends CommandBase
             if (!succes)
                 throw new CommandException("Unknown error");
         }
+        else
+            throw new WrongUsageException(CommandCSUVMap.usage);
     }
 
     @Override
