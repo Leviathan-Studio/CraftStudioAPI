@@ -10,17 +10,17 @@ import net.minecraft.world.World;
 public abstract class AnimatedEntity extends EntityCreature implements IAnimated
 {
     protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(AnimatedEntity.class);
-    
+
     static {
         //AnimatedEntity.animHandler.addAnim("yourModId", "yourAnimation", "yourModel", false);
     }
-    
+
     public AnimatedEntity(World worldIn) {
         super(worldIn);
     }
-    
+
     @Override
-    public void onLivingUpdate(){
+    public void onLivingUpdate() {
         super.onLivingUpdate();
         this.getAnimationHandler().animationsUpdate(this);
     }

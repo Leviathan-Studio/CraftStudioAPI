@@ -1,7 +1,5 @@
 package com.leviathanstudio.test.common;
 
-import java.util.UUID;
-
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
@@ -15,8 +13,6 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class EntityTest2 extends EntityAnimal implements IAnimated
 {
@@ -68,11 +64,11 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     public void onLivingUpdate() {
         super.onLivingUpdate();
         this.getAnimationHandler().animationsUpdate(this);
-        
+
         if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "lookat", this))
             this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "lookat", this);
     }
-    
+
     @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
         return null;

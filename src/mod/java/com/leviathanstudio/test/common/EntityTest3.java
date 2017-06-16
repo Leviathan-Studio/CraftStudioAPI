@@ -37,7 +37,7 @@ public class EntityTest3 extends AnimatedEntity
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        
+
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly", this) && this.fly)
             this.getAnimationHandler().startAnimation(Mod_Test.MODID, "fly", this);
 

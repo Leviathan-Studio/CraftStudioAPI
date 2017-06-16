@@ -5,8 +5,6 @@ import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.simpleImpl.AnimatedEntity;
 
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class EntityTest4 extends AnimatedEntity
 {
@@ -28,7 +26,7 @@ public class EntityTest4 extends AnimatedEntity
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        
+
         if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation", this))
             this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "rotation", this);
     }
