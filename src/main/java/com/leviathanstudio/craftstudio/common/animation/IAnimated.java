@@ -24,4 +24,14 @@ public interface IAnimated
      * @param <T>
      */
     public <T extends IAnimated> AnimationHandler<T> getAnimationHandler();
+    
+    public int getDimension();
+    
+    public double getX();
+    
+    public double getY();
+    
+    public double getZ();
+    
+    public boolean isWorldRemote();
 }

@@ -18,6 +18,7 @@ import com.leviathanstudio.craftstudio.common.animation.Channel;
 import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.common.animation.InfoChannel;
+import com.leviathanstudio.craftstudio.common.network.IAnimatedEventMessage;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
@@ -42,7 +43,6 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     /** Map with the info about the animations. **/
     private Map<T, Map<InfoChannel, AnimInfo>> currentAnimInfo = new WeakHashMap<>();
-
     
     /**
      * Simple Constructor of the Handler.
@@ -53,41 +53,35 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     @Override
     public void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped) {
+        super.addAnim(modid, animNameIn, modelNameIn, looped);
         ResourceLocation anim = new ResourceLocation(modid, animNameIn), model = new ResourceLocation(modid, modelNameIn);
         this.animChannels.put(anim.toString(), new CSAnimChannel(anim, model, looped));
-        this.channelIds.add(anim.toString());
     }
 
     @Override
-    public void addAnim(String modid, String animNameIn, String modelNameIn, CustomChannel customChannelIn) {
-        ResourceLocation anim = new ResourceLocation(modid, animNameIn), model = new ResourceLocation(modid, modelNameIn);
+    public void addAnim(String modid, String animNameIn, CustomChannel customChannelIn) {
+        super.addAnim(modid, animNameIn, customChannelIn);
+        ResourceLocation anim = new ResourceLocation(modid, animNameIn);
         this.animChannels.put(anim.toString(), customChannelIn);
-        this.channelIds.add(anim.toString());
     }
 
     @Override
     public void addAnim(String modid, String invertedAnimationName, String animationToInvert) {
+        super.addAnim(modid, invertedAnimationName, animationToInvert);
         ResourceLocation anim = new ResourceLocation(modid, invertedAnimationName);
-        ResourceLocation inverted = new ResourceLocation(modid, animationToInvert);
-        if (this.animChannels.get(inverted.toString()) instanceof ClientChannel) {
-            ClientChannel channel = ((ClientChannel) this.animChannels.get(inverted.toString())).getInvertedChannel(invertedAnimationName);
+        ResourceLocation toInvert = new ResourceLocation(modid, animationToInvert);
+        if (this.animChannels.get(toInvert.toString()) instanceof ClientChannel) {
+            ClientChannel channel = ((ClientChannel) this.animChannels.get(toInvert.toString())).getInvertedChannel(invertedAnimationName);
             channel.name = anim.toString();
             this.animChannels.put(anim.toString(), channel);
-            this.channelIds.add(anim.toString());
         }
     }
 
     @Override
-    public void startAnimation(String animationNameIn, float startingFrame, T animatedElement) {
-        if (Minecraft.getMinecraft().isSingleplayer())
-            this.clientStartAnimation(animationNameIn, startingFrame, animatedElement);
-    }
-
-    @Override
-    public void clientStartAnimation(String res, float startingFrame, T animatedElement) {
+    public boolean clientStartAnimation(String res, float startingFrame, T animatedElement) {
         if (this.animChannels.get(res) == null) {
             CraftStudioApi.getLogger().warn("The animation called " + res + " doesn't exist!");
-            return;
+            return false;
         }
         Map<InfoChannel, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
         if (animInfoMap == null)
@@ -97,40 +91,40 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
         animInfoMap.remove(selectedChannel);
 
         animInfoMap.put(selectedChannel, new AnimInfo(System.nanoTime(), startingFrame));
+        return true;
     }
-
-    @Override
-    public void stopAnimation(String res, T animatedElement) {
-        if (Minecraft.getMinecraft().isSingleplayer())
-            this.clientStopAnimation(res, animatedElement);
+    
+    protected boolean serverInitAnimation(String res, float startingFrame, T animatedElement){
+        if (!this.animChannels.containsKey(res))
+            return false;
+        return true;
     }
-
-    /**
-     * Stop an animation on the client side.
-     * 
-     * @param res The animation to stop.
-     * @param animatedElement The object that is animated.
-     */
-    public void clientStopAnimation(String res, T animatedElement) {
+    
+    protected boolean serverStartAnimation(String res, float endingFrame, T animatedElement){
+        if (!this.animChannels.containsKey(res))
+            return false;
+        return true;
+    }
+    
+    public boolean clientStopAnimation(String res, T animatedElement){
         if (!this.animChannels.containsKey(res)) {
             CraftStudioApi.getLogger().warn("The animation stopped " + res + " doesn't exist!");
-            return;
+            return false;
         }
 
         Map<InfoChannel, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
         if (animInfoMap == null)
-            return;
+            return false;
 
         InfoChannel selectedChannel = this.animChannels.get(res);
         animInfoMap.remove(selectedChannel);
         if (animInfoMap.isEmpty())
             this.currentAnimInfo.remove(animatedElement);
+        return true;
     }
-
-    @Override
-    public void stopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
-        this.stopAnimation(animToStop, animatedElement);
-        this.startAnimation(animToStart, startingFrame, animatedElement);
+    
+    protected boolean serverStopAnimation(String res, T animatedElement){
+        return this.currentAnimInfo.containsKey(animatedElement);
     }
 
     @Override
@@ -164,13 +158,6 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
         return false;
     }
 
-    /**
-     * Check if an hold animation is active.
-     *
-     * @param name The animation you want to check.
-     * @param animatedElement The object that is animated.
-     * @return True if the animation is active, false otherwise.
-     */
     public boolean isHoldAnimationActive(String name, T animatedElement) {
         InfoChannel anim = this.animChannels.get(name);
         if (anim == null)
@@ -400,11 +387,6 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     }
 
-    @Override
-    public void removeAnimated(T animated) {
-        this.currentAnimInfo.remove(animated);
-    }
-
     /**
      * Getter of currentAnimInfo.
      * 
@@ -439,5 +421,11 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
      */
     public void setAnimChannels(Map<String, InfoChannel> animChannels) {
         this.animChannels = animChannels;
+    }
+
+    @Override
+    public boolean onClientIAnimatedEvent(IAnimatedEventMessage message) {
+        // TODO Auto-generated method stub
+        return false;
     }
 }

@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public abstract class IAnimatedEventMessage implements IMessage
+public class IAnimatedEventMessage implements IMessage
 {
     public short event, animId, optAnimId = -1;
     public float keyframeInfo = -1;

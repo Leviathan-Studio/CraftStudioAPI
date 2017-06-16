@@ -20,4 +20,18 @@ public enum EnumIAnimatedEvent {
     public short getId(){
         return this.id;
     }
+    
+    public static EnumIAnimatedEvent getEvent(short id){
+        switch (id){
+            case 0:
+                return START_ANIM;
+            case 1:
+                return ANSWER_START_ANIM;
+            case 2:
+                return STOP_ANIM;
+            case 3:
+                return STOP_START_ANIM;
+        }
+        return null;
+    }
 }
