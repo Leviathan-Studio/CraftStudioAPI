@@ -1,23 +1,13 @@
 package com.leviathanstudio.craftstudio.common.animation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
 
-import com.leviathanstudio.craftstudio.CraftStudioApi;
-import com.leviathanstudio.craftstudio.common.animation.AnimationHandler.AnimInfo;
 import com.leviathanstudio.craftstudio.common.network.CSNetworkHelper;
-import com.leviathanstudio.craftstudio.common.network.EndAnimationMessage;
 import com.leviathanstudio.craftstudio.common.network.EnumIAnimatedEvent;
-import com.leviathanstudio.craftstudio.common.network.FireAnimationMessage;
 import com.leviathanstudio.craftstudio.common.network.IAnimatedEventMessage;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public abstract class AnimationHandler<T extends IAnimated>
 {
@@ -81,9 +71,9 @@ public abstract class AnimationHandler<T extends IAnimated>
     }
 
     public abstract boolean clientStartAnimation(String res, float startingFrame, T animatedElement);
-    
+
     protected abstract boolean serverInitAnimation(String res, float startingFrame, T animatedElement);
-    
+
     protected abstract boolean serverStartAnimation(String res, float endingFrame, T animatedElement);
 
     public void stopAnimation(String res, T animatedElement) {
@@ -92,20 +82,20 @@ public abstract class AnimationHandler<T extends IAnimated>
     }
 
     public abstract boolean clientStopAnimation(String res, T animatedElement);
-    
+
     protected abstract boolean serverStopAnimation(String res, T animatedElement);
 
     public void stopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
         CSNetworkHelper.sendIAnimatedEvent(new IAnimatedEventMessage(EnumIAnimatedEvent.STOP_START_ANIM, animatedElement,
                 this.getAnimIdFromName(animToStart), startingFrame, this.getAnimIdFromName(animToStop)));
     }
-    
-    public boolean clientStopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement){
+
+    public boolean clientStopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
         boolean stopSucces = this.clientStopAnimation(animToStop, animatedElement);
         return this.clientStartAnimation(animToStart, startingFrame, animatedElement) && stopSucces;
     }
-    
-    public boolean serverStopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement){
+
+    public boolean serverStopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
         boolean stopSucces = this.serverStopAnimation(animToStop, animatedElement);
         return this.serverInitAnimation(animToStart, startingFrame, animatedElement) && stopSucces;
     }
@@ -113,12 +103,14 @@ public abstract class AnimationHandler<T extends IAnimated>
     public abstract void animationsUpdate(T animatedElement);
 
     public abstract boolean isAnimationActive(String name, T animatedElement);
-    
+
     /**
      * Check if an hold animation is active.
      *
-     * @param name The animation you want to check.
-     * @param animatedElement The object that is animated.
+     * @param name
+     *            The animation you want to check.
+     * @param animatedElement
+     *            The object that is animated.
      * @return True if the animation is active, false otherwise.
      */
     public abstract boolean isHoldAnimationActive(String name, T animatedElement);
@@ -133,15 +125,16 @@ public abstract class AnimationHandler<T extends IAnimated>
         return (short) this.channelIds.indexOf(name);
     }
 
-    public boolean onClientIAnimatedEvent(IAnimatedEventMessage message){
+    public boolean onClientIAnimatedEvent(IAnimatedEventMessage message) {
         AnimationHandler hand = message.animated.getAnimationHandler();
-        switch(EnumIAnimatedEvent.getEvent(message.event)){
+        switch (EnumIAnimatedEvent.getEvent(message.event)) {
             case START_ANIM:
                 return hand.clientStartAnimation(hand.getAnimNameFromId(message.animId), message.keyframeInfo, message.animated);
             case STOP_ANIM:
                 return hand.clientStopAnimation(hand.getAnimNameFromId(message.animId), message.animated);
             case STOP_START_ANIM:
-                return hand.clientStopStartAnimation(hand.getAnimNameFromId(message.optAnimId), hand.getAnimNameFromId(message.animId), message.keyframeInfo, message.animated);
+                return hand.clientStopStartAnimation(hand.getAnimNameFromId(message.optAnimId), hand.getAnimNameFromId(message.animId),
+                        message.keyframeInfo, message.animated);
             default:
                 return false;
         }
@@ -149,7 +142,7 @@ public abstract class AnimationHandler<T extends IAnimated>
 
     public static boolean onServerIAnimatedEvent(IAnimatedEventMessage message) {
         AnimationHandler hand = message.animated.getAnimationHandler();
-        switch(EnumIAnimatedEvent.getEvent(message.event)){
+        switch (EnumIAnimatedEvent.getEvent(message.event)) {
             case START_ANIM:
                 return hand.serverInitAnimation(hand.getAnimNameFromId(message.animId), message.keyframeInfo, message.animated);
             case ANSWER_START_ANIM:
@@ -158,7 +151,8 @@ public abstract class AnimationHandler<T extends IAnimated>
                 hand.serverStopAnimation(hand.getAnimNameFromId(message.animId), message.animated);
                 return true;
             case STOP_START_ANIM:
-                hand.serverStopStartAnimation(hand.getAnimNameFromId(message.optAnimId), hand.getAnimNameFromId(message.animId), message.keyframeInfo, message.animated);
+                hand.serverStopStartAnimation(hand.getAnimNameFromId(message.optAnimId), hand.getAnimNameFromId(message.animId), message.keyframeInfo,
+                        message.animated);
                 return true;
             default:
                 return false;
@@ -215,7 +209,7 @@ public abstract class AnimationHandler<T extends IAnimated>
 
     /**
      * Start your animation on the client only.
-     * 
+     *
      * @param modid
      *            The ID of your mod.
      * @param animationName
@@ -251,7 +245,7 @@ public abstract class AnimationHandler<T extends IAnimated>
 
     /**
      * Stop an animation and directly start an other.
-     * 
+     *
      * @param modid
      *            The ID of your mod
      * @param animToStop

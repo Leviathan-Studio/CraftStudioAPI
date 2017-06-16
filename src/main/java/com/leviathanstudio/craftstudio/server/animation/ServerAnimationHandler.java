@@ -6,22 +6,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.WeakHashMap;
 
-import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.Channel;
 import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
-import com.leviathanstudio.craftstudio.common.animation.AnimationHandler.AnimInfo;
-import com.leviathanstudio.craftstudio.common.network.CSNetworkHelper;
-import com.leviathanstudio.craftstudio.common.network.EndAnimationMessage;
-import com.leviathanstudio.craftstudio.common.network.EnumIAnimatedEvent;
-import com.leviathanstudio.craftstudio.common.network.FireAnimationMessage;
-import com.leviathanstudio.craftstudio.common.network.FireEndAnimationMessage;
-import com.leviathanstudio.craftstudio.common.network.IAnimatedEventMessage;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -33,7 +23,7 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     private Map<T, Map<String, AnimInfo>> currentAnimInfo    = new WeakHashMap<>();
 
-    private Map<T, Map<String, Float>> startingAnimations = new WeakHashMap<>();
+    private Map<T, Map<String, Float>>    startingAnimations = new WeakHashMap<>();
 
     public ServerAnimationHandler() {
         super();
@@ -62,11 +52,13 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
         this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, looped));
     }
 
-    public boolean clientStartAnimation(String res, float startingFrame, T animatedElement){
+    @Override
+    public boolean clientStartAnimation(String res, float startingFrame, T animatedElement) {
         return false;
     }
-    
-    protected boolean serverInitAnimation(String res, float startingFrame, T animatedElement){
+
+    @Override
+    protected boolean serverInitAnimation(String res, float startingFrame, T animatedElement) {
         if (!this.animChannels.containsKey(res))
             return false;
         Map<String, Float> startingAnimMap = this.startingAnimations.get(animatedElement);
@@ -75,7 +67,8 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
         startingAnimMap.put(res, startingFrame);
         return true;
     }
-    
+
+    @Override
     protected boolean serverStartAnimation(String res, float endingFrame, T animatedElement) {
         if (!this.animChannels.containsKey(res))
             return false;
@@ -88,7 +81,7 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
         Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
         if (animInfoMap == null)
             this.currentAnimInfo.put(animatedElement, animInfoMap = new HashMap<>());
-        
+
         Channel anim = this.animChannels.get(res);
         anim.totalFrames = (int) endingFrame;
         animInfoMap.remove(res);
@@ -97,12 +90,14 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
         startingAnimMap.remove(res);
         return true;
     }
-    
-    public boolean clientStopAnimation(String res, T animatedElement){
+
+    @Override
+    public boolean clientStopAnimation(String res, T animatedElement) {
         return false;
     }
-    
-    protected boolean serverStopAnimation(String res, T animatedElement){
+
+    @Override
+    protected boolean serverStopAnimation(String res, T animatedElement) {
         Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
         if (animInfoMap == null)
             return false;
@@ -136,8 +131,9 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
                 return true;
         return false;
     }
-    
-    public boolean isHoldAnimationActive(String name, T animatedElement){
+
+    @Override
+    public boolean isHoldAnimationActive(String name, T animatedElement) {
         return this.isAnimationActive(name, animatedElement);
     }
 

@@ -328,8 +328,9 @@ public class CSJsonReader
 
     /**
      * Normalize a String.
-     * 
-     * @param str The String to normalize.
+     *
+     * @param str
+     *            The String to normalize.
      * @return The normalized String.
      */
     private static String strNormalize(String str) {

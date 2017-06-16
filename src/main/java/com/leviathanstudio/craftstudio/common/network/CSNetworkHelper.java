@@ -1,10 +1,7 @@
 package com.leviathanstudio.craftstudio.common.network;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
-import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class CSNetworkHelper
@@ -16,6 +13,6 @@ public class CSNetworkHelper
             CraftStudioApi.NETWORK.sendToServer(new ServerIAnimatedEventMessage(message));
         else
             CraftStudioApi.NETWORK.sendToAllAround(new ClientIAnimatedEventMessage(message), new TargetPoint(message.animated.getDimension(),
-                    message.animated.getX(), message.animated.getY(), message.animated.getZ(), EVENT_RANGE));
+                    message.animated.getX(), message.animated.getY(), message.animated.getZ(), CSNetworkHelper.EVENT_RANGE));
     }
 }

@@ -18,7 +18,6 @@ import com.leviathanstudio.craftstudio.common.animation.Channel;
 import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.common.animation.InfoChannel;
-import com.leviathanstudio.craftstudio.common.network.IAnimatedEventMessage;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
@@ -26,14 +25,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-
 /**
  * The animation handler on Client side
- * 
+ *
  * @author Timmypote
  * @author ZeAmateis
  *
- * @param <T> The Class implementing {@link IAnimated IAnimated} that this handler belong to.
+ * @param <T>
+ *            The Class implementing {@link IAnimated IAnimated} that this
+ *            handler belong to.
  */
 @SideOnly(Side.CLIENT)
 public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandler<T>
@@ -43,7 +43,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     /** Map with the info about the animations. **/
     private Map<T, Map<InfoChannel, AnimInfo>> currentAnimInfo = new WeakHashMap<>();
-    
+
     /**
      * Simple Constructor of the Handler.
      */
@@ -93,20 +93,23 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
         animInfoMap.put(selectedChannel, new AnimInfo(System.nanoTime(), startingFrame));
         return true;
     }
-    
-    protected boolean serverInitAnimation(String res, float startingFrame, T animatedElement){
+
+    @Override
+    protected boolean serverInitAnimation(String res, float startingFrame, T animatedElement) {
         if (!this.animChannels.containsKey(res))
             return false;
         return true;
     }
-    
-    protected boolean serverStartAnimation(String res, float endingFrame, T animatedElement){
+
+    @Override
+    protected boolean serverStartAnimation(String res, float endingFrame, T animatedElement) {
         if (!this.animChannels.containsKey(res))
             return false;
         return true;
     }
-    
-    public boolean clientStopAnimation(String res, T animatedElement){
+
+    @Override
+    public boolean clientStopAnimation(String res, T animatedElement) {
         if (!this.animChannels.containsKey(res)) {
             CraftStudioApi.getLogger().warn("The animation stopped " + res + " doesn't exist!");
             return false;
@@ -122,8 +125,9 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
             this.currentAnimInfo.remove(animatedElement);
         return true;
     }
-    
-    protected boolean serverStopAnimation(String res, T animatedElement){
+
+    @Override
+    protected boolean serverStopAnimation(String res, T animatedElement) {
         return this.currentAnimInfo.containsKey(animatedElement);
     }
 
@@ -141,7 +145,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
                 it.remove();
         }
     }
-    
+
     @Override
     public boolean isAnimationActive(String name, T animatedElement) {
         InfoChannel anim = this.animChannels.get(name);
@@ -158,6 +162,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
         return false;
     }
 
+    @Override
     public boolean isHoldAnimationActive(String name, T animatedElement) {
         InfoChannel anim = this.animChannels.get(name);
         if (anim == null)
@@ -226,11 +231,13 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
     }
 
     /**
-     * Apply animations if running or apply initial values. Should be only called
-     * by the model class.
+     * Apply animations if running or apply initial values. Should be only
+     * called by the model class.
      *
-     * @param parts The list of block to update.
-     * @param entity The object that is animated.
+     * @param parts
+     *            The list of block to update.
+     * @param entity
+     *            The object that is animated.
      */
     public static void performAnimationInModel(List<CSModelRenderer> parts, IAnimated entity) {
         for (CSModelRenderer entry : parts)
@@ -240,8 +247,10 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
     /**
      * Apply animations for model block.
      *
-     * @param block The block to update.
-     * @param entity The object that is animated.
+     * @param block
+     *            The block to update.
+     * @param entity
+     *            The object that is animated.
      */
     public static void performAnimationForBlock(CSModelRenderer block, IAnimated entity) {
         String boxName = block.boxName;
@@ -389,25 +398,26 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     /**
      * Getter of currentAnimInfo.
-     * 
+     *
      * @return the currentAnimInfo.
      */
     public Map<T, Map<InfoChannel, AnimInfo>> getCurrentAnimInfo() {
-        return currentAnimInfo;
+        return this.currentAnimInfo;
     }
 
     /**
      * Setter of currentAnimInfo.
-     * 
-     * @param currentAnimInfo the currentAnimInfo to set.
+     *
+     * @param currentAnimInfo
+     *            the currentAnimInfo to set.
      */
     public void setCurrentAnimInfo(Map<T, Map<InfoChannel, AnimInfo>> currentAnimInfo) {
         this.currentAnimInfo = currentAnimInfo;
     }
-    
+
     /**
      * Getter of animChannels.
-     * 
+     *
      * @return the animChannels.
      */
     public Map<String, InfoChannel> getAnimChannels() {
@@ -416,8 +426,9 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     /**
      * Setter of animChannels.
-     * 
-     * @param animChannels the animChannels to set.
+     *
+     * @param animChannels
+     *            the animChannels to set.
      */
     public void setAnimChannels(Map<String, InfoChannel> animChannels) {
         this.animChannels = animChannels;

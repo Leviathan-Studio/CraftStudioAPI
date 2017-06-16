@@ -5,7 +5,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Enumeration of the different resource type.
- * 
+ *
  * @author ZeAmateis
  * @author Phenix246
  */

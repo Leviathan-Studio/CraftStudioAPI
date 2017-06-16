@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * A Channel that hold keyframes to animate a model.
- * 
+ *
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
@@ -25,9 +25,11 @@ public class ClientChannel extends InfoChannel
 
     /**
      * Create an empty ClientChannel, with {@code totalFrames} = 0.
-     * 
-     * @param channelName The name of the animation channel.
-     * @param initialize If the keyFrames should be initialized in the constructor.
+     *
+     * @param channelName
+     *            The name of the animation channel.
+     * @param initialize
+     *            If the keyFrames should be initialized in the constructor.
      */
     public ClientChannel(String channelName, boolean initialize) {
         super(channelName);
@@ -37,12 +39,17 @@ public class ClientChannel extends InfoChannel
 
     /**
      * Create a ClientChannel.
-     * 
-     * @param animationName The name of the animation channel.
-     * @param fps The number of frame per seconds.
-     * @param totalFrames The total number of frames.
-     * @param animationMode The animation mode.
-     * @param initialize If the keyFrames should be initialized in the constructor.
+     *
+     * @param animationName
+     *            The name of the animation channel.
+     * @param fps
+     *            The number of frame per seconds.
+     * @param totalFrames
+     *            The total number of frames.
+     * @param animationMode
+     *            The animation mode.
+     * @param initialize
+     *            If the keyFrames should be initialized in the constructor.
      */
     public ClientChannel(String animationName, float fps, int totalFrames, EnumAnimationMode animationMode, boolean initialize) {
         this(animationName, initialize);
@@ -61,8 +68,10 @@ public class ClientChannel extends InfoChannel
      * box, if it exists. If currentFrame is a keyFrame that uses this box, it
      * is returned.
      *
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The previous key frames.
      */
     public KeyFrame getPreviousRotationKeyFrameForBox(String boxName, float currentFrame) {
@@ -87,8 +96,10 @@ public class ClientChannel extends InfoChannel
      * if it exists. If currentFrame is a keyFrame that uses this box, it is NOT
      * considered.
      *
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The next key frames.
      */
     public KeyFrame getNextRotationKeyFrameForBox(String boxName, float currentFrame) {
@@ -111,11 +122,13 @@ public class ClientChannel extends InfoChannel
 
     /**
      * Return the previous translation KeyFrame before this frame that uses this
-     * box, if it exists. If currentFrame is a keyFrame that uses this box, it is
-     * returned.
-     * 
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     * box, if it exists. If currentFrame is a keyFrame that uses this box, it
+     * is returned.
+     *
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The previous key frames.
      */
     public KeyFrame getPreviousTranslationKeyFrameForBox(String boxName, float currentFrame) {
@@ -139,9 +152,11 @@ public class ClientChannel extends InfoChannel
      * Return the next translation KeyFrame before this frame that uses this
      * box, if it exists. If currentFrame is a keyFrame that uses this box, it
      * is NOT considered.
-     * 
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     *
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The next key frames.
      */
     public KeyFrame getNextTranslationKeyFrameForBox(String boxName, float currentFrame) {
@@ -164,12 +179,14 @@ public class ClientChannel extends InfoChannel
     }
 
     /**
-     * Return the previous offset KeyFrame before this frame that uses this
-     * box, if it exists. If currentFrame is a keyFrame that uses this box, it is
+     * Return the previous offset KeyFrame before this frame that uses this box,
+     * if it exists. If currentFrame is a keyFrame that uses this box, it is
      * returned.
-     * 
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     *
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The previous key frames.
      */
     public KeyFrame getPreviousOffsetKeyFrameForBox(String boxName, float currentFrame) {
@@ -190,12 +207,14 @@ public class ClientChannel extends InfoChannel
     }
 
     /**
-     * Return the next offset KeyFrame before this frame that uses this
-     * box, if it exists. If currentFrame is a keyFrame that uses this box, it
-     * is NOT considered.
-     * 
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     * Return the next offset KeyFrame before this frame that uses this box, if
+     * it exists. If currentFrame is a keyFrame that uses this box, it is NOT
+     * considered.
+     *
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The next key frames.
      */
     public KeyFrame getNextOffsetKeyFrameForBox(String boxName, float currentFrame) {
@@ -221,9 +240,11 @@ public class ClientChannel extends InfoChannel
      * Return the previous stretching KeyFrame before this frame that uses this
      * box, if it exists. If curretFrame is a keyFrame that uses this box, it is
      * returned.
-     * 
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     *
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The previous key frames.
      */
     public KeyFrame getPreviousStretchKeyFrameForBox(String boxName, float currentFrame) {
@@ -244,12 +265,14 @@ public class ClientChannel extends InfoChannel
     }
 
     /**
-     * Return the next stretching KeyFrame before this frame that uses this
-     * box, if it exists. If currentFrame is a keyFrame that uses this box, it
-     * is NOT considered.
-     * 
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     * Return the next stretching KeyFrame before this frame that uses this box,
+     * if it exists. If currentFrame is a keyFrame that uses this box, it is NOT
+     * considered.
+     *
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The next key frames.
      */
     public KeyFrame getNextStretchKeyFrameForBox(String boxName, float currentFrame) {
@@ -275,7 +298,8 @@ public class ClientChannel extends InfoChannel
      * Get the position of the keyframe in this animation, if the keyframe
      * exists.
      *
-     * @param keyFrame The keyframe.
+     * @param keyFrame
+     *            The keyframe.
      * @return The position of the keyframe, -1 if it doesn't exist.
      */
     public int getKeyFramePosition(KeyFrame keyFrame) {
@@ -290,9 +314,11 @@ public class ClientChannel extends InfoChannel
         return -1;
     }
 
-    /** Get inverted channel, for inverted animation. 
+    /**
+     * Get inverted channel, for inverted animation.
      *
-     * @param name The name of the new Channel.
+     * @param name
+     *            The name of the new Channel.
      * @return The new Channel.
      */
     public ClientChannel getInvertedChannel(String name) {
@@ -304,17 +330,18 @@ public class ClientChannel extends InfoChannel
 
     /**
      * Getter of keyFrames.
-     * 
+     *
      * @return the keyFrames.
      */
     public Map<Integer, KeyFrame> getKeyFrames() {
-        return keyFrames;
+        return this.keyFrames;
     }
 
     /**
      * Setter of keyFrames.
-     * 
-     * @param keyFrames the keyFrames to set.
+     *
+     * @param keyFrames
+     *            the keyFrames to set.
      */
     public void setKeyFrames(Map<Integer, KeyFrame> keyFrames) {
         this.keyFrames = keyFrames;
@@ -322,17 +349,18 @@ public class ClientChannel extends InfoChannel
 
     /**
      * Getter of animationMode.
-     * 
+     *
      * @return the animationMode.
      */
     public EnumAnimationMode getAnimationMode() {
-        return animationMode;
+        return this.animationMode;
     }
 
     /**
      * Setter of animationMode.
-     * 
-     * @param animationMode the animationMode to set.
+     *
+     * @param animationMode
+     *            the animationMode to set.
      */
     public void setAnimationMode(EnumAnimationMode animationMode) {
         this.animationMode = animationMode;

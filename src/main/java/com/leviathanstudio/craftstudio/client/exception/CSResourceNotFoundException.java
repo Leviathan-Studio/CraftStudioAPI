@@ -17,8 +17,9 @@ public class CSResourceNotFoundException extends FileNotFoundException
 
     /**
      * Create an exception for a resource not found.
-     * 
-     * @param resourceIn The resource that wasn't found.
+     *
+     * @param resourceIn
+     *            The resource that wasn't found.
      */
     public CSResourceNotFoundException(String resourceIn) {
         super("Resource not found: " + resourceIn);
