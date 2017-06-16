@@ -1,11 +1,13 @@
 package com.leviathanstudio.craftstudio.common.network;
 
-import com.leviathanstudio.craftstudio.CraftStudioApi;
+import java.util.UUID;
+
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -44,9 +46,17 @@ public class ServerIAnimatedEventMessage extends IAnimatedEventMessage
             return null;
         }
 
-        @Override
-        protected World getWorld(MessageContext ctx) {
-            return ctx.getServerHandler().player.world;
+        public Entity getEntityByUUID(MessageContext ctx, long most, long least) {
+            UUID uuid = new UUID(most, least);
+            for (Entity e : ctx.getServerHandler().player.world.loadedEntityList)
+                if (e.getPersistentID().equals(uuid))
+                    return e;
+            return null;
+        }
+        
+        public TileEntity getTileEntityByPos(MessageContext ctx, int x, int y, int z){
+            BlockPos pos = new BlockPos(x, y, z);
+            return ctx.getServerHandler().player.world.getTileEntity(pos);
         }
     }
 }

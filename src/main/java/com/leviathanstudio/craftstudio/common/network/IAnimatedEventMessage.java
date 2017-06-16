@@ -110,24 +110,11 @@ public class IAnimatedEventMessage implements IMessage
             buf.writeShort(this.optAnimId);
     }
     
-    public static Entity getEntityByUUID(World world, long most, long least) {
-        UUID uuid = new UUID(most, least);
-        for (Entity e : world.loadedEntityList)
-            if (e.getPersistentID().equals(uuid))
-                return e;
-        return null;
-    }
-    
-    public static TileEntity getTileEntityByPos(World world, int x, int y, int z){
-        BlockPos pos = new BlockPos(x, y, z);
-        return world.getTileEntity(pos);
-    }
-    
     public static abstract class IAnimatedEventHandler
     {
         public boolean onMessage(IAnimatedEventMessage message, MessageContext ctx) {
             if (message.hasEntity) {
-                Entity e = getEntityByUUID(this.getWorld(ctx), message.most, message.least);
+                Entity e = getEntityByUUID(ctx, message.most, message.least);
                 if (!(e instanceof IAnimated)) {
                     CraftStudioApi.getLogger().error("Networking error : invalid entity.");
                     return false;
@@ -135,7 +122,7 @@ public class IAnimatedEventMessage implements IMessage
                 message.animated = (IAnimated) e;
             }
             else {
-                TileEntity te = getTileEntityByPos(this.getWorld(ctx), message.x, message.y, message.z);
+                TileEntity te = getTileEntityByPos(ctx, message.x, message.y, message.z);
                 if (!(te instanceof IAnimated)) {
                     CraftStudioApi.getLogger().error("Networking error : invalid tile entity.");
                     return false;
@@ -145,6 +132,8 @@ public class IAnimatedEventMessage implements IMessage
             return true;
         }
         
-        protected abstract World getWorld(MessageContext ctx);
+        public abstract Entity getEntityByUUID(MessageContext ctx, long most, long least);
+        
+        public abstract TileEntity getTileEntityByPos(MessageContext ctx, int x, int y, int z);
     }
 }

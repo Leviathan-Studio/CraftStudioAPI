@@ -422,10 +422,4 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
     public void setAnimChannels(Map<String, InfoChannel> animChannels) {
         this.animChannels = animChannels;
     }
-
-    @Override
-    public boolean onClientIAnimatedEvent(IAnimatedEventMessage message) {
-        // TODO Auto-generated method stub
-        return false;
-    }
 }

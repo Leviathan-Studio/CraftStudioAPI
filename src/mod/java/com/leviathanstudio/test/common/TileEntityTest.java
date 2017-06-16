@@ -37,12 +37,6 @@ public class TileEntityTest extends TileEntity implements IAnimated, ITickable
     }
 
     @Override
-    public UUID getUUID() {
-        // this.getPos();
-        return null;
-    }
-
-    @Override
     public void update() {
         this.getAnimationHandler().animationsUpdate(this);
         
@@ -60,6 +54,31 @@ public class TileEntityTest extends TileEntity implements IAnimated, ITickable
             return true;
         }
         return super.receiveClientEvent(id, type);
+    }
+
+    @Override
+    public int getDimension() {
+        return this.getDimension();
+    }
+
+    @Override
+    public double getX() {
+        return this.pos.getX();
+    }
+
+    @Override
+    public double getY() {
+        return this.pos.getY();
+    }
+
+    @Override
+    public double getZ() {
+        return this.pos.getX();
+    }
+
+    @Override
+    public boolean isWorldRemote() {
+        return this.world.isRemote;
     }
 
 }

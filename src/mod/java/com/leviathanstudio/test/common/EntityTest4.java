@@ -39,7 +39,27 @@ public class EntityTest4 extends EntityCreature implements IAnimated
     }
 
     @Override
-    public UUID getUUID() {
-        return this.getPersistentID();
+    public int getDimension() {
+        return this.dimension;
+    }
+
+    @Override
+    public double getX() {
+        return this.posX;
+    }
+
+    @Override
+    public double getY() {
+        return this.posY;
+    }
+
+    @Override
+    public double getZ() {
+        return this.posZ;
+    }
+
+    @Override
+    public boolean isWorldRemote() {
+        return this.world.isRemote;
     }
 }
