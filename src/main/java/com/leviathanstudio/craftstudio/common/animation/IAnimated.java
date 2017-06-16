@@ -24,9 +24,4 @@ public interface IAnimated
      * @param <T>
      */
     public <T extends IAnimated> AnimationHandler<T> getAnimationHandler();
-
-    /**
-     * Getter of Entity UUID for multiplayer sync compatibility
-     */
-    public UUID getUUID();
 }

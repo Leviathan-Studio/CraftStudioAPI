@@ -3,6 +3,8 @@ package com.leviathanstudio.craftstudio.common.animation;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.leviathanstudio.craftstudio.common.network.IAnimatedEventMessage;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 
@@ -184,5 +186,11 @@ public abstract class AnimationHandler<T extends IAnimated>
             this.prevTime = prevTime;
             this.currentFrame = currentFrame;
         }
+    }
+    
+    public abstract boolean onClientIAnimatedEvent(IAnimatedEventMessage message);
+    
+    public boolean onServerIAnimatedEvent(IAnimatedEventMessage message){
+        return false;
     }
 }

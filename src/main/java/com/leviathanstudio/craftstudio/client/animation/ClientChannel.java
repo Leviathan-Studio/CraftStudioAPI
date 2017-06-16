@@ -31,7 +31,6 @@ public class ClientChannel extends InfoChannel
      */
     public ClientChannel(String channelName, boolean initialize) {
         super(channelName);
-        this.totalFrames = 0;
         if (initialize)
             this.initializeAllFrames();
     }
