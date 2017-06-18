@@ -150,11 +150,6 @@ public class CSAnimChannel extends ClientChannel
                     this.getKeyFrames().get(this.totalFrames).modelRenderersStretchs.put(block.getName(),
                             this.getKeyFrames().get(lastSK).modelRenderersStretchs.get(block.getName()));
             }
-
         }
-        if (!this.rAnim.isHoldLastK())
-            if (!this.getKeyFrames().containsKey(this.totalFrames))
-                this.getKeyFrames().put(this.totalFrames, this.getKeyFrames().get(0).clone());
-
     }
 }

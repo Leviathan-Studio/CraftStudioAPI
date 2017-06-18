@@ -139,7 +139,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
         for (Iterator<Entry<InfoChannel, AnimInfo>> it = animInfoMap.entrySet().iterator(); it.hasNext();) {
             Entry<InfoChannel, AnimInfo> animInfo = it.next();
-            float prevFrame = animInfo.getValue().currentFrame;
+            animInfo.getValue();
             boolean canUpdate = this.canUpdateAnimation(animInfo.getKey(), animatedElement);
             if (!canUpdate)
                 it.remove();
@@ -319,7 +319,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
                     float LERPProgress = (currentFrame - prevTranslationsKeyFramePosition)
                             / (nextTranslationsKeyFramePosition - prevTranslationsKeyFramePosition);
-                    if (LERPProgress > 1F)
+                    if (LERPProgress > 1F || LERPProgress < 0F)
                         LERPProgress = 1F;
 
                     if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame == null && !(nextTranslationsKeyFramePosition == 0)) {
@@ -345,7 +345,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
                     int nextOffsetKeyFramePosition = nextOffsetKeyFrame != null ? clientChannel.getKeyFramePosition(nextOffsetKeyFrame) : 0;
 
                     float OffProgress = (currentFrame - prevOffsetKeyFramePosition) / (nextOffsetKeyFramePosition - prevOffsetKeyFramePosition);
-                    if (OffProgress > 1F)
+                    if (OffProgress > 1F || OffProgress < 0F)
                         OffProgress = 1F;
 
                     if (prevOffsetKeyFramePosition == 0 && prevOffsetKeyFrame == null && !(nextOffsetKeyFramePosition == 0)) {
@@ -371,7 +371,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
                     int nextStretchKeyFramePosition = nextStretchKeyFrame != null ? clientChannel.getKeyFramePosition(nextStretchKeyFrame) : 0;
 
                     float strProgress = (currentFrame - prevStretchKeyFramePosition) / (nextStretchKeyFramePosition - prevStretchKeyFramePosition);
-                    if (strProgress > 1F)
+                    if (strProgress > 1F || strProgress < 0F)
                         strProgress = 1F;
 
                     if (prevStretchKeyFramePosition == 0 && prevStretchKeyFrame == null && !(nextStretchKeyFramePosition == 0)) {
