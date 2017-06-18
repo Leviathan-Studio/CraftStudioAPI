@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class CSTileEntitySpecialRenderer<T extends TileEntity> extends TileEntitySpecialRenderer<T>
 {
-    private static final FloatBuffer ROTATION_CORRECTOR;
+    public static final FloatBuffer ROTATION_CORRECTOR;
     static {
         Matrix4f mat = new Matrix4f();
         mat.set(MathHelper.quatFromEuler(180, 0, 0));

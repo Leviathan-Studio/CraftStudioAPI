@@ -64,10 +64,12 @@ public abstract class AnimationHandler<T extends IAnimated>
         this.channelIds.add(anim.toString());
     }
 
-    public void startAnimation(String res, float startingFrame, T animatedElement) {
-        this.serverInitAnimation(res, startingFrame, animatedElement);
-        CSNetworkHelper.sendIAnimatedEvent(
-                new IAnimatedEventMessage(EnumIAnimatedEvent.START_ANIM, animatedElement, this.getAnimIdFromName(res), startingFrame));
+    public void startAnimation(String res, float startingFrame, T animatedElement, boolean clientSend) {
+        if (animatedElement.isWorldRemote() == clientSend) {
+            this.serverInitAnimation(res, startingFrame, animatedElement);
+            CSNetworkHelper.sendIAnimatedEvent(
+                    new IAnimatedEventMessage(EnumIAnimatedEvent.START_ANIM, animatedElement, this.getAnimIdFromName(res), startingFrame));
+        }
     }
 
     public abstract boolean clientStartAnimation(String res, float startingFrame, T animatedElement);
@@ -76,18 +78,23 @@ public abstract class AnimationHandler<T extends IAnimated>
 
     protected abstract boolean serverStartAnimation(String res, float endingFrame, T animatedElement);
 
-    public void stopAnimation(String res, T animatedElement) {
-        this.serverStopAnimation(res, animatedElement);
-        CSNetworkHelper.sendIAnimatedEvent(new IAnimatedEventMessage(EnumIAnimatedEvent.STOP_ANIM, animatedElement, this.getAnimIdFromName(res)));
+    public void stopAnimation(String res, T animatedElement, boolean clientSend) {
+        if (animatedElement.isWorldRemote() == clientSend) {
+            this.serverStopAnimation(res, animatedElement);
+            CSNetworkHelper.sendIAnimatedEvent(new IAnimatedEventMessage(EnumIAnimatedEvent.STOP_ANIM, animatedElement, this.getAnimIdFromName(res)));
+        }
     }
 
     public abstract boolean clientStopAnimation(String res, T animatedElement);
 
     protected abstract boolean serverStopAnimation(String res, T animatedElement);
 
-    public void stopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
-        CSNetworkHelper.sendIAnimatedEvent(new IAnimatedEventMessage(EnumIAnimatedEvent.STOP_START_ANIM, animatedElement,
-                this.getAnimIdFromName(animToStart), startingFrame, this.getAnimIdFromName(animToStop)));
+    public void stopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement, boolean clientSend) {
+        if (animatedElement.isWorldRemote() == clientSend) {
+            this.serverStopStartAnimation(animToStop, animToStart, startingFrame, animatedElement);
+            CSNetworkHelper.sendIAnimatedEvent(new IAnimatedEventMessage(EnumIAnimatedEvent.STOP_START_ANIM, animatedElement,
+                    this.getAnimIdFromName(animToStart), startingFrame, this.getAnimIdFromName(animToStop)));
+        }
     }
 
     public boolean clientStopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
@@ -95,7 +102,7 @@ public abstract class AnimationHandler<T extends IAnimated>
         return this.clientStartAnimation(animToStart, startingFrame, animatedElement) && stopSucces;
     }
 
-    public boolean serverStopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
+    protected boolean serverStopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
         boolean stopSucces = this.serverStopAnimation(animToStop, animatedElement);
         return this.serverInitAnimation(animToStart, startingFrame, animatedElement) && stopSucces;
     }
@@ -170,8 +177,9 @@ public abstract class AnimationHandler<T extends IAnimated>
         }
     }
 
-    // **************************** Overloaded methods for easy use
-    // ****************************//
+    ///////////////////////////////////////
+    // Overloaded methods for easier use //
+    ///////////////////////////////////////
 
     /**
      * Start your animation
@@ -184,7 +192,11 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            The IAnimated that is animated.
      */
     public void startAnimation(String modid, String animationName, T animatedElement) {
-        this.startAnimation(modid, animationName, 0.0F, animatedElement);
+        this.startAnimation(modid, animationName, 0.0F, animatedElement, false);
+    }
+
+    public void startAnimation(String modid, String animationName, T animatedElement, boolean clientSend) {
+        this.startAnimation(modid, animationName, 0.0F, animatedElement, clientSend);
     }
 
     /**
@@ -199,12 +211,8 @@ public abstract class AnimationHandler<T extends IAnimated>
      * @param animatedElement
      *            The IAnimated that is animated.
      */
-    public void startAnimation(String modid, String animationName, float startingFrame, T animatedElement) {
-        this.startAnimation(modid + ":" + animationName, startingFrame, animatedElement);
-    }
-
-    public void clientStartAnimation(String modid, String animationName, float startingFrame, T animatedElement) {
-        this.clientStartAnimation(modid + ":" + animationName, startingFrame, animatedElement);
+    public void startAnimation(String modid, String animationName, float startingFrame, T animatedElement, boolean clientSend) {
+        this.startAnimation(modid + ":" + animationName, startingFrame, animatedElement, clientSend);
     }
 
     /**
@@ -221,6 +229,10 @@ public abstract class AnimationHandler<T extends IAnimated>
         this.clientStartAnimation(modid, animationName, 0.0F, animatedElement);
     }
 
+    public void clientStartAnimation(String modid, String animationName, float startingFrame, T animatedElement) {
+        this.clientStartAnimation(modid + ":" + animationName, startingFrame, animatedElement);
+    }
+
     /**
      * Stop your animation
      *
@@ -232,15 +244,15 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            The IAnimated that is animated.
      */
     public void stopAnimation(String modid, String animationName, T animatedElement) {
-        this.stopAnimation(modid + ":" + animationName, animatedElement);
+        this.stopAnimation(modid + ":" + animationName, animatedElement, false);
     }
 
-    public void stopStartAnimation(String modid1, String animToStop, String modid2, String animToStart, float startingFrame, T animatedElement) {
-        this.stopStartAnimation(modid1 + ":" + animToStop, modid2 + ":" + animToStart, startingFrame, animatedElement);
+    public void stopAnimation(String modid, String animationName, T animatedElement, boolean clientSend) {
+        this.stopAnimation(modid + ":" + animationName, animatedElement, clientSend);
     }
 
-    public void stopStartAnimation(String modid, String animToStop, String animToStart, float startingFrame, T animatedElement) {
-        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, startingFrame, animatedElement);
+    public void clientStopAnimation(String modid, String animationName, T animatedElement) {
+        this.clientStopAnimation(modid + ":" + animationName, animatedElement);
     }
 
     /**
@@ -256,7 +268,33 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            The IAnimated that is animated.
      */
     public void stopStartAnimation(String modid, String animToStop, String animToStart, T animatedElement) {
-        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement);
+        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement, false);
+    }
+
+    public void stopStartAnimation(String modid, String animToStop, String animToStart, T animatedElement, boolean clientSend) {
+        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement, clientSend);
+    }
+
+    public void stopStartAnimation(String modid, String animToStop, String animToStart, float startingFrame, T animatedElement, boolean clientSend) {
+        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, startingFrame, animatedElement, clientSend);
+    }
+
+    public void stopStartAnimation(String modid1, String animToStop, String modid2, String animToStart, float startingFrame, T animatedElement,
+            boolean clientSend) {
+        this.stopStartAnimation(modid1 + ":" + animToStop, modid2 + ":" + animToStart, startingFrame, animatedElement, clientSend);
+    }
+
+    public void clientStopStartAnimation(String modid, String animToStop, String animToStart, T animatedElement) {
+        this.clientStopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement);
+    }
+
+    public void clientStopStartAnimation(String modid, String animToStop, String animToStart, float startingFrame, T animatedElement) {
+        this.clientStopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, startingFrame, animatedElement);
+    }
+
+    public void clientStopStartAnimation(String modid1, String animToStop, String modid2, String animToStart, float startingFrame,
+            T animatedElement) {
+        this.clientStopStartAnimation(modid1 + ":" + animToStop, modid2 + ":" + animToStart, startingFrame, animatedElement);
     }
 
     /**

@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class CSNetworkHelper
 {
-    public static final double EVENT_RANGE = 100;
+    public static final double EVENT_RANGE = 128;
 
     public static void sendIAnimatedEvent(IAnimatedEventMessage message) {
         if (message.animated.isWorldRemote())
