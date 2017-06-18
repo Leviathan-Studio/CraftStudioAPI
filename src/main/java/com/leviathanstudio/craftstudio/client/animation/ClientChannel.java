@@ -76,6 +76,7 @@ public class ClientChannel extends InfoChannel
      */
     public KeyFrame getPreviousRotationKeyFrameForBox(String boxName, float currentFrame) {
         int latestFramePosition = -1;
+        int lastFramePosition = -1;
         KeyFrame latestKeyFrame = null;
         for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
             final Integer key = entry.getKey();
@@ -86,6 +87,12 @@ public class ClientChannel extends InfoChannel
                     latestFramePosition = key;
                     latestKeyFrame = value;
                 }
+            if (key > lastFramePosition && value.useBoxInRotations(boxName))
+                lastFramePosition = key;
+        }
+        if (latestKeyFrame == null && lastFramePosition >= 0) {
+            this.keyFrames.put(lastFramePosition - this.totalFrames, this.keyFrames.get(lastFramePosition).clone());
+            latestKeyFrame = this.keyFrames.get(lastFramePosition - this.totalFrames);
         }
 
         return latestKeyFrame;
@@ -104,6 +111,7 @@ public class ClientChannel extends InfoChannel
      */
     public KeyFrame getNextRotationKeyFrameForBox(String boxName, float currentFrame) {
         int nextFramePosition = -1;
+        int firstFramePosition = this.totalFrames + 1;
         KeyFrame nextKeyFrame = null;
         if (currentFrame > this.totalFrames)
             return this.keyFrames.get(this.totalFrames);
@@ -116,6 +124,12 @@ public class ClientChannel extends InfoChannel
                     nextFramePosition = key;
                     nextKeyFrame = value;
                 }
+            if (key < firstFramePosition && value.useBoxInRotations(boxName))
+                firstFramePosition = key;
+        }
+        if (nextKeyFrame == null && firstFramePosition < this.totalFrames + 1) {
+            this.keyFrames.put(this.totalFrames + firstFramePosition, this.keyFrames.get(firstFramePosition).clone());
+            nextKeyFrame = this.keyFrames.get(this.totalFrames + firstFramePosition);
         }
         return nextKeyFrame;
     }
@@ -133,6 +147,7 @@ public class ClientChannel extends InfoChannel
      */
     public KeyFrame getPreviousTranslationKeyFrameForBox(String boxName, float currentFrame) {
         int latestFramePosition = -1;
+        int lastFramePosition = -1;
         KeyFrame latestKeyFrame = null;
         for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
             final Integer key = entry.getKey();
@@ -143,6 +158,12 @@ public class ClientChannel extends InfoChannel
                     latestFramePosition = key;
                     latestKeyFrame = value;
                 }
+            if (key > lastFramePosition && value.useBoxInTranslations(boxName))
+                lastFramePosition = key;
+        }
+        if (latestKeyFrame == null && lastFramePosition >= 0) {
+            this.keyFrames.put(lastFramePosition - this.totalFrames, this.keyFrames.get(lastFramePosition).clone());
+            latestKeyFrame = this.keyFrames.get(lastFramePosition - this.totalFrames);
         }
 
         return latestKeyFrame;
@@ -161,6 +182,7 @@ public class ClientChannel extends InfoChannel
      */
     public KeyFrame getNextTranslationKeyFrameForBox(String boxName, float currentFrame) {
         int nextFramePosition = -1;
+        int firstFramePosition = this.totalFrames + 1;
         KeyFrame nextKeyFrame = null;
         if (currentFrame > this.totalFrames)
             return this.keyFrames.get(this.totalFrames);
@@ -173,6 +195,12 @@ public class ClientChannel extends InfoChannel
                     nextFramePosition = key;
                     nextKeyFrame = value;
                 }
+            if (key < firstFramePosition && value.useBoxInTranslations(boxName))
+                firstFramePosition = key;
+        }
+        if (nextKeyFrame == null && firstFramePosition < this.totalFrames + 1) {
+            this.keyFrames.put(this.totalFrames + firstFramePosition, this.keyFrames.get(firstFramePosition).clone());
+            nextKeyFrame = this.keyFrames.get(this.totalFrames + firstFramePosition);
         }
 
         return nextKeyFrame;
@@ -191,6 +219,7 @@ public class ClientChannel extends InfoChannel
      */
     public KeyFrame getPreviousOffsetKeyFrameForBox(String boxName, float currentFrame) {
         int latestFramePosition = -1;
+        int lastFramePosition = -1;
         KeyFrame latestKeyFrame = null;
         for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
             final Integer key = entry.getKey();
@@ -201,6 +230,12 @@ public class ClientChannel extends InfoChannel
                     latestFramePosition = key;
                     latestKeyFrame = value;
                 }
+            if (key > lastFramePosition && value.useBoxInOffsets(boxName))
+                lastFramePosition = key;
+        }
+        if (latestKeyFrame == null && lastFramePosition >= 0) {
+            this.keyFrames.put(lastFramePosition - this.totalFrames, this.keyFrames.get(lastFramePosition).clone());
+            latestKeyFrame = this.keyFrames.get(lastFramePosition - this.totalFrames);
         }
 
         return latestKeyFrame;
@@ -219,6 +254,7 @@ public class ClientChannel extends InfoChannel
      */
     public KeyFrame getNextOffsetKeyFrameForBox(String boxName, float currentFrame) {
         int nextFramePosition = -1;
+        int firstFramePosition = this.totalFrames + 1;
         KeyFrame nextKeyFrame = null;
         if (currentFrame > this.totalFrames)
             return this.keyFrames.get(this.totalFrames);
@@ -231,6 +267,12 @@ public class ClientChannel extends InfoChannel
                     nextFramePosition = key;
                     nextKeyFrame = value;
                 }
+            if (key < firstFramePosition && value.useBoxInOffsets(boxName))
+                firstFramePosition = key;
+        }
+        if (nextKeyFrame == null && firstFramePosition < this.totalFrames + 1) {
+            this.keyFrames.put(this.totalFrames + firstFramePosition, this.keyFrames.get(firstFramePosition).clone());
+            nextKeyFrame = this.keyFrames.get(this.totalFrames + firstFramePosition);
         }
 
         return nextKeyFrame;
@@ -249,6 +291,7 @@ public class ClientChannel extends InfoChannel
      */
     public KeyFrame getPreviousStretchKeyFrameForBox(String boxName, float currentFrame) {
         int latestFramePosition = -1;
+        int lastFramePosition = -1;
         KeyFrame latestKeyFrame = null;
         for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
             final Integer key = entry.getKey();
@@ -259,6 +302,12 @@ public class ClientChannel extends InfoChannel
                     latestFramePosition = key;
                     latestKeyFrame = value;
                 }
+            if (key > lastFramePosition && value.useBoxInStretchs(boxName))
+                lastFramePosition = key;
+        }
+        if (latestKeyFrame == null && lastFramePosition >= 0) {
+            this.keyFrames.put(lastFramePosition - this.totalFrames, this.keyFrames.get(lastFramePosition).clone());
+            latestKeyFrame = this.keyFrames.get(lastFramePosition - this.totalFrames);
         }
 
         return latestKeyFrame;
@@ -277,6 +326,7 @@ public class ClientChannel extends InfoChannel
      */
     public KeyFrame getNextStretchKeyFrameForBox(String boxName, float currentFrame) {
         int nextFramePosition = -1;
+        int firstFramePosition = this.totalFrames + 1;
         KeyFrame nextKeyFrame = null;
         if (currentFrame > this.totalFrames)
             return this.keyFrames.get(this.totalFrames);
@@ -289,6 +339,12 @@ public class ClientChannel extends InfoChannel
                     nextFramePosition = key;
                     nextKeyFrame = value;
                 }
+            if (key < firstFramePosition && value.useBoxInStretchs(boxName))
+                firstFramePosition = key;
+        }
+        if (nextKeyFrame == null && firstFramePosition < this.totalFrames + 1) {
+            this.keyFrames.put(this.totalFrames + firstFramePosition, this.keyFrames.get(firstFramePosition).clone());
+            nextKeyFrame = this.keyFrames.get(this.totalFrames + firstFramePosition);
         }
 
         return nextKeyFrame;
