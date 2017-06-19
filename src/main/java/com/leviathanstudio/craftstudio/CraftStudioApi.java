@@ -25,6 +25,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Main class of the CraftStudioApi
+ * 
+ * @since 0.3.0
  *
  * @author ZeAmateis
  * @author Timmypote

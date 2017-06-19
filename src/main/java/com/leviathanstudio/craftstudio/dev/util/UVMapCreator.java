@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.vecmath.Vector3f;
 
 import com.leviathanstudio.craftstudio.client.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
@@ -20,6 +19,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Object to help generate a UV Map for a model.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ */
 @SideOnly(Side.CLIENT)
 public class UVMapCreator
 {
@@ -54,7 +60,6 @@ public class UVMapCreator
     }
 
     private void getUVSizeByBlock(CSReadedModelBlock block) {
-        Vector3f size = block.getSize();
         int[][] uvs = CSModelBox.getTextureUVsForRect(block.getTexOffset()[0], block.getTexOffset()[1], block.getSize().x, block.getSize().y,
                 block.getSize().z);
 
@@ -82,7 +87,6 @@ public class UVMapCreator
     }
 
     private void drawUVForBlock(CSReadedModelBlock block, Graphics2D ig) {
-        Vector3f size = block.getSize();
         int[][] textUvs = CSModelBox.getTextureUVsForRect(block.getTexOffset()[0], block.getTexOffset()[1], block.getSize().x, block.getSize().y,
                 block.getSize().z);
         ig.setPaint(Color.MAGENTA);

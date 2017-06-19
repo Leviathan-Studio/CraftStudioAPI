@@ -23,6 +23,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Command to list all the models or animations.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ */
 @SideOnly(Side.CLIENT)
 public class CommandCSList extends CommandBase
 {

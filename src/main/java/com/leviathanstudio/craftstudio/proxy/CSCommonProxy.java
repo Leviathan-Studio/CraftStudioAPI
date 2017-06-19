@@ -11,6 +11,14 @@ import com.leviathanstudio.craftstudio.common.network.ServerIAnimatedEventMessag
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
+/**
+ * Common proxy of th CraftStudioApi
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ * @author ZeAmateis
+ */
 public abstract class CSCommonProxy
 {
     public void preInit(FMLPreInitializationEvent e) {
