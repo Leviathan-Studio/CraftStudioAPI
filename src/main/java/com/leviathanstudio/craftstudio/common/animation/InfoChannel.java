@@ -1,5 +1,12 @@
 package com.leviathanstudio.craftstudio.common.animation;
 
+/**
+ * Class that should hold render informations about the animations.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ */
 public abstract class InfoChannel extends Channel
 {
 

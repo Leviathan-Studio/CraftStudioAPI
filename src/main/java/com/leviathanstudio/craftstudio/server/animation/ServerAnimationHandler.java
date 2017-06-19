@@ -15,19 +15,29 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * An object that hold the informations about its animated objects and all their
+ * animations. It also start/stop/update the animations. This is the server side
+ * AnimationHandler.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ *
+ * @param <T>
+ *            The class of the animated object.
+ */
 @SideOnly(Side.SERVER)
 public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandler<T>
 {
     /** Map with all the animations. */
     private Map<String, Channel>          animChannels       = new HashMap<>();
 
+    /** Map with the informations about animations. */
     private Map<T, Map<String, AnimInfo>> currentAnimInfo    = new WeakHashMap<>();
 
+    /** Map with the initialized animations and their starting frames. */
     private Map<T, Map<String, Float>>    startingAnimations = new WeakHashMap<>();
-
-    public ServerAnimationHandler() {
-        super();
-    }
 
     @Override
     public void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped) {
@@ -113,7 +123,6 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
 
         for (Iterator<Entry<String, AnimInfo>> it = animInfoMap.entrySet().iterator(); it.hasNext();) {
             Entry<String, AnimInfo> animInfo = it.next();
-            float prevFrame = animInfo.getValue().prevTime;
             boolean animStatus = this.canUpdateAnimation(this.animChannels.get(animInfo.getKey()), animatedElement);
             if (!animStatus)
                 it.remove();
@@ -137,7 +146,6 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
         return this.isAnimationActive(name, animatedElement);
     }
 
-    /** Update animation values. Return false if the animation should stop. */
     @Override
     public boolean canUpdateAnimation(Channel channel, T animatedElement) {
         Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);

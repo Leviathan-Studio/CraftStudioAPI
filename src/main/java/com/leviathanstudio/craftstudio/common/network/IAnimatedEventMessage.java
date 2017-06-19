@@ -12,18 +12,38 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+/**
+ * Base class for
+ * {@link com.leviathanstudio.craftstudio.common.animation.IAnimated IAnimated}
+ * event messages.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ */
 public class IAnimatedEventMessage implements IMessage
 {
-    public short     event, animId, optAnimId = -1;
+    /** The id of the event. See for more info {@link EnumIAnimatedEvent}. */
+    public short     event;
+    /** The id of the primary animation. */
+    public short     animId;
+    /** The id of the secondary animation, used for stopStart message. */
+    public short     optAnimId    = -1;
+    /** A float used to transmit keyframe related informations. */
     public float     keyframeInfo = -1;
+    /** The object that is animated */
     public IAnimated animated;
-
+    /** Variable that transmit part of the UUID of an Entity. */
     public long      most, least;
+    /** Variable that transmit the position of a TileEntity. */
     public int       x, y, z;
+    /** True, if on message receiving the animated object is an entity. */
     public boolean   hasEntity;
 
+    /** Simple empty constructor for packets system. */
     public IAnimatedEventMessage() {}
 
+    /** Constructor */
     public IAnimatedEventMessage(EnumIAnimatedEvent event, IAnimated animated, short animId) {
         if (event != null)
             this.event = event.getId();
@@ -31,16 +51,19 @@ public class IAnimatedEventMessage implements IMessage
         this.animId = animId;
     }
 
+    /** Constructor */
     public IAnimatedEventMessage(EnumIAnimatedEvent event, IAnimated animated, short animId, float keyframeInfo) {
         this(event, animated, animId);
         this.keyframeInfo = keyframeInfo;
     }
 
+    /** Constructor */
     public IAnimatedEventMessage(EnumIAnimatedEvent event, IAnimated animated, short animId, float keyframeInfo, short optAnimId) {
         this(event, animated, animId, keyframeInfo);
         this.optAnimId = optAnimId;
     }
 
+    /** Constructor */
     public IAnimatedEventMessage(IAnimatedEventMessage eventObj) {
         this(null, eventObj.animated, eventObj.animId, eventObj.keyframeInfo, eventObj.optAnimId);
         this.event = eventObj.event;
@@ -109,8 +132,26 @@ public class IAnimatedEventMessage implements IMessage
             buf.writeShort(this.optAnimId);
     }
 
+    /**
+     * Base class for the messages handler.
+     * 
+     * @since 0.3.0
+     * 
+     * @author Timmypote
+     */
     public static abstract class IAnimatedEventHandler
     {
+
+        /**
+         * Extract the Entity or TileEntity when a message is received.
+         * 
+         * @param message
+         *            The message received.
+         * @param ctx
+         *            The context of the message.
+         * @return True, if the Entity/TileEntity was successfully extracted.
+         *         False, otherwise.
+         */
         public boolean onMessage(IAnimatedEventMessage message, MessageContext ctx) {
             if (message.hasEntity) {
                 Entity e = this.getEntityByUUID(ctx, message.most, message.least);
@@ -131,8 +172,32 @@ public class IAnimatedEventMessage implements IMessage
             return true;
         }
 
+        /**
+         * Get an entity by its UUID.
+         * 
+         * @param ctx
+         *            The context of the message received.
+         * @param most
+         *            The most significants bits of the UUID.
+         * @param least
+         *            The least significants bits of the UUID.
+         * @return The Entity, null if it couldn't be found.
+         */
         public abstract Entity getEntityByUUID(MessageContext ctx, long most, long least);
 
+        /**
+         * Get a TileEntity by its position.
+         * 
+         * @param ctx
+         *            The context of the message received.
+         * @param x
+         *            The position on the x axis.
+         * @param y
+         *            The position on the y axis.
+         * @param z
+         *            The position on the z axis.
+         * @return The TileEntity, null if it couldn't be found.
+         */
         public abstract TileEntity getTileEntityByPos(MessageContext ctx, int x, int y, int z);
     }
 }

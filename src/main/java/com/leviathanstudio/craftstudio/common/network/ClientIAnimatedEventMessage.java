@@ -13,26 +13,45 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+/**
+ * Message to send an IAnimated event to the client.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ */
 public class ClientIAnimatedEventMessage extends IAnimatedEventMessage
 {
+    /** Constructor */
     public ClientIAnimatedEventMessage() {}
 
+    /** Constructor */
     public ClientIAnimatedEventMessage(EnumIAnimatedEvent event, IAnimated animated, short animId) {
         super(event, animated, animId);
     }
 
+    /** Constructor */
     public ClientIAnimatedEventMessage(EnumIAnimatedEvent event, IAnimated animated, short animId, float keyframeInfo) {
         super(event, animated, animId, keyframeInfo);
     }
 
+    /** Constructor */
     public ClientIAnimatedEventMessage(EnumIAnimatedEvent event, IAnimated animated, short animId, float keyframeInfo, short optAnimId) {
         super(event, animated, animId, keyframeInfo, optAnimId);
     }
 
+    /** Constructor */
     public ClientIAnimatedEventMessage(IAnimatedEventMessage eventObj) {
         super(eventObj);
     }
 
+    /**
+     * Handler for IAnimated event messages send to the client.
+     * 
+     * @since 0.3.0
+     * 
+     * @author Timmypote
+     */
     public static class ClientIAnimatedEventHandler extends IAnimatedEventHandler
             implements IMessageHandler<ClientIAnimatedEventMessage, ServerIAnimatedEventMessage>
     {
