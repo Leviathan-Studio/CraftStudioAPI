@@ -7,6 +7,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Exception raised when opening a .csjsmodel or .csjsmodelanim file has failed.
+ * 
+ * @since 0.3.0
  *
  * @author Phenix246
  */

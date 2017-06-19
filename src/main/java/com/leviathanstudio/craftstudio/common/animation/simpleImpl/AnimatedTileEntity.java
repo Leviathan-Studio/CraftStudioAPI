@@ -20,7 +20,7 @@ public abstract class AnimatedTileEntity extends TileEntity implements IAnimated
 {
     /** The animation handler of this type of tile entity. */
     // It should be different for every entity class, unless child classes have
-    // the same models or similars one.
+    // the same models.
     // You should declare a new one in your extended classes.
     protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(AnimatedTileEntity.class);
 

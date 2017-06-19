@@ -9,12 +9,24 @@ import javax.vecmath.Vector3f;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Class that store informations about a model at a specific time of an
+ * animation.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ */
 @SideOnly(Side.CLIENT)
 public class KeyFrame implements Cloneable
 {
+    /** Map of quaternions for block rotation */
     protected Map<String, Quat4f>   modelRenderersRotations    = new HashMap<>();
+    /** Map of vector for block translation */
     protected Map<String, Vector3f> modelRenderersTranslations = new HashMap<>();
+    /** Map of vector for block offset */
     protected Map<String, Vector3f> modelRenderersOffsets      = new HashMap<>();
+    /** Map of vector for block stretch */
     protected Map<String, Vector3f> modelRenderersStretchs     = new HashMap<>();
 
     /**

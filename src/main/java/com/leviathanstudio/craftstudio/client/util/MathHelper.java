@@ -13,6 +13,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Class containing useful math methods for the api.
+ * 
+ * @since 0.3.0
  *
  * @author Timmypote
  */

@@ -14,6 +14,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Class that store the informations relative to an animation.
+ * 
+ * @since 0.3.0
  *
  * @author Timmypote
  */

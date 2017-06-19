@@ -19,7 +19,7 @@ public abstract class AnimatedEntity extends EntityCreature implements IAnimated
 {
     /** The animation handler of this type of entity. */
     // It should be different for every entity class, unless child classes have
-    // the same models or similars one.
+    // the same models.
     // You should declare a new one in your extended classes.
     protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(AnimatedEntity.class);
 
