@@ -25,7 +25,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.artifactory'
 
 // Maven
-version = "0.2.1"
+version = "0.3.0"
 group= "com.leviathanstudio"
 archivesBaseName = "CraftStudioAPI"
 ext.suffix="beta"
