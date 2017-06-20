@@ -21,12 +21,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Animation Channel for CraftStudio imported animation.
  *
+ * @since 0.3.0
+ *
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
 public class CSAnimChannel extends ClientChannel
 {
+    /** The registered animation it represent */
     private CSReadedAnim  rAnim;
+    /** The registered model it animate */
     private CSReadedModel rModel;
 
     /**

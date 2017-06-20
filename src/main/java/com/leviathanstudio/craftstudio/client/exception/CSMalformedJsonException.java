@@ -6,6 +6,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Exception raised when there is an error during json reading caused by a
  * malformed json.
+ * 
+ * @since 0.3.0
  *
  * @author Timmypote
  */

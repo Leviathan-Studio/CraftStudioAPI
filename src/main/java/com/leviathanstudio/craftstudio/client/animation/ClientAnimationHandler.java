@@ -26,14 +26,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * The animation handler on Client side
+ * An object that hold the informations about its animated objects and all their
+ * animations. It also start/stop/update the animations and render the models.
+ * This is the client side AnimationHandler.
+ *
+ * @since 0.3.0
  *
  * @author Timmypote
  * @author ZeAmateis
  *
  * @param <T>
- *            The Class implementing {@link IAnimated IAnimated} that this
- *            handler belong to.
+ *            The class of the animated object.
  */
 @SideOnly(Side.CLIENT)
 public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandler<T>
@@ -43,13 +46,6 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
     /** Map with the info about the animations. **/
     private Map<T, Map<InfoChannel, AnimInfo>> currentAnimInfo = new WeakHashMap<>();
-
-    /**
-     * Simple Constructor of the Handler.
-     */
-    public ClientAnimationHandler() {
-        super();
-    }
 
     @Override
     public void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped) {
@@ -223,7 +219,9 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
     }
 
     /**
-     * Check if game is paused (Exit screen)
+     * Check if game is paused, on the exit screen.
+     *
+     * @return true, if the game is paused.
      */
     public static boolean isGamePaused() {
         Minecraft MC = Minecraft.getMinecraft();
@@ -236,12 +234,12 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
      *
      * @param parts
      *            The list of block to update.
-     * @param entity
+     * @param animated
      *            The object that is animated.
      */
-    public static void performAnimationInModel(List<CSModelRenderer> parts, IAnimated entity) {
+    public static void performAnimationInModel(List<CSModelRenderer> parts, IAnimated animated) {
         for (CSModelRenderer entry : parts)
-            performAnimationForBlock(entry, entity);
+            performAnimationForBlock(entry, animated);
     }
 
     /**
@@ -249,20 +247,20 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
      *
      * @param block
      *            The block to update.
-     * @param entity
+     * @param animated
      *            The object that is animated.
      */
-    public static void performAnimationForBlock(CSModelRenderer block, IAnimated entity) {
+    public static void performAnimationForBlock(CSModelRenderer block, IAnimated animated) {
         String boxName = block.boxName;
 
-        if (entity.getAnimationHandler() instanceof ClientAnimationHandler) {
-            ClientAnimationHandler animHandler = (ClientAnimationHandler) entity.getAnimationHandler();
+        if (animated.getAnimationHandler() instanceof ClientAnimationHandler) {
+            ClientAnimationHandler animHandler = (ClientAnimationHandler) animated.getAnimationHandler();
 
             if (block.childModels != null)
                 for (ModelRenderer child : block.childModels)
                     if (child instanceof CSModelRenderer) {
                         CSModelRenderer childModel = (CSModelRenderer) child;
-                        performAnimationForBlock(childModel, entity);
+                        performAnimationForBlock(childModel, animated);
                     }
 
             block.resetRotationPoint();
@@ -270,7 +268,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
             block.resetOffset();
             block.resetStretch();
 
-            Map<InfoChannel, AnimInfo> animInfoMap = (Map<InfoChannel, AnimInfo>) animHandler.currentAnimInfo.get(entity);
+            Map<InfoChannel, AnimInfo> animInfoMap = (Map<InfoChannel, AnimInfo>) animHandler.currentAnimInfo.get(animated);
             if (animInfoMap == null)
                 return;
 
@@ -391,7 +389,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
 
                 }
                 else if (animInfo.getKey() instanceof CustomChannel)
-                    ((CustomChannel) animInfo.getKey()).update(block, entity);
+                    ((CustomChannel) animInfo.getKey()).update(block, animated);
         }
 
     }

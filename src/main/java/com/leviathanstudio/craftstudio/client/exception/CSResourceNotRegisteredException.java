@@ -6,6 +6,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Exception raised when the program try to call a resource that isn't
  * registered.
+ * 
+ * @since 0.3.0
  *
  * @author Timmypote
  */

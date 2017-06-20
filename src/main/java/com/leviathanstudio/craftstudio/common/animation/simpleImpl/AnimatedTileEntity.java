@@ -7,18 +7,35 @@ import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 
+/**
+ * An abstract class that represent a animated TileEntity. You should extends it
+ * and not create your own, or be careful to implement all the methods of this
+ * class.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ */
 public abstract class AnimatedTileEntity extends TileEntity implements IAnimated, ITickable
 {
+    /** The animation handler of this type of tile entity. */
+    // It should be different for every entity class, unless child classes have
+    // the same models.
+    // You should declare a new one in your extended classes.
     protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(AnimatedTileEntity.class);
 
+    // Here you should add all the needed animations in the animationHandler.
     static {
         //AnimatedTileEntity.animHandler.addAnim("yourModId", "yourAnimation", "yourModel", false);
     }
 
+    /** The constructor of the tile entity. */
     public AnimatedTileEntity() {
         super();
     }
 
+    // You must call super.update() at the beginning of your update() method,
+    // or call the animationsUpdate() method like here.
     @Override
     public void update() {
         this.getAnimationHandler().animationsUpdate(this);
@@ -26,6 +43,7 @@ public abstract class AnimatedTileEntity extends TileEntity implements IAnimated
 
     @Override
     public <T extends IAnimated> AnimationHandler<T> getAnimationHandler() {
+        // Be careful to return the right animation handler.
         return AnimatedTileEntity.animHandler;
     }
 
@@ -54,6 +72,7 @@ public abstract class AnimatedTileEntity extends TileEntity implements IAnimated
         return this.world.isRemote;
     }
 
+    // Here to prevent bugs on the integrated server.
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -64,6 +83,7 @@ public abstract class AnimatedTileEntity extends TileEntity implements IAnimated
         return result;
     }
 
+    // Here to prevent bugs on the integrated server.
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

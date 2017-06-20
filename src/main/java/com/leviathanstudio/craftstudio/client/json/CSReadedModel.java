@@ -10,6 +10,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Class that store information relative to a model.
  *
+ * @since 0.3.0
+ *
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)

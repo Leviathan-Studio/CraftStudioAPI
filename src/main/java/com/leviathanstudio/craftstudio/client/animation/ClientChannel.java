@@ -10,7 +10,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * A Channel that hold keyframes to animate a model.
+ * A InfoChannel that hold keyframes to animate a model.
+ *
+ * @since 0.3.0
  *
  * @author Timmypote
  */
