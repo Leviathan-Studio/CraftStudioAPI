@@ -12,6 +12,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Class used to render a box in a {@link CSModelRenderer} or a
  * {@link ModelRenderer}.</br>
  * Partially based on {@link net.minecraft.client.model.ModelBox ModelBox}.
+ * 
+ * @since 0.3.0
  *
  * @author Timmypote
  */
@@ -186,7 +188,6 @@ public class CSModelBox
         Vec3d or = this.quadList[1].vertexPositions[0].vector3D;
         double x = this.quadList[0].vertexPositions[1].vector3D.xCoord, y = this.quadList[1].vertexPositions[3].vector3D.yCoord,
                 z = this.quadList[1].vertexPositions[1].vector3D.zCoord;
-        TexturedQuad buffer;
         if (x - or.xCoord < 0)
             this.flipFaces();
         if (y - or.yCoord > 0)
@@ -195,7 +196,6 @@ public class CSModelBox
             this.flipFaces();
     }
 
-    
     /**
      * Flip all the vertices of all the faces.
      */

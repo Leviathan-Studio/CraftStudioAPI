@@ -10,6 +10,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Class that store information relative to a block in a model.
+ * 
+ * @since 0.3.0
  *
  * @author Timmypote
  */
@@ -42,10 +44,13 @@ public class CSReadedModelBlock
     }
 
     /**
-     * Check if the block or one of it's child as a name already in the list or not and complete the list.
+     * Check if the block or one of it's child as a name already in the list or
+     * not and complete the list.
      *
-     * @param names A list of name.
-     * @return null, if no block has duplicate name. One name that is duplicated, otherwise.
+     * @param names
+     *            A list of name.
+     * @return null, if no block has duplicate name. One name that is
+     *         duplicated, otherwise.
      */
     String whyUnAnimable(List<String> names) {
         String str;

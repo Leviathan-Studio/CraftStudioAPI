@@ -1,7 +1,5 @@
 package com.leviathanstudio.test.common;
 
-import java.util.UUID;
-
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
@@ -15,8 +13,6 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class EntityTest2 extends EntityAnimal implements IAnimated
 {
@@ -26,21 +22,15 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     static {
         EntityTest2.animHandler.addAnim(Mod_Test.MODID, "close_fan", "peacock", false);
         EntityTest2.animHandler.addAnim(Mod_Test.MODID, "open_fan", "close_fan");
-        EntityTest2.animHandler.addAnim(Mod_Test.MODID, "lookat", "peacock", new AnimationLootAt("Head"));
+        EntityTest2.animHandler.addAnim(Mod_Test.MODID, "lookat", new AnimationLootAt("Head"));
     }
 
     public EntityTest2(World par1World) {
         super(par1World);
-        EntityTest2.animHandler.addAnimated(this);
         this.setSize(1.0F, 1.5F);
         this.tasks.addTask(1, new EntityAILookIdle(this));
         this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 10));
         this.initEntityAI();
-    }
-
-    @Override
-    protected void entityInit() {
-        super.entityInit();
     }
 
     @Override
@@ -50,15 +40,9 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
     }
 
-    // Getter for animation handler
     @Override
     public AnimationHandler getAnimationHandler() {
         return EntityTest2.animHandler;
-    }
-
-    @Override
-    public void onUpdate() {
-        super.onUpdate();
     }
 
     @Override
@@ -79,7 +63,9 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "lookat", this))
+        this.getAnimationHandler().animationsUpdate(this);
+
+        if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "lookat", this))
             this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "lookat", this);
     }
 
@@ -89,7 +75,27 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     }
 
     @Override
-    public UUID getUUID() {
-        return this.getPersistentID();
+    public int getDimension() {
+        return this.dimension;
+    }
+
+    @Override
+    public double getX() {
+        return this.posX;
+    }
+
+    @Override
+    public double getY() {
+        return this.posY;
+    }
+
+    @Override
+    public double getZ() {
+        return this.posZ;
+    }
+
+    @Override
+    public boolean isWorldRemote() {
+        return this.world.isRemote;
     }
 }

@@ -20,6 +20,13 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Class used to render CSModelBoxs.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ */
 @SideOnly(Side.CLIENT)
 public class CSModelRenderer extends ModelRenderer
 {

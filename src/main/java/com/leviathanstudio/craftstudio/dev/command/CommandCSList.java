@@ -14,21 +14,28 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.SyntaxErrorException;
+import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.client.IClientCommand;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Command to list all the models or animations.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ */
 @SideOnly(Side.CLIENT)
 public class CommandCSList extends CommandBase
 {
 
     private static String       name      = "cslist";
-    private static String       usage     = "cslist models/animations";
+    private static String       usage     = "/cslist models/animations";
     private static int          permLevel = 0;
     private static List<String> autoC     = Arrays.<String> asList(new String[] { "models", "animations" });
 
@@ -60,6 +67,8 @@ public class CommandCSList extends CommandBase
             }
             sender.sendMessage(new TextComponentString(str));
         }
+        else
+            throw new WrongUsageException(CommandCSList.usage);
     }
 
     @Override

@@ -4,8 +4,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * Exception raised when there is an error during json reading caused by a malformed json.
+ * Exception raised when there is an error during json reading caused by a
+ * malformed json.
  * 
+ * @since 0.3.0
+ *
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
@@ -15,10 +18,13 @@ public class CSMalformedJsonException extends Exception
 
     /**
      * Create a exception for a missing field.
-     * 
-     * @param field The name of the field.
-     * @param type The type of the field.
-     * @param ress The resource that is malformed.
+     *
+     * @param field
+     *            The name of the field.
+     * @param type
+     *            The type of the field.
+     * @param ress
+     *            The resource that is malformed.
      */
     public CSMalformedJsonException(String field, String type, String ress) {
         super("Missing field " + field + " of type " + type + " in " + ress);
@@ -26,9 +32,11 @@ public class CSMalformedJsonException extends Exception
 
     /**
      * Create a exception for a malformed field.
-     * 
-     * @param element Element that is malformed.
-     * @param ress The resource that is malformed.
+     *
+     * @param element
+     *            Element that is malformed.
+     * @param ress
+     *            The resource that is malformed.
      */
     public CSMalformedJsonException(String element, String ress) {
         super("Malformation of " + element + " in " + ress);

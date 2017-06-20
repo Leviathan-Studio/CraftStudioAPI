@@ -3,10 +3,11 @@ package com.leviathanstudio.craftstudio.client.json;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-
 /**
  * Enumeration of the different type of keyframe field type.
  * 
+ * @since 0.3.0
+ *
  * @author ZeAmateis
  * @author Phenix246
  */

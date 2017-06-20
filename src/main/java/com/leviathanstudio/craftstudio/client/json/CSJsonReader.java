@@ -26,6 +26,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Class used to read json and extract a {@link CSReadedModel} or a
  * {@link CSReadedAnim}.
+ * 
+ * @since 0.3.0
  *
  * @author Timmypote
  * @author ZeAmateis
@@ -236,7 +238,6 @@ public class CSJsonReader
 
         CSReadedAnim anim = new CSReadedAnim();
         CSReadedAnimBlock block;
-        JsonObject jsonBlock;
         JsonElement jsEl;
 
         anim.setModid(strNormalize(this.modid));
@@ -328,8 +329,9 @@ public class CSJsonReader
 
     /**
      * Normalize a String.
-     * 
-     * @param str The String to normalize.
+     *
+     * @param str
+     *            The String to normalize.
      * @return The normalized String.
      */
     private static String strNormalize(String str) {
