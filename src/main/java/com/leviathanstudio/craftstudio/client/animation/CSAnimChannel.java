@@ -21,12 +21,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Animation Channel for CraftStudio imported animation.
  *
+ * @since 0.3.0
+ *
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
 public class CSAnimChannel extends ClientChannel
 {
+    /** The registered animation it represent */
     private CSReadedAnim  rAnim;
+    /** The registered model it animate */
     private CSReadedModel rModel;
 
     /**
@@ -150,11 +154,6 @@ public class CSAnimChannel extends ClientChannel
                     this.getKeyFrames().get(this.totalFrames).modelRenderersStretchs.put(block.getName(),
                             this.getKeyFrames().get(lastSK).modelRenderersStretchs.get(block.getName()));
             }
-
         }
-        if (!this.rAnim.isHoldLastK())
-            if (!this.getKeyFrames().containsKey(this.totalFrames))
-                this.getKeyFrames().put(this.totalFrames, this.getKeyFrames().get(0).clone());
-
     }
 }

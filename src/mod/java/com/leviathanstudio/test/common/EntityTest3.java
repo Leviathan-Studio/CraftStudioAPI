@@ -1,20 +1,19 @@
 package com.leviathanstudio.test.common;
 
-import java.util.UUID;
+import javax.annotation.Nullable;
 
 import javax.annotation.Nullable;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
-import com.leviathanstudio.craftstudio.common.animation.IAnimated;
+import com.leviathanstudio.craftstudio.common.animation.simpleImpl.AnimatedEntity;
 
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
-public class EntityTest3 extends EntityCreature implements IAnimated
+public class EntityTest3 extends AnimatedEntity
 {
     protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(EntityTest3.class);
     boolean                           fly         = false;
@@ -26,29 +25,16 @@ public class EntityTest3 extends EntityCreature implements IAnimated
 
     public EntityTest3(World par1World) {
         super(par1World);
-        EntityTest3.animHandler.addAnimated(this);
     }
 
-    @Override
-    protected void entityInit() {
-        super.entityInit();
-    }
-
-    // Getter for animation handler
     @Override
     public AnimationHandler getAnimationHandler() {
         return EntityTest3.animHandler;
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-    }
-
-    @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand, @Nullable ItemStack stack)
-    {
-        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly", this))
+    public boolean processInteract(EntityPlayer player, EnumHand hand, @Nullable ItemStack stack) {
+        if (!this.fly)
             this.fly = true;
         return true;
     }
@@ -56,14 +42,9 @@ public class EntityTest3 extends EntityCreature implements IAnimated
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        // Activate the animation in ticking method
+
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly", this) && this.fly)
             this.getAnimationHandler().startAnimation(Mod_Test.MODID, "fly", this);
 
-    }
-
-    @Override
-    public UUID getUUID() {
-        return this.getPersistentID();
     }
 }

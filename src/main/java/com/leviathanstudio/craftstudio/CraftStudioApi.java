@@ -16,12 +16,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 /**
  * Main class of the CraftStudioApi
+ * 
+ * @since 0.3.0
  *
  * @author ZeAmateis
  * @author Timmypote
  */
 @Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, updateJSON = "https://leviathan-studio.com/craftstudioapi/update.json",
-    version = "0.2.1-beta",
+    version = "0.3.0-beta",
     acceptedMinecraftVersions = "1.9.4")
 public class CraftStudioApi
 {

@@ -6,8 +6,6 @@ import java.util.List;
 import com.leviathanstudio.craftstudio.client.exception.CSMalformedJsonException;
 import com.leviathanstudio.craftstudio.client.exception.CSResourceNotFoundException;
 import com.leviathanstudio.craftstudio.client.json.CSJsonReader;
-import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
-import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.EnumRenderType;
 import com.leviathanstudio.craftstudio.client.json.EnumResourceType;
 
@@ -21,6 +19,14 @@ import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Class containing useful methods to register models and animations.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ * @author ZeAmateis
+ */
 @SideOnly(Side.CLIENT)
 public class CSRegistryHelper
 {
@@ -168,8 +174,6 @@ public class CSRegistryHelper
      */
     private static void registry(EnumResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn) {
         CSJsonReader jsonReader;
-        CSReadedModel model;
-        CSReadedAnim anim;
         try {
             jsonReader = new CSJsonReader(resourceLocationIn);
             if (resourceLocationIn.getResourceDomain() != CraftStudioApi.API_ID)

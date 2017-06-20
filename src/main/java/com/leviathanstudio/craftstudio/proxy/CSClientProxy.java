@@ -11,6 +11,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.PersistentRegistryManager;
 
+/**
+ * Client proxy of th CraftStudioApi
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ * @author ZeAmateis
+ */
 public class CSClientProxy extends CSCommonProxy
 {
     @Override

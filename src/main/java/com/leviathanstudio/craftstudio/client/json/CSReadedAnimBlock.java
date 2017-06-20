@@ -10,6 +10,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Class that store information relative to an animated block.</br>
+ * 
+ * @since 0.3.0
  *
  * @author Timmypote
  */
@@ -53,6 +55,10 @@ public class CSReadedAnimBlock
 
     /**
      * Class used to store informations relative to keyframes.
+     * 
+     * @since 0.3.0
+     * 
+     * @author Timmypote
      */
     public class ReadedKeyFrame
     {

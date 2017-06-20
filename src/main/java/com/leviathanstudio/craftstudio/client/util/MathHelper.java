@@ -14,6 +14,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Class containing useful math methods for the api.
  * 
+ * @since 0.3.0
+ *
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
@@ -21,8 +23,9 @@ public class MathHelper
 {
     /**
      * Create a direct FloatBuffer from a Matrix4f.
-     * 
-     * @param mat The Matrix4f.
+     *
+     * @param mat
+     *            The Matrix4f.
      * @return The FloatBuffer.
      */
     public static FloatBuffer makeFloatBuffer(Matrix4f mat) {
@@ -50,9 +53,11 @@ public class MathHelper
     }
 
     /**
-     * Create a new Quat4f representing the yaw, pitch and roll given(applied in that order).
-     * 
-     * @param rot The pitch, yaw and roll as a Vector3f(x=pitch, y=yaw, z=roll).
+     * Create a new Quat4f representing the yaw, pitch and roll given(applied in
+     * that order).
+     *
+     * @param rot
+     *            The pitch, yaw and roll as a Vector3f(x=pitch, y=yaw, z=roll).
      * @return The new Quat4f.
      */
     public static Quat4f quatFromEuler(Vector3f rot) {
@@ -60,11 +65,15 @@ public class MathHelper
     }
 
     /**
-     * Create a new Quat4f representing the yaw, pitch and roll given(applied in that order).
-     * 
-     * @param pitch The pitch.
-     * @param yaw The yaw.
-     * @param roll The roll.
+     * Create a new Quat4f representing the yaw, pitch and roll given(applied in
+     * that order).
+     *
+     * @param pitch
+     *            The pitch.
+     * @param yaw
+     *            The yaw.
+     * @param roll
+     *            The roll.
      * @return The new Quat4f.
      */
     public static Quat4f quatFromEuler(float pitch, float yaw, float roll) {

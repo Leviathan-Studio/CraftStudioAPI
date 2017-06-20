@@ -10,8 +10,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * A Channel that hold keyframes to animate a model.
- * 
+ * A InfoChannel that hold keyframes to animate a model.
+ *
+ * @since 0.3.0
+ *
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
@@ -25,25 +27,31 @@ public class ClientChannel extends InfoChannel
 
     /**
      * Create an empty ClientChannel, with {@code totalFrames} = 0.
-     * 
-     * @param channelName The name of the animation channel.
-     * @param initialize If the keyFrames should be initialized in the constructor.
+     *
+     * @param channelName
+     *            The name of the animation channel.
+     * @param initialize
+     *            If the keyFrames should be initialized in the constructor.
      */
     public ClientChannel(String channelName, boolean initialize) {
         super(channelName);
-        this.totalFrames = 0;
         if (initialize)
             this.initializeAllFrames();
     }
 
     /**
      * Create a ClientChannel.
-     * 
-     * @param animationName The name of the animation channel.
-     * @param fps The number of frame per seconds.
-     * @param totalFrames The total number of frames.
-     * @param animationMode The animation mode.
-     * @param initialize If the keyFrames should be initialized in the constructor.
+     *
+     * @param animationName
+     *            The name of the animation channel.
+     * @param fps
+     *            The number of frame per seconds.
+     * @param totalFrames
+     *            The total number of frames.
+     * @param animationMode
+     *            The animation mode.
+     * @param initialize
+     *            If the keyFrames should be initialized in the constructor.
      */
     public ClientChannel(String animationName, float fps, int totalFrames, EnumAnimationMode animationMode, boolean initialize) {
         this(animationName, initialize);
@@ -62,12 +70,15 @@ public class ClientChannel extends InfoChannel
      * box, if it exists. If currentFrame is a keyFrame that uses this box, it
      * is returned.
      *
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The previous key frames.
      */
     public KeyFrame getPreviousRotationKeyFrameForBox(String boxName, float currentFrame) {
         int latestFramePosition = -1;
+        int lastFramePosition = -1;
         KeyFrame latestKeyFrame = null;
         for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
             final Integer key = entry.getKey();
@@ -78,6 +89,12 @@ public class ClientChannel extends InfoChannel
                     latestFramePosition = key;
                     latestKeyFrame = value;
                 }
+            if (key > lastFramePosition && value.useBoxInRotations(boxName))
+                lastFramePosition = key;
+        }
+        if (latestKeyFrame == null && lastFramePosition >= 0) {
+            this.keyFrames.put(lastFramePosition - this.totalFrames, this.keyFrames.get(lastFramePosition).clone());
+            latestKeyFrame = this.keyFrames.get(lastFramePosition - this.totalFrames);
         }
 
         return latestKeyFrame;
@@ -88,12 +105,15 @@ public class ClientChannel extends InfoChannel
      * if it exists. If currentFrame is a keyFrame that uses this box, it is NOT
      * considered.
      *
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The next key frames.
      */
     public KeyFrame getNextRotationKeyFrameForBox(String boxName, float currentFrame) {
         int nextFramePosition = -1;
+        int firstFramePosition = this.totalFrames + 1;
         KeyFrame nextKeyFrame = null;
         if (currentFrame > this.totalFrames)
             return this.keyFrames.get(this.totalFrames);
@@ -106,21 +126,30 @@ public class ClientChannel extends InfoChannel
                     nextFramePosition = key;
                     nextKeyFrame = value;
                 }
+            if (key < firstFramePosition && value.useBoxInRotations(boxName))
+                firstFramePosition = key;
+        }
+        if (nextKeyFrame == null && firstFramePosition < this.totalFrames + 1) {
+            this.keyFrames.put(this.totalFrames + firstFramePosition, this.keyFrames.get(firstFramePosition).clone());
+            nextKeyFrame = this.keyFrames.get(this.totalFrames + firstFramePosition);
         }
         return nextKeyFrame;
     }
 
     /**
      * Return the previous translation KeyFrame before this frame that uses this
-     * box, if it exists. If currentFrame is a keyFrame that uses this box, it is
-     * returned.
-     * 
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     * box, if it exists. If currentFrame is a keyFrame that uses this box, it
+     * is returned.
+     *
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The previous key frames.
      */
     public KeyFrame getPreviousTranslationKeyFrameForBox(String boxName, float currentFrame) {
         int latestFramePosition = -1;
+        int lastFramePosition = -1;
         KeyFrame latestKeyFrame = null;
         for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
             final Integer key = entry.getKey();
@@ -131,6 +160,12 @@ public class ClientChannel extends InfoChannel
                     latestFramePosition = key;
                     latestKeyFrame = value;
                 }
+            if (key > lastFramePosition && value.useBoxInTranslations(boxName))
+                lastFramePosition = key;
+        }
+        if (latestKeyFrame == null && lastFramePosition >= 0) {
+            this.keyFrames.put(lastFramePosition - this.totalFrames, this.keyFrames.get(lastFramePosition).clone());
+            latestKeyFrame = this.keyFrames.get(lastFramePosition - this.totalFrames);
         }
 
         return latestKeyFrame;
@@ -140,13 +175,16 @@ public class ClientChannel extends InfoChannel
      * Return the next translation KeyFrame before this frame that uses this
      * box, if it exists. If currentFrame is a keyFrame that uses this box, it
      * is NOT considered.
-     * 
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     *
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The next key frames.
      */
     public KeyFrame getNextTranslationKeyFrameForBox(String boxName, float currentFrame) {
         int nextFramePosition = -1;
+        int firstFramePosition = this.totalFrames + 1;
         KeyFrame nextKeyFrame = null;
         if (currentFrame > this.totalFrames)
             return this.keyFrames.get(this.totalFrames);
@@ -159,22 +197,31 @@ public class ClientChannel extends InfoChannel
                     nextFramePosition = key;
                     nextKeyFrame = value;
                 }
+            if (key < firstFramePosition && value.useBoxInTranslations(boxName))
+                firstFramePosition = key;
+        }
+        if (nextKeyFrame == null && firstFramePosition < this.totalFrames + 1) {
+            this.keyFrames.put(this.totalFrames + firstFramePosition, this.keyFrames.get(firstFramePosition).clone());
+            nextKeyFrame = this.keyFrames.get(this.totalFrames + firstFramePosition);
         }
 
         return nextKeyFrame;
     }
 
     /**
-     * Return the previous offset KeyFrame before this frame that uses this
-     * box, if it exists. If currentFrame is a keyFrame that uses this box, it is
+     * Return the previous offset KeyFrame before this frame that uses this box,
+     * if it exists. If currentFrame is a keyFrame that uses this box, it is
      * returned.
-     * 
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     *
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The previous key frames.
      */
     public KeyFrame getPreviousOffsetKeyFrameForBox(String boxName, float currentFrame) {
         int latestFramePosition = -1;
+        int lastFramePosition = -1;
         KeyFrame latestKeyFrame = null;
         for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
             final Integer key = entry.getKey();
@@ -185,22 +232,31 @@ public class ClientChannel extends InfoChannel
                     latestFramePosition = key;
                     latestKeyFrame = value;
                 }
+            if (key > lastFramePosition && value.useBoxInOffsets(boxName))
+                lastFramePosition = key;
+        }
+        if (latestKeyFrame == null && lastFramePosition >= 0) {
+            this.keyFrames.put(lastFramePosition - this.totalFrames, this.keyFrames.get(lastFramePosition).clone());
+            latestKeyFrame = this.keyFrames.get(lastFramePosition - this.totalFrames);
         }
 
         return latestKeyFrame;
     }
 
     /**
-     * Return the next offset KeyFrame before this frame that uses this
-     * box, if it exists. If currentFrame is a keyFrame that uses this box, it
-     * is NOT considered.
-     * 
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     * Return the next offset KeyFrame before this frame that uses this box, if
+     * it exists. If currentFrame is a keyFrame that uses this box, it is NOT
+     * considered.
+     *
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The next key frames.
      */
     public KeyFrame getNextOffsetKeyFrameForBox(String boxName, float currentFrame) {
         int nextFramePosition = -1;
+        int firstFramePosition = this.totalFrames + 1;
         KeyFrame nextKeyFrame = null;
         if (currentFrame > this.totalFrames)
             return this.keyFrames.get(this.totalFrames);
@@ -213,6 +269,12 @@ public class ClientChannel extends InfoChannel
                     nextFramePosition = key;
                     nextKeyFrame = value;
                 }
+            if (key < firstFramePosition && value.useBoxInOffsets(boxName))
+                firstFramePosition = key;
+        }
+        if (nextKeyFrame == null && firstFramePosition < this.totalFrames + 1) {
+            this.keyFrames.put(this.totalFrames + firstFramePosition, this.keyFrames.get(firstFramePosition).clone());
+            nextKeyFrame = this.keyFrames.get(this.totalFrames + firstFramePosition);
         }
 
         return nextKeyFrame;
@@ -222,13 +284,16 @@ public class ClientChannel extends InfoChannel
      * Return the previous stretching KeyFrame before this frame that uses this
      * box, if it exists. If curretFrame is a keyFrame that uses this box, it is
      * returned.
-     * 
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     *
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The previous key frames.
      */
     public KeyFrame getPreviousStretchKeyFrameForBox(String boxName, float currentFrame) {
         int latestFramePosition = -1;
+        int lastFramePosition = -1;
         KeyFrame latestKeyFrame = null;
         for (final Map.Entry<Integer, KeyFrame> entry : this.keyFrames.entrySet()) {
             final Integer key = entry.getKey();
@@ -239,22 +304,31 @@ public class ClientChannel extends InfoChannel
                     latestFramePosition = key;
                     latestKeyFrame = value;
                 }
+            if (key > lastFramePosition && value.useBoxInStretchs(boxName))
+                lastFramePosition = key;
+        }
+        if (latestKeyFrame == null && lastFramePosition >= 0) {
+            this.keyFrames.put(lastFramePosition - this.totalFrames, this.keyFrames.get(lastFramePosition).clone());
+            latestKeyFrame = this.keyFrames.get(lastFramePosition - this.totalFrames);
         }
 
         return latestKeyFrame;
     }
 
     /**
-     * Return the next stretching KeyFrame before this frame that uses this
-     * box, if it exists. If currentFrame is a keyFrame that uses this box, it
-     * is NOT considered.
-     * 
-     * @param boxName The name of the box.
-     * @param currentFrame The current frame.
+     * Return the next stretching KeyFrame before this frame that uses this box,
+     * if it exists. If currentFrame is a keyFrame that uses this box, it is NOT
+     * considered.
+     *
+     * @param boxName
+     *            The name of the box.
+     * @param currentFrame
+     *            The current frame.
      * @return The next key frames.
      */
     public KeyFrame getNextStretchKeyFrameForBox(String boxName, float currentFrame) {
         int nextFramePosition = -1;
+        int firstFramePosition = this.totalFrames + 1;
         KeyFrame nextKeyFrame = null;
         if (currentFrame > this.totalFrames)
             return this.keyFrames.get(this.totalFrames);
@@ -267,6 +341,12 @@ public class ClientChannel extends InfoChannel
                     nextFramePosition = key;
                     nextKeyFrame = value;
                 }
+            if (key < firstFramePosition && value.useBoxInStretchs(boxName))
+                firstFramePosition = key;
+        }
+        if (nextKeyFrame == null && firstFramePosition < this.totalFrames + 1) {
+            this.keyFrames.put(this.totalFrames + firstFramePosition, this.keyFrames.get(firstFramePosition).clone());
+            nextKeyFrame = this.keyFrames.get(this.totalFrames + firstFramePosition);
         }
 
         return nextKeyFrame;
@@ -276,7 +356,8 @@ public class ClientChannel extends InfoChannel
      * Get the position of the keyframe in this animation, if the keyframe
      * exists.
      *
-     * @param keyFrame The keyframe.
+     * @param keyFrame
+     *            The keyframe.
      * @return The position of the keyframe, -1 if it doesn't exist.
      */
     public int getKeyFramePosition(KeyFrame keyFrame) {
@@ -291,9 +372,11 @@ public class ClientChannel extends InfoChannel
         return -1;
     }
 
-    /** Get inverted channel, for inverted animation. 
+    /**
+     * Get inverted channel, for inverted animation.
      *
-     * @param name The name of the new Channel.
+     * @param name
+     *            The name of the new Channel.
      * @return The new Channel.
      */
     public ClientChannel getInvertedChannel(String name) {
@@ -305,17 +388,18 @@ public class ClientChannel extends InfoChannel
 
     /**
      * Getter of keyFrames.
-     * 
+     *
      * @return the keyFrames.
      */
     public Map<Integer, KeyFrame> getKeyFrames() {
-        return keyFrames;
+        return this.keyFrames;
     }
 
     /**
      * Setter of keyFrames.
-     * 
-     * @param keyFrames the keyFrames to set.
+     *
+     * @param keyFrames
+     *            the keyFrames to set.
      */
     public void setKeyFrames(Map<Integer, KeyFrame> keyFrames) {
         this.keyFrames = keyFrames;
@@ -323,17 +407,18 @@ public class ClientChannel extends InfoChannel
 
     /**
      * Getter of animationMode.
-     * 
+     *
      * @return the animationMode.
      */
     public EnumAnimationMode getAnimationMode() {
-        return animationMode;
+        return this.animationMode;
     }
 
     /**
      * Setter of animationMode.
-     * 
-     * @param animationMode the animationMode to set.
+     *
+     * @param animationMode
+     *            the animationMode to set.
      */
     public void setAnimationMode(EnumAnimationMode animationMode) {
         this.animationMode = animationMode;

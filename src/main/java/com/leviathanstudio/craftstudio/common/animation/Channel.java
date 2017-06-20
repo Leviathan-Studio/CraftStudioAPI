@@ -1,5 +1,13 @@
 package com.leviathanstudio.craftstudio.common.animation;
 
+/**
+ * Class that hold basic informations on animations channel.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ * @author ZeAmateis
+ */
 public class Channel
 {
     /** The name of the animation channel */

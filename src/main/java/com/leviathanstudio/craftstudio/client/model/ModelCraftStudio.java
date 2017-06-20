@@ -19,6 +19,14 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Model to represent a CraftStudio model in Minecraft.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ * @author ZeAmateis
+ */
 @SideOnly(Side.CLIENT)
 public class ModelCraftStudio extends ModelBase
 {
