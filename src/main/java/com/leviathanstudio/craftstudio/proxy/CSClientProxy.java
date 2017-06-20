@@ -6,6 +6,14 @@ import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+/**
+ * Client proxy of th CraftStudioApi
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ * @author ZeAmateis
+ */
 public class CSClientProxy extends CSCommonProxy
 {
     @Override

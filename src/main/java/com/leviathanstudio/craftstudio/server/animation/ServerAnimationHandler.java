@@ -4,142 +4,115 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.WeakHashMap;
 
-import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.Channel;
 import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
-import com.leviathanstudio.craftstudio.common.network.EndAnimationMessage;
-import com.leviathanstudio.craftstudio.common.network.FireAnimationMessage;
-import com.leviathanstudio.craftstudio.common.network.FireEndAnimationMessage;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * An object that hold the informations about its animated objects and all their
+ * animations. It also start/stop/update the animations. This is the server side
+ * AnimationHandler.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ *
+ * @param <T>
+ *            The class of the animated object.
+ */
 @SideOnly(Side.SERVER)
 public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandler<T>
 {
     /** Map with all the animations. */
     private Map<String, Channel>          animChannels       = new HashMap<>();
 
-    private Map<T, Map<String, AnimInfo>> currentAnimInfo    = new HashMap<>();
+    /** Map with the informations about animations. */
+    private Map<T, Map<String, AnimInfo>> currentAnimInfo    = new WeakHashMap<>();
 
-    private Map<T, Map<String, Float>>    startingAnimations = new HashMap<>();
-
-    public ServerAnimationHandler() {
-        super();
-    }
+    /** Map with the initialized animations and their starting frames. */
+    private Map<T, Map<String, Float>>    startingAnimations = new WeakHashMap<>();
 
     @Override
     public void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped) {
+        super.addAnim(modid, animNameIn, modelNameIn, looped);
         ResourceLocation anim = new ResourceLocation(modid, animNameIn);
         this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, looped));
-        this.channelIds.add(anim.toString());
     }
 
     @Override
-    public void addAnim(String modid, String animNameIn, String modelNameIn, CustomChannel customChannelIn) {
+    public void addAnim(String modid, String animNameIn, CustomChannel customChannelIn) {
+        super.addAnim(modid, animNameIn, customChannelIn);
         ResourceLocation anim = new ResourceLocation(modid, animNameIn);
         this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, false));
-        this.channelIds.add(anim.toString());
     }
 
     @Override
     public void addAnim(String modid, String invertedAnimationName, String animationToInvert) {
+        super.addAnim(modid, invertedAnimationName, animationToInvert);
         ResourceLocation anim = new ResourceLocation(modid, invertedAnimationName);
         ResourceLocation inverted = new ResourceLocation(modid, animationToInvert);
         boolean looped = this.animChannels.get(inverted.toString()).looped;
         this.animChannels.put(anim.toString(), new Channel(anim.toString(), 60.0F, looped));
-        this.channelIds.add(anim.toString());
     }
 
     @Override
-    public void startAnimation(String ress, float startingFrame, T animatedElement) {
-        if (!this.animChannels.containsKey(ress))
-            return;
-        if (!(animatedElement instanceof Entity))
-            return;
+    public boolean clientStartAnimation(String res, float startingFrame, T animatedElement) {
+        return false;
+    }
+
+    @Override
+    protected boolean serverInitAnimation(String res, float startingFrame, T animatedElement) {
+        if (!this.animChannels.containsKey(res))
+            return false;
         Map<String, Float> startingAnimMap = this.startingAnimations.get(animatedElement);
         if (startingAnimMap == null)
             this.startingAnimations.put(animatedElement, startingAnimMap = new HashMap<>());
-        startingAnimMap.put(ress, startingFrame);
-        Entity e = (Entity) animatedElement;
-        CraftStudioApi.NETWORK.sendToAllAround(new FireAnimationMessage(ress, animatedElement, startingFrame),
-                new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 100));
+        startingAnimMap.put(res, startingFrame);
+        return true;
     }
 
-    public void serverStartAnimation(String ress, float endingFrame, T animatedElement) {
-        if (!this.animChannels.containsKey(ress))
-            return;
-
+    @Override
+    protected boolean serverStartAnimation(String res, float endingFrame, T animatedElement) {
+        if (!this.animChannels.containsKey(res))
+            return false;
         Map<String, Float> startingAnimMap = this.startingAnimations.get(animatedElement);
         if (startingAnimMap == null)
-            return;
+            return false;
+        if (!startingAnimMap.containsKey(res))
+            return false;
 
         Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
         if (animInfoMap == null)
             this.currentAnimInfo.put(animatedElement, animInfoMap = new HashMap<>());
 
-        if (startingAnimMap.get(ress) == null) {
-            CraftStudioApi.getLogger().warn("The animation called " + ress + " doesn't exist!");
-            return;
-        }
-
-        Channel anim = this.animChannels.get(ress);
+        Channel anim = this.animChannels.get(res);
         anim.totalFrames = (int) endingFrame;
-        animInfoMap.remove(ress);
+        animInfoMap.remove(res);
 
-        animInfoMap.put(ress, new AnimInfo(System.nanoTime(), startingAnimMap.get(ress)));
-        startingAnimMap.remove(ress);
+        animInfoMap.put(res, new AnimInfo(System.nanoTime(), startingAnimMap.get(res)));
+        startingAnimMap.remove(res);
+        return true;
     }
 
     @Override
-    public void stopAnimation(String res, T animatedElement) {
-        if (!(animatedElement instanceof Entity))
-            return;
+    public boolean clientStopAnimation(String res, T animatedElement) {
+        return false;
+    }
 
-        if (!this.animChannels.containsKey(res)) {
-            CraftStudioApi.getLogger().warn("The animation stopped " + res + " doesn't exist!");
-            return;
-        }
-
+    @Override
+    protected boolean serverStopAnimation(String res, T animatedElement) {
         Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
         if (animInfoMap == null)
-            return;
-
-        Entity e = (Entity) animatedElement;
-        CraftStudioApi.NETWORK.sendToAllAround(new EndAnimationMessage(res, animatedElement),
-                new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 100));
+            return false;
         animInfoMap.remove(res);
-    }
-
-    @Override
-    public void stopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
-        if (!(animatedElement instanceof Entity))
-            return;
-        Entity e = (Entity) animatedElement;
-
-        if (!this.animChannels.containsKey(animToStop)) {
-            CraftStudioApi.getLogger().warn("The animation stopped " + animToStop + " doesn't exist!");
-            return;
-        }
-        if (!this.animChannels.containsKey(animToStart))
-            return;
-        Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
-        if (animInfoMap != null)
-            animInfoMap.remove(animToStop);
-
-        Map<String, Float> startingAnimMap = this.startingAnimations.get(animatedElement);
-        if (startingAnimMap == null)
-            this.startingAnimations.put(animatedElement, startingAnimMap = new HashMap<>());
-        startingAnimMap.put(animToStart, startingFrame);
-
-        CraftStudioApi.NETWORK.sendToAllAround(new FireEndAnimationMessage(animToStart, animatedElement, startingFrame, animToStop),
-                new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 100));
+        return true;
     }
 
     @Override
@@ -150,7 +123,6 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
 
         for (Iterator<Entry<String, AnimInfo>> it = animInfoMap.entrySet().iterator(); it.hasNext();) {
             Entry<String, AnimInfo> animInfo = it.next();
-            float prevFrame = animInfo.getValue().prevTime;
             boolean animStatus = this.canUpdateAnimation(this.animChannels.get(animInfo.getKey()), animatedElement);
             if (!animStatus)
                 it.remove();
@@ -169,7 +141,11 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
         return false;
     }
 
-    /** Update animation values. Return false if the animation should stop. */
+    @Override
+    public boolean isHoldAnimationActive(String name, T animatedElement) {
+        return this.isAnimationActive(name, animatedElement);
+    }
+
     @Override
     public boolean canUpdateAnimation(Channel channel, T animatedElement) {
         Map<String, AnimInfo> animInfoMap = this.currentAnimInfo.get(animatedElement);
@@ -198,15 +174,5 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void clientStartAnimation(String res, float startingFrame, T animatedElement) {}
-
-    @Override
-    public void removeAnimated(T animated) {
-        super.removeAnimated(animated);
-        this.currentAnimInfo.remove(animated);
-        this.startingAnimations.remove(animated);
     }
 }

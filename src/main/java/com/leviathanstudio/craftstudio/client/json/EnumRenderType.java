@@ -6,6 +6,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Enumeration of the different render type.
  * 
+ * @since 0.3.0
+ *
  * @author ZeAmateis
  * @author Phenix246
  */
@@ -22,7 +24,7 @@ public enum EnumRenderType {
 
     /**
      * Get the folder associated with this render type.
-     * 
+     *
      * @return The folder as a string.
      */
     public String getFolderName() {

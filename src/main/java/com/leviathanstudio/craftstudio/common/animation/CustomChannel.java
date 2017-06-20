@@ -5,6 +5,13 @@ import com.leviathanstudio.craftstudio.client.model.CSModelRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Class used to perform custom animations. For example, using in game data.
+ * 
+ * @since 0.3.0
+ * 
+ * @author Timmypote
+ */
 public abstract class CustomChannel extends InfoChannel
 {
 
@@ -13,9 +20,15 @@ public abstract class CustomChannel extends InfoChannel
     }
 
     /**
-     * Write the actual behaviour of this custom animation here. It will called
-     * every tick until the animation is active.
+     * Write the actual behavior of this custom animation. It will be called
+     * every tick while the animation is active. You should modifies the
+     * rotation, translation, offset or/and scale of the part.
+     *
+     * @param parts
+     *            The part that is animated.
+     * @param animated
+     *            The animated object.
      */
     @SideOnly(Side.CLIENT)
-    public abstract void update(CSModelRenderer parts, IAnimated animated);
+    public abstract void update(CSModelRenderer part, IAnimated animated);
 }

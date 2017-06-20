@@ -5,7 +5,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Enumeration of the possible animation mode.
- * 
+ *
+ * @since 0.3.0
+ *
  * @author Timmypote
  * @author Phenix246
  */
