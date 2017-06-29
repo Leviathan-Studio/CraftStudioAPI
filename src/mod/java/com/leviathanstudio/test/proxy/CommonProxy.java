@@ -6,7 +6,8 @@ public class CommonProxy
 
     public void registerAnims() {}
 
-    public void preInit() {
+    public void preInit() {}
 
-    }
+    public void init() {}
+
 }

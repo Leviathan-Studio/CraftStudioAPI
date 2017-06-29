@@ -19,9 +19,9 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.common.registry.RegistryBuilder;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.RegistryBuilder;
 
 /**
  * Main class of the CraftStudioApi
@@ -64,13 +64,13 @@ public class CraftStudioApi
     @SubscribeEvent(priority = EventPriority.LOW)
     @SideOnly(Side.CLIENT)
     public static void registerModels(RegistryEvent.Register<CSReadedModel> e) {
-        CSRegistryHelper.loadModels();
+        CSRegistryHelper.loadModels(e);
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
     @SideOnly(Side.CLIENT)
     public static void registerAnims(RegistryEvent.Register<CSReadedAnim> e) {
-        CSRegistryHelper.loadAnims();
+        CSRegistryHelper.loadAnims(e);
     }
 
     @EventHandler

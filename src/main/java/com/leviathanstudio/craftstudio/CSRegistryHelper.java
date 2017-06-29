@@ -6,18 +6,20 @@ import java.util.List;
 import com.leviathanstudio.craftstudio.client.exception.CSMalformedJsonException;
 import com.leviathanstudio.craftstudio.client.exception.CSResourceNotFoundException;
 import com.leviathanstudio.craftstudio.client.json.CSJsonReader;
+import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
+import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.EnumRenderType;
 import com.leviathanstudio.craftstudio.client.json.EnumResourceType;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.ProgressManager;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistry;
 
 /**
  * Class containing useful methods to register models and animations.
@@ -126,13 +128,13 @@ public class CSRegistryHelper
         }
     }
 
-    static void loadModels() {
+    static void loadModels(RegistryEvent.Register<CSReadedModel> event) {
         ProgressManager.ProgressBar progressBarModels;
         progressBarModels = ProgressManager.push("Registry Models", CSRegistryHelper.loadModelList.size());
 
         for (LoadElement el : CSRegistryHelper.loadModelList) {
             progressBarModels.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
-            registry(EnumResourceType.MODEL, el.resourceLoc, el.ressourceName);
+            registry(EnumResourceType.MODEL, el.resourceLoc, el.ressourceName, event);
         }
         ProgressManager.pop(progressBarModels);
 
@@ -140,12 +142,12 @@ public class CSRegistryHelper
         CSRegistryHelper.loadModelList = null;
     }
 
-    static void loadAnims() {
+    static void loadAnims(RegistryEvent.Register<CSReadedAnim> event) {
         ProgressManager.ProgressBar progressBarAnim;
         progressBarAnim = ProgressManager.push("Registry Animations", CSRegistryHelper.loadAnimList.size());
         for (LoadElement el : CSRegistryHelper.loadAnimList) {
             progressBarAnim.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
-            registry(EnumResourceType.ANIM, el.resourceLoc, el.ressourceName);
+            registry(EnumResourceType.ANIM, el.resourceLoc, el.ressourceName, event);
         }
         ProgressManager.pop(progressBarAnim);
 
@@ -168,8 +170,8 @@ public class CSRegistryHelper
      * @param resourceNameIn
      *            The name of your resource in assets without extension
      */
-    private void registry(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn) {
-        CSRegistryHelper.registry(resourceTypeIn, renderTypeIn, resourceNameIn, this.modid);
+    private void registry(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn, RegistryEvent.Register event) {
+        CSRegistryHelper.registry(resourceTypeIn, renderTypeIn, resourceNameIn, this.modid, event);
     }
 
     /**
@@ -191,11 +193,12 @@ public class CSRegistryHelper
      * @param modid
      *            The ID of your mod
      */
-    private static void registry(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn, String modid) {
+    private static void registry(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn, String modid,
+            RegistryEvent.Register event) {
         capitalCheck(resourceNameIn);
         registry(resourceTypeIn,
                 new ResourceLocation(modid, resourceTypeIn.getPath() + renderTypeIn.getFolderName() + resourceNameIn + resourceTypeIn.getExtension()),
-                resourceNameIn);
+                resourceNameIn, event);
     }
 
     /**
@@ -210,7 +213,8 @@ public class CSRegistryHelper
      * @param resourceNameIn
      *            The name of your resource in assets without extension
      */
-    private static void registry(EnumResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn) {
+    private static void registry(EnumResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn,
+            RegistryEvent.Register event) {
         CSJsonReader jsonReader;
         try {
             jsonReader = new CSJsonReader(resourceLocationIn);
@@ -221,10 +225,10 @@ public class CSRegistryHelper
                     Loader.instance().setActiveModContainer(mod);
                 switch (resourceTypeIn) {
                     case MODEL:
-                        GameRegistry.register(jsonReader.readModel().setRegistryName(resourceNameIn));
+                        event.getRegistry().register(jsonReader.readModel().setRegistryName(resourceNameIn));
                         break;
                     case ANIM:
-                        GameRegistry.register(jsonReader.readAnim().setRegistryName(resourceNameIn));
+                        event.getRegistry().register(jsonReader.readAnim().setRegistryName(resourceNameIn));
                         break;
                 }
                 Loader.instance().setActiveModContainer(activeMod);

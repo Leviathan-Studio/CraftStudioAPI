@@ -53,6 +53,11 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntityTest2.class, RenderTest2.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityTest3.class, RenderTest3.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityTest4.class, RenderTest4.FACTORY);
+    }
+
+    @Override
+    public void init() {
+        super.init();
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTest.class, new CSTileEntitySpecialRenderer(Mod_Test.MODID, "craftstudio_api_test", 64,
                 32, new ResourceLocation(Mod_Test.MODID, "textures/entity/craftstudio_api_test.png")));

@@ -6,7 +6,6 @@ import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.test.proxy.CommonProxy;
 
-import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -53,9 +52,6 @@ public class Mod_Test
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         Mod_Test.proxy.preInit();
-
-        Block blockTest = new BlockTest();
-        GameRegistry.registerTileEntity(TileEntityTest.class, "tile_entity_test");
     }
 
     @EventHandler
@@ -68,6 +64,9 @@ public class Mod_Test
                 1, true, new Color(0, 0, 255).getRGB(), new Color(0, 0, 0).getRGB());
         EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest4"), EntityTest4.class, "entityTest4", 423, Mod_Test.instance, 40,
                 1, true, new Color(255, 255, 0).getRGB(), new Color(0, 0, 0).getRGB());
+
+        new BlockTest();
+        GameRegistry.registerTileEntity(TileEntityTest.class, "tile_entity_test");
 
         MinecraftForge.EVENT_BUS.register(this);
     }

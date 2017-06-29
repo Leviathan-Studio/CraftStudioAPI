@@ -7,6 +7,7 @@ import javax.vecmath.Matrix4f;
 import com.leviathanstudio.craftstudio.client.model.ModelCraftStudio;
 import com.leviathanstudio.craftstudio.client.util.MathHelper;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -45,7 +46,7 @@ public class CSTileEntitySpecialRenderer<T extends TileEntity> extends TileEntit
     }
 
     @Override
-    public void renderTileEntityAt(T te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void renderTileEntityFast(T te, double x, double y, double z, float partialTicks, int destroyStage, float partial, BufferBuilder buffer) {
         GlStateManager.pushMatrix();
         // Correction of the position.
         GlStateManager.translate(x + 0.5D, y + 1.5D, z + 0.5D);
