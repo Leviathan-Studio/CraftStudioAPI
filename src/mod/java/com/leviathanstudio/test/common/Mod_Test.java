@@ -56,6 +56,7 @@ public class Mod_Test
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        proxy.init();
         EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest"), EntityTest.class, "entityTest", 420, Mod_Test.instance, 40, 1,
                 true, new Color(0, 255, 0).getRGB(), new Color(255, 0, 0).getRGB());
         EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest2"), EntityTest2.class, "entityTest2", 421, Mod_Test.instance, 40,
