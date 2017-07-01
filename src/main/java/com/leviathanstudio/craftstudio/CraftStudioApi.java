@@ -33,8 +33,8 @@ import net.minecraftforge.registries.RegistryBuilder;
  */
 @Mod.EventBusSubscriber
 @Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, updateJSON = "https://leviathan-studio.com/craftstudioapi/update.json",
-    version = "0.3.0-beta",
-    acceptedMinecraftVersions = "1.11.2")
+    version = "1.0.0",
+    acceptedMinecraftVersions = "1.12")
 public class CraftStudioApi
 {
     private static final Logger              LOGGER  = LogManager.getLogger("CraftStudio");
