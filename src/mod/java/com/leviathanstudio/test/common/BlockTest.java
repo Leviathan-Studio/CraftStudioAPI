@@ -5,6 +5,7 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.world.World;
@@ -19,8 +20,8 @@ public class BlockTest extends Block implements ITileEntityProvider
         this.setCreativeTab(CreativeTabs.MISC);
         ItemBlock itemBlock = new ItemBlock(this);
         itemBlock.setRegistryName("item_block_test");
-        GameRegistry.register(itemBlock);
-        GameRegistry.register(this);
+        GameRegistry.findRegistry(Item.class).register(itemBlock);
+        GameRegistry.findRegistry(Block.class).register(this);
     }
 
     @Override

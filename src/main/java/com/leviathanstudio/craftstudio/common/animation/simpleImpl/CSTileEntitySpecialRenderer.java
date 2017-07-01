@@ -45,7 +45,7 @@ public class CSTileEntitySpecialRenderer<T extends TileEntity> extends TileEntit
     }
 
     @Override
-    public void renderTileEntityAt(T te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(T te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         GlStateManager.pushMatrix();
         // Correction of the position.
         GlStateManager.translate(x + 0.5D, y + 1.5D, z + 0.5D);

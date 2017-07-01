@@ -19,9 +19,9 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.common.registry.RegistryBuilder;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.RegistryBuilder;
 
 /**
  * Main class of the CraftStudioApi
@@ -33,8 +33,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 @Mod.EventBusSubscriber
 @Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, updateJSON = "https://leviathan-studio.com/craftstudioapi/update.json",
-    version = "0.3.0-beta",
-    acceptedMinecraftVersions = "1.11.2")
+    version = "1.0.0",
+    acceptedMinecraftVersions = "1.12")
 public class CraftStudioApi
 {
     private static final Logger              LOGGER  = LogManager.getLogger("CraftStudio");
@@ -64,13 +64,13 @@ public class CraftStudioApi
     @SubscribeEvent(priority = EventPriority.LOW)
     @SideOnly(Side.CLIENT)
     public static void registerModels(RegistryEvent.Register<CSReadedModel> e) {
-        CSRegistryHelper.loadModels();
+        CSRegistryHelper.loadModels(e);
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
     @SideOnly(Side.CLIENT)
     public static void registerAnims(RegistryEvent.Register<CSReadedAnim> e) {
-        CSRegistryHelper.loadAnims();
+        CSRegistryHelper.loadAnims(e);
     }
 
     @EventHandler
