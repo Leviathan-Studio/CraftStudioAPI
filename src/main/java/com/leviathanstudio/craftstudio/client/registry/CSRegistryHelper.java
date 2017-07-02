@@ -14,7 +14,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.registries.IForgeRegistry;
 
 /**
  * Class containing useful methods to register models and animations.
@@ -43,7 +42,7 @@ public class CSRegistryHelper
     }
 
     /**
-     * Register your resources with the {@link IForgeRegistry}, the right way
+     * Pre-register your resource.
      *
      * @param resourceTypeIn
      *            Set your resource type, <br>
@@ -60,38 +59,14 @@ public class CSRegistryHelper
      *            The name of your resource in assets without extension
      */
     public void register(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn) {
-        CSRegistryHelper.register(resourceTypeIn, renderTypeIn, resourceNameIn, this.modid);
-    }
-
-    /**
-     * Register your resources with the {@link IForgeRegistry}, the right way
-     *
-     * @param resourceTypeIn
-     *            Set your resource type, <br>
-     *            {@link EnumResourceType#ANIM} for animation,<br>
-     *            {@link EnumResourceType#MODELS} for models <br>
-     *            <br>
-     * @param renderTypeIn
-     *            Set your render type, <br>
-     *            {@link EnumRenderType#BLOCK} for a block<br>
-     *            {@link EnumRenderType#ENTITY} for an entity<br>
-     *            <br>
-     *
-     * @param resourceNameIn
-     *            The name of your resource in assets without extension
-     *
-     * @param modid
-     *            The ID of your mod
-     */
-    private static void register(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn, String modid) {
         capitalCheck(resourceNameIn);
-        register(resourceTypeIn,
+        CSRegistryHelper.register(resourceTypeIn,
                 new ResourceLocation(modid, resourceTypeIn.getPath() + renderTypeIn.getFolderName() + resourceNameIn + resourceTypeIn.getExtension()),
-                resourceNameIn);
+                this.modid);
     }
 
     /**
-     * Register your resources with the {@link IForgeRegistry}, the right way
+     * Pre-register your resource.
      *
      * @param resourceTypeIn
      *            Set your resource type, <br>
@@ -123,7 +98,12 @@ public class CSRegistryHelper
         }
     }
 
+    /**
+     * Load all the pre-registered models. Used internally.
+     */
     public static void loadModels() {
+        if (loadModelList == null)
+            return;
         ProgressManager.ProgressBar progressBarModels;
         progressBarModels = ProgressManager.push("Registry Models", CSRegistryHelper.loadModelList.size());
 
@@ -137,7 +117,12 @@ public class CSRegistryHelper
         CSRegistryHelper.loadModelList = null;
     }
 
+    /**
+     * Load all the pre-registered animations. Used internally.
+     */
     public static void loadAnims() {
+        if (loadAnimList == null)
+            return;
         ProgressManager.ProgressBar progressBarAnim;
         progressBarAnim = ProgressManager.push("Registry Animations", CSRegistryHelper.loadAnimList.size());
         for (LoadElement el : CSRegistryHelper.loadAnimList) {
@@ -151,42 +136,14 @@ public class CSRegistryHelper
     }
 
     /**
+     * Register an assets.
+     * 
      * @param resourceTypeIn
-     *            Set your resource type, <br>
-     *            {@link EnumResourceType#ANIM} for animation,<br>
-     *            {@link EnumResourceType#MODELS} for models <br>
-     *            <br>
-     *
-     * @param renderTypeIn
-     *            Set your render type, <br>
-     *            {@link EnumRenderType#BLOCK} for a block<br>
-     *            {@link EnumRenderType#ENTITY} for an entity<br>
-     *            <br>
-     *
-     * @param resourceNameIn
-     *            The name of your resource in assets without extension
-     *
-     * @param modid
-     *            The ID of your mod
-     */
-    private static void registry(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn, String modid) {
-        capitalCheck(resourceNameIn);
-        registry(resourceTypeIn,
-                new ResourceLocation(modid, resourceTypeIn.getPath() + renderTypeIn.getFolderName() + resourceNameIn + resourceTypeIn.getExtension()),
-                resourceNameIn);
-    }
-
-    /**
-     * @param resourceTypeIn
-     *            Set your resource type, <br>
-     *            {@link EnumResourceType#ANIM} for animation,<br>
-     *            {@link EnumResourceType#MODELS} for models <br>
-     *            <br>
+     *            The resource type.
      * @param resourceLocationIn
-     *            Custom location of your resource
-     *
+     *            Location of the resource.
      * @param resourceNameIn
-     *            The name of your resource in assets without extension
+     *            The name of your resource.
      */
     private static void registry(EnumResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn) {
         CSJsonReader jsonReader;
@@ -210,6 +167,12 @@ public class CSRegistryHelper
         }
     }
 
+    /**
+     * Check if there is capital letter in a String, and send a warning message.
+     * 
+     * @param str
+     *            The String to test.
+     */
     private static void capitalCheck(String str) {
         if (!str.toLowerCase().equals(str)) {
             CraftStudioApi.getLogger().warn("The resource name \"" + str + "\" contains capitals letters, which is not supported.");
@@ -217,6 +180,12 @@ public class CSRegistryHelper
         }
     }
 
+    /**
+     * An object containing informations about a pre-registered object to load
+     * later.
+     * 
+     * @author Timmypote
+     */
     private static class LoadElement
     {
         ResourceLocation resourceLoc;
