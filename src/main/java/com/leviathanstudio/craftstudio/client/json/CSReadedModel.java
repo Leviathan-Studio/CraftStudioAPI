@@ -17,7 +17,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry.Impl;
 @SideOnly(Side.CLIENT)
 public class CSReadedModel extends Impl<CSReadedModel>
 {
-    private String                   name, modid;
+    private String                   name;
     private int                      textureWidth, textureHeight;
     private List<CSReadedModelBlock> parents = new ArrayList<>();
 
@@ -74,14 +74,6 @@ public class CSReadedModel extends Impl<CSReadedModel>
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getModid() {
-        return this.modid;
-    }
-
-    public void setModid(String modid) {
-        this.modid = modid;
     }
 
     public int getTextureWidth() {

@@ -122,8 +122,8 @@ public class ModelCraftStudio extends ModelBase
     public void render(TileEntity tileEntityIn) {
         float modelScale = 0.0625F;
         ClientAnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) tileEntityIn);
-        for (CSModelRenderer block : this.parentBlocks)
-            block.render(modelScale);
+        for (int i = 0; i < this.parentBlocks.size(); i++)
+            this.parentBlocks.get(i).render(modelScale);
     }
 
     /**
@@ -134,8 +134,8 @@ public class ModelCraftStudio extends ModelBase
      */
     public void render() {
         float modelScale = 0.0625F;
-        for (CSModelRenderer block : this.parentBlocks)
-            block.render(modelScale);
+        for (int i = 0; i < this.parentBlocks.size(); i++)
+            this.parentBlocks.get(i).render(modelScale);
     }
 
     /** Render methods for an Entity */
@@ -143,8 +143,8 @@ public class ModelCraftStudio extends ModelBase
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         ClientAnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) entityIn);
-        for (CSModelRenderer block : this.parentBlocks)
-            block.render(scale);
+        for (int i = 0; i < this.parentBlocks.size(); i++)
+            this.parentBlocks.get(i).render(scale);
     }
 
     /** Return CSModelRenderer by his name and parts */
