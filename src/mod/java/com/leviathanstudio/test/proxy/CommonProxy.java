@@ -2,8 +2,7 @@ package com.leviathanstudio.test.proxy;
 
 public class CommonProxy
 {
-    public void preInit() {}
+    public void registerEntityRender() {}
 
-    public void init() {}
-
+    public void bindTESR() {}
 }

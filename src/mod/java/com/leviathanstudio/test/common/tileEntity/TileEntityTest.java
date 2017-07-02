@@ -1,8 +1,9 @@
-package com.leviathanstudio.test.common;
+package com.leviathanstudio.test.common.tileEntity;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.simpleImpl.AnimatedTileEntity;
+import com.leviathanstudio.test.common.Mod_Test;
 
 import net.minecraft.world.World;
 

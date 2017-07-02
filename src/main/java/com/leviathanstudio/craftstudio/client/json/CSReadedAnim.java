@@ -10,7 +10,6 @@ import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFr
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.registries.IForgeRegistryEntry.Impl;
 
 /**
  * Class that store the informations relative to an animation.
@@ -20,7 +19,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry.Impl;
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
-public class CSReadedAnim extends Impl<CSReadedAnim>
+public class CSReadedAnim
 {
     private String                  name;
     private int                     duration;

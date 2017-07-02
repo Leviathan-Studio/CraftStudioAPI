@@ -62,7 +62,7 @@ public class CSRegistryHelper
         capitalCheck(resourceNameIn);
         CSRegistryHelper.register(resourceTypeIn,
                 new ResourceLocation(modid, resourceTypeIn.getPath() + renderTypeIn.getFolderName() + resourceNameIn + resourceTypeIn.getExtension()),
-                this.modid);
+                resourceNameIn);
     }
 
     /**
@@ -153,11 +153,10 @@ public class CSRegistryHelper
                 switch (resourceTypeIn) {
                     case MODEL:
                         RegistryHandler.register(new ResourceLocation(resourceLocationIn.getResourceDomain(), resourceNameIn),
-                                jsonReader.readModel().setRegistryName(resourceNameIn));
+                                jsonReader.readModel());
                         break;
                     case ANIM:
-                        RegistryHandler.register(new ResourceLocation(resourceLocationIn.getResourceDomain(), resourceNameIn),
-                                jsonReader.readAnim().setRegistryName(resourceNameIn));
+                        RegistryHandler.register(new ResourceLocation(resourceLocationIn.getResourceDomain(), resourceNameIn), jsonReader.readAnim());
                         break;
                 }
             else

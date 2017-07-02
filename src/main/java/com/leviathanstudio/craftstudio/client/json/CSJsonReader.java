@@ -313,13 +313,12 @@ public class CSJsonReader
             keyFrame = Integer.parseInt(entry.getKey());
             array = entry.getValue().getAsJsonArray();
             switch (type) {
-                case POSITION:
-                case ROTATION:
-                case OFFSET:
-                    value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
+                case STRETCH:
+                case SIZE:
+                    value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
                     break;
                 default:
-                    value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
+                    value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
             }
             block.addKFElement(keyFrame, type, value);
         }
