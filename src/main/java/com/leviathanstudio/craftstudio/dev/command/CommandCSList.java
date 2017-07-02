@@ -7,7 +7,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import com.leviathanstudio.craftstudio.client.registries.RegistryHandler;
+import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;

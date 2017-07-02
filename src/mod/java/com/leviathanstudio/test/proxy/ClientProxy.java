@@ -1,7 +1,7 @@
 package com.leviathanstudio.test.proxy;
 
-import com.leviathanstudio.craftstudio.client.registries.CSRegistryHelper;
-import com.leviathanstudio.craftstudio.client.registries.CraftStudioLoader;
+import com.leviathanstudio.craftstudio.client.registry.CSRegistryHelper;
+import com.leviathanstudio.craftstudio.client.registry.CraftStudioLoader;
 import com.leviathanstudio.craftstudio.client.util.EnumRenderType;
 import com.leviathanstudio.craftstudio.client.util.EnumResourceType;
 import com.leviathanstudio.craftstudio.common.animation.simpleImpl.CSTileEntitySpecialRenderer;

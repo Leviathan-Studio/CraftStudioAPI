@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.client.registries;
+package com.leviathanstudio.craftstudio.client.registry;
 
 import java.util.ArrayList;
 import java.util.List;

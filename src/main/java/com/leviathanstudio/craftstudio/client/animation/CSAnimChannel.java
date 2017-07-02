@@ -9,9 +9,9 @@ import com.leviathanstudio.craftstudio.client.exception.CSResourceNotRegisteredE
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
+import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
-import com.leviathanstudio.craftstudio.client.registries.RegistryHandler;
 import com.leviathanstudio.craftstudio.client.util.MathHelper;
 
 import net.minecraft.util.ResourceLocation;

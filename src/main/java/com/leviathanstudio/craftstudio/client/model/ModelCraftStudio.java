@@ -7,7 +7,7 @@ import com.leviathanstudio.craftstudio.client.animation.ClientAnimationHandler;
 import com.leviathanstudio.craftstudio.client.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
-import com.leviathanstudio.craftstudio.client.registries.RegistryHandler;
+import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
 import net.minecraft.client.model.ModelBase;
@@ -37,7 +37,7 @@ public class ModelCraftStudio extends ModelBase
      *            The ID of your mod
      * @param modelNameIn
      *            The name of your craftstudio model your have registered with
-     *            {@link com.leviathanstudio.craftstudio.client.registries.CSRegistryHelper#register
+     *            {@link com.leviathanstudio.craftstudio.client.registry.CSRegistryHelper#register
      *            CraftStudioRegistry#register}
      * @param textureSize
      *            The size of your texture if it's the same width/height
@@ -51,7 +51,7 @@ public class ModelCraftStudio extends ModelBase
      *            The ID of your mod
      * @param modelNameIn
      *            The name of your craftstudio model your have registered with
-     *            {@link com.leviathanstudio.craftstudio.client.registries.CSRegistryHelper#register
+     *            {@link com.leviathanstudio.craftstudio.client.registry.CSRegistryHelper#register
      *            CraftStudioRegistry#register}
      * @param textureWidth
      *            The width texture of your model

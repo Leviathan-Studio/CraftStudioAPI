@@ -6,8 +6,8 @@ import java.util.Set;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.animation.ClientAnimationHandler;
-import com.leviathanstudio.craftstudio.client.registries.CSRegistryHelper;
-import com.leviathanstudio.craftstudio.client.registries.RegistryHandler;
+import com.leviathanstudio.craftstudio.client.registry.CSRegistryHelper;
+import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
@@ -43,7 +43,7 @@ public class CSClientProxy extends CSCommonProxy
         RegistryHandler.init();
 
         ASMDataTable dataTable = e.getAsmData();
-        Set<ASMData> datas = dataTable.getAll("com.leviathanstudio.craftstudio.client.registries.CraftStudioLoader");
+        Set<ASMData> datas = dataTable.getAll("com.leviathanstudio.craftstudio.client.registry.CraftStudioLoader");
         for (ASMData data : datas) {
             className = data.getClassName();
             methodName = data.getObjectName().substring(0, data.getObjectName().indexOf("("));

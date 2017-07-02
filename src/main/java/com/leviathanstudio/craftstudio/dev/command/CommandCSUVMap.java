@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.leviathanstudio.craftstudio.client.exception.CSResourceNotRegisteredException;
-import com.leviathanstudio.craftstudio.client.registries.RegistryHandler;
+import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
 import com.leviathanstudio.craftstudio.dev.util.UVMapCreator;
 
 import net.minecraft.command.CommandBase;

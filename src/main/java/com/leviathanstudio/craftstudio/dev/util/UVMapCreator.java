@@ -12,7 +12,7 @@ import com.leviathanstudio.craftstudio.client.exception.CSResourceNotRegisteredE
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
 import com.leviathanstudio.craftstudio.client.model.CSModelBox;
-import com.leviathanstudio.craftstudio.client.registries.RegistryHandler;
+import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
 import com.leviathanstudio.craftstudio.dev.CraftStudioApiDev;
 
 import net.minecraft.util.ResourceLocation;

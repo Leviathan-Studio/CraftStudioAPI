@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.client.registries;
+package com.leviathanstudio.craftstudio.client.registry;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

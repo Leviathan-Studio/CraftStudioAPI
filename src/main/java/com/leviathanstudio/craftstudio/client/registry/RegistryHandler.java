@@ -1,4 +1,4 @@
-package com.leviathanstudio.craftstudio.client.registries;
+package com.leviathanstudio.craftstudio.client.registry;
 
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
