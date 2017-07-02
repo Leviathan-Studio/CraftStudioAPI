@@ -40,7 +40,7 @@ public class CSJsonReader
     /** The JsonObject that is the root of the file */
     private JsonObject root;
     /** The resource location */
-    private String     modid, ress;
+    private String     ress;
 
     /**
      * Create a {@link CSJsonReader} link to the resource.
@@ -69,7 +69,6 @@ public class CSJsonReader
                 strBuilder.append(s);
             Object object = jsonParser.parse(strBuilder.toString());
             this.root = (JsonObject) object;
-            this.modid = iResource.getResourceLocation().getResourceDomain();
         } catch (FileNotFoundException fnfe) {
             throw new CSResourceNotFoundException(this.ress);
         } catch (Exception e) {
@@ -101,7 +100,6 @@ public class CSJsonReader
         JsonObject jsonBlock;
         JsonElement jsEl;
 
-        model.setModid(strNormalize(this.modid));
         jsEl = this.root.get("title");
         if (jsEl == null)
             throw new CSMalformedJsonException("title", "String", this.ress);
@@ -241,7 +239,6 @@ public class CSJsonReader
         CSReadedAnimBlock block;
         JsonElement jsEl;
 
-        anim.setModid(strNormalize(this.modid));
         jsEl = this.root.get("title");
         if (jsEl == null)
             throw new CSMalformedJsonException("title", "String", this.ress);
@@ -316,13 +313,12 @@ public class CSJsonReader
             keyFrame = Integer.parseInt(entry.getKey());
             array = entry.getValue().getAsJsonArray();
             switch (type) {
-                case POSITION:
-                case ROTATION:
-                case OFFSET:
-                    value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
+                case STRETCH:
+                case SIZE:
+                    value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
                     break;
                 default:
-                    value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
+                    value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
             }
             block.addKFElement(keyFrame, type, value);
         }

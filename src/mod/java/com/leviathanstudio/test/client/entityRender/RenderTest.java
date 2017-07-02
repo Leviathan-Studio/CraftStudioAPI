@@ -1,8 +1,8 @@
-package com.leviathanstudio.test.client;
+package com.leviathanstudio.test.client.entityRender;
 
 import com.leviathanstudio.craftstudio.client.model.ModelCraftStudio;
-import com.leviathanstudio.test.common.EntityTest;
 import com.leviathanstudio.test.common.Mod_Test;
+import com.leviathanstudio.test.common.entity.EntityTest;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;

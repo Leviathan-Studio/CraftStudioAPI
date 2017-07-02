@@ -1,4 +1,4 @@
-package com.leviathanstudio.test.common;
+package com.leviathanstudio.test.common.item;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;

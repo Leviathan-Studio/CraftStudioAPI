@@ -1,8 +1,9 @@
-package com.leviathanstudio.test.common;
+package com.leviathanstudio.test.common.entity;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
+import com.leviathanstudio.test.common.Mod_Test;
 import com.leviathanstudio.test.pack.animation.AnimationLootAt;
 
 import net.minecraft.entity.EntityAgeable;
