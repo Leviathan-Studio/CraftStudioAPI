@@ -1,21 +1,16 @@
-package com.leviathanstudio.craftstudio;
+package com.leviathanstudio.craftstudio.client.registries;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.exception.CSMalformedJsonException;
 import com.leviathanstudio.craftstudio.client.exception.CSResourceNotFoundException;
 import com.leviathanstudio.craftstudio.client.json.CSJsonReader;
-import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
-import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
-import com.leviathanstudio.craftstudio.client.json.EnumRenderType;
-import com.leviathanstudio.craftstudio.client.json.EnumResourceType;
+import com.leviathanstudio.craftstudio.client.util.EnumRenderType;
+import com.leviathanstudio.craftstudio.client.util.EnumResourceType;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -128,13 +123,13 @@ public class CSRegistryHelper
         }
     }
 
-    static void loadModels(RegistryEvent.Register<CSReadedModel> event) {
+    public static void loadModels() {
         ProgressManager.ProgressBar progressBarModels;
         progressBarModels = ProgressManager.push("Registry Models", CSRegistryHelper.loadModelList.size());
 
         for (LoadElement el : CSRegistryHelper.loadModelList) {
             progressBarModels.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
-            registry(EnumResourceType.MODEL, el.resourceLoc, el.ressourceName, event);
+            registry(EnumResourceType.MODEL, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarModels);
 
@@ -142,36 +137,17 @@ public class CSRegistryHelper
         CSRegistryHelper.loadModelList = null;
     }
 
-    static void loadAnims(RegistryEvent.Register<CSReadedAnim> event) {
+    public static void loadAnims() {
         ProgressManager.ProgressBar progressBarAnim;
         progressBarAnim = ProgressManager.push("Registry Animations", CSRegistryHelper.loadAnimList.size());
         for (LoadElement el : CSRegistryHelper.loadAnimList) {
             progressBarAnim.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
-            registry(EnumResourceType.ANIM, el.resourceLoc, el.ressourceName, event);
+            registry(EnumResourceType.ANIM, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarAnim);
 
         CraftStudioApi.getLogger().info(String.format("CraftStudioAPI loaded %s animations", CSRegistryHelper.loadAnimList.size()));
         CSRegistryHelper.loadAnimList = null;
-    }
-
-    /**
-     * @param resourceTypeIn
-     *            Set your resource type, <br>
-     *            {@link EnumResourceType#ANIM} for animation,<br>
-     *            {@link EnumResourceType#MODELS} for models <br>
-     *            <br>
-     * @param renderTypeIn
-     *            Set your render type, <br>
-     *            {@link EnumRenderType#BLOCK} for a block<br>
-     *            {@link EnumRenderType#ENTITY} for an entity<br>
-     *            <br>
-     *
-     * @param resourceNameIn
-     *            The name of your resource in assets without extension
-     */
-    private void registry(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn, RegistryEvent.Register event) {
-        CSRegistryHelper.registry(resourceTypeIn, renderTypeIn, resourceNameIn, this.modid, event);
     }
 
     /**
@@ -193,12 +169,11 @@ public class CSRegistryHelper
      * @param modid
      *            The ID of your mod
      */
-    private static void registry(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn, String modid,
-            RegistryEvent.Register event) {
+    private static void registry(EnumResourceType resourceTypeIn, EnumRenderType renderTypeIn, String resourceNameIn, String modid) {
         capitalCheck(resourceNameIn);
         registry(resourceTypeIn,
                 new ResourceLocation(modid, resourceTypeIn.getPath() + renderTypeIn.getFolderName() + resourceNameIn + resourceTypeIn.getExtension()),
-                resourceNameIn, event);
+                resourceNameIn);
     }
 
     /**
@@ -213,32 +188,25 @@ public class CSRegistryHelper
      * @param resourceNameIn
      *            The name of your resource in assets without extension
      */
-    private static void registry(EnumResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn,
-            RegistryEvent.Register event) {
+    private static void registry(EnumResourceType resourceTypeIn, ResourceLocation resourceLocationIn, String resourceNameIn) {
         CSJsonReader jsonReader;
         try {
             jsonReader = new CSJsonReader(resourceLocationIn);
-            if (resourceLocationIn.getResourceDomain() != CraftStudioApi.API_ID) {
-                ModContainer activeMod = Loader.instance().activeModContainer();
-                ModContainer mod = FMLCommonHandler.instance().findContainerFor(resourceLocationIn.getResourceDomain());
-                if (activeMod != mod)
-                    Loader.instance().setActiveModContainer(mod);
+            if (resourceLocationIn.getResourceDomain() != CraftStudioApi.API_ID)
                 switch (resourceTypeIn) {
                     case MODEL:
-                        event.getRegistry().register(jsonReader.readModel().setRegistryName(resourceNameIn));
+                        RegistryHandler.register(new ResourceLocation(resourceLocationIn.getResourceDomain(), resourceNameIn),
+                                jsonReader.readModel().setRegistryName(resourceNameIn));
                         break;
                     case ANIM:
-                        event.getRegistry().register(jsonReader.readAnim().setRegistryName(resourceNameIn));
+                        RegistryHandler.register(new ResourceLocation(resourceLocationIn.getResourceDomain(), resourceNameIn),
+                                jsonReader.readAnim().setRegistryName(resourceNameIn));
                         break;
                 }
-                Loader.instance().setActiveModContainer(activeMod);
-            }
             else
                 CraftStudioApi.getLogger().fatal("You're not allowed to use the \"craftstudioapi\" to register CraftStudio resources.");
         } catch (CSResourceNotFoundException | CSMalformedJsonException e) {
-            // CraftStudioApi.getLogger().error(e.getMessage());
             e.printStackTrace();
-
         }
     }
 

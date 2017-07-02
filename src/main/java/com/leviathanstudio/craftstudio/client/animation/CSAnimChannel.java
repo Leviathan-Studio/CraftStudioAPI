@@ -11,10 +11,10 @@ import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
+import com.leviathanstudio.craftstudio.client.registries.RegistryHandler;
 import com.leviathanstudio.craftstudio.client.util.MathHelper;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -68,10 +68,10 @@ public class CSAnimChannel extends ClientChannel
      */
     public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, float fps, boolean looped) throws CSResourceNotRegisteredException {
         super(animIn.toString(), false);
-        this.rAnim = GameRegistry.findRegistry(CSReadedAnim.class).getValue(animIn);
+        this.rAnim = RegistryHandler.animationRegistry.getObject(animIn);
         if (this.rAnim == null)
             throw new CSResourceNotRegisteredException(animIn.toString());
-        this.rModel = GameRegistry.findRegistry(CSReadedModel.class).getValue(modelIn);
+        this.rModel = RegistryHandler.modelRegistry.getObject(modelIn);
         if (this.rModel == null)
             throw new CSResourceNotRegisteredException(modelIn.toString());
         if (!this.rModel.isAnimable()) {

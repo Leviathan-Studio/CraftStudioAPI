@@ -12,10 +12,10 @@ import com.leviathanstudio.craftstudio.client.exception.CSResourceNotRegisteredE
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
 import com.leviathanstudio.craftstudio.client.model.CSModelBox;
+import com.leviathanstudio.craftstudio.client.registries.RegistryHandler;
 import com.leviathanstudio.craftstudio.dev.CraftStudioApiDev;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -35,7 +35,7 @@ public class UVMapCreator
     private int           maxu = 0, maxv = 0;
 
     public UVMapCreator(ResourceLocation modelIn) {
-        this.rModel = GameRegistry.findRegistry(CSReadedModel.class).getValue(modelIn);
+        this.rModel = RegistryHandler.modelRegistry.getObject(modelIn);
         if (this.rModel == null)
             throw new CSResourceNotRegisteredException(modelIn.toString());
     }

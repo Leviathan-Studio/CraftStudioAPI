@@ -7,7 +7,7 @@ import com.leviathanstudio.craftstudio.server.animation.ServerAnimationHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
- * Server proxy of th CraftStudioApi
+ * Server proxy of the CraftStudioApi
  * 
  * @since 0.3.0
  * 

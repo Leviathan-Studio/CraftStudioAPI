@@ -7,8 +7,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
-import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
+import com.leviathanstudio.craftstudio.client.registries.RegistryHandler;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -19,7 +18,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -54,9 +52,9 @@ public class CommandCSList extends CommandBase
         if (args.length >= 1) {
             Set<ResourceLocation> set;
             if (args[0].equals("models"))
-                set = GameRegistry.findRegistry(CSReadedModel.class).getKeys();
+                set = RegistryHandler.modelRegistry.getKeys();
             else if (args[0].equals("animations"))
-                set = GameRegistry.findRegistry(CSReadedAnim.class).getKeys();
+                set = RegistryHandler.animationRegistry.getKeys();
             else
                 throw new SyntaxErrorException();
             String str = "";
