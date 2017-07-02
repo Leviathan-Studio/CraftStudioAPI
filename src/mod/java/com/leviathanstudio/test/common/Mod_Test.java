@@ -2,24 +2,18 @@ package com.leviathanstudio.test.common;
 
 import java.awt.Color;
 
-import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
-import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.test.proxy.CommonProxy;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod.EventBusSubscriber
 @Mod(name = "TestMod", modid = Mod_Test.MODID)
@@ -35,18 +29,6 @@ public class Mod_Test
 
     public static Mod_Test getInstance() {
         return Mod_Test.instance;
-    }
-
-    @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    public static void registerModels(RegistryEvent.Register<CSReadedModel> e) {
-        Mod_Test.proxy.registerModels();
-    }
-
-    @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    public static void registerAnims(RegistryEvent.Register<CSReadedAnim> e) {
-        Mod_Test.proxy.registerAnims();
     }
 
     @EventHandler

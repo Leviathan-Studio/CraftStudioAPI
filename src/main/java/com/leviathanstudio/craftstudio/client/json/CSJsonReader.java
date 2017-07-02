@@ -16,6 +16,7 @@ import com.google.gson.JsonParser;
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.exception.CSMalformedJsonException;
 import com.leviathanstudio.craftstudio.client.exception.CSResourceNotFoundException;
+import com.leviathanstudio.craftstudio.client.util.EnumFrameType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
