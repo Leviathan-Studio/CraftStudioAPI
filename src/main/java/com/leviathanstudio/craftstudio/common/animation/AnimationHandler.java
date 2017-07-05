@@ -75,13 +75,26 @@ public abstract class AnimationHandler<T extends IAnimated>
         this.channelIds.add(anim.toString());
     }
 
+    /**
+     * Start an animation on client side.
+     * 
+     * @param res
+     *            The animation to start.
+     * @param startingFrame
+     *            The frame to start on.
+     * @param animatedElement
+     *            The animated object.
+     */
     public void startAnimation(String res, float startingFrame, T animatedElement) {
         if (animatedElement.isWorldRemote())
             this.clientStartAnimation(res, startingFrame, animatedElement);
     }
 
     /**
-     * Start an animation across the network.
+     * Start an animation across the network. This is just a message send, avoid
+     * using with "hold last keyframe" animations or long animations. In those
+     * cases, prefer using {@link #startAnimation(String, float, IAnimated)} and
+     * a custom network updating system.
      * 
      * @param res
      *            The animation to start.
@@ -437,7 +450,11 @@ public abstract class AnimationHandler<T extends IAnimated>
     }
 
     /**
-     * Start an animation across the network.
+     * Start an animation across the network. This is just a message send, avoid
+     * using with "hold last keyframe" animations or long animations. In those
+     * cases, prefer using
+     * {@link #startAnimation(String, String, float, IAnimated)} and a custom
+     * network updating system.
      *
      * @param modid
      *            The ID of your mod
