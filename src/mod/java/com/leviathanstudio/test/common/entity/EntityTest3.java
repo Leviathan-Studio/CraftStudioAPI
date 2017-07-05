@@ -40,7 +40,7 @@ public class EntityTest3 extends AnimatedEntity
         super.onLivingUpdate();
 
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly", this) && this.fly)
-            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "fly", this);
+            this.getAnimationHandler().networkStartAnimation(Mod_Test.MODID, "fly", this);
 
     }
 }

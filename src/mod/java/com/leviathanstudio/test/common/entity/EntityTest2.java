@@ -51,11 +51,11 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "close_fan", this)
                 && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "open_fan", this))
             if (this.fanOpen) {
-                this.getAnimationHandler().stopStartAnimation(Mod_Test.MODID, "open_fan", "close_fan", this);
+                this.getAnimationHandler().networkStopStartAnimation(Mod_Test.MODID, "open_fan", "close_fan", this);
                 this.fanOpen = false;
             }
             else {
-                this.getAnimationHandler().stopStartAnimation(Mod_Test.MODID, "close_fan", "open_fan", this);
+                this.getAnimationHandler().networkStopStartAnimation(Mod_Test.MODID, "close_fan", "open_fan", this);
                 this.fanOpen = true;
             }
         return true;
@@ -67,7 +67,7 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
         this.getAnimationHandler().animationsUpdate(this);
 
         if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "lookat", this))
-            this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "lookat", this);
+            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "lookat", this);
     }
 
     @Override

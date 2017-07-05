@@ -23,10 +23,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
 @EventBusSubscriber(modid = Mod_Test.MODID)
+@ObjectHolder(Mod_Test.MODID)
 public class RegistryHandler
 {
-    @ObjectHolder(Mod_Test.MODID + ":block_test")
-    private static final Block BLOCK_TEST = null;
+    public static final Block block_test = null;
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -36,8 +36,7 @@ public class RegistryHandler
 
     @SubscribeEvent
     public static void registerItem(RegistryEvent.Register<Item> event) {
-        System.out.println(BLOCK_TEST);
-        event.getRegistry().register(new ItemBlock(BLOCK_TEST).setRegistryName("item_block_test"));
+        event.getRegistry().register(new ItemBlock(block_test).setRegistryName("item_block_test"));
         event.getRegistry().register(new ItemTest().setRegistryName("item_test"));
     }
 
