@@ -75,6 +75,11 @@ public abstract class AnimationHandler<T extends IAnimated>
         this.channelIds.add(anim.toString());
     }
 
+    public void startAnimation(String res, float startingFrame, T animatedElement) {
+        if (animatedElement.isWorldRemote())
+            this.clientStartAnimation(res, startingFrame, animatedElement);
+    }
+
     /**
      * Start an animation across the network.
      * 
@@ -88,7 +93,7 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            If false, the packet will be send be the server only. If true,
      *            the packet will be send by the clients only.
      */
-    public void startAnimation(String res, float startingFrame, T animatedElement, boolean clientSend) {
+    public void networkStartAnimation(String res, float startingFrame, T animatedElement, boolean clientSend) {
         if (animatedElement.isWorldRemote() == clientSend) {
             this.serverInitAnimation(res, startingFrame, animatedElement);
             CSNetworkHelper.sendIAnimatedEvent(
@@ -107,7 +112,7 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            The object that is animated.
      * @return True, if the animation is successfully started.
      */
-    public abstract boolean clientStartAnimation(String res, float startingFrame, T animatedElement);
+    protected abstract boolean clientStartAnimation(String res, float startingFrame, T animatedElement);
 
     /**
      * Initialize an animation on the server and wait for a
@@ -136,6 +141,11 @@ public abstract class AnimationHandler<T extends IAnimated>
      */
     protected abstract boolean serverStartAnimation(String res, float endingFrame, T animatedElement);
 
+    public void stopAnimation(String res, T animatedElement) {
+        if (animatedElement.isWorldRemote())
+            this.clientStopAnimation(res, animatedElement);
+    }
+
     /**
      * Stop an animation across the network.
      * 
@@ -147,7 +157,7 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            If false, the packet will be send be the server only. If true,
      *            the packet will be send by the clients only.
      */
-    public void stopAnimation(String res, T animatedElement, boolean clientSend) {
+    public void networkStopAnimation(String res, T animatedElement, boolean clientSend) {
         if (animatedElement.isWorldRemote() == clientSend) {
             this.serverStopAnimation(res, animatedElement);
             CSNetworkHelper.sendIAnimatedEvent(new IAnimatedEventMessage(EnumIAnimatedEvent.STOP_ANIM, animatedElement, this.getAnimIdFromName(res)));
@@ -163,7 +173,7 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            The animated object.
      * @return True, if the animation is successfully stopped.
      */
-    public abstract boolean clientStopAnimation(String res, T animatedElement);
+    protected abstract boolean clientStopAnimation(String res, T animatedElement);
 
     /**
      * Stop an animation on the server only.
@@ -175,6 +185,11 @@ public abstract class AnimationHandler<T extends IAnimated>
      * @return True, if the animation is successfully stopped.
      */
     protected abstract boolean serverStopAnimation(String res, T animatedElement);
+
+    public void stopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
+        if (animatedElement.isWorldRemote())
+            this.clientStopStartAnimation(animToStop, animToStart, startingFrame, animatedElement);
+    }
 
     /**
      * Stop an animation and directly start another across the network.
@@ -191,7 +206,7 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            If false, the packet will be send be the server only. If true,
      *            the packet will be send by the clients only.
      */
-    public void stopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement, boolean clientSend) {
+    public void networkStopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement, boolean clientSend) {
         if (animatedElement.isWorldRemote() == clientSend) {
             this.serverStopStartAnimation(animToStop, animToStart, startingFrame, animatedElement);
             CSNetworkHelper.sendIAnimatedEvent(new IAnimatedEventMessage(EnumIAnimatedEvent.STOP_START_ANIM, animatedElement,
@@ -214,7 +229,7 @@ public abstract class AnimationHandler<T extends IAnimated>
      * @return True, if the animation is successfully stopped and the other
      *         animation was successfully started.
      */
-    public boolean clientStopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
+    protected boolean clientStopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement) {
         boolean stopSucces = this.clientStopAnimation(animToStop, animatedElement);
         return this.clientStartAnimation(animToStart, startingFrame, animatedElement) && stopSucces;
     }
@@ -379,20 +394,46 @@ public abstract class AnimationHandler<T extends IAnimated>
     ///////////////////////////////////////
 
     /**
-     * See {@link #startAnimation(String, String, IAnimated, boolean)}.<br>
-     * clientSend is set to False.
+     * See {@link #startAnimation(String, String, float, IAnimated)}.<br>
+     * startingFrame is set to 0.
      */
     public void startAnimation(String modid, String animationName, T animatedElement) {
-        this.startAnimation(modid, animationName, 0.0F, animatedElement, false);
+        this.startAnimation(modid, animationName, 0.0F, animatedElement);
+    }
+
+    /**
+     * Start an animation on this client only. Do nothing on server.
+     * 
+     * @param modid
+     *            The ID of your mod.
+     * @param animationName
+     *            The name of your animation you want to start.
+     * @param startingFrame
+     *            The frame to start on.
+     * @param animatedElement
+     *            The object that is animated.
+     * @return True, if the animation is successfully started.
+     */
+    public void startAnimation(String modid, String animationName, float startingFrame, T animatedElement) {
+        this.startAnimation(modid + ":" + animationName, startingFrame, animatedElement);
     }
 
     /**
      * See
-     * {@link #startAnimation(String, String, float, IAnimated, boolean)}.<br>
+     * {@link #networkStartAnimation(String, String, IAnimated, boolean)}.<br>
+     * clientSend is set to False.
+     */
+    public void networkStartAnimation(String modid, String animationName, T animatedElement) {
+        this.networkStartAnimation(modid, animationName, 0.0F, animatedElement, false);
+    }
+
+    /**
+     * See
+     * {@link #networkStartAnimation(String, String, float, IAnimated, boolean)}.<br>
      * startingFrame is set to 0.
      */
-    public void startAnimation(String modid, String animationName, T animatedElement, boolean clientSend) {
-        this.startAnimation(modid, animationName, 0.0F, animatedElement, clientSend);
+    public void networkStartAnimation(String modid, String animationName, T animatedElement, boolean clientSend) {
+        this.networkStartAnimation(modid, animationName, 0.0F, animatedElement, clientSend);
     }
 
     /**
@@ -410,41 +451,32 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            If false, the packet will be send be the server only. If true,
      *            the packet will be send by the clients only.
      */
-    public void startAnimation(String modid, String animationName, float startingFrame, T animatedElement, boolean clientSend) {
-        this.startAnimation(modid + ":" + animationName, startingFrame, animatedElement, clientSend);
+    public void networkStartAnimation(String modid, String animationName, float startingFrame, T animatedElement, boolean clientSend) {
+        this.networkStartAnimation(modid + ":" + animationName, startingFrame, animatedElement, clientSend);
     }
 
     /**
-     * See {@link #clientStartAnimation(String, String, float, IAnimated)}.<br>
-     * startingFrame is set to 0.
-     */
-    public void clientStartAnimation(String modid, String animationName, T animatedElement) {
-        this.clientStartAnimation(modid, animationName, 0.0F, animatedElement);
-    }
-
-    /**
-     * Start an animation on this client only. Do nothing on server.
+     * Stop an animation on this client only.
      * 
      * @param modid
      *            The ID of your mod.
      * @param animationName
-     *            The name of your animation you want to start.
-     * @param startingFrame
-     *            The frame to start on.
+     *            The name of your animation you want to stop.
      * @param animatedElement
-     *            The object that is animated.
-     * @return True, if the animation is successfully started.
+     *            The animated object.
+     * @return True, if the animation is successfully stopped.
      */
-    public void clientStartAnimation(String modid, String animationName, float startingFrame, T animatedElement) {
-        this.clientStartAnimation(modid + ":" + animationName, startingFrame, animatedElement);
+    public void stopAnimation(String modid, String animationName, T animatedElement) {
+        this.stopAnimation(modid + ":" + animationName, animatedElement);
     }
 
     /**
-     * See {@link #stopAnimation(String, String, IAnimated, boolean)}.<br>
+     * See
+     * {@link #networkStopAnimation(String, String, IAnimated, boolean)}.<br>
      * clientSend is set to False.
      */
-    public void stopAnimation(String modid, String animationName, T animatedElement) {
-        this.stopAnimation(modid + ":" + animationName, animatedElement, false);
+    public void networkStopAnimation(String modid, String animationName, T animatedElement) {
+        this.networkStopAnimation(modid + ":" + animationName, animatedElement, false);
     }
 
     /**
@@ -460,98 +492,29 @@ public abstract class AnimationHandler<T extends IAnimated>
      *            If false, the packet will be send be the server only. If true,
      *            the packet will be send by the clients only.
      */
-    public void stopAnimation(String modid, String animationName, T animatedElement, boolean clientSend) {
-        this.stopAnimation(modid + ":" + animationName, animatedElement, clientSend);
-    }
-
-    /**
-     * Stop an animation on this client only.
-     * 
-     * @param modid
-     *            The ID of your mod.
-     * @param animationName
-     *            The name of your animation you want to stop.
-     * @param animatedElement
-     *            The animated object.
-     * @return True, if the animation is successfully stopped.
-     */
-    public void clientStopAnimation(String modid, String animationName, T animatedElement) {
-        this.clientStopAnimation(modid + ":" + animationName, animatedElement);
+    public void networkStopAnimation(String modid, String animationName, T animatedElement, boolean clientSend) {
+        this.networkStopAnimation(modid + ":" + animationName, animatedElement, clientSend);
     }
 
     /**
      * See
-     * {@link #stopStartAnimation(String, String, String, IAnimated, boolean)}.<br>
-     * clientSend is set to False.
+     * {@link #stopStartAnimation(String, String, String, float, IAnimated)}.<br>
+     * startingFrame is set to 0.
      */
     public void stopStartAnimation(String modid, String animToStop, String animToStart, T animatedElement) {
-        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement, false);
+        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement);
     }
 
     /**
      * See
-     * {@link #stopStartAnimation(String, String, String, float, IAnimated, boolean)}.<br>
-     * startingFrame is set to 0.
-     */
-    public void stopStartAnimation(String modid, String animToStop, String animToStart, T animatedElement, boolean clientSend) {
-        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement, clientSend);
-    }
-
-    /**
-     * See
-     * {@link #stopStartAnimation(String, String, String, String, float, IAnimated, boolean)}.<br>
+     * {@link #stopStartAnimation(String, String, String, String, float, IAnimated)}.<br>
      * modid1 and modid2 are set to the value of modid.
      * 
      * @param modid
      *            The ID of your mod.
      */
-    public void stopStartAnimation(String modid, String animToStop, String animToStart, float startingFrame, T animatedElement, boolean clientSend) {
-        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, startingFrame, animatedElement, clientSend);
-    }
-
-    /**
-     * Stop an animation and directly start another across the network.
-     * 
-     * @param modid1
-     *            The ID of the mod of the animation you want to stop.
-     * @param animToStop
-     *            The name of the animation to stop.
-     * @param modid2
-     *            The ID of the mod of the animation you want to start.
-     * @param animToStart
-     *            The name of your animation you want to start.
-     * @param startingFrame
-     *            The frame to start the animation on.
-     * @param animatedElement
-     *            The animated object.
-     * @param clientSend
-     *            If false, the packet will be send be the server only. If true,
-     *            the packet will be send by the clients only.
-     */
-    public void stopStartAnimation(String modid1, String animToStop, String modid2, String animToStart, float startingFrame, T animatedElement,
-            boolean clientSend) {
-        this.stopStartAnimation(modid1 + ":" + animToStop, modid2 + ":" + animToStart, startingFrame, animatedElement, clientSend);
-    }
-
-    /**
-     * See
-     * {@link #clientStopStartAnimation(String, String, String, float, IAnimated)}.<br>
-     * startingFrame is set to 0.
-     */
-    public void clientStopStartAnimation(String modid, String animToStop, String animToStart, T animatedElement) {
-        this.clientStopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement);
-    }
-
-    /**
-     * See
-     * {@link #clientStopStartAnimation(String, String, String, String, float, IAnimated)}.<br>
-     * modid1 and modid2 are set to the value of modid.
-     * 
-     * @param modid
-     *            The ID of your mod.
-     */
-    public void clientStopStartAnimation(String modid, String animToStop, String animToStart, float startingFrame, T animatedElement) {
-        this.clientStopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, startingFrame, animatedElement);
+    public void stopStartAnimation(String modid, String animToStop, String animToStart, float startingFrame, T animatedElement) {
+        this.stopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, startingFrame, animatedElement);
     }
 
     /**
@@ -573,9 +536,63 @@ public abstract class AnimationHandler<T extends IAnimated>
      * @return True, if the animation is successfully stopped and the other
      *         animation was successfully started.
      */
-    public void clientStopStartAnimation(String modid1, String animToStop, String modid2, String animToStart, float startingFrame,
-            T animatedElement) {
-        this.clientStopStartAnimation(modid1 + ":" + animToStop, modid2 + ":" + animToStart, startingFrame, animatedElement);
+    public void stopStartAnimation(String modid1, String animToStop, String modid2, String animToStart, float startingFrame, T animatedElement) {
+        this.stopStartAnimation(modid1 + ":" + animToStop, modid2 + ":" + animToStart, startingFrame, animatedElement);
+    }
+
+    /**
+     * See
+     * {@link #networkStopStartAnimation(String, String, String, IAnimated, boolean)}.<br>
+     * clientSend is set to False.
+     */
+    public void networkStopStartAnimation(String modid, String animToStop, String animToStart, T animatedElement) {
+        this.networkStopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement, false);
+    }
+
+    /**
+     * See
+     * {@link #networkStopStartAnimation(String, String, String, float, IAnimated, boolean)}.<br>
+     * startingFrame is set to 0.
+     */
+    public void networkStopStartAnimation(String modid, String animToStop, String animToStart, T animatedElement, boolean clientSend) {
+        this.networkStopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, 0.0F, animatedElement, clientSend);
+    }
+
+    /**
+     * See
+     * {@link #networkStopStartAnimation(String, String, String, String, float, IAnimated, boolean)}.<br>
+     * modid1 and modid2 are set to the value of modid.
+     * 
+     * @param modid
+     *            The ID of your mod.
+     */
+    public void networkStopStartAnimation(String modid, String animToStop, String animToStart, float startingFrame, T animatedElement,
+            boolean clientSend) {
+        this.networkStopStartAnimation(modid + ":" + animToStop, modid + ":" + animToStart, startingFrame, animatedElement, clientSend);
+    }
+
+    /**
+     * Stop an animation and directly start another across the network.
+     * 
+     * @param modid1
+     *            The ID of the mod of the animation you want to stop.
+     * @param animToStop
+     *            The name of the animation to stop.
+     * @param modid2
+     *            The ID of the mod of the animation you want to start.
+     * @param animToStart
+     *            The name of your animation you want to start.
+     * @param startingFrame
+     *            The frame to start the animation on.
+     * @param animatedElement
+     *            The animated object.
+     * @param clientSend
+     *            If false, the packet will be send be the server only. If true,
+     *            the packet will be send by the clients only.
+     */
+    public void networkStopStartAnimation(String modid1, String animToStop, String modid2, String animToStart, float startingFrame, T animatedElement,
+            boolean clientSend) {
+        this.networkStopStartAnimation(modid1 + ":" + animToStop, modid2 + ":" + animToStart, startingFrame, animatedElement, clientSend);
     }
 
     /**

@@ -31,6 +31,6 @@ public class EntityTest extends AnimatedEntity
         super.onLivingUpdate();
 
         if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "streching", this))
-            this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "streching", this);
+            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "streching", this);
     }
 }

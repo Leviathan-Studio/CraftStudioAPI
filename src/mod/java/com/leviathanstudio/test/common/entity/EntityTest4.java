@@ -29,6 +29,6 @@ public class EntityTest4 extends AnimatedEntity
         super.onLivingUpdate();
 
         if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation", this))
-            this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "rotation", this);
+            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "rotation", this);
     }
 }

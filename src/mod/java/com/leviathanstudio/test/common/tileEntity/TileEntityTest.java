@@ -34,7 +34,7 @@ public class TileEntityTest extends AnimatedTileEntity
         super.update();
 
         if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "position", this))
-            this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "position", this);
+            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "position", this);
 
     }
 }
