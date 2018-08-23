@@ -62,12 +62,11 @@ public class ServerIAnimatedEventMessage extends IAnimatedEventMessage
                 if (super.onMessage(message, ctx)) {
                     EntityPlayerMP player = ctx.getServerHandler().player;
                     message.animated.getAnimationHandler();
-                    boolean succes = AnimationHandler.onServerIAnimatedEvent(message);
-                    if (succes && message.event != EnumIAnimatedEvent.ANSWER_START_ANIM.getId())
+                    boolean success = AnimationHandler.onServerIAnimatedEvent(message);
+                    if (success && message.event != EnumIAnimatedEvent.ANSWER_START_ANIM.getId())
                         CraftStudioApi.NETWORK.sendTo(new ClientIAnimatedEventMessage(message), player);
                 }
             });
-            
             return null;
         }
 

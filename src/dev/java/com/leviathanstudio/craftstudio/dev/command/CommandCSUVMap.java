@@ -49,19 +49,19 @@ public class CommandCSUVMap extends CommandBase implements IClientCommand
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length >= 1) {
-            boolean succes = false;
+            boolean success = false;
             try {
                 sender.sendMessage(new TextComponentString("Starting UVMap creation ..."));
                 UVMapCreator uvc = new UVMapCreator(new ResourceLocation(args[0]));
-                succes = uvc.createUVMap();
-                if (!succes)
+                success = uvc.createUVMap();
+                if (!success)
                     throw new CommandException("Fail to write the file");
                 else
                     sender.sendMessage(new TextComponentString("UVMap finished."));
             } catch (CSResourceNotRegisteredException e) {
                 throw new CommandException("Model not registered");
             }
-            if (!succes)
+            if (!success)
                 throw new CommandException("Unknown error");
         }
         else

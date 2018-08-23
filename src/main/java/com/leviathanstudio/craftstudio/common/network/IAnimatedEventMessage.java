@@ -101,7 +101,7 @@ public class IAnimatedEventMessage implements IMessage
     public void toBytes(ByteBuf buf) {
         if (this.event < 0 || this.event >= EnumIAnimatedEvent.ID_COUNT) {
             buf.writeShort(-1);
-            CraftStudioApi.getLogger().error("Unsuported event id " + this.event + " for network message.");
+            CraftStudioApi.getLogger().error("Unsupported event id " + this.event + " for network message.");
             return;
         }
         if (this.animated instanceof Entity) {
@@ -121,7 +121,7 @@ public class IAnimatedEventMessage implements IMessage
         }
         else {
             buf.writeShort(-1);
-            CraftStudioApi.getLogger().error("Unsuported class " + this.animated.getClass().getSimpleName() + " for network message.");
+            CraftStudioApi.getLogger().error("Unsupported class " + this.animated.getClass().getSimpleName() + " for network message.");
             CraftStudioApi.getLogger().error("You are trying to animate an other class than Entity or TileEntity.");
             return;
         }

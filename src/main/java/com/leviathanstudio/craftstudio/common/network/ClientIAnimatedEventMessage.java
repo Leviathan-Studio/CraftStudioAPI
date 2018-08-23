@@ -60,8 +60,8 @@ public class ClientIAnimatedEventMessage extends IAnimatedEventMessage
         public ServerIAnimatedEventMessage onMessage(ClientIAnimatedEventMessage message, MessageContext ctx) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 if (super.onMessage(message, ctx)) {
-                    boolean succes = message.animated.getAnimationHandler().onClientIAnimatedEvent(message);
-                    if (succes && message.animated.getAnimationHandler() instanceof ClientAnimationHandler
+                    boolean success = message.animated.getAnimationHandler().onClientIAnimatedEvent(message);
+                    if (success && message.animated.getAnimationHandler() instanceof ClientAnimationHandler
                             && (message.event == EnumIAnimatedEvent.START_ANIM.getId() || message.event == EnumIAnimatedEvent.STOP_START_ANIM.getId())) {
                         ClientAnimationHandler hand = (ClientAnimationHandler) message.animated.getAnimationHandler();
                         String animName = hand.getAnimNameFromId(message.animId);
@@ -70,7 +70,6 @@ public class ClientIAnimatedEventMessage extends IAnimatedEventMessage
                     }
                 }
             });
-            
             return null;
         }
 
