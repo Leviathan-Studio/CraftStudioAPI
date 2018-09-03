@@ -1,6 +1,12 @@
 <!--- Do what's ask in these balise, you don't need to erase them -->
 <!--- Provide a general summary of the issue in the Title above -->
 
+<!--- 
+It's REALLY important to first look if your issue isn't already solved or reported.
+To do that, go to https://github.com/Leviathan-Studio/CraftStudioAPI/wiki/How-to-check-if-your-issue-is-already-reported-and-or-solved
+This save the time of everyone...
+-->
+
 ## Expected Behavior
 <!--- If you're describing a bug, tell us what should happen -->
 <!--- If you're suggesting a change/improvement, tell us how it should work -->
@@ -9,6 +15,7 @@
 <!--- If describing a bug, tell us what happens instead of the expected behavior -->
 <!--- If suggesting a change/improvement, explain the difference from current behavior -->
 
+<!--- Erase this part if you aren't using it -->
 ## Possible Solution
 <!--- Not obligatory, but suggest a fix/reason for the bug, -->
 <!--- or ideas how to implement the addition or change -->
@@ -32,7 +39,7 @@
 ## Crash Report
 <!--- If you have one, erase this part otherwise -->
 <!--- If you have one, you must give it to us. It's REALLY needed -->
-<!--- You must use pastebin, as the crash report will likely be long -->
+<!--- You must use pastebin or a similar site, as the crash report will likely be long -->
 
 <!--- Erase this part if you are making a suggestion -->
 ## Your Environment
