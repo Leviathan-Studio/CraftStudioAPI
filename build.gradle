@@ -1,12 +1,7 @@
 buildscript {
     repositories {
-        jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
 		maven {
-            url 'http://maven.leviathan-studio.com/artifactory/plugins-release'
+            url 'https://repo.leviathan-studio.com/libs-release/'
             credentials {
                 username = "${artifactory_user}"
                 password = "${artifactory_password}"
@@ -25,7 +20,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.artifactory'
 
 // Maven
-version = "1.0.0"
+version = "1.0.1"
 group= "com.leviathanstudio"
 archivesBaseName = "CraftStudioAPI"
 ext.suffix="alpha"
@@ -59,6 +54,13 @@ if(ext.suffix != "") {
 }
 
 repositories {
+    maven {
+        url 'https://repo.leviathan-studio.com/libs-release/'
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
 }
 
 sourceSets {
@@ -149,3 +151,4 @@ publishing {
 }
 
 build.dependsOn devJar
+artifactoryPublish.dependsOn build
