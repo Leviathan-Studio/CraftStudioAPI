@@ -72,6 +72,14 @@ sourceSets {
             srcDirs 'src/main/resources/'
         }
     }
+    dev {
+        java {
+            srcDirs 'src/dev/java/'
+        }
+        resources {
+            srcDirs 'src/dev/resources/'
+        }
+    }
     mod {
         java {
             srcDirs 'src/mod/java/'
@@ -103,13 +111,15 @@ jar {
     manifest {
         attributes  'group':project.group
     }
-    exclude 'com/leviathanstudio/craftstudio/dev/**'
     appendix = 'universal'
     version = "${project.ext.fullVersion}"
 }
 
 task devJar(type: Jar) {
     from(sourceSets.main.allSource) {
+        include 'com/**/**'
+    }
+    from(sourceSets.dev.allSource) {
         include 'com/**/**'
     }
     from(sourceSets.main.output) {
