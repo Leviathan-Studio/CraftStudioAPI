@@ -27,9 +27,8 @@ ext.suffix="alpha"
 
 // Jenkins build
 ext.buildnumber = 0
-if (System.getenv().BUILD_NUMBER) {
-    project.buildnumber = System.getenv().BUILD_NUMBER
-    //version += "." + System.getenv().BUILD_NUMBER
+if (System.getenv().TRAVIS_BUILD_NUMBER) {
+    project.buildnumber = System.getenv().TRAVIS_BUILD_NUMBER
 } else {
     logger.lifecycle "SETTING BUILDNUMBER TO 0"
 }
