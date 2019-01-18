@@ -1,8 +1,9 @@
-package com.leviathanstudio.test.common;
+package com.leviathanstudio.test.common.entity;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
+import com.leviathanstudio.test.common.Mod_Test;
 import com.leviathanstudio.test.pack.animation.AnimationLootAt;
 
 import net.minecraft.entity.EntityAgeable;
@@ -50,11 +51,11 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "close_fan", this)
                 && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "open_fan", this))
             if (this.fanOpen) {
-                this.getAnimationHandler().stopStartAnimation(Mod_Test.MODID, "open_fan", "close_fan", this);
+                this.getAnimationHandler().networkStopStartAnimation(Mod_Test.MODID, "open_fan", "close_fan", this);
                 this.fanOpen = false;
             }
             else {
-                this.getAnimationHandler().stopStartAnimation(Mod_Test.MODID, "close_fan", "open_fan", this);
+                this.getAnimationHandler().networkStopStartAnimation(Mod_Test.MODID, "close_fan", "open_fan", this);
                 this.fanOpen = true;
             }
         return true;
@@ -66,7 +67,7 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
         this.getAnimationHandler().animationsUpdate(this);
 
         if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "lookat", this))
-            this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "lookat", this);
+            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "lookat", this);
     }
 
     @Override

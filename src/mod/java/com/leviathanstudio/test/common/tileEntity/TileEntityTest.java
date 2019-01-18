@@ -1,8 +1,9 @@
-package com.leviathanstudio.test.common;
+package com.leviathanstudio.test.common.tileEntity;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.simpleImpl.AnimatedTileEntity;
+import com.leviathanstudio.test.common.Mod_Test;
 
 import net.minecraft.world.World;
 
@@ -33,7 +34,7 @@ public class TileEntityTest extends AnimatedTileEntity
         super.update();
 
         if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "position", this))
-            this.getAnimationHandler().clientStartAnimation(Mod_Test.MODID, "position", this);
+            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "position", this);
 
     }
 }

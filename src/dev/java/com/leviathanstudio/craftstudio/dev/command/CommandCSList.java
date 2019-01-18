@@ -7,8 +7,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
-import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
+import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -19,7 +18,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.client.IClientCommand;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -31,7 +30,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
-public class CommandCSList extends CommandBase
+public class CommandCSList extends CommandBase implements IClientCommand
 {
 
     private static String       name      = "cslist";
@@ -54,9 +53,9 @@ public class CommandCSList extends CommandBase
         if (args.length >= 1) {
             Set<ResourceLocation> set;
             if (args[0].equals("models"))
-                set = GameRegistry.findRegistry(CSReadedModel.class).getKeys();
+                set = RegistryHandler.modelRegistry.getKeys();
             else if (args[0].equals("animations"))
-                set = GameRegistry.findRegistry(CSReadedAnim.class).getKeys();
+                set = RegistryHandler.animationRegistry.getKeys();
             else
                 throw new SyntaxErrorException();
             String str = "";
@@ -79,5 +78,10 @@ public class CommandCSList extends CommandBase
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, CommandCSList.autoC) : Collections.<String> emptyList();
+    }
+
+    @Override
+    public boolean allowUsageWithoutPrefix(ICommandSender sender, String message) {
+        return false;
     }
 }

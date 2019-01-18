@@ -8,15 +8,17 @@ import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
+import org.lwjgl.opengl.GL11;
+
 import com.leviathanstudio.craftstudio.client.util.MathHelper;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.PositionTextureVertex;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -315,8 +317,8 @@ public class CSModelRenderer extends ModelRenderer
      */
     public void compileDisplayList(float scale) {
         this.displayList = GLAllocation.generateDisplayLists(1);
-        GlStateManager.glNewList(this.displayList, 4864);
-        final VertexBuffer vertexbuffer = Tessellator.getInstance().getBuffer();
+        GlStateManager.glNewList(this.displayList, GL11.GL_COMPILE);
+        BufferBuilder vertexbuffer = Tessellator.getInstance().getBuffer();
 
         for (int i = 0; i < this.cubeCSList.size(); ++i)
             this.cubeCSList.get(i).render(vertexbuffer, scale);

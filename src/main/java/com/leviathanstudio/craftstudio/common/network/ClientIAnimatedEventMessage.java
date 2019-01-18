@@ -2,6 +2,7 @@ package com.leviathanstudio.craftstudio.common.network;
 
 import java.util.UUID;
 
+import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.animation.ClientAnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.common.animation.InfoChannel;
@@ -57,17 +58,19 @@ public class ClientIAnimatedEventMessage extends IAnimatedEventMessage
     {
         @Override
         public ServerIAnimatedEventMessage onMessage(ClientIAnimatedEventMessage message, MessageContext ctx) {
-            if (!super.onMessage(message, ctx))
-                return null;
-
-            boolean succes = message.animated.getAnimationHandler().onClientIAnimatedEvent(message);
-            if (succes && message.animated.getAnimationHandler() instanceof ClientAnimationHandler
-                    && (message.event == EnumIAnimatedEvent.START_ANIM.getId() || message.event == EnumIAnimatedEvent.STOP_START_ANIM.getId())) {
-                ClientAnimationHandler hand = (ClientAnimationHandler) message.animated.getAnimationHandler();
-                String animName = hand.getAnimNameFromId(message.animId);
-                InfoChannel infoC = (InfoChannel) hand.getAnimChannels().get(animName);
-                return new ServerIAnimatedEventMessage(EnumIAnimatedEvent.ANSWER_START_ANIM, message.animated, message.animId, infoC.totalFrames);
-            }
+            Minecraft.getMinecraft().addScheduledTask(() -> {
+                if (super.onMessage(message, ctx)) {
+                    boolean succes = message.animated.getAnimationHandler().onClientIAnimatedEvent(message);
+                    if (succes && message.animated.getAnimationHandler() instanceof ClientAnimationHandler
+                            && (message.event == EnumIAnimatedEvent.START_ANIM.getId() || message.event == EnumIAnimatedEvent.STOP_START_ANIM.getId())) {
+                        ClientAnimationHandler hand = (ClientAnimationHandler) message.animated.getAnimationHandler();
+                        String animName = hand.getAnimNameFromId(message.animId);
+                        InfoChannel infoC = (InfoChannel) hand.getAnimChannels().get(animName);
+                        CraftStudioApi.NETWORK.sendToServer(new ServerIAnimatedEventMessage(EnumIAnimatedEvent.ANSWER_START_ANIM, message.animated, message.animId, infoC.totalFrames));
+                    }
+                }
+            });
+            
             return null;
         }
 

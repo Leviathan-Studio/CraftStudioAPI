@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.leviathanstudio.craftstudio.client.exception.CSResourceNotRegisteredException;
-import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
+import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
 import com.leviathanstudio.craftstudio.dev.util.UVMapCreator;
 
 import net.minecraft.command.CommandBase;
@@ -17,7 +17,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.client.IClientCommand;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -29,7 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
-public class CommandCSUVMap extends CommandBase
+public class CommandCSUVMap extends CommandBase implements IClientCommand
 {
 
     private static String name      = "csuvmap";
@@ -75,7 +75,11 @@ public class CommandCSUVMap extends CommandBase
 
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, GameRegistry.findRegistry(CSReadedModel.class).getKeys())
-                : Collections.<String> emptyList();
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, RegistryHandler.modelRegistry.getKeys()) : Collections.<String> emptyList();
+    }
+
+    @Override
+    public boolean allowUsageWithoutPrefix(ICommandSender sender, String message) {
+        return false;
     }
 }

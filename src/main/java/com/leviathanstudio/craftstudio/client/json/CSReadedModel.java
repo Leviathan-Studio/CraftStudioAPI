@@ -3,7 +3,6 @@ package com.leviathanstudio.craftstudio.client.json;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry.Impl;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -15,9 +14,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
-public class CSReadedModel extends Impl<CSReadedModel>
+public class CSReadedModel
 {
-    private String                   name, modid;
+    private String                   name;
     private int                      textureWidth, textureHeight;
     private List<CSReadedModelBlock> parents = new ArrayList<>();
 
@@ -74,14 +73,6 @@ public class CSReadedModel extends Impl<CSReadedModel>
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getModid() {
-        return this.modid;
-    }
-
-    public void setModid(String modid) {
-        this.modid = modid;
     }
 
     public int getTextureWidth() {

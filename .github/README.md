@@ -1,3 +1,7 @@
+| Master | Dev |
+| ------ | ----------- |
+|![](https://travis-ci.com/Leviathan-Studio/CraftStudioAPI.svg?branch=master)|![](https://travis-ci.com/Leviathan-Studio/CraftStudioAPI.svg?branch=dev)|
+
 ![](/images/cs-api.png)
 
 Official repository of the CraftStudio API

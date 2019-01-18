@@ -8,7 +8,6 @@ import java.util.Set;
 
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
 
-import net.minecraftforge.fml.common.registry.IForgeRegistryEntry.Impl;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -20,9 +19,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author Timmypote
  */
 @SideOnly(Side.CLIENT)
-public class CSReadedAnim extends Impl<CSReadedAnim>
+public class CSReadedAnim
 {
-    private String                  modid;
     private String                  name;
     private int                     duration;
     private boolean                 holdLastK;
@@ -46,14 +44,6 @@ public class CSReadedAnim extends Impl<CSReadedAnim>
         Integer[] tab = new Integer[1];
         tab = (Integer[]) set.toArray(tab);
         return tab;
-    }
-
-    public String getModid() {
-        return this.modid;
-    }
-
-    public void setModid(String modid) {
-        this.modid = modid;
     }
 
     public String getName() {

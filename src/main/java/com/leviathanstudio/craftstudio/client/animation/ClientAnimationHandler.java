@@ -252,16 +252,19 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
      */
     public static void performAnimationForBlock(CSModelRenderer block, IAnimated animated) {
         String boxName = block.boxName;
+        ModelRenderer child;
 
         if (animated.getAnimationHandler() instanceof ClientAnimationHandler) {
             ClientAnimationHandler animHandler = (ClientAnimationHandler) animated.getAnimationHandler();
 
             if (block.childModels != null)
-                for (ModelRenderer child : block.childModels)
+                for (int i = 0; i < block.childModels.size(); i++) {
+                    child = block.childModels.get(i);
                     if (child instanceof CSModelRenderer) {
                         CSModelRenderer childModel = (CSModelRenderer) child;
                         performAnimationForBlock(childModel, animated);
                     }
+                }
 
             block.resetRotationPoint();
             block.resetRotationMatrix();

@@ -1,12 +1,7 @@
 buildscript {
     repositories {
-        jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
 		maven {
-            url 'http://maven.leviathan-studio.com/artifactory/plugins-release'
+            url 'https://repo.leviathan-studio.com/libs-release/'
             credentials {
                 username = "${artifactory_user}"
                 password = "${artifactory_password}"
@@ -14,7 +9,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.0.0"
     }
 }
@@ -25,16 +20,15 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.artifactory'
 
 // Maven
-version = "0.3.0"
+version = "1.0.1"
 group= "com.leviathanstudio"
 archivesBaseName = "CraftStudioAPI"
-ext.suffix="beta"
+ext.suffix="alpha"
 
 // Jenkins build
 ext.buildnumber = 0
-if (System.getenv().BUILD_NUMBER) {
-    project.buildnumber = System.getenv().BUILD_NUMBER
-    //version += "." + System.getenv().BUILD_NUMBER
+if (System.getenv().TRAVIS_BUILD_NUMBER) {
+    project.buildnumber = System.getenv().TRAVIS_BUILD_NUMBER
 } else {
     logger.lifecycle "SETTING BUILDNUMBER TO 0"
 }
@@ -45,9 +39,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = "1.11.2-13.20.0.2304"
+    version = "1.12-14.21.1.2387"
     runDir = "run"
-    mappings = "snapshot_20170523"
+    mappings = "snapshot_20170624"
     replace "@VERSION@",  project.version
 }
 
@@ -59,6 +53,13 @@ if(ext.suffix != "") {
 }
 
 repositories {
+    maven {
+        url 'https://repo.leviathan-studio.com/libs-release/'
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
 }
 
 sourceSets {
@@ -68,6 +69,14 @@ sourceSets {
         }
         resources {
             srcDirs 'src/main/resources/'
+        }
+    }
+    dev {
+        java {
+            srcDirs 'src/dev/java/'
+        }
+        resources {
+            srcDirs 'src/dev/resources/'
         }
     }
     mod {
@@ -101,13 +110,15 @@ jar {
     manifest {
         attributes  'group':project.group
     }
-    exclude 'com/leviathanstudio/craftstudio/dev/**'
     appendix = 'universal'
     version = "${project.ext.fullVersion}"
 }
 
 task devJar(type: Jar) {
     from(sourceSets.main.allSource) {
+        include 'com/**/**'
+    }
+    from(sourceSets.dev.allSource) {
         include 'com/**/**'
     }
     from(sourceSets.main.output) {
@@ -149,3 +160,4 @@ publishing {
 }
 
 build.dependsOn devJar
+artifactoryPublish.dependsOn build

@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
- * Common proxy of th CraftStudioApi
+ * Common base for the proxies of the CraftStudioApi
  * 
  * @since 0.3.0
  * 

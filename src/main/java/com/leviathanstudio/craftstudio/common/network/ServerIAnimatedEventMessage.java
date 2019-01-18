@@ -2,12 +2,15 @@ package com.leviathanstudio.craftstudio.common.network;
 
 import java.util.UUID;
 
+import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
@@ -55,13 +58,16 @@ public class ServerIAnimatedEventMessage extends IAnimatedEventMessage
     {
         @Override
         public ClientIAnimatedEventMessage onMessage(ServerIAnimatedEventMessage message, MessageContext ctx) {
-            if (!super.onMessage(message, ctx))
-                return null;
-
-            message.animated.getAnimationHandler();
-            boolean succes = AnimationHandler.onServerIAnimatedEvent(message);
-            if (succes && message.event != EnumIAnimatedEvent.ANSWER_START_ANIM.getId())
-                return new ClientIAnimatedEventMessage(message);
+            FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
+                if (super.onMessage(message, ctx)) {
+                    EntityPlayerMP player = ctx.getServerHandler().player;
+                    message.animated.getAnimationHandler();
+                    boolean succes = AnimationHandler.onServerIAnimatedEvent(message);
+                    if (succes && message.event != EnumIAnimatedEvent.ANSWER_START_ANIM.getId())
+                        CraftStudioApi.NETWORK.sendTo(new ClientIAnimatedEventMessage(message), player);
+                }
+            });
+            
             return null;
         }
 

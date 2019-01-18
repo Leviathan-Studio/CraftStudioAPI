@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.vecmath.Vector3f;
 
+import com.leviathanstudio.craftstudio.client.util.EnumFrameType;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 

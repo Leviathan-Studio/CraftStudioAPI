@@ -1,8 +1,9 @@
-package com.leviathanstudio.test.common;
+package com.leviathanstudio.test.common.entity;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.simpleImpl.AnimatedEntity;
+import com.leviathanstudio.test.common.Mod_Test;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
@@ -39,7 +40,7 @@ public class EntityTest3 extends AnimatedEntity
         super.onLivingUpdate();
 
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly", this) && this.fly)
-            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "fly", this);
+            this.getAnimationHandler().networkStartAnimation(Mod_Test.MODID, "fly", this);
 
     }
 }

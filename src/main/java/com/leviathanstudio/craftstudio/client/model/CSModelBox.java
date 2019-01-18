@@ -3,7 +3,7 @@ package com.leviathanstudio.craftstudio.client.model;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.PositionTextureVertex;
 import net.minecraft.client.model.TexturedQuad;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -186,13 +186,13 @@ public class CSModelBox
      */
     private void checkBlockForShadow() {
         Vec3d or = this.quadList[1].vertexPositions[0].vector3D;
-        double x = this.quadList[0].vertexPositions[1].vector3D.xCoord, y = this.quadList[1].vertexPositions[3].vector3D.yCoord,
-                z = this.quadList[1].vertexPositions[1].vector3D.zCoord;
-        if (x - or.xCoord < 0)
+        double x = this.quadList[0].vertexPositions[1].vector3D.x, y = this.quadList[1].vertexPositions[3].vector3D.y,
+                z = this.quadList[1].vertexPositions[1].vector3D.z;
+        if (x - or.x < 0)
             this.flipFaces();
-        if (y - or.yCoord > 0)
+        if (y - or.y > 0)
             this.flipFaces();
-        if (z - or.zCoord > 0)
+        if (z - or.z > 0)
             this.flipFaces();
     }
 
@@ -317,7 +317,7 @@ public class CSModelBox
      * @param scale
      *            Scale factor.
      */
-    public void render(VertexBuffer renderer, float scale) {
+    public void render(BufferBuilder renderer, float scale) {
         for (TexturedQuad texturedquad : this.quadList)
             texturedquad.draw(renderer, scale);
     }

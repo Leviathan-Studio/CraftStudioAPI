@@ -156,7 +156,7 @@ public class IAnimatedEventMessage implements IMessage
             if (message.hasEntity) {
                 Entity e = this.getEntityByUUID(ctx, message.most, message.least);
                 if (!(e instanceof IAnimated)) {
-                    CraftStudioApi.getLogger().error("Networking error : invalid entity.");
+                    CraftStudioApi.getLogger().debug("Networking error : invalid entity.");
                     return false;
                 }
                 message.animated = (IAnimated) e;
@@ -164,7 +164,7 @@ public class IAnimatedEventMessage implements IMessage
             else {
                 TileEntity te = this.getTileEntityByPos(ctx, message.x, message.y, message.z);
                 if (!(te instanceof IAnimated)) {
-                    CraftStudioApi.getLogger().error("Networking error : invalid tile entity.");
+                    CraftStudioApi.getLogger().debug("Networking error : invalid tile entity.");
                     return false;
                 }
                 message.animated = (IAnimated) te;

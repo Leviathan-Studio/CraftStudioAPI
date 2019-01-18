@@ -7,6 +7,7 @@ import com.leviathanstudio.craftstudio.client.animation.ClientAnimationHandler;
 import com.leviathanstudio.craftstudio.client.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
+import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 
 import net.minecraft.client.model.ModelBase;
@@ -15,7 +16,6 @@ import net.minecraft.client.model.PositionTextureVertex;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -37,7 +37,7 @@ public class ModelCraftStudio extends ModelBase
      *            The ID of your mod
      * @param modelNameIn
      *            The name of your craftstudio model your have registered with
-     *            {@link com.leviathanstudio.craftstudio.CSRegistryHelper#register
+     *            {@link com.leviathanstudio.craftstudio.client.registry.CSRegistryHelper#register
      *            CraftStudioRegistry#register}
      * @param textureSize
      *            The size of your texture if it's the same width/height
@@ -51,7 +51,7 @@ public class ModelCraftStudio extends ModelBase
      *            The ID of your mod
      * @param modelNameIn
      *            The name of your craftstudio model your have registered with
-     *            {@link com.leviathanstudio.craftstudio.CSRegistryHelper#register
+     *            {@link com.leviathanstudio.craftstudio.client.registry.CSRegistryHelper#register
      *            CraftStudioRegistry#register}
      * @param textureWidth
      *            The width texture of your model
@@ -67,7 +67,7 @@ public class ModelCraftStudio extends ModelBase
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
 
-        CSReadedModel rModel = GameRegistry.findRegistry(CSReadedModel.class).getValue(modelIn);
+        CSReadedModel rModel = RegistryHandler.modelRegistry.getObject(modelIn);
         if (rModel == null)
             throw new CSResourceNotRegisteredException(modelIn.toString());
         CSModelRenderer modelRend;
@@ -122,8 +122,8 @@ public class ModelCraftStudio extends ModelBase
     public void render(TileEntity tileEntityIn) {
         float modelScale = 0.0625F;
         ClientAnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) tileEntityIn);
-        for (CSModelRenderer block : this.parentBlocks)
-            block.render(modelScale);
+        for (int i = 0; i < this.parentBlocks.size(); i++)
+            this.parentBlocks.get(i).render(modelScale);
     }
 
     /**
@@ -134,8 +134,8 @@ public class ModelCraftStudio extends ModelBase
      */
     public void render() {
         float modelScale = 0.0625F;
-        for (CSModelRenderer block : this.parentBlocks)
-            block.render(modelScale);
+        for (int i = 0; i < this.parentBlocks.size(); i++)
+            this.parentBlocks.get(i).render(modelScale);
     }
 
     /** Render methods for an Entity */
@@ -143,8 +143,8 @@ public class ModelCraftStudio extends ModelBase
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         ClientAnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) entityIn);
-        for (CSModelRenderer block : this.parentBlocks)
-            block.render(scale);
+        for (int i = 0; i < this.parentBlocks.size(); i++)
+            this.parentBlocks.get(i).render(scale);
     }
 
     /** Return CSModelRenderer by his name and parts */
