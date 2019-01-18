@@ -58,17 +58,16 @@ public class ClientIAnimatedEventMessage extends IAnimatedEventMessage
     {
         @Override
         public ServerIAnimatedEventMessage onMessage(ClientIAnimatedEventMessage message, MessageContext ctx) {
-            if (!super.onMessage(message, ctx))
-                return null;
-
             Minecraft.getMinecraft().addScheduledTask(() -> {
-                boolean succes = message.animated.getAnimationHandler().onClientIAnimatedEvent(message);
-                if (succes && message.animated.getAnimationHandler() instanceof ClientAnimationHandler
-                        && (message.event == EnumIAnimatedEvent.START_ANIM.getId() || message.event == EnumIAnimatedEvent.STOP_START_ANIM.getId())) {
-                    ClientAnimationHandler hand = (ClientAnimationHandler) message.animated.getAnimationHandler();
-                    String animName = hand.getAnimNameFromId(message.animId);
-                    InfoChannel infoC = (InfoChannel) hand.getAnimChannels().get(animName);
-                    CraftStudioApi.NETWORK.sendToServer(new ServerIAnimatedEventMessage(EnumIAnimatedEvent.ANSWER_START_ANIM, message.animated, message.animId, infoC.totalFrames));
+                if (super.onMessage(message, ctx)) {
+                    boolean succes = message.animated.getAnimationHandler().onClientIAnimatedEvent(message);
+                    if (succes && message.animated.getAnimationHandler() instanceof ClientAnimationHandler
+                            && (message.event == EnumIAnimatedEvent.START_ANIM.getId() || message.event == EnumIAnimatedEvent.STOP_START_ANIM.getId())) {
+                        ClientAnimationHandler hand = (ClientAnimationHandler) message.animated.getAnimationHandler();
+                        String animName = hand.getAnimNameFromId(message.animId);
+                        InfoChannel infoC = (InfoChannel) hand.getAnimChannels().get(animName);
+                        CraftStudioApi.NETWORK.sendToServer(new ServerIAnimatedEventMessage(EnumIAnimatedEvent.ANSWER_START_ANIM, message.animated, message.animId, infoC.totalFrames));
+                    }
                 }
             });
             

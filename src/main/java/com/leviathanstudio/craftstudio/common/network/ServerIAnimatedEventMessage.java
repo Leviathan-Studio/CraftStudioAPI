@@ -58,15 +58,14 @@ public class ServerIAnimatedEventMessage extends IAnimatedEventMessage
     {
         @Override
         public ClientIAnimatedEventMessage onMessage(ServerIAnimatedEventMessage message, MessageContext ctx) {
-            if (!super.onMessage(message, ctx))
-                return null;
-
-            final EntityPlayerMP player = ctx.getServerHandler().player;
             FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
-                message.animated.getAnimationHandler();
-                boolean succes = AnimationHandler.onServerIAnimatedEvent(message);
-                if (succes && message.event != EnumIAnimatedEvent.ANSWER_START_ANIM.getId())
-                    CraftStudioApi.NETWORK.sendTo(new ClientIAnimatedEventMessage(message), player);
+                if (super.onMessage(message, ctx)) {
+                    EntityPlayerMP player = ctx.getServerHandler().player;
+                    message.animated.getAnimationHandler();
+                    boolean succes = AnimationHandler.onServerIAnimatedEvent(message);
+                    if (succes && message.event != EnumIAnimatedEvent.ANSWER_START_ANIM.getId())
+                        CraftStudioApi.NETWORK.sendTo(new ClientIAnimatedEventMessage(message), player);
+                }
             });
             
             return null;
