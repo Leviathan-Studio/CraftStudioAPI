@@ -7,7 +7,7 @@
   "mcversion": "${mcversion}",
   "url": "",
   "updateJSON": "https://leviathan-studio.com/craftstudioapi/update.json",
-  "authorList": ["ZeAmateis", "Timmypote", "Elisee", "IncubeSupreme"],
+  "authorList": ["ZeAmateis", "Timmypote", "Elisee", "IncubeSupreme", "Phenix246"],
   "credits": "See https://github.com/Leviathan-Studio/CraftStudioAPI/blob/master/CREDITS.md",
   "logoFile": "",
   "screenshots": [],
