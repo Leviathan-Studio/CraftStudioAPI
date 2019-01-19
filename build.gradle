@@ -93,7 +93,6 @@ processResources {
     inputs.property "mcversion", project.minecraft.version
     // resources
     from(sourceSets.main.resources.srcDirs) {
-        include 'com/**/**'
         include 'mcmod.info'
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
