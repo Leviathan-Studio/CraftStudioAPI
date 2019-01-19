@@ -39,9 +39,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = "1.12-14.21.1.2387"
+    version = "1.12.2-14.23.5.2807"
     runDir = "run"
-    mappings = "snapshot_20170624"
+    mappings = "snapshot_20180814"
     replace "@VERSION@",  project.version
 }
 
@@ -55,10 +55,6 @@ if(ext.suffix != "") {
 repositories {
     maven {
         url 'https://repo.leviathan-studio.com/libs-release/'
-        credentials {
-            username = "${artifactory_user}"
-            password = "${artifactory_password}"
-        }
     }
 }
 
