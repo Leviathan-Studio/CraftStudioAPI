@@ -108,7 +108,7 @@ public class CSRegistryHelper
         progressBarModels = ProgressManager.push("Registry Models", CSRegistryHelper.loadModelList.size());
 
         for (LoadElement el : CSRegistryHelper.loadModelList) {
-            progressBarModels.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
+            progressBarModels.step("[" + el.resourceLoc.getNamespace() + ":" + el.ressourceName + "]");
             registry(EnumResourceType.MODEL, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarModels);
@@ -126,7 +126,7 @@ public class CSRegistryHelper
         ProgressManager.ProgressBar progressBarAnim;
         progressBarAnim = ProgressManager.push("Registry Animations", CSRegistryHelper.loadAnimList.size());
         for (LoadElement el : CSRegistryHelper.loadAnimList) {
-            progressBarAnim.step("[" + el.resourceLoc.getResourceDomain() + ":" + el.ressourceName + "]");
+            progressBarAnim.step("[" + el.resourceLoc.getNamespace() + ":" + el.ressourceName + "]");
             registry(EnumResourceType.ANIM, el.resourceLoc, el.ressourceName);
         }
         ProgressManager.pop(progressBarAnim);
@@ -149,14 +149,14 @@ public class CSRegistryHelper
         CSJsonReader jsonReader;
         try {
             jsonReader = new CSJsonReader(resourceLocationIn);
-            if (resourceLocationIn.getResourceDomain() != CraftStudioApi.API_ID)
+            if (resourceLocationIn.getNamespace() != CraftStudioApi.API_ID)
                 switch (resourceTypeIn) {
                     case MODEL:
-                        RegistryHandler.register(new ResourceLocation(resourceLocationIn.getResourceDomain(), resourceNameIn),
+                        RegistryHandler.register(new ResourceLocation(resourceLocationIn.getNamespace(), resourceNameIn),
                                 jsonReader.readModel());
                         break;
                     case ANIM:
-                        RegistryHandler.register(new ResourceLocation(resourceLocationIn.getResourceDomain(), resourceNameIn), jsonReader.readAnim());
+                        RegistryHandler.register(new ResourceLocation(resourceLocationIn.getNamespace(), resourceNameIn), jsonReader.readAnim());
                         break;
                 }
             else
