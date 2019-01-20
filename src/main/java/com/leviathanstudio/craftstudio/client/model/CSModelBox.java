@@ -24,7 +24,7 @@ public class CSModelBox
     private final TexturedQuad[] quadList;
 
     /** The box name. **/
-    public String                boxName;
+    private String                boxName;
 
     private final static double  NORM_PREC = 0.0001;
 
@@ -332,6 +332,16 @@ public class CSModelBox
     public CSModelBox setBoxName(String name) {
         this.boxName = name;
         return this;
+    }
+    
+    /**
+     * Get the box name
+     * 
+     * @return The box name
+     */
+    public String getBoxName()
+    {
+        return boxName;
     }
 
     /**
