@@ -55,7 +55,7 @@ public class CommandCSList extends CommandBase implements IClientCommand
             if (args[0].equals("models"))
                 set = RegistryHandler.modelRegistry.getKeys();
             else if (args[0].equals("animations"))
-                set = RegistryHandler.animationRegistry.getKeys();
+                set = RegistryHandler.ANIMATION_REGISTRY.getKeys();
             else
                 throw new SyntaxErrorException();
             String str = "";

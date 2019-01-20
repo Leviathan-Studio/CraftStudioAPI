@@ -18,16 +18,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RegistryHandler
 {
-    public static RegistrySimple<ResourceLocation, CSReadedModel> modelRegistry;
-    public static RegistrySimple<ResourceLocation, CSReadedAnim>  animationRegistry;
+    public static final RegistrySimple<ResourceLocation, CSReadedModel> MODEL_REGISTRY = new RegistrySimple<>();
+    public static final RegistrySimple<ResourceLocation, CSReadedAnim>  ANIMATION_REGISTRY = new RegistrySimple<>();
 
-    /**
-     * Initialize the registries.
-     */
-    public static void init() {
-        modelRegistry = new RegistrySimple<>();
-        animationRegistry = new RegistrySimple<>();
-    }
 
     /**
      * Register a CSReadedModel.
@@ -38,7 +31,7 @@ public class RegistryHandler
      *            The model.
      */
     public static void register(ResourceLocation res, CSReadedModel model) {
-        modelRegistry.putObject(res, model);
+        MODEL_REGISTRY.putObject(res, model);
     }
 
     /**
@@ -50,6 +43,6 @@ public class RegistryHandler
      *            The animation.
      */
     public static void register(ResourceLocation res, CSReadedAnim anim) {
-        animationRegistry.putObject(res, anim);
+        ANIMATION_REGISTRY.putObject(res, anim);
     }
 }

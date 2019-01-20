@@ -68,10 +68,10 @@ public class CSAnimChannel extends ClientChannel
      */
     public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, float fps, boolean looped) throws CSResourceNotRegisteredException {
         super(animIn.toString(), false);
-        this.rAnim = RegistryHandler.animationRegistry.getObject(animIn);
+        this.rAnim = RegistryHandler.ANIMATION_REGISTRY.getObject(animIn);
         if (this.rAnim == null)
             throw new CSResourceNotRegisteredException(animIn.toString());
-        this.rModel = RegistryHandler.modelRegistry.getObject(modelIn);
+        this.rModel = RegistryHandler.MODEL_REGISTRY.getObject(modelIn);
         if (this.rModel == null)
             throw new CSResourceNotRegisteredException(modelIn.toString());
         if (!this.rModel.isAnimable()) {

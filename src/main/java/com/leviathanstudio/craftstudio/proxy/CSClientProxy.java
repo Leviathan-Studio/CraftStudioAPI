@@ -40,8 +40,6 @@ public class CSClientProxy extends CSCommonProxy
         String methodName, className;
         Method method;
 
-        RegistryHandler.init();
-
         ASMDataTable dataTable = e.getAsmData();
         Set<ASMData> datas = dataTable.getAll("com.leviathanstudio.craftstudio.client.registry.CraftStudioLoader");
         for (ASMData data : datas) {

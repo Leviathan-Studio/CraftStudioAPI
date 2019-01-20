@@ -67,7 +67,7 @@ public class ModelCraftStudio extends ModelBase
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
 
-        CSReadedModel rModel = RegistryHandler.modelRegistry.getObject(modelIn);
+        CSReadedModel rModel = RegistryHandler.MODEL_REGISTRY.getObject(modelIn);
         if (rModel == null)
             throw new CSResourceNotRegisteredException(modelIn.toString());
         CSModelRenderer modelRend;
