@@ -2,6 +2,10 @@
 | ------ | ----------- |
 |![](https://travis-ci.com/Leviathan-Studio/CraftStudioAPI.svg?branch=master)|![](https://travis-ci.com/Leviathan-Studio/CraftStudioAPI.svg?branch=dev)|
 
+| Quality | Maintainability | Reliability | Security |
+| ------- | --------------- | ----------- | -------- |
+| ![](https://sonar.leviathan-studio.com/api/project_badges/measure?project=com.leviathanstudio%3ACraftStudioAPI&metric=alert_status) | ![](https://sonar.leviathan-studio.com/api/project_badges/measure?project=com.leviathanstudio%3ACraftStudioAPI&metric=sqale_rating) | ![](https://sonar.leviathan-studio.com/api/project_badges/measure?project=com.leviathanstudio%3ACraftStudioAPI&metric=reliability_rating) | ![](https://sonar.leviathan-studio.com/api/project_badges/measure?project=com.leviathanstudio%3ACraftStudioAPI&metric=security_rating) |
+
 ![](/images/cs-api.png)
 
 Official repository of the CraftStudio API
