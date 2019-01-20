@@ -47,8 +47,6 @@ public class CSModelRenderer extends ModelRenderer
     public List<CSModelBox> cubeCSList            = new ArrayList<>();
 
     private final Matrix4f  rotationMatrix        = new Matrix4f();
-    /** Previous value of the matrix */
-    private Matrix4f        prevRotationMatrix    = new Matrix4f();
 
     private Vector3f        stretch               = new Vector3f(1, 1, 1);
 
@@ -158,8 +156,6 @@ public class CSModelRenderer extends ModelRenderer
                         this.childModels.get(i).render(scale);
 
                 GlStateManager.popMatrix();
-
-                this.prevRotationMatrix = this.rotationMatrix;
             }
     }
 

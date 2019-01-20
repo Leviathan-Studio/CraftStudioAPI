@@ -106,7 +106,6 @@ public class CSJsonReader
                 try {
                     readModelBlock(jsonBlock, parent);
                 } catch (NullPointerException | ClassCastException | IllegalStateException e) {
-                    // e.printStackTrace();
                     throw new CSMalformedJsonException(parent.getName() != null ? parent.getName() : "a parent block without name", this.ress);
                 }
             }

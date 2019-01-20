@@ -26,8 +26,6 @@ public class CSModelBox
     /** The box name. **/
     private String                boxName;
 
-    private final static double  NORM_PREC = 0.0001;
-
     /**
      * Create a textured rectangular box without textures mirror precision.
      *
