@@ -51,13 +51,14 @@ public class CSClientProxy extends CSCommonProxy
                 method = Class.forName(className).getMethod(methodName);
                 method.invoke(null);
             } catch (NoSuchMethodException | SecurityException | ClassNotFoundException e1) {
+                CraftStudioApi.LOGGER.error("Can't call method", e1);
                 e1.printStackTrace();
-                CraftStudioApi.getLogger().error("Error loading @CraftStudioLoader in class " + className + " for method " + methodName + "().");
-                CraftStudioApi.getLogger().error("Does that method has arguments ? Because it should have none.");
+                CraftStudioApi.LOGGER.error("Error loading @CraftStudioLoader in class " + className + " for method " + methodName + "().");
+                CraftStudioApi.LOGGER.error("Does that method has arguments ? Because it should have none.");
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NullPointerException e1) {
-                e1.printStackTrace();
-                CraftStudioApi.getLogger().error("Error loading craftstudio assets in class " + className + " for method " + methodName + "().");
-                CraftStudioApi.getLogger().error("Is that method 'static' ? Because it should.");
+                CraftStudioApi.LOGGER.error("Error during the method call", e1);
+                CraftStudioApi.LOGGER.error("Error loading craftstudio assets in class " + className + " for method " + methodName + "().");
+                CraftStudioApi.LOGGER.error("Is that method 'static' ? Because it should.");
             }
         }
 

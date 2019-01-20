@@ -139,7 +139,7 @@ public class CSModelRenderer extends ModelRenderer
         if (!this.isHidden)
             if (this.showModel) {
                 if (!this.compiled)
-                    this.compileDisplayList(scale);
+                    this.compileDisplayListModel(scale);
 
                 GlStateManager.pushMatrix();
 
@@ -315,7 +315,7 @@ public class CSModelRenderer extends ModelRenderer
     /**
      * Compiles a GL display list for this model.
      */
-    public void compileDisplayList(float scale) {
+    public void compileDisplayListModel(float scale) {
         this.displayList = GLAllocation.generateDisplayLists(1);
         GlStateManager.glNewList(this.displayList, GL11.GL_COMPILE);
         BufferBuilder vertexbuffer = Tessellator.getInstance().getBuffer();

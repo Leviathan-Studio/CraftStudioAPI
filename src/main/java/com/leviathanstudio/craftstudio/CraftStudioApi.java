@@ -22,12 +22,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
  * @author ZeAmateis
  * @author Timmypote
  */
-@Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, updateJSON = "https://leviathan-studio.com/craftstudioapi/update.json",
-    version = "@VERSION@",
-    acceptedMinecraftVersions = "[1.12,)")
+@Mod(modid = CraftStudioApi.API_ID, name = CraftStudioApi.NAME, updateJSON = "https://leviathan-studio.com/craftstudioapi/update.json", version = "@VERSION@", acceptedMinecraftVersions = "[1.12,)")
 public class CraftStudioApi
 {
-    private static final Logger              LOGGER  = LogManager.getLogger("CraftStudio");
+    public static final Logger               LOGGER  = LogManager.getLogger("CraftStudio");
     public static final String               API_ID  = "craftstudioapi";
     static final String                      NAME    = "CraftStudio API";
 
@@ -37,11 +35,13 @@ public class CraftStudioApi
     private static CSCommonProxy             proxy;
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
+    public void preInit(FMLPreInitializationEvent event)
+    {
         CraftStudioApi.proxy.preInit(event);
     }
 
-    public static Logger getLogger() {
+    public static Logger getLogger()
+    {
         return CraftStudioApi.LOGGER;
     }
 
@@ -49,12 +49,13 @@ public class CraftStudioApi
      * Helper to create an AnimationHandler to registry animation to your
      * entity/block
      *
-     * @param <T>
+     * @param          <T>
      *
      * @param animated
-     *            Class which implements IAnimated (Entity or TileEntity)
+     *                     Class which implements IAnimated (Entity or TileEntity)
      */
-    public static <T extends IAnimated> AnimationHandler<T> getNewAnimationHandler(Class<T> animatedClass) {
+    public static <T extends IAnimated> AnimationHandler<T> getNewAnimationHandler(Class<T> animatedClass)
+    {
         return CraftStudioApi.proxy.getNewAnimationHandler(animatedClass);
 
     }

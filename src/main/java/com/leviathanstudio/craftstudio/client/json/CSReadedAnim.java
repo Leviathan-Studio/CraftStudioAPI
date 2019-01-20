@@ -36,7 +36,7 @@ public class CSReadedAnim
         if (this.keyFrames != null)
             return this.keyFrames;
 
-        Set set = new HashSet<Integer>();
+        Set<Integer> set = new HashSet<>();
         for (CSReadedAnimBlock block : this.blocks)
             for (Entry<Integer, ReadedKeyFrame> entry : block.getKeyFrames().entrySet())
                 set.add(entry.getKey());

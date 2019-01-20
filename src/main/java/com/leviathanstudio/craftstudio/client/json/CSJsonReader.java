@@ -3,11 +3,10 @@ package com.leviathanstudio.craftstudio.client.json;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Map.Entry;
 
 import javax.vecmath.Vector3f;
-
-import org.apache.commons.io.Charsets;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -56,14 +55,11 @@ public class CSJsonReader
      */
     public CSJsonReader(ResourceLocation resourceIn) throws CSResourceNotFoundException {
         JsonParser jsonParser = new JsonParser();
-        BufferedReader reader = null;
-        IResource iResource = null;
         StringBuilder strBuilder = new StringBuilder();
         this.ress = resourceIn.toString();
 
-        try {
-            iResource = Minecraft.getMinecraft().getResourceManager().getResource(resourceIn);
-            reader = new BufferedReader(new InputStreamReader(iResource.getInputStream(), Charsets.UTF_8));
+        try(IResource iResource = Minecraft.getMinecraft().getResourceManager().getResource(resourceIn);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(iResource.getInputStream(), StandardCharsets.UTF_8))) {
             String s;
             while ((s = reader.readLine()) != null)
                 strBuilder.append(s);
@@ -72,16 +68,7 @@ public class CSJsonReader
         } catch (FileNotFoundException fnfe) {
             throw new CSResourceNotFoundException(this.ress);
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (reader != null)
-                    reader.close();
-                if (iResource != null)
-                    iResource.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            CraftStudioApi.LOGGER.error("Can't read JSON", e);
         }
     }
 
