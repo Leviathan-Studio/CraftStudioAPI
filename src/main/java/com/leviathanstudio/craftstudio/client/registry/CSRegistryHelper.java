@@ -28,8 +28,8 @@ public class CSRegistryHelper
 {
     private String                   modid;
 
-    private static List<LoadElement> loadModelList = new ArrayList();
-    private static List<LoadElement> loadAnimList  = new ArrayList();
+    private static List<LoadElement> loadModelList = new ArrayList<>();
+    private static List<LoadElement> loadAnimList  = new ArrayList<>();
 
     /**
      * Constructor for the registry
@@ -85,14 +85,14 @@ public class CSRegistryHelper
                 if (CSRegistryHelper.loadModelList != null)
                     CSRegistryHelper.loadModelList.add(new LoadElement(resourceLocationIn, resourceNameIn));
                 else
-                    CraftStudioApi.getLogger()
+                    CraftStudioApi.LOGGER
                             .error("Unable to load model outside of the RegistryEvent.Register<CSReadedModel> event, use forceRegister instead");
                 break;
             case ANIM:
                 if (CSRegistryHelper.loadAnimList != null)
                     CSRegistryHelper.loadAnimList.add(new LoadElement(resourceLocationIn, resourceNameIn));
                 else
-                    CraftStudioApi.getLogger()
+                    CraftStudioApi.LOGGER
                             .error("Unable to load animations outside of the RegistryEvent.Register<CSReadedAnim> event, use forceRegister instead");
                 break;
         }
@@ -113,7 +113,7 @@ public class CSRegistryHelper
         }
         ProgressManager.pop(progressBarModels);
 
-        CraftStudioApi.getLogger().info(String.format("CraftStudioAPI loaded %s models", CSRegistryHelper.loadModelList.size()));
+        CraftStudioApi.LOGGER.info(String.format("CraftStudioAPI loaded %s models", CSRegistryHelper.loadModelList.size()));
         CSRegistryHelper.loadModelList = null;
     }
 
@@ -131,7 +131,7 @@ public class CSRegistryHelper
         }
         ProgressManager.pop(progressBarAnim);
 
-        CraftStudioApi.getLogger().info(String.format("CraftStudioAPI loaded %s animations", CSRegistryHelper.loadAnimList.size()));
+        CraftStudioApi.LOGGER.info(String.format("CraftStudioAPI loaded %s animations", CSRegistryHelper.loadAnimList.size()));
         CSRegistryHelper.loadAnimList = null;
     }
 
@@ -160,9 +160,9 @@ public class CSRegistryHelper
                         break;
                 }
             else
-                CraftStudioApi.getLogger().fatal("You're not allowed to use the \"craftstudioapi\" to register CraftStudio resources.");
+                CraftStudioApi.LOGGER.fatal("You're not allowed to use the \"craftstudioapi\" to register CraftStudio resources.");
         } catch (CSResourceNotFoundException | CSMalformedJsonException e) {
-            e.printStackTrace();
+            CraftStudioApi.LOGGER.error("Can not register the asset", e);
         }
     }
 
@@ -174,8 +174,8 @@ public class CSRegistryHelper
      */
     private static void capitalCheck(String str) {
         if (!str.toLowerCase().equals(str)) {
-            CraftStudioApi.getLogger().warn("The resource name \"" + str + "\" contains capitals letters, which is not supported.");
-            CraftStudioApi.getLogger().warn("A CSResourceNotFoundException could be raised !");
+            CraftStudioApi.LOGGER.warn("The resource name \"" + str + "\" contains capitals letters, which is not supported.");
+            CraftStudioApi.LOGGER.warn("A CSResourceNotFoundException could be raised !");
         }
     }
 

@@ -52,7 +52,6 @@ public class CSClientProxy extends CSCommonProxy
                 method.invoke(null);
             } catch (NoSuchMethodException | SecurityException | ClassNotFoundException e1) {
                 CraftStudioApi.LOGGER.error("Can't call method", e1);
-                e1.printStackTrace();
                 CraftStudioApi.LOGGER.error("Error loading @CraftStudioLoader in class " + className + " for method " + methodName + "().");
                 CraftStudioApi.LOGGER.error("Does that method has arguments ? Because it should have none.");
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NullPointerException e1) {
