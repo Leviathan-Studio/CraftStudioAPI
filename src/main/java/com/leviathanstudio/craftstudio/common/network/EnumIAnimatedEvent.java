@@ -70,7 +70,8 @@ public enum EnumIAnimatedEvent {
                 return STOP_ANIM;
             case 3:
                 return STOP_START_ANIM;
+            default:
+                return null;
         }
-        return null;
     }
 }

@@ -63,7 +63,9 @@ public class ClientChannel extends InfoChannel
     }
 
     /** Create all the frames and add them in the list in the correct order. */
-    protected void initializeAllFrames() {}
+    protected void initializeAllFrames() {
+        // Do nothing, default behavior
+    }
 
     /**
      * Return the previous rotation KeyFrame before this frame that uses this

@@ -36,6 +36,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class CSJsonReader
 {
+    private static final String TITLE_KEY = "title";
     /** The JsonObject that is the root of the file */
     private JsonObject root;
     /** The resource location */
@@ -87,9 +88,9 @@ public class CSJsonReader
         JsonObject jsonBlock;
         JsonElement jsEl;
 
-        jsEl = this.root.get("title");
+        jsEl = this.root.get(TITLE_KEY);
         if (jsEl == null)
-            throw new CSMalformedJsonException("title", "String", this.ress);
+            throw new CSMalformedJsonException(TITLE_KEY, "String", this.ress);
         model.setName(strNormalize(jsEl.getAsString()));
 
         JsonArray tree = this.root.getAsJsonArray("tree");
@@ -226,9 +227,9 @@ public class CSJsonReader
         CSReadedAnimBlock block;
         JsonElement jsEl;
 
-        jsEl = this.root.get("title");
+        jsEl = this.root.get(TITLE_KEY);
         if (jsEl == null)
-            throw new CSMalformedJsonException("title", "String", this.ress);
+            throw new CSMalformedJsonException(TITLE_KEY, "String", this.ress);
         anim.setName(strNormalize(jsEl.getAsString()));
         jsEl = this.root.get("duration");
         if (jsEl == null)

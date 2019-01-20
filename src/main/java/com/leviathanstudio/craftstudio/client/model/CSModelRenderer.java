@@ -167,10 +167,14 @@ public class CSModelRenderer extends ModelRenderer
      * Allows the changing of Angles after a box has been rendered
      */
     @Override
-    public void postRender(float scale) {}
+    public void postRender(float scale) {
+        // Do nothing, default behavior
+    }
 
     @Override
-    public void renderWithRotation(float scale) {}
+    public void renderWithRotation(float scale) {
+        // Do nothing, default behavior
+    }
 
     /**
      * Set default rotation point (model with no animations) and set the current
