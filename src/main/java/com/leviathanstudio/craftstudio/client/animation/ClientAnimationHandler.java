@@ -371,8 +371,8 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
                     KeyFrame nextStretchKeyFrame = clientChannel.getNextStretchKeyFrameForBox(boxName, currentFrame);
                     int nextStretchKeyFramePosition = nextStretchKeyFrame != null ? clientChannel.getKeyFramePosition(nextStretchKeyFrame) : 0;
 
-                    float frameDiff = currentFrame - prevStretchKeyFramePosition;
-                    float strProgress = frameDiff != 0 ? (frameDiff / (nextStretchKeyFramePosition - prevStretchKeyFramePosition)) : 0;
+                    float frameCount = nextStretchKeyFramePosition - prevStretchKeyFramePosition;
+                    float strProgress = frameCount != 0 ? ((currentFrame - prevStretchKeyFramePosition) / frameCount) : 1;
                     if (strProgress > 1F || strProgress < 0F)
                         strProgress = 1F;
 
