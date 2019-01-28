@@ -35,7 +35,7 @@ public class UVMapCreator
     private int           maxu = 0, maxv = 0;
 
     public UVMapCreator(ResourceLocation modelIn) {
-        this.rModel = RegistryHandler.modelRegistry.getObject(modelIn);
+        this.rModel = RegistryHandler.MODEL_REGISTRY.getObject(modelIn);
         if (this.rModel == null)
             throw new CSResourceNotRegisteredException(modelIn.toString());
     }

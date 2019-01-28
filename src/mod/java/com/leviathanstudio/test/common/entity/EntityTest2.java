@@ -21,8 +21,8 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
     protected boolean                 fanOpen     = true;
 
     static {
-        EntityTest2.animHandler.addAnim(Mod_Test.MODID, "close_fan", "peacock", false);
-        EntityTest2.animHandler.addAnim(Mod_Test.MODID, "open_fan", "close_fan");
+        //EntityTest2.animHandler.addAnim(Mod_Test.MODID, "close_fan", "peacock", false);
+        //EntityTest2.animHandler.addAnim(Mod_Test.MODID, "open_fan", "close_fan");
         EntityTest2.animHandler.addAnim(Mod_Test.MODID, "lookat", new AnimationLootAt("Head"));
     }
 
@@ -48,7 +48,7 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
 
     @Override
     public boolean processInteract(EntityPlayer player, EnumHand hand) {
-        if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "close_fan", this)
+        /*if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "close_fan", this)
                 && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "open_fan", this))
             if (this.fanOpen) {
                 this.getAnimationHandler().networkStopStartAnimation(Mod_Test.MODID, "open_fan", "close_fan", this);
@@ -57,7 +57,7 @@ public class EntityTest2 extends EntityAnimal implements IAnimated
             else {
                 this.getAnimationHandler().networkStopStartAnimation(Mod_Test.MODID, "close_fan", "open_fan", this);
                 this.fanOpen = true;
-            }
+            }*/
         return true;
     }
 

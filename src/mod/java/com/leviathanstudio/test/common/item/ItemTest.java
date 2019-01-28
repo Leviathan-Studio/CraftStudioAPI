@@ -7,7 +7,7 @@ public class ItemTest extends Item
 {
 
     public ItemTest() {
-        this.setUnlocalizedName("itemTest");
+        this.setTranslationKey("itemTest");
         this.setCreativeTab(CreativeTabs.MISC);
     }
 

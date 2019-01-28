@@ -29,7 +29,7 @@ public class ClientProxy extends CommonProxy
         registry.register(EnumResourceType.MODEL, EnumRenderType.BLOCK, "craftstudio_api_test2");
         registry.register(EnumResourceType.MODEL, EnumRenderType.BLOCK, "craftstudio_api_test");
         registry.register(EnumResourceType.MODEL, EnumRenderType.ENTITY, "dragon_brun");
-        registry.register(EnumResourceType.MODEL, EnumRenderType.ENTITY, "peacock");
+        //registry.register(EnumResourceType.MODEL, EnumRenderType.ENTITY, "peacock");
 
         registry.register(EnumResourceType.ANIM, EnumRenderType.BLOCK, "position");
         registry.register(EnumResourceType.ANIM, EnumRenderType.BLOCK, "rotation");
@@ -37,13 +37,13 @@ public class ClientProxy extends CommonProxy
         registry.register(EnumResourceType.ANIM, EnumRenderType.BLOCK, "streching");
         registry.register(EnumResourceType.ANIM, EnumRenderType.ENTITY, "fly");
         registry.register(EnumResourceType.ANIM, EnumRenderType.ENTITY, "idle");
-        registry.register(EnumResourceType.ANIM, EnumRenderType.ENTITY, "close_fan");
+        //registry.register(EnumResourceType.ANIM, EnumRenderType.ENTITY, "close_fan");
     }
 
     @Override
     public void registerEntityRender() {
         RenderingRegistry.registerEntityRenderingHandler(EntityTest.class, RenderTest.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(EntityTest2.class, RenderTest2.FACTORY);
+        //RenderingRegistry.registerEntityRenderingHandler(EntityTest2.class, RenderTest2.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityTest3.class, RenderTest3.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityTest4.class, RenderTest4.FACTORY);
     }

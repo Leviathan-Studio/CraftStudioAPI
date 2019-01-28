@@ -53,7 +53,7 @@ public class CommandCSList extends CommandBase implements IClientCommand
         if (args.length >= 1) {
             Set<ResourceLocation> set;
             if (args[0].equals("models"))
-                set = RegistryHandler.modelRegistry.getKeys();
+                set = RegistryHandler.MODEL_REGISTRY.getKeys();
             else if (args[0].equals("animations"))
                 set = RegistryHandler.ANIMATION_REGISTRY.getKeys();
             else

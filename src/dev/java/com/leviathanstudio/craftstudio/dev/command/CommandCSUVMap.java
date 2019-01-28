@@ -75,7 +75,7 @@ public class CommandCSUVMap extends CommandBase implements IClientCommand
 
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, RegistryHandler.modelRegistry.getKeys()) : Collections.<String> emptyList();
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, RegistryHandler.MODEL_REGISTRY.getKeys()) : Collections.<String> emptyList();
     }
 
     @Override

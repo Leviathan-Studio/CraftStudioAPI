@@ -15,7 +15,7 @@ public class BlockTest extends Block implements ITileEntityProvider
 
     public BlockTest() {
         super(Material.ROCK);
-        this.setRegistryName("block_test").setUnlocalizedName("block_test");
+        this.setRegistryName("block_test").setTranslationKey("block_test");
         this.setCreativeTab(CreativeTabs.MISC);
     }
 
