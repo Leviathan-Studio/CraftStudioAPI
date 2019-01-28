@@ -47,7 +47,7 @@ public class CSRegistryHelper
      * @param resourceTypeIn
      *            Set your resource type, <br>
      *            {@link EnumResourceType#ANIM} for animation,<br>
-     *            {@link EnumResourceType#MODELS} for models <br>
+     *            {@link EnumResourceType#MODEL} for models <br>
      *            <br>
      * @param renderTypeIn
      *            Set your render type, <br>
@@ -71,7 +71,7 @@ public class CSRegistryHelper
      * @param resourceTypeIn
      *            Set your resource type, <br>
      *            {@link EnumResourceType#ANIM} for animation,<br>
-     *            {@link EnumResourceType#MODELS} for models <br>
+     *            {@link EnumResourceType#MODEL} for models <br>
      *            <br>
      * @param resourceLocationIn
      *            Custom location of your resource
