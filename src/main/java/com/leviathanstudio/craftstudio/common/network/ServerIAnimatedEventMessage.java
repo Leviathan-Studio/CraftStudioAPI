@@ -1,61 +1,63 @@
 package com.leviathanstudio.craftstudio.common.network;
 
-import java.util.UUID;
-
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
-
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import java.util.UUID;
 
 /**
  * Message to send an IAnimated event to the server.
- * 
- * @since 0.3.0
- * 
+ *
  * @author Timmypote
+ * @since 0.3.0
  */
-public class ServerIAnimatedEventMessage extends IAnimatedEventMessage
-{
-    /** Constructor */
-    public ServerIAnimatedEventMessage() {}
+public class ServerIAnimatedEventMessage extends IAnimatedEventMessage {
+    /**
+     * Constructor
+     */
+    public ServerIAnimatedEventMessage() {
+    }
 
-    /** Constructor */
+    /**
+     * Constructor
+     */
     public ServerIAnimatedEventMessage(EnumIAnimatedEvent event, IAnimated animated, short animId) {
         super(event, animated, animId);
     }
 
-    /** Constructor */
+    /**
+     * Constructor
+     */
     public ServerIAnimatedEventMessage(EnumIAnimatedEvent event, IAnimated animated, short animId, float keyframeInfo) {
         super(event, animated, animId, keyframeInfo);
     }
 
-    /** Constructor */
+    /**
+     * Constructor
+     */
     public ServerIAnimatedEventMessage(EnumIAnimatedEvent event, IAnimated animated, short animId, float keyframeInfo, short optAnimId) {
         super(event, animated, animId, keyframeInfo, optAnimId);
     }
 
-    /** Constructor */
+    /**
+     * Constructor
+     */
     public ServerIAnimatedEventMessage(IAnimatedEventMessage eventObj) {
         super(eventObj);
     }
 
     /**
      * Handler for IAnimated event messages send to the server.
-     * 
-     * @since 0.3.0
-     * 
+     *
      * @author Timmypote
+     * @since 0.3.0
      */
     public static class ServerIAnimatedEventHandler extends IAnimatedEventHandler
-            implements IMessageHandler<ServerIAnimatedEventMessage, ClientIAnimatedEventMessage>
-    {
+            implements IMessageHandler<ServerIAnimatedEventMessage, ClientIAnimatedEventMessage> {
         @Override
         public ClientIAnimatedEventMessage onMessage(ServerIAnimatedEventMessage message, MessageContext ctx) {
             FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
@@ -67,7 +69,7 @@ public class ServerIAnimatedEventMessage extends IAnimatedEventMessage
                         CraftStudioApi.NETWORK.sendTo(new ClientIAnimatedEventMessage(message), player);
                 }
             });
-            
+
             return null;
         }
 

@@ -1,22 +1,27 @@
 package com.leviathanstudio.craftstudio.client.animation;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Enumeration of the possible animation mode.
  *
- * @since 0.3.0
- *
  * @author Timmypote
  * @author Phenix246
+ * @since 0.3.0
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public enum EnumAnimationMode {
-    /** An animation that play just once */
+    /**
+     * An animation that play just once
+     */
     LINEAR,
-    /** An animation that play once and hold the last keyframe */
+    /**
+     * An animation that play once and hold the last keyframe
+     */
     HOLD,
-    /** An animation that restart everytime it end */
+    /**
+     * An animation that restart everytime it end
+     */
     LOOP;
 }

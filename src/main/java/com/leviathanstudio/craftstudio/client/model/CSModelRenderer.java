@@ -1,134 +1,136 @@
 package com.leviathanstudio.craftstudio.client.model;
 
-import java.nio.FloatBuffer;
-import java.util.ArrayList;
-import java.util.List;
+import com.leviathanstudio.craftstudio.client.util.MathHelper;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GLAllocation;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.PositionTextureVertex;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.lwjgl.opengl.GL11;
 
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
-
-import org.lwjgl.opengl.GL11;
-
-import com.leviathanstudio.craftstudio.client.util.MathHelper;
-
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.model.PositionTextureVertex;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class used to render CSModelBoxs.
- * 
- * @since 0.3.0
- * 
+ *
  * @author Timmypote
+ * @since 0.3.0
  */
-@SideOnly(Side.CLIENT)
-public class CSModelRenderer extends ModelRenderer
-{
-    /** Custom version, as parent variable is PRIVATE */
-    private int             textureOffsetX;
+@OnlyIn(Dist.CLIENT)
+public class CSModelRenderer extends RendererModel {
+    private final Matrix4f rotationMatrix = new Matrix4f();
+    public List<CSModelBox> cubeCSList = new ArrayList<>();
+    /**
+     * Custom version, as parent variable is PRIVATE
+     */
+    private int textureOffsetX;
+    /**
+     * Custom version, as parent variable is PRIVATE
+     */
+    private int textureOffsetY;
+    /**
+     * Custom version, as parent variable is PRIVATE
+     */
+    private boolean compiled;
+    /**
+     * Custom version, as parent variable is PRIVATE
+     */
+    private int displayList;
+    /**
+     * Previous value of the matrix
+     */
+    private Matrix4f prevRotationMatrix = new Matrix4f();
 
-    /** Custom version, as parent variable is PRIVATE */
-    private int             textureOffsetY;
+    private Vector3f stretch = new Vector3f(1, 1, 1);
 
-    /** Custom version, as parent variable is PRIVATE */
-    private boolean         compiled;
+    /**
+     * Default informations for un-animated models
+     */
+    private float defaultRotationPointX;
+    private float defaultRotationPointY;
+    private float defaultRotationPointZ;
+    private Matrix4f defaultRotationMatrix = new Matrix4f();
+    private Quat4f defaultRotationAsQuaternion;
+    private float defaultOffsetX = 0;
+    private float defaultOffsetY = 0;
+    private float defaultOffsetZ = 0;
+    private Vector3f defaultStretch = new Vector3f(1, 1, 1);
 
-    /** Custom version, as parent variable is PRIVATE */
-    private int             displayList;
-
-    public List<CSModelBox> cubeCSList            = new ArrayList<>();
-
-    private final Matrix4f  rotationMatrix        = new Matrix4f();
-    /** Previous value of the matrix */
-    private Matrix4f        prevRotationMatrix    = new Matrix4f();
-
-    private Vector3f        stretch               = new Vector3f(1, 1, 1);
-
-    /** Default informations for un-animated models */
-    private float           defaultRotationPointX;
-    private float           defaultRotationPointY;
-    private float           defaultRotationPointZ;
-    private Matrix4f        defaultRotationMatrix = new Matrix4f();
-    private Quat4f          defaultRotationAsQuaternion;
-    private float           defaultOffsetX        = 0;
-    private float           defaultOffsetY        = 0;
-    private float           defaultOffsetZ        = 0;
-    private Vector3f        defaultStretch        = new Vector3f(1, 1, 1);
-
-    public CSModelRenderer(ModelBase modelbase, String partName, int xTextureOffset, int yTextureOffset) {
+    public CSModelRenderer(Model modelbase, String partName, int xTextureOffset, int yTextureOffset) {
         super(modelbase, partName);
         this.setTextureSize(modelbase.textureWidth, modelbase.textureHeight);
         this.setTextureOffset(xTextureOffset, yTextureOffset);
     }
 
+    private static CSModelRenderer getRendererModelFromNameAndBlock(String name, CSModelRenderer block) {
+        CSModelRenderer childModel, result;
+
+        if (block.boxName.equals(name))
+            return block;
+
+        for (RendererModel child : block.childModels)
+            if (child instanceof CSModelRenderer) {
+                childModel = (CSModelRenderer) child;
+                result = getRendererModelFromNameAndBlock(name, childModel);
+                if (result != null)
+                    return result;
+            }
+
+        return null;
+    }
+
     @Override
-    public ModelRenderer setTextureOffset(int x, int y) {
+    public RendererModel setTextureOffset(int x, int y) {
         this.textureOffsetX = x;
         this.textureOffsetY = y;
         this.cubeList.size();
         return this;
     }
 
-    public ModelRenderer addBox(String name, CSModelBox modelBox) {
+    public RendererModel addBox(String name, CSModelBox modelBox) {
         name = this.boxName + "." + name;
         this.cubeCSList.add(modelBox.setBoxName(name));
         return this;
     }
 
-    public ModelRenderer addBox(String name, float par2, float par3, float par4, float par5, float par6, float par7) {
+    public RendererModel addBox(String name, float par2, float par3, float par4, float par5, float par6, float par7) {
         name = this.boxName + "." + name;
         this.cubeCSList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, par2, par3, par4, par5, par6, par7).setBoxName(name));
         return this;
     }
 
-    public ModelRenderer addBox(float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ) {
+    public RendererModel addBox(float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ) {
         this.cubeCSList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ));
         return this;
     }
 
-    public ModelRenderer addBox(float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ, boolean mirror) {
+    public RendererModel addBox(float posX, float posY, float posZ, float sizeX, float sizeY, float sizeZ, boolean mirror) {
         this.cubeCSList.add(new CSModelBox(this, this.textureOffsetX, this.textureOffsetY, posX, posY, posZ, sizeX, sizeY, sizeZ, mirror));
         return this;
     }
 
-    public ModelRenderer addBox(PositionTextureVertex positionTextureVertex[], int[][] textUVs) {
+    public RendererModel addBox(PositionTextureVertex positionTextureVertex[], int[][] textUVs) {
         this.cubeCSList.add(new CSModelBox(this, positionTextureVertex, textUVs));
         return this;
     }
 
-    public ModelRenderer addBox(PositionTextureVertex positionTextureVertex[], int[][] textUVs, boolean mirror) {
+    public RendererModel addBox(PositionTextureVertex positionTextureVertex[], int[][] textUVs, boolean mirror) {
         this.cubeCSList.add(new CSModelBox(this, positionTextureVertex, textUVs, mirror));
         return this;
     }
 
-    public ModelRenderer addBox(CSModelBox model) {
+    public RendererModel addBox(CSModelBox model) {
         this.cubeCSList.add(model);
         return this;
-    }
-
-    private static CSModelRenderer getModelRendererFromNameAndBlock(String name, CSModelRenderer block) {
-        CSModelRenderer childModel, result;
-
-        if (block.boxName.equals(name))
-            return block;
-
-        for (ModelRenderer child : block.childModels)
-            if (child instanceof CSModelRenderer) {
-                childModel = (CSModelRenderer) child;
-                result = getModelRendererFromNameAndBlock(name, childModel);
-                if (result != null)
-                    return result;
-            }
-
-        return null;
     }
 
     /**
@@ -143,13 +145,13 @@ public class CSModelRenderer extends ModelRenderer
 
                 GlStateManager.pushMatrix();
 
-                GlStateManager.translate(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
+                GlStateManager.translated(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
                 FloatBuffer buf = MathHelper.makeFloatBuffer(this.rotationMatrix);
                 GlStateManager.multMatrix(buf);
-                GlStateManager.translate(this.offsetX * scale, this.offsetY * scale, this.offsetZ * scale);
+                GlStateManager.translated(this.offsetX * scale, this.offsetY * scale, this.offsetZ * scale);
 
                 GlStateManager.pushMatrix();
-                GlStateManager.scale(this.stretch.x, this.stretch.y, this.stretch.z);
+                GlStateManager.scaled(this.stretch.x, this.stretch.y, this.stretch.z);
                 GlStateManager.callList(this.displayList);
                 GlStateManager.popMatrix();
 
@@ -167,10 +169,12 @@ public class CSModelRenderer extends ModelRenderer
      * Allows the changing of Angles after a box has been rendered
      */
     @Override
-    public void postRender(float scale) {}
+    public void postRender(float scale) {
+    }
 
     @Override
-    public void renderWithRotation(float scale) {}
+    public void renderWithRotation(float scale) {
+    }
 
     /**
      * Set default rotation point (model with no animations) and set the current
@@ -195,7 +199,9 @@ public class CSModelRenderer extends ModelRenderer
         return this.defaultRotationPointZ;
     }
 
-    /** Set the rotation point */
+    /**
+     * Set the rotation point
+     */
     @Override
     public void setRotationPoint(float x, float y, float z) {
         this.rotationPointX = x;
@@ -203,7 +209,9 @@ public class CSModelRenderer extends ModelRenderer
         this.rotationPointZ = z;
     }
 
-    /** Reset the rotation point to the default values. */
+    /**
+     * Reset the rotation point to the default values.
+     */
     public void resetRotationPoint() {
         this.rotationPointX = this.defaultRotationPointX;
         this.rotationPointY = this.defaultRotationPointY;
@@ -279,7 +287,20 @@ public class CSModelRenderer extends ModelRenderer
         this.setInitialRotationMatrix(mat);
     }
 
-    /** Set the rotation matrix values based on the given matrix. */
+    /**
+     * Reset the rotation matrix to the default one.
+     */
+    public void resetRotationMatrix() {
+        this.setRotationMatrix(this.defaultRotationMatrix);
+    }
+
+    public Matrix4f getRotationMatrix() {
+        return this.rotationMatrix;
+    }
+
+    /**
+     * Set the rotation matrix values based on the given matrix.
+     */
     public void setRotationMatrix(Matrix4f matrix) {
         this.rotationMatrix.m00 = matrix.m00;
         this.rotationMatrix.m01 = matrix.m01;
@@ -299,15 +320,6 @@ public class CSModelRenderer extends ModelRenderer
         this.rotationMatrix.m33 = matrix.m33;
     }
 
-    /** Reset the rotation matrix to the default one. */
-    public void resetRotationMatrix() {
-        this.setRotationMatrix(this.defaultRotationMatrix);
-    }
-
-    public Matrix4f getRotationMatrix() {
-        return this.rotationMatrix;
-    }
-
     public Quat4f getDefaultRotationAsQuaternion() {
         return new Quat4f(this.defaultRotationAsQuaternion);
     }
@@ -317,17 +329,19 @@ public class CSModelRenderer extends ModelRenderer
      */
     public void compileDisplayList(float scale) {
         this.displayList = GLAllocation.generateDisplayLists(1);
-        GlStateManager.glNewList(this.displayList, GL11.GL_COMPILE);
+        GlStateManager.newList(this.displayList, GL11.GL_COMPILE);
         BufferBuilder vertexbuffer = Tessellator.getInstance().getBuffer();
 
         for (int i = 0; i < this.cubeCSList.size(); ++i)
             this.cubeCSList.get(i).render(vertexbuffer, scale);
 
-        GlStateManager.glEndList();
+        GlStateManager.endList();
         this.compiled = true;
     }
 
-    /** Getter */
+    /**
+     * Getter
+     */
     public List<CSModelBox> getCubeCSList() {
         return this.cubeCSList;
     }

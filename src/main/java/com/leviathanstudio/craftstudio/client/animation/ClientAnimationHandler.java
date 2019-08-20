@@ -1,51 +1,211 @@
 package com.leviathanstudio.craftstudio.client.animation;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.WeakHashMap;
+import com.leviathanstudio.craftstudio.CraftStudioApi;
+import com.leviathanstudio.craftstudio.client.model.CSModelRenderer;
+import com.leviathanstudio.craftstudio.common.animation.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
-
-import com.leviathanstudio.craftstudio.CraftStudioApi;
-import com.leviathanstudio.craftstudio.client.model.CSModelRenderer;
-import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
-import com.leviathanstudio.craftstudio.common.animation.Channel;
-import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
-import com.leviathanstudio.craftstudio.common.animation.IAnimated;
-import com.leviathanstudio.craftstudio.common.animation.InfoChannel;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * An object that hold the informations about its animated objects and all their
  * animations. It also start/stop/update the animations and render the models.
  * This is the client side AnimationHandler.
  *
- * @since 0.3.0
- *
+ * @param <T> The class of the animated object.
  * @author Timmypote
  * @author ZeAmateis
- *
- * @param <T>
- *            The class of the animated object.
+ * @since 0.3.0
  */
-@SideOnly(Side.CLIENT)
-public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandler<T>
-{
-    /** Map with all the animations. */
-    private Map<String, InfoChannel>           animChannels    = new HashMap<>();
+@OnlyIn(Dist.CLIENT)
+public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandler<T> {
+    /**
+     * Map with all the animations.
+     */
+    private Map<String, InfoChannel> animChannels = new HashMap<>();
 
-    /** Map with the info about the animations. **/
+    /**
+     * Map with the info about the animations.
+     **/
     private Map<T, Map<InfoChannel, AnimInfo>> currentAnimInfo = new WeakHashMap<>();
+
+    /**
+     * Check if game is paused, on the exit screen.
+     *
+     * @return true, if the game is paused.
+     */
+    public static boolean isGamePaused() {
+        Minecraft MC = Minecraft.getInstance();
+        return MC.isSingleplayer() && MC.currentScreen != null && MC.currentScreen.isPauseScreen() && !MC.getIntegratedServer().getPublic();
+    }
+
+    /**
+     * Apply animations if running or apply initial values. Should be only
+     * called by the model class.
+     *
+     * @param parts    The list of block to update.
+     * @param animated The object that is animated.
+     */
+    public static void performAnimationInModel(List<CSModelRenderer> parts, IAnimated animated) {
+        for (CSModelRenderer entry : parts)
+            performAnimationForBlock(entry, animated);
+    }
+
+    /**
+     * Apply animations for model block.
+     *
+     * @param block    The block to update.
+     * @param animated The object that is animated.
+     */
+    public static void performAnimationForBlock(CSModelRenderer block, IAnimated animated) {
+        String boxName = block.boxName;
+        RendererModel child;
+
+        if (animated.getAnimationHandler() instanceof ClientAnimationHandler) {
+            ClientAnimationHandler animHandler = (ClientAnimationHandler) animated.getAnimationHandler();
+
+            if (block.childModels != null)
+                for (int i = 0; i < block.childModels.size(); i++) {
+                    child = block.childModels.get(i);
+                    if (child instanceof CSModelRenderer) {
+                        CSModelRenderer childModel = (CSModelRenderer) child;
+                        performAnimationForBlock(childModel, animated);
+                    }
+                }
+
+            block.resetRotationPoint();
+            block.resetRotationMatrix();
+            block.resetOffset();
+            block.resetStretch();
+
+            Map<InfoChannel, AnimInfo> animInfoMap = (Map<InfoChannel, AnimInfo>) animHandler.currentAnimInfo.get(animated);
+            if (animInfoMap == null)
+                return;
+
+            for (Entry<InfoChannel, AnimInfo> animInfo : animInfoMap.entrySet())
+                if (animInfo.getKey() instanceof ClientChannel) {
+                    ClientChannel clientChannel = (ClientChannel) animInfo.getKey();
+                    float currentFrame = animInfo.getValue().currentFrame;
+
+                    // Rotations
+                    KeyFrame prevRotationKeyFrame = clientChannel.getPreviousRotationKeyFrameForBox(boxName, currentFrame);
+                    int prevRotationKeyFramePosition = prevRotationKeyFrame != null ? clientChannel.getKeyFramePosition(prevRotationKeyFrame) : 0;
+
+                    KeyFrame nextRotationKeyFrame = clientChannel.getNextRotationKeyFrameForBox(boxName, currentFrame);
+                    int nextRotationKeyFramePosition = nextRotationKeyFrame != null ? clientChannel.getKeyFramePosition(nextRotationKeyFrame) : 0;
+
+                    float SLERPProgress = (currentFrame - prevRotationKeyFramePosition)
+                            / (nextRotationKeyFramePosition - prevRotationKeyFramePosition);
+                    if (SLERPProgress > 1F || SLERPProgress < 0F)
+                        SLERPProgress = 1F;
+
+                    if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame == null && !(nextRotationKeyFramePosition == 0)) {
+                        Quat4f currentQuat = new Quat4f();
+                        currentQuat.interpolate(block.getDefaultRotationAsQuaternion(), nextRotationKeyFrame.modelRenderersRotations.get(boxName),
+                                SLERPProgress);
+                        Matrix4f mat = block.getRotationMatrix();
+                        mat.set(currentQuat);
+                        mat.transpose();
+                    } else if (nextRotationKeyFramePosition != 0) {
+                        Quat4f currentQuat = new Quat4f();
+                        currentQuat.interpolate(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
+                                nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
+                        Matrix4f mat = block.getRotationMatrix();
+                        mat.set(currentQuat);
+                        mat.transpose();
+                    }
+
+                    // Translations
+                    KeyFrame prevTranslationKeyFrame = clientChannel.getPreviousTranslationKeyFrameForBox(boxName, currentFrame);
+                    int prevTranslationsKeyFramePosition = prevTranslationKeyFrame != null
+                            ? clientChannel.getKeyFramePosition(prevTranslationKeyFrame) : 0;
+
+                    KeyFrame nextTranslationKeyFrame = clientChannel.getNextTranslationKeyFrameForBox(boxName, currentFrame);
+                    int nextTranslationsKeyFramePosition = nextTranslationKeyFrame != null
+                            ? clientChannel.getKeyFramePosition(nextTranslationKeyFrame) : 0;
+
+                    float LERPProgress = (currentFrame - prevTranslationsKeyFramePosition)
+                            / (nextTranslationsKeyFramePosition - prevTranslationsKeyFramePosition);
+                    if (LERPProgress > 1F || LERPProgress < 0F)
+                        LERPProgress = 1F;
+
+                    if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame == null && !(nextTranslationsKeyFramePosition == 0)) {
+                        Vector3f startPosition = block.getPositionAsVector();
+                        Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
+                        Vector3f currentPosition = new Vector3f(startPosition);
+                        currentPosition.interpolate(endPosition, LERPProgress);
+                        block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
+                    } else if (nextTranslationsKeyFramePosition != 0) {
+                        Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName);
+                        Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
+                        Vector3f currentPosition = new Vector3f(startPosition);
+                        currentPosition.interpolate(endPosition, LERPProgress);
+                        block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
+                    }
+
+                    // Offsets
+                    KeyFrame prevOffsetKeyFrame = clientChannel.getPreviousOffsetKeyFrameForBox(boxName, currentFrame);
+                    int prevOffsetKeyFramePosition = prevOffsetKeyFrame != null ? clientChannel.getKeyFramePosition(prevOffsetKeyFrame) : 0;
+
+                    KeyFrame nextOffsetKeyFrame = clientChannel.getNextOffsetKeyFrameForBox(boxName, currentFrame);
+                    int nextOffsetKeyFramePosition = nextOffsetKeyFrame != null ? clientChannel.getKeyFramePosition(nextOffsetKeyFrame) : 0;
+
+                    float OffProgress = (currentFrame - prevOffsetKeyFramePosition) / (nextOffsetKeyFramePosition - prevOffsetKeyFramePosition);
+                    if (OffProgress > 1F || OffProgress < 0F)
+                        OffProgress = 1F;
+
+                    if (prevOffsetKeyFramePosition == 0 && prevOffsetKeyFrame == null && !(nextOffsetKeyFramePosition == 0)) {
+                        Vector3f startPosition = block.getOffsetAsVector();
+                        Vector3f endPosition = nextOffsetKeyFrame.modelRenderersOffsets.get(boxName);
+                        Vector3f currentPosition = new Vector3f(startPosition);
+                        currentPosition.interpolate(endPosition, OffProgress);
+                        block.setOffset(currentPosition.x, currentPosition.y, currentPosition.z);
+                    } else if (nextOffsetKeyFramePosition != 0) {
+                        Vector3f startPosition = prevOffsetKeyFrame.modelRenderersOffsets.get(boxName);
+                        Vector3f endPosition = nextOffsetKeyFrame.modelRenderersOffsets.get(boxName);
+                        Vector3f currentPosition = new Vector3f(startPosition);
+                        currentPosition.interpolate(endPosition, OffProgress);
+                        block.setOffset(currentPosition.x, currentPosition.y, currentPosition.z);
+                    }
+
+                    // Stretch
+                    KeyFrame prevStretchKeyFrame = clientChannel.getPreviousStretchKeyFrameForBox(boxName, currentFrame);
+                    int prevStretchKeyFramePosition = prevStretchKeyFrame != null ? clientChannel.getKeyFramePosition(prevStretchKeyFrame) : 0;
+
+                    KeyFrame nextStretchKeyFrame = clientChannel.getNextStretchKeyFrameForBox(boxName, currentFrame);
+                    int nextStretchKeyFramePosition = nextStretchKeyFrame != null ? clientChannel.getKeyFramePosition(nextStretchKeyFrame) : 0;
+
+                    float strProgress = (currentFrame - prevStretchKeyFramePosition) / (nextStretchKeyFramePosition - prevStretchKeyFramePosition);
+                    if (strProgress > 1F || strProgress < 0F)
+                        strProgress = 1F;
+
+                    if (prevStretchKeyFramePosition == 0 && prevStretchKeyFrame == null && !(nextStretchKeyFramePosition == 0)) {
+                        Vector3f startPosition = block.getStretchAsVector();
+                        Vector3f endPosition = nextStretchKeyFrame.modelRenderersStretchs.get(boxName);
+                        Vector3f currentPosition = new Vector3f(startPosition);
+                        currentPosition.interpolate(endPosition, strProgress);
+                        block.setStretch(currentPosition.x, currentPosition.y, currentPosition.z);
+                    } else if (nextStretchKeyFramePosition != 0) {
+                        Vector3f startPosition = prevStretchKeyFrame.modelRenderersStretchs.get(boxName);
+                        Vector3f endPosition = nextStretchKeyFrame.modelRenderersStretchs.get(boxName);
+                        Vector3f currentPosition = new Vector3f(startPosition);
+                        currentPosition.interpolate(endPosition, strProgress);
+                        block.setStretch(currentPosition.x, currentPosition.y, currentPosition.z);
+                    }
+
+                } else if (animInfo.getKey() instanceof CustomChannel)
+                    ((CustomChannel) animInfo.getKey()).update(block, animated);
+        }
+
+    }
 
     @Override
     public void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped) {
@@ -133,7 +293,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
         if (animInfoMap == null)
             return;
 
-        for (Iterator<Entry<InfoChannel, AnimInfo>> it = animInfoMap.entrySet().iterator(); it.hasNext();) {
+        for (Iterator<Entry<InfoChannel, AnimInfo>> it = animInfoMap.entrySet().iterator(); it.hasNext(); ) {
             Entry<InfoChannel, AnimInfo> animInfo = it.next();
             animInfo.getValue();
             boolean canUpdate = this.canUpdateAnimation(animInfo.getKey(), animatedElement);
@@ -207,192 +367,11 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
                     return true;
                 }
                 return false;
-            }
-            else
+            } else
                 return true;
-        }
-        else {
+        } else {
             animInfo.prevTime = currentTime;
             return true;
-        }
-
-    }
-
-    /**
-     * Check if game is paused, on the exit screen.
-     *
-     * @return true, if the game is paused.
-     */
-    public static boolean isGamePaused() {
-        Minecraft MC = Minecraft.getMinecraft();
-        return MC.isSingleplayer() && MC.currentScreen != null && MC.currentScreen.doesGuiPauseGame() && !MC.getIntegratedServer().getPublic();
-    }
-
-    /**
-     * Apply animations if running or apply initial values. Should be only
-     * called by the model class.
-     *
-     * @param parts
-     *            The list of block to update.
-     * @param animated
-     *            The object that is animated.
-     */
-    public static void performAnimationInModel(List<CSModelRenderer> parts, IAnimated animated) {
-        for (CSModelRenderer entry : parts)
-            performAnimationForBlock(entry, animated);
-    }
-
-    /**
-     * Apply animations for model block.
-     *
-     * @param block
-     *            The block to update.
-     * @param animated
-     *            The object that is animated.
-     */
-    public static void performAnimationForBlock(CSModelRenderer block, IAnimated animated) {
-        String boxName = block.boxName;
-        ModelRenderer child;
-
-        if (animated.getAnimationHandler() instanceof ClientAnimationHandler) {
-            ClientAnimationHandler animHandler = (ClientAnimationHandler) animated.getAnimationHandler();
-
-            if (block.childModels != null)
-                for (int i = 0; i < block.childModels.size(); i++) {
-                    child = block.childModels.get(i);
-                    if (child instanceof CSModelRenderer) {
-                        CSModelRenderer childModel = (CSModelRenderer) child;
-                        performAnimationForBlock(childModel, animated);
-                    }
-                }
-
-            block.resetRotationPoint();
-            block.resetRotationMatrix();
-            block.resetOffset();
-            block.resetStretch();
-
-            Map<InfoChannel, AnimInfo> animInfoMap = (Map<InfoChannel, AnimInfo>) animHandler.currentAnimInfo.get(animated);
-            if (animInfoMap == null)
-                return;
-
-            for (Entry<InfoChannel, AnimInfo> animInfo : animInfoMap.entrySet())
-                if (animInfo.getKey() instanceof ClientChannel) {
-                    ClientChannel clientChannel = (ClientChannel) animInfo.getKey();
-                    float currentFrame = animInfo.getValue().currentFrame;
-
-                    // Rotations
-                    KeyFrame prevRotationKeyFrame = clientChannel.getPreviousRotationKeyFrameForBox(boxName, currentFrame);
-                    int prevRotationKeyFramePosition = prevRotationKeyFrame != null ? clientChannel.getKeyFramePosition(prevRotationKeyFrame) : 0;
-
-                    KeyFrame nextRotationKeyFrame = clientChannel.getNextRotationKeyFrameForBox(boxName, currentFrame);
-                    int nextRotationKeyFramePosition = nextRotationKeyFrame != null ? clientChannel.getKeyFramePosition(nextRotationKeyFrame) : 0;
-
-                    float SLERPProgress = (currentFrame - prevRotationKeyFramePosition)
-                            / (nextRotationKeyFramePosition - prevRotationKeyFramePosition);
-                    if (SLERPProgress > 1F || SLERPProgress < 0F)
-                        SLERPProgress = 1F;
-
-                    if (prevRotationKeyFramePosition == 0 && prevRotationKeyFrame == null && !(nextRotationKeyFramePosition == 0)) {
-                        Quat4f currentQuat = new Quat4f();
-                        currentQuat.interpolate(block.getDefaultRotationAsQuaternion(), nextRotationKeyFrame.modelRenderersRotations.get(boxName),
-                                SLERPProgress);
-                        Matrix4f mat = block.getRotationMatrix();
-                        mat.set(currentQuat);
-                        mat.transpose();
-                    }
-                    else if (nextRotationKeyFramePosition != 0) {
-                        Quat4f currentQuat = new Quat4f();
-                        currentQuat.interpolate(prevRotationKeyFrame.modelRenderersRotations.get(boxName),
-                                nextRotationKeyFrame.modelRenderersRotations.get(boxName), SLERPProgress);
-                        Matrix4f mat = block.getRotationMatrix();
-                        mat.set(currentQuat);
-                        mat.transpose();
-                    }
-
-                    // Translations
-                    KeyFrame prevTranslationKeyFrame = clientChannel.getPreviousTranslationKeyFrameForBox(boxName, currentFrame);
-                    int prevTranslationsKeyFramePosition = prevTranslationKeyFrame != null
-                            ? clientChannel.getKeyFramePosition(prevTranslationKeyFrame) : 0;
-
-                    KeyFrame nextTranslationKeyFrame = clientChannel.getNextTranslationKeyFrameForBox(boxName, currentFrame);
-                    int nextTranslationsKeyFramePosition = nextTranslationKeyFrame != null
-                            ? clientChannel.getKeyFramePosition(nextTranslationKeyFrame) : 0;
-
-                    float LERPProgress = (currentFrame - prevTranslationsKeyFramePosition)
-                            / (nextTranslationsKeyFramePosition - prevTranslationsKeyFramePosition);
-                    if (LERPProgress > 1F || LERPProgress < 0F)
-                        LERPProgress = 1F;
-
-                    if (prevTranslationsKeyFramePosition == 0 && prevTranslationKeyFrame == null && !(nextTranslationsKeyFramePosition == 0)) {
-                        Vector3f startPosition = block.getPositionAsVector();
-                        Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
-                        Vector3f currentPosition = new Vector3f(startPosition);
-                        currentPosition.interpolate(endPosition, LERPProgress);
-                        block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
-                    }
-                    else if (nextTranslationsKeyFramePosition != 0) {
-                        Vector3f startPosition = prevTranslationKeyFrame.modelRenderersTranslations.get(boxName);
-                        Vector3f endPosition = nextTranslationKeyFrame.modelRenderersTranslations.get(boxName);
-                        Vector3f currentPosition = new Vector3f(startPosition);
-                        currentPosition.interpolate(endPosition, LERPProgress);
-                        block.setRotationPoint(currentPosition.x, currentPosition.y, currentPosition.z);
-                    }
-
-                    // Offsets
-                    KeyFrame prevOffsetKeyFrame = clientChannel.getPreviousOffsetKeyFrameForBox(boxName, currentFrame);
-                    int prevOffsetKeyFramePosition = prevOffsetKeyFrame != null ? clientChannel.getKeyFramePosition(prevOffsetKeyFrame) : 0;
-
-                    KeyFrame nextOffsetKeyFrame = clientChannel.getNextOffsetKeyFrameForBox(boxName, currentFrame);
-                    int nextOffsetKeyFramePosition = nextOffsetKeyFrame != null ? clientChannel.getKeyFramePosition(nextOffsetKeyFrame) : 0;
-
-                    float OffProgress = (currentFrame - prevOffsetKeyFramePosition) / (nextOffsetKeyFramePosition - prevOffsetKeyFramePosition);
-                    if (OffProgress > 1F || OffProgress < 0F)
-                        OffProgress = 1F;
-
-                    if (prevOffsetKeyFramePosition == 0 && prevOffsetKeyFrame == null && !(nextOffsetKeyFramePosition == 0)) {
-                        Vector3f startPosition = block.getOffsetAsVector();
-                        Vector3f endPosition = nextOffsetKeyFrame.modelRenderersOffsets.get(boxName);
-                        Vector3f currentPosition = new Vector3f(startPosition);
-                        currentPosition.interpolate(endPosition, OffProgress);
-                        block.setOffset(currentPosition.x, currentPosition.y, currentPosition.z);
-                    }
-                    else if (nextOffsetKeyFramePosition != 0) {
-                        Vector3f startPosition = prevOffsetKeyFrame.modelRenderersOffsets.get(boxName);
-                        Vector3f endPosition = nextOffsetKeyFrame.modelRenderersOffsets.get(boxName);
-                        Vector3f currentPosition = new Vector3f(startPosition);
-                        currentPosition.interpolate(endPosition, OffProgress);
-                        block.setOffset(currentPosition.x, currentPosition.y, currentPosition.z);
-                    }
-
-                    // Stretch
-                    KeyFrame prevStretchKeyFrame = clientChannel.getPreviousStretchKeyFrameForBox(boxName, currentFrame);
-                    int prevStretchKeyFramePosition = prevStretchKeyFrame != null ? clientChannel.getKeyFramePosition(prevStretchKeyFrame) : 0;
-
-                    KeyFrame nextStretchKeyFrame = clientChannel.getNextStretchKeyFrameForBox(boxName, currentFrame);
-                    int nextStretchKeyFramePosition = nextStretchKeyFrame != null ? clientChannel.getKeyFramePosition(nextStretchKeyFrame) : 0;
-
-                    float strProgress = (currentFrame - prevStretchKeyFramePosition) / (nextStretchKeyFramePosition - prevStretchKeyFramePosition);
-                    if (strProgress > 1F || strProgress < 0F)
-                        strProgress = 1F;
-
-                    if (prevStretchKeyFramePosition == 0 && prevStretchKeyFrame == null && !(nextStretchKeyFramePosition == 0)) {
-                        Vector3f startPosition = block.getStretchAsVector();
-                        Vector3f endPosition = nextStretchKeyFrame.modelRenderersStretchs.get(boxName);
-                        Vector3f currentPosition = new Vector3f(startPosition);
-                        currentPosition.interpolate(endPosition, strProgress);
-                        block.setStretch(currentPosition.x, currentPosition.y, currentPosition.z);
-                    }
-                    else if (nextStretchKeyFramePosition != 0) {
-                        Vector3f startPosition = prevStretchKeyFrame.modelRenderersStretchs.get(boxName);
-                        Vector3f endPosition = nextStretchKeyFrame.modelRenderersStretchs.get(boxName);
-                        Vector3f currentPosition = new Vector3f(startPosition);
-                        currentPosition.interpolate(endPosition, strProgress);
-                        block.setStretch(currentPosition.x, currentPosition.y, currentPosition.z);
-                    }
-
-                }
-                else if (animInfo.getKey() instanceof CustomChannel)
-                    ((CustomChannel) animInfo.getKey()).update(block, animated);
         }
 
     }
@@ -409,8 +388,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
     /**
      * Setter of currentAnimInfo.
      *
-     * @param currentAnimInfo
-     *            the currentAnimInfo to set.
+     * @param currentAnimInfo the currentAnimInfo to set.
      */
     public void setCurrentAnimInfo(Map<T, Map<InfoChannel, AnimInfo>> currentAnimInfo) {
         this.currentAnimInfo = currentAnimInfo;
@@ -428,8 +406,7 @@ public class ClientAnimationHandler<T extends IAnimated> extends AnimationHandle
     /**
      * Setter of animChannels.
      *
-     * @param animChannels
-     *            the animChannels to set.
+     * @param animChannels the animChannels to set.
      */
     public void setAnimChannels(Map<String, InfoChannel> animChannels) {
         this.animChannels = animChannels;
