@@ -1,6 +1,7 @@
 package com.leviathanstudio.craftstudio.common.network;
 
 import com.leviathanstudio.craftstudio.CraftStudioApi;
+
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.dimension.DimensionType;
@@ -40,14 +41,14 @@ public class CSNetworkHelper {
      *
      * @param message The message to send.
      */
-    public static void sendIAnimatedEvent(IAnimatedEventMessage message) {
+    public static void sendIAnimatedEvent(AnimatedEventMessage message) {
         if (message.animated.isWorldRemote())
             // If we are on client, we send a server message to the server.
-            sendPacketToServer(new ServerIAnimatedEventMessage(message));
+            sendPacketToServer(new AnimatedEventMessage(message));
         else
             // If we are on server, we send a client message to the clients in
             // range.
-            sendToAllAround(new ClientIAnimatedEventMessage(message), new PacketDistributor.TargetPoint(
+            sendToAllAround(new AnimatedEventMessage(message), new PacketDistributor.TargetPoint(
                     message.animated.getX(), message.animated.getY(), message.animated.getZ(), CSNetworkHelper.EVENT_RANGE, message.animated.getDimension()));
     }
 
@@ -56,25 +57,24 @@ public class CSNetworkHelper {
         return CHANNEL.messageBuilder(packetIn, id++);
     }
 
-    public static void sendPacketToServer(IPacket<?> packetIn) {
+    public static void sendPacketToServer(AnimatedEventMessage packetIn) {
         CHANNEL.sendToServer(packetIn);
     }
 
-    public static void sendPacketTo(ServerPlayerEntity player, IPacket<?> packetIn) {
+    public static void sendPacketTo(AnimatedEventMessage packetIn, ServerPlayerEntity player) {
         CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packetIn);
     }
 
-    public static void sendPacketToEveryone(IPacket<?> packetIn) {
+    public static void sendPacketToEveryone(AnimatedEventMessage packetIn) {
         CHANNEL.send(PacketDistributor.ALL.noArg(), packetIn);
     }
 
-    public static void sendPacketToDimension(DimensionType dimension, IPacket<?> packetIn) {
+    public static void sendPacketToDimension(AnimatedEventMessage packetIn, DimensionType dimension) {
         CHANNEL.send(PacketDistributor.DIMENSION.with(() -> dimension), packetIn);
     }
 
-    public static void sendToAllAround(IPacket<?> packetIn, PacketDistributor.TargetPoint targetPoint) {
+    public static void sendToAllAround(AnimatedEventMessage packetIn, PacketDistributor.TargetPoint targetPoint) {
         CHANNEL.send(PacketDistributor.NEAR.with(() -> targetPoint), packetIn);
 
     }
-
 }

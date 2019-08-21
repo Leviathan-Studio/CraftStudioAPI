@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.leviathanstudio.craftstudio.common.network.CSNetworkHelper;
 import com.leviathanstudio.craftstudio.common.network.EnumIAnimatedEvent;
-import com.leviathanstudio.craftstudio.common.network.IAnimatedEventMessage;
+import com.leviathanstudio.craftstudio.common.network.AnimatedEventMessage;
 
 import net.minecraft.util.ResourceLocation;
 
@@ -110,7 +110,7 @@ public abstract class AnimationHandler<T extends IAnimated>
         if (animatedElement.isWorldRemote() == clientSend) {
             this.serverInitAnimation(res, startingFrame, animatedElement);
             CSNetworkHelper.sendIAnimatedEvent(
-                    new IAnimatedEventMessage(EnumIAnimatedEvent.START_ANIM, animatedElement, this.getAnimIdFromName(res), startingFrame));
+                    new AnimatedEventMessage(EnumIAnimatedEvent.START_ANIM, animatedElement, this.getAnimIdFromName(res), startingFrame));
         }
     }
 
@@ -173,7 +173,7 @@ public abstract class AnimationHandler<T extends IAnimated>
     public void networkStopAnimation(String res, T animatedElement, boolean clientSend) {
         if (animatedElement.isWorldRemote() == clientSend) {
             this.serverStopAnimation(res, animatedElement);
-            CSNetworkHelper.sendIAnimatedEvent(new IAnimatedEventMessage(EnumIAnimatedEvent.STOP_ANIM, animatedElement, this.getAnimIdFromName(res)));
+            CSNetworkHelper.sendIAnimatedEvent(new AnimatedEventMessage(EnumIAnimatedEvent.STOP_ANIM, animatedElement, this.getAnimIdFromName(res)));
         }
     }
 
@@ -222,7 +222,7 @@ public abstract class AnimationHandler<T extends IAnimated>
     public void networkStopStartAnimation(String animToStop, String animToStart, float startingFrame, T animatedElement, boolean clientSend) {
         if (animatedElement.isWorldRemote() == clientSend) {
             this.serverStopStartAnimation(animToStop, animToStart, startingFrame, animatedElement);
-            CSNetworkHelper.sendIAnimatedEvent(new IAnimatedEventMessage(EnumIAnimatedEvent.STOP_START_ANIM, animatedElement,
+            CSNetworkHelper.sendIAnimatedEvent(new AnimatedEventMessage(EnumIAnimatedEvent.STOP_START_ANIM, animatedElement,
                     this.getAnimIdFromName(animToStart), startingFrame, this.getAnimIdFromName(animToStop)));
         }
     }
@@ -339,7 +339,7 @@ public abstract class AnimationHandler<T extends IAnimated>
      * @return True, if the message was correctly processed and a response
      *         should be send if it's needed.
      */
-    public boolean onClientIAnimatedEvent(IAnimatedEventMessage message) {
+    public boolean onClientIAnimatedEvent(AnimatedEventMessage message) {
         AnimationHandler hand = message.animated.getAnimationHandler();
         switch (EnumIAnimatedEvent.getEvent(message.event)) {
             case START_ANIM:
@@ -362,7 +362,7 @@ public abstract class AnimationHandler<T extends IAnimated>
      * @return True, if the message was correctly processed and should be send
      *         to all the clients in range.
      */
-    public static boolean onServerIAnimatedEvent(IAnimatedEventMessage message) {
+    public static boolean onServerIAnimatedEvent(AnimatedEventMessage message) {
         AnimationHandler hand = message.animated.getAnimationHandler();
         switch (EnumIAnimatedEvent.getEvent(message.event)) {
             case START_ANIM:
