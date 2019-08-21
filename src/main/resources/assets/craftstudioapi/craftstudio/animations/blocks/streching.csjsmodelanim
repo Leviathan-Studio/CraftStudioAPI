@@ -1,0 +1,22 @@
+{
+  "title": "Streching",
+  "duration": 60,
+  "holdLastKeyframe": false,
+  "nodeAnimations": {
+    "Block": {
+      "position": {
+      },
+      "offsetFromPivot": {
+      },
+      "size": {
+      },
+      "rotation": {
+      },
+      "stretch": {
+        "0": [ 0, 1, -0.5 ],
+        "20": [ 1, -0.5, 0 ],
+        "40": [ -0.5, 0, 1 ]
+      }
+    }
+  }
+}

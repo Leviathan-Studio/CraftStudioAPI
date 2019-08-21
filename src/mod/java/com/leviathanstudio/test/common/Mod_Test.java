@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 @Mod(name = "TestMod", modid = Mod_Test.MODID)
 public class Mod_Test
 {
-    public static final String MODID = "testmod";
+    public static final String MODID = "craftstudioapi";
 
     @SidedProxy(clientSide = "com.leviathanstudio.test.proxy.ClientProxy", serverSide = "com.leviathanstudio.test.proxy.CommonProxy")
     private static CommonProxy proxy;

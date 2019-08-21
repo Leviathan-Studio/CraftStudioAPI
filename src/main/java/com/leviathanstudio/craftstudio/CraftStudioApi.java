@@ -1,22 +1,29 @@
 package com.leviathanstudio.craftstudio;
 
+import com.leviathanstudio.craftstudio.client.registry.AssetAnimation;
+import com.leviathanstudio.craftstudio.client.registry.AssetModel;
 import com.leviathanstudio.craftstudio.client.registry.CSRegistryHelper;
 import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
+import com.leviathanstudio.craftstudio.client.util.EnumRenderType;
+import com.leviathanstudio.craftstudio.client.util.EnumResourceType;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.proxy.CSClientProxy;
 import com.leviathanstudio.craftstudio.proxy.CSCommonProxy;
 import com.leviathanstudio.craftstudio.proxy.CSServerProxy;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.lang.reflect.Method;
 
 /**
  * Main class of the CraftStudioApi
@@ -31,6 +38,10 @@ public class CraftStudioApi {
 
     private static final Logger LOGGER = LogManager.getLogger("CraftStudio");
     private static CSCommonProxy proxy = DistExecutor.runForDist(() -> CSClientProxy::new, () -> CSServerProxy::new);
+
+    private static IForgeRegistry<AssetModel> modelRegistry = null;
+    private static IForgeRegistry<AssetAnimation> animationRegistry = null;
+    AssetModel testModel = new AssetModel(EnumResourceType.MODEL, EnumRenderType.BLOCK, new ResourceLocation(API_ID, "craftstudio_api_test"));
 
     public CraftStudioApi() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
@@ -63,35 +74,32 @@ public class CraftStudioApi {
         CraftStudioApi.proxy.commonSetup(event);
     }
 
+    @SubscribeEvent
+    public void onRegisterModel(RegistryEvent.Register<AssetModel> event) {
+        event.getRegistry().register(testModel.setRegistryName("test", "test_model"));
+    }
+
+    @SubscribeEvent
+    public void onCreateRegistry(RegistryEvent.NewRegistry event) {
+        RegistryBuilder<AssetModel> modelBuilder = new RegistryBuilder<>();
+        RegistryBuilder<AssetAnimation> animationBuilder = new RegistryBuilder<>();
+
+        modelBuilder.setName(new ResourceLocation(API_ID, "models"));
+        modelBuilder.setType(AssetModel.class);
+        modelBuilder.setIDRange(0, 10_000);
+        modelRegistry = modelBuilder.create();
+
+        animationBuilder.setName(new ResourceLocation(API_ID, "animations"));
+        animationBuilder.setType(AssetAnimation.class);
+        animationBuilder.setIDRange(0, 10_000);
+        animationRegistry = animationBuilder.create();
+    }
+
     public void loadCraftStudioLoaders(FMLClientSetupEvent event) {
-        String methodName, className;
-        Method method;
-
         RegistryHandler.init();
-
-
-        //TODO Work on annotations or other way to register models
-        /*ASMDataTable dataTable = event
-        Set<ASMData> datas = dataTable.getAll("com.leviathanstudio.craftstudio.client.registry.CraftStudioLoader");
-        for (ASMData data : datas) {
-            className = data.getClassName();
-            methodName = data.getObjectName().substring(0, data.getObjectName().indexOf("("));
-            try {
-                method = Class.forName(className).getMethod(methodName);
-                method.invoke(null);
-            } catch (NoSuchMethodException | SecurityException | ClassNotFoundException e1) {
-                e1.printStackTrace();
-                CraftStudioApi.getLogger().error("Error loading @CraftStudioLoader in class " + className + " for method " + methodName + "().");
-                CraftStudioApi.getLogger().error("Does that method has arguments ? Because it should have none.");
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NullPointerException e1) {
-                e1.printStackTrace();
-                CraftStudioApi.getLogger().error("Error loading craftstudio assets in class " + className + " for method " + methodName + "().");
-                CraftStudioApi.getLogger().error("Is that method 'static' ? Because it should.");
-            }
-        }*/
-
         CSRegistryHelper.loadModels();
         CSRegistryHelper.loadAnims();
     }
+
 
 }

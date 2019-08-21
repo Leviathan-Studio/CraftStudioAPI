@@ -14,6 +14,7 @@ import java.util.List;
  */
 @OnlyIn(Dist.CLIENT)
 public class CSReadedModel {
+
     private String name;
     private int textureWidth, textureHeight;
     private List<CSReadedModelBlock> parents = new ArrayList<>();
@@ -95,4 +96,5 @@ public class CSReadedModel {
     public void setParents(List<CSReadedModelBlock> parents) {
         this.parents = parents;
     }
+
 }

@@ -42,13 +42,13 @@ public class RegistryHandler
 
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
-        EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest"), EntityTest.class, "entityTest", 420, Mod_Test.getInstance(),
+        EntityRegistry.registerModEntity(new ResourceLocation("craftstudioapi", "entityTest"), EntityTest.class, "entityTest", 420, Mod_Test.getInstance(),
                 40, 1, true, new Color(0, 255, 0).getRGB(), new Color(255, 0, 0).getRGB());
-        EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest2"), EntityTest2.class, "entityTest2", 421,
+        EntityRegistry.registerModEntity(new ResourceLocation("craftstudioapi", "entityTest2"), EntityTest2.class, "entityTest2", 421,
                 Mod_Test.getInstance(), 40, 1, true, new Color(255, 0, 0).getRGB(), new Color(0, 0, 0).getRGB());
-        EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest3"), EntityTest3.class, "entityTest3", 422,
+        EntityRegistry.registerModEntity(new ResourceLocation("craftstudioapi", "entityTest3"), EntityTest3.class, "entityTest3", 422,
                 Mod_Test.getInstance(), 40, 1, true, new Color(0, 0, 255).getRGB(), new Color(0, 0, 0).getRGB());
-        EntityRegistry.registerModEntity(new ResourceLocation("testmod", "entityTest4"), EntityTest4.class, "entityTest4", 423,
+        EntityRegistry.registerModEntity(new ResourceLocation("craftstudioapi", "entityTest4"), EntityTest4.class, "entityTest4", 423,
                 Mod_Test.getInstance(), 40, 1, true, new Color(255, 255, 0).getRGB(), new Color(0, 0, 0).getRGB());
         Mod_Test.getProxy().registerEntityRender();
         Mod_Test.getProxy().bindTESR();

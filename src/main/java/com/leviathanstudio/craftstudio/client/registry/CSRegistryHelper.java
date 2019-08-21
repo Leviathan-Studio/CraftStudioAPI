@@ -26,13 +26,8 @@ public class CSRegistryHelper {
     private static List<LoadElement> loadAnimList = new ArrayList();
     private String modid;
 
-    /**
-     * Constructor for the registry
-     *
-     * @param modid Define the ID of your mod
-     */
-    public CSRegistryHelper(String modid) {
-        this.modid = modid;
+
+    public CSRegistryHelper() {
     }
 
     /**
@@ -40,7 +35,7 @@ public class CSRegistryHelper {
      *
      * @param resourceTypeIn     Set your resource type, <br>
      *                           {@link EnumResourceType#ANIM} for animation,<br>
-     *                           {@link EnumResourceType#MODELS} for models <br>
+     *                           {@link EnumResourceType#MODEL} for models <br>
      *                           <br>
      * @param resourceLocationIn Custom location of your resource
      * @param resourceNameIn     The name of your resource in assets without extension
@@ -142,6 +137,7 @@ public class CSRegistryHelper {
             CraftStudioApi.getLogger().warn("A CSResourceNotFoundException could be raised !");
         }
     }
+
 
     /**
      * Pre-register your resource.

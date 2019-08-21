@@ -1,0 +1,1933 @@
+{
+  "title": "Dragon Brun",
+  "tree": [
+    {
+      "name": "Corp1",
+      "position": [ 0, 37, 30 ],
+      "offsetFromPivot": [ 0, 0, 0 ],
+      "size": [ 21, 16, 16 ],
+      "rotation": [ 1.954482, 0, 0 ],
+      "texOffset": [ 0, 0 ],
+      "children": [
+        {
+          "name": "Epaules2",
+          "position": [ 0, -5.960464E-07, -7.152557E-07 ],
+          "offsetFromPivot": [ 0, 0, 0 ],
+          "size": [ 35, 12, 12 ],
+          "rotation": [ -1.82036E-07, 0, 0 ],
+          "texOffset": [ 0, 74 ],
+          "children": []
+        },
+        {
+          "name": "Aile13",
+          "position": [ 15, 8.469357E-08, -1.488686E-06 ],
+          "offsetFromPivot": [ 24, 0, 0 ],
+          "size": [ 50, 5, 8 ],
+          "rotation": [ -6.89, 22, -2.168892E-09 ],
+          "texOffset": [ 58, 0 ],
+          "children": [
+            {
+              "name": "Aile 1_23",
+              "position": [ 21.31004, 0.0002365663, -0.0255119 ],
+              "offsetFromPivot": [ 24, 0, 0 ],
+              "size": [ 50, 5, 7 ],
+              "rotation": [ 0.2339692, -63.46978, -0.4686372 ],
+              "texOffset": [ 74, 13 ],
+              "children": [
+                {
+                  "name": "AileBranche24",
+                  "position": [ 23.84916, 0.09999574, 2.215488 ],
+                  "offsetFromPivot": [ 44, 0, 0 ],
+                  "size": [ 86, 5, 3 ],
+                  "rotation": [ -1.543068E-05, 110.841, -8.969847E-06 ],
+                  "texOffset": [ 74, 25 ],
+                  "children": [
+                    {
+                      "name": "AileToile25",
+                      "position": [ -34.94409, -0.1125191, -8.335443 ],
+                      "offsetFromPivot": [ 38, 0, -16 ],
+                      "size": [ 86, 0, 46 ],
+                      "rotation": [ -1.080418E-05, 1.636025E-05, -9.369185E-06 ],
+                      "texOffset": [ -46, 140 ],
+                      "children": []
+                    },
+                    {
+                      "name": "griffes bout ailes26",
+                      "position": [ 39.18649, 0.2161948, -0.09094638 ],
+                      "offsetFromPivot": [ 0, 0, 5 ],
+                      "size": [ 3, 3, 9 ],
+                      "rotation": [ 0.5044933, 99.31251, 91.96687 ],
+                      "texOffset": [ 174, 0 ],
+                      "children": [
+                        {
+                          "name": "griffes bout7",
+                          "position": [ 0.3783033, 0.1637897, 3 ],
+                          "offsetFromPivot": [ 0, 0, 3 ],
+                          "size": [ 2, 2, 4 ],
+                          "rotation": [ 17.07758, 1.555225E-05, 9.53466E-06 ],
+                          "texOffset": [ 189, 0 ],
+                          "children": [
+                            {
+                              "name": "griffes bou28",
+                              "position": [ 0.02169422, 0.2021261, 0.5993456 ],
+                              "offsetFromPivot": [ 0, 0, 3 ],
+                              "size": [ 2, 2, 4 ],
+                              "rotation": [ 9.424067, 5.280378E-06, -5.510787E-06 ],
+                              "texOffset": [ 189, 0 ],
+                              "children": [
+                                {
+                                  "name": "griffes bou39",
+                                  "position": [ 0, 0.2, 0.5 ],
+                                  "offsetFromPivot": [ 0, 0, 3 ],
+                                  "size": [ 1, 2, 4 ],
+                                  "rotation": [ 8.012905, -5.684132E-06, 6.632725E-07 ],
+                                  "texOffset": [ 189, 0 ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "AileBranche310",
+                  "position": [ 23.84916, 0.0999957, 2.215488 ],
+                  "offsetFromPivot": [ 44, 0, 0 ],
+                  "size": [ 86, 5, 3 ],
+                  "rotation": [ -5.683263E-06, 141.5232, -2.130234E-05 ],
+                  "texOffset": [ 74, 25 ],
+                  "children": [
+                    {
+                      "name": "griffes bout ailes211",
+                      "position": [ 39.18649, 0.2161948, -0.09094638 ],
+                      "offsetFromPivot": [ 0, 0, 5 ],
+                      "size": [ 3, 3, 9 ],
+                      "rotation": [ 0.5044933, 99.31251, 91.96687 ],
+                      "texOffset": [ 174, 0 ],
+                      "children": [
+                        {
+                          "name": "griffes bout12",
+                          "position": [ 0.4, 0, 3 ],
+                          "offsetFromPivot": [ 0, 0, 3 ],
+                          "size": [ 2, 2, 4 ],
+                          "rotation": [ 2.648026, 1.073253, -0.0176872 ],
+                          "texOffset": [ 189, 0 ],
+                          "children": [
+                            {
+                              "name": "griffes bou213",
+                              "position": [ 0.02169422, 0.2021261, 0.5993456 ],
+                              "offsetFromPivot": [ 0, 0, 3 ],
+                              "size": [ 2, 2, 4 ],
+                              "rotation": [ 9.424067, 5.280378E-06, -5.510787E-06 ],
+                              "texOffset": [ 189, 0 ],
+                              "children": [
+                                {
+                                  "name": "griffes bou314",
+                                  "position": [ 0, 0.2, 0.5 ],
+                                  "offsetFromPivot": [ 0, 0, 3 ],
+                                  "size": [ 1, 2, 4 ],
+                                  "rotation": [ 8.012905, -5.684132E-06, 6.632725E-07 ],
+                                  "texOffset": [ 189, 0 ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "AileToile 1.315",
+                      "position": [ -46.37394, 1.574688E-06, -11.22091 ],
+                      "offsetFromPivot": [ 55, 0, -5 ],
+                      "size": [ 82, 0, 30 ],
+                      "rotation": [ -5.072849E-06, 3.746575E-07, -1.22216E-05 ],
+                      "texOffset": [ -30, 186 ],
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "AileBranche116",
+                  "position": [ 23.84916, 0.1499978, 2.215489 ],
+                  "offsetFromPivot": [ 29, 0, 0 ],
+                  "size": [ 57, 5, 3 ],
+                  "rotation": [ -1.716231E-05, 83.72255, -2.268148E-07 ],
+                  "texOffset": [ 86, 25 ],
+                  "children": [
+                    {
+                      "name": "AileToilebranche 117",
+                      "position": [ -26.12369, -0.07595771, -7.794971 ],
+                      "offsetFromPivot": [ 36, 0, -13 ],
+                      "size": [ 84, 0, 42 ],
+                      "rotation": [ -1.325583E-05, 1.158159E-05, -2.358795E-06 ],
+                      "texOffset": [ -42, 98 ],
+                      "children": []
+                    },
+                    {
+                      "name": "griffes bout ailes18",
+                      "position": [ 26.23009, 0.166191, -0.02326208 ],
+                      "offsetFromPivot": [ 0, 0, 5 ],
+                      "size": [ 3, 3, 9 ],
+                      "rotation": [ 1.228018, 103.6092, 91.61719 ],
+                      "texOffset": [ 174, 0 ],
+                      "children": [
+                        {
+                          "name": "griffes bout19",
+                          "position": [ 0.3783033, 0.1637897, 3 ],
+                          "offsetFromPivot": [ 0, 0, 3 ],
+                          "size": [ 2, 2, 4 ],
+                          "rotation": [ 17.07758, 1.555225E-05, 9.53466E-06 ],
+                          "texOffset": [ 189, 0 ],
+                          "children": [
+                            {
+                              "name": "griffes bou220",
+                              "position": [ 0, 0.3, 0 ],
+                              "offsetFromPivot": [ 0, 0, 3 ],
+                              "size": [ 2, 2, 4 ],
+                              "rotation": [ 12.42268, -6.004402E-06, -4.675526E-08 ],
+                              "texOffset": [ 189, 0 ],
+                              "children": [
+                                {
+                                  "name": "griffes bou321",
+                                  "position": [ -4.170682E-06, -1.131516E-06, 1 ],
+                                  "offsetFromPivot": [ 0, 0, 3 ],
+                                  "size": [ 1, 2, 4 ],
+                                  "rotation": [ 8.012905, -5.684132E-06, 6.632725E-07 ],
+                                  "texOffset": [ 189, 0 ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "griffes bout ailes_centre22",
+                  "position": [ 18.87914, 0.3161923, 1.668774 ],
+                  "offsetFromPivot": [ 0, 0, 5 ],
+                  "size": [ 3, 3, 9 ],
+                  "rotation": [ 1.389455, 87.70204, 88.51917 ],
+                  "texOffset": [ 174, 0 ],
+                  "children": [
+                    {
+                      "name": "griffes bout23",
+                      "position": [ 0.3783033, 0.1637897, 3 ],
+                      "offsetFromPivot": [ 0, 0, 3 ],
+                      "size": [ 2, 2, 4 ],
+                      "rotation": [ 17.07758, 1.555225E-05, 9.53466E-06 ],
+                      "texOffset": [ 189, 0 ],
+                      "children": [
+                        {
+                          "name": "griffes bou224",
+                          "position": [ 0, 0.3, 0 ],
+                          "offsetFromPivot": [ 0, 0, 3 ],
+                          "size": [ 2, 2, 4 ],
+                          "rotation": [ 12.42268, -6.004402E-06, -4.675526E-08 ],
+                          "texOffset": [ 189, 0 ],
+                          "children": [
+                            {
+                              "name": "griffes bou326",
+                              "position": [ -4.170682E-06, -1.131516E-06, 1 ],
+                              "offsetFromPivot": [ 0, 0, 3 ],
+                              "size": [ 1, 2, 4 ],
+                              "rotation": [ 8.012905, -5.684132E-06, 6.632725E-07 ],
+                              "texOffset": [ 189, 0 ],
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "AileToile1.127",
+              "position": [ -24, -3.476012E-06, 1.473967E-06 ],
+              "offsetFromPivot": [ 23, 0, -23 ],
+              "size": [ 53, 0, 42 ],
+              "rotation": [ -1.219527E-05, 1.112748E-05, 3.504153E-06 ],
+              "texOffset": [ 52, 56 ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "Coup128",
+          "position": [ 0, 1, 3 ],
+          "offsetFromPivot": [ 0, 0, 8 ],
+          "size": [ 15, 12, 17 ],
+          "rotation": [ -3.133037, 0, 0 ],
+          "texOffset": [ 183, 81 ],
+          "children": [
+            {
+              "name": "Coup229",
+              "position": [ 0, 1, 4 ],
+              "offsetFromPivot": [ 0, 0, 11 ],
+              "size": [ 12, 10, 16 ],
+              "rotation": [ -0.3229544, 0, 0 ],
+              "texOffset": [ 200, 55 ],
+              "children": [
+                {
+                  "name": "Coup330",
+                  "position": [ 0, 0.5093571, 5 ],
+                  "offsetFromPivot": [ 0, 0, 7 ],
+                  "size": [ 10, 8, 13 ],
+                  "rotation": [ -0.6632345, 0, 0 ],
+                  "texOffset": [ 154, 225 ],
+                  "children": [
+                    {
+                      "name": "Tete31",
+                      "position": [ 0, -0.1389045, 4.999196 ],
+                      "offsetFromPivot": [ 0, 0, 4 ],
+                      "size": [ 11, 10, 9 ],
+                      "rotation": [ 6.402159E-07, 0, 0 ],
+                      "texOffset": [ 119, 216 ],
+                      "children": [
+                        {
+                          "name": "Museau32",
+                          "position": [ 0, -0.09259965, 3.999468 ],
+                          "offsetFromPivot": [ 0, 0, 4 ],
+                          "size": [ 8, 6, 11 ],
+                          "rotation": [ 2.977895E-07, 0, 0 ],
+                          "texOffset": [ 218, 120 ],
+                          "children": [
+                            {
+                              "name": "Nez33",
+                              "position": [ 0, -0.1041771, 4.999396 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 9, 6, 4 ],
+                              "rotation": [ -3.424265E-07, 0, 0 ],
+                              "texOffset": [ 207, 110 ],
+                              "children": [
+                                {
+                                  "name": "Dent34",
+                                  "position": [ 3.5, -3.5, 1 ],
+                                  "offsetFromPivot": [ 0, 0, 0 ],
+                                  "size": [ 1, 3, 1 ],
+                                  "rotation": [ 2.742231, 0, 0 ],
+                                  "texOffset": [ 235, 112 ],
+                                  "children": []
+                                },
+                                {
+                                  "name": "Dent2",
+                                  "position": [ -3.5, -3.5, 1 ],
+                                  "offsetFromPivot": [ 0, 0, 0 ],
+                                  "size": [ 1, 3, 1 ],
+                                  "rotation": [ 1.960055, -4.100175, -0.1404768 ],
+                                  "vertexCoords": [
+                                    [ 0.5, 1.5, -0.5 ],
+                                    [ -0.5, 1.5, -0.5 ],
+                                    [ -0.5, -1.5, -0.5 ],
+                                    [ 0.5, -1.5, -0.5 ],
+                                    [ -0.5, 1.5, 0.5 ],
+                                    [ 0.5, 1.5, 0.5 ],
+                                    [ 0.5, -1.5, 0.5 ],
+                                    [ -0.5, -1.5, 0.5 ]
+                                  ],
+                                  "texOffset": [ 235, 112 ],
+                                  "children": []
+                                },
+                                {
+                                  "name": "Dent3",
+                                  "position": [ -1.75, -3.3, 1 ],
+                                  "offsetFromPivot": [ 0, 0, 0 ],
+                                  "size": [ 1, 3, 1 ],
+                                  "rotation": [ 2.218437E-06, 7.798511E-16, -2.026353 ],
+                                  "vertexCoords": [
+                                    [ 0.5, 1.5, -0.5 ],
+                                    [ -0.5, 1.5, -0.5 ],
+                                    [ -0.5, -1.5, -0.5 ],
+                                    [ 0.5, -1.5, -0.5 ],
+                                    [ -0.5, 1.5, 0.5 ],
+                                    [ 0.5, 1.5, 0.5 ],
+                                    [ 0.5, -1.5, 0.5 ],
+                                    [ -0.5, -1.5, 0.5 ]
+                                  ],
+                                  "texOffset": [ 235, 112 ],
+                                  "children": []
+                                },
+                                {
+                                  "name": "Dent4",
+                                  "position": [ 1.75, -3.3, 1 ],
+                                  "offsetFromPivot": [ 0, 0, 0 ],
+                                  "size": [ 1, 3, 1 ],
+                                  "rotation": [ -2.960325, 0, 0 ],
+                                  "vertexCoords": [
+                                    [ 0.5, 1.5, -0.5 ],
+                                    [ -0.5, 1.5, -0.5 ],
+                                    [ -0.5, -1.5, -0.5 ],
+                                    [ 0.5, -1.5, -0.5 ],
+                                    [ -0.5, 1.5, 0.5 ],
+                                    [ 0.5, 1.5, 0.5 ],
+                                    [ 0.5, -1.5, 0.5 ],
+                                    [ -0.5, -1.5, 0.5 ]
+                                  ],
+                                  "texOffset": [ 240, 111 ],
+                                  "children": []
+                                },
+                                {
+                                  "name": "Dent5",
+                                  "position": [ 0, -3, 1.000001 ],
+                                  "offsetFromPivot": [ 0, 0, 0 ],
+                                  "size": [ 1, 3, 1 ],
+                                  "rotation": [ 2.218437E-06, -8.897605E-16, 2.308754 ],
+                                  "vertexCoords": [
+                                    [ 0.5, 1.5, -0.5 ],
+                                    [ -0.5, 1.5, -0.5 ],
+                                    [ -0.5, -1.5, -0.5 ],
+                                    [ 0.5, -1.5, -0.5 ],
+                                    [ -0.5, 1.5, 0.5 ],
+                                    [ 0.5, 1.5, 0.5 ],
+                                    [ 0.5, -1.5, 0.5 ],
+                                    [ -0.5, -1.5, 0.5 ]
+                                  ],
+                                  "texOffset": [ 235, 112 ],
+                                  "children": []
+                                },
+                                {
+                                  "name": "Dent6",
+                                  "position": [ 3.5, -3.3, -1 ],
+                                  "offsetFromPivot": [ 0, 0, 0 ],
+                                  "size": [ 1, 3, 1 ],
+                                  "rotation": [ 2.218437E-06, 9.00719E-16, 1.37728 ],
+                                  "texOffset": [ 235, 112 ],
+                                  "children": []
+                                },
+                                {
+                                  "name": "Dent7",
+                                  "position": [ -3.5, -3.3, -1 ],
+                                  "offsetFromPivot": [ 0, 0, 0 ],
+                                  "size": [ 1, 3, 1 ],
+                                  "rotation": [ 3.034465, -3.354562, -0.1777819 ],
+                                  "vertexCoords": [
+                                    [ 0.5, 1.5, -0.5 ],
+                                    [ -0.5, 1.5, -0.5 ],
+                                    [ -0.5, -1.5, -0.5 ],
+                                    [ 0.5, -1.5, -0.5 ],
+                                    [ -0.5, 1.5, 0.5 ],
+                                    [ 0.5, 1.5, 0.5 ],
+                                    [ 0.5, -1.5, 0.5 ],
+                                    [ -0.5, -1.5, 0.5 ]
+                                  ],
+                                  "texOffset": [ 235, 112 ],
+                                  "children": []
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Dent8",
+                              "position": [ -3, -3.104179, 2 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 3, 1 ],
+                              "rotation": [ 2.858654E-06, 1.255225E-15, 2.301986 ],
+                              "vertexCoords": [
+                                [ 0.5, 1.5, -0.5 ],
+                                [ -0.5, 1.5, -0.5 ],
+                                [ -0.5, -1.5, -0.5 ],
+                                [ 0.5, -1.5, -0.5 ],
+                                [ -0.5, 1.5, 0.5 ],
+                                [ 0.5, 1.5, 0.5 ],
+                                [ 0.5, -1.5, 0.5 ],
+                                [ -0.5, -1.5, 0.5 ]
+                              ],
+                              "texOffset": [ 235, 112 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent9",
+                              "position": [ 3, -3.104179, 2 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 3, 1 ],
+                              "rotation": [ 1.596566, 0, 0 ],
+                              "texOffset": [ 240, 111 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent10",
+                              "position": [ 3, -2.5, 0 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 3, 1 ],
+                              "rotation": [ 2.858653E-06, 0, 0 ],
+                              "texOffset": [ 235, 112 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent11",
+                              "position": [ 3, -2.5, -2 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 3, 1 ],
+                              "rotation": [ 2.858653E-06, 0, 0 ],
+                              "texOffset": [ 235, 112 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent12",
+                              "position": [ -3, -2.500001, -1.999999 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 3, 1 ],
+                              "rotation": [ 2.858654E-06, -5.222579E-15, -3.430224 ],
+                              "vertexCoords": [
+                                [ 0.5, 1.5, -0.5 ],
+                                [ -0.5, 1.5, -0.5 ],
+                                [ -0.5, -1.5, -0.5 ],
+                                [ 0.5, -1.5, -0.5 ],
+                                [ -0.5, 1.5, 0.5 ],
+                                [ 0.5, 1.5, 0.5 ],
+                                [ 0.5, -1.5, 0.5 ],
+                                [ -0.5, -1.5, 0.5 ]
+                              ],
+                              "texOffset": [ 235, 112 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent13",
+                              "position": [ -3, -2.5, -6.412849E-06 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 3, 1 ],
+                              "rotation": [ 2.858653E-06, 3.088479E-16, -3.774049 ],
+                              "vertexCoords": [
+                                [ 0.5, 1.5, -0.5 ],
+                                [ -0.5, 1.5, -0.5 ],
+                                [ -0.5, -1.5, -0.5 ],
+                                [ 0.5, -1.5, -0.5 ],
+                                [ -0.5, 1.5, 0.5 ],
+                                [ 0.5, 1.5, 0.5 ],
+                                [ 0.5, -1.5, 0.5 ],
+                                [ -0.5, -1.5, 0.5 ]
+                              ],
+                              "texOffset": [ 235, 112 ],
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Bouche",
+                          "position": [ 0, -3, 0 ],
+                          "offsetFromPivot": [ 0, 0, 7 ],
+                          "size": [ 7, 2, 12 ],
+                          "rotation": [ 23.55193, 0, 0 ],
+                          "texOffset": [ 128, 235 ],
+                          "children": [
+                            {
+                              "name": "Dent14",
+                              "position": [ -2.5, 0.5, -1 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 2, 1 ],
+                              "rotation": [ 0, 0, -4.128194 ],
+                              "vertexCoords": [
+                                [ 0.5, 1, -0.5 ],
+                                [ -0.5, 1, -0.5 ],
+                                [ -0.5, -1, -0.5 ],
+                                [ 0.5, -1, -0.5 ],
+                                [ -0.5, 1, 0.5 ],
+                                [ 0.5, 1, 0.5 ],
+                                [ 0.5, -1, 0.5 ],
+                                [ -0.5, -1, 0.5 ]
+                              ],
+                              "texOffset": [ 235, 112 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent15",
+                              "position": [ 2.5, 0.5000039, -0.9999986 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 2, 1 ],
+                              "rotation": [ 1.627058, 0, 0 ],
+                              "texOffset": [ 235, 112 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent16",
+                              "position": [ 2.5, 0.7, 1 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 2, 1 ],
+                              "rotation": [ 3.383539, 0, 0 ],
+                              "texOffset": [ 235, 112 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent17",
+                              "position": [ -2.5, 0.7, 1 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 2, 1 ],
+                              "rotation": [ 4.623174E-06, -5.483579E-15, 5.149386 ],
+                              "vertexCoords": [
+                                [ 0.5, 1, -0.5 ],
+                                [ -0.5, 1, -0.5 ],
+                                [ -0.5, -1, -0.5 ],
+                                [ 0.5, -1, -0.5 ],
+                                [ -0.5, 1, 0.5 ],
+                                [ 0.5, 1, 0.5 ],
+                                [ 0.5, -1, 0.5 ],
+                                [ -0.5, -1, 0.5 ]
+                              ],
+                              "texOffset": [ 235, 112 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent18",
+                              "position": [ -2.5, 1, 3 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 2, 1 ],
+                              "rotation": [ 6.325756, 0, 0 ],
+                              "vertexCoords": [
+                                [ 0.5, 1, -0.5 ],
+                                [ -0.5, 1, -0.5 ],
+                                [ -0.5, -1, -0.5 ],
+                                [ 0.5, -1, -0.5 ],
+                                [ -0.5, 1, 0.5 ],
+                                [ 0.5, 1, 0.5 ],
+                                [ 0.5, -1, 0.5 ],
+                                [ -0.5, -1, 0.5 ]
+                              ],
+                              "texOffset": [ 240, 111 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent19",
+                              "position": [ 2.5, 1.000002, 3.000001 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 2, 1 ],
+                              "rotation": [ -6.821664, 0, 0 ],
+                              "texOffset": [ 235, 112 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent20",
+                              "position": [ 2.5, 1.000006, 5 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 2, 1 ],
+                              "rotation": [ 9.656855E-06, -1.583781E-15, 1.198872 ],
+                              "texOffset": [ 240, 111 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent21",
+                              "position": [ -2.5, 1.000007, 4.999999 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 2, 1 ],
+                              "rotation": [ -4.163713, 0, 0 ],
+                              "vertexCoords": [
+                                [ 0.5, 1, -0.5 ],
+                                [ -0.5, 1, -0.5 ],
+                                [ -0.5, -1, -0.5 ],
+                                [ 0.5, -1, -0.5 ],
+                                [ -0.5, 1, 0.5 ],
+                                [ 0.5, 1, 0.5 ],
+                                [ 0.5, -1, 0.5 ],
+                                [ -0.5, -1, 0.5 ]
+                              ],
+                              "texOffset": [ 235, 112 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent22",
+                              "position": [ -1, 1.00001, 4.999997 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 2, 1 ],
+                              "rotation": [ 1.301264E-05, 1.453839E-14, -2.817426 ],
+                              "vertexCoords": [
+                                [ 0.5, 1, -0.5 ],
+                                [ -0.5, 1, -0.5 ],
+                                [ -0.5, -1, -0.5 ],
+                                [ 0.5, -1, -0.5 ],
+                                [ -0.5, 1, 0.5 ],
+                                [ 0.5, 1, 0.5 ],
+                                [ 0.5, -1, 0.5 ],
+                                [ -0.5, -1, 0.5 ]
+                              ],
+                              "texOffset": [ 235, 112 ],
+                              "children": []
+                            },
+                            {
+                              "name": "Dent23",
+                              "position": [ 1, 1.000014, 4.999996 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 2, 1 ],
+                              "rotation": [ 1.297294E-05, -4.47666, -1.015675E-06 ],
+                              "vertexCoords": [
+                                [ 0.5, 1, -0.5 ],
+                                [ -0.5, 1, -0.5 ],
+                                [ -0.5, -1, -0.5 ],
+                                [ 0.5, -1, -0.5 ],
+                                [ -0.5, 1, 0.5 ],
+                                [ 0.5, 1, 0.5 ],
+                                [ 0.5, -1, 0.5 ],
+                                [ -0.5, -1, 0.5 ]
+                              ],
+                              "texOffset": [ 235, 112 ],
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Crette ",
+                          "position": [ 0, 4.478767, -2.948088 ],
+                          "offsetFromPivot": [ 0, 0, 0 ],
+                          "size": [ 1, 13, 8 ],
+                          "rotation": [ -51.8001, 0, 0 ],
+                          "texOffset": [ 238, 33 ],
+                          "children": []
+                        },
+                        {
+                          "name": "Corne G1",
+                          "position": [ 4, 3.138902, -0.9991918 ],
+                          "offsetFromPivot": [ 0, 0, -2 ],
+                          "size": [ 4, 4, 10 ],
+                          "rotation": [ 28.29965, -30.2206, -15.43754 ],
+                          "texOffset": [ 174, 116 ],
+                          "children": [
+                            {
+                              "name": "Corne G2",
+                              "position": [ 3.832608E-07, -6.300802E-07, -4 ],
+                              "offsetFromPivot": [ 0, 0, -3 ],
+                              "size": [ 3, 4, 7 ],
+                              "rotation": [ -28.6929, 9.380481E-07, -2.480848E-07 ],
+                              "texOffset": [ 168, 105 ],
+                              "children": [
+                                {
+                                  "name": "Corne G3",
+                                  "position": [ 4.397035E-07, -1.773457E-06, -2 ],
+                                  "offsetFromPivot": [ 0, 0, -3 ],
+                                  "size": [ 2, 4, 7 ],
+                                  "rotation": [ -40.35846, 2.112802E-06, 1.951212E-06 ],
+                                  "texOffset": [ 196, 113 ],
+                                  "children": [
+                                    {
+                                      "name": "Corne G4",
+                                      "position": [ 1.169115E-06, -2.845276E-06, -2 ],
+                                      "offsetFromPivot": [ 0, 0, -3 ],
+                                      "size": [ 2, 3, 7 ],
+                                      "rotation": [ -35.89212, 2.418688, -1.418534 ],
+                                      "texOffset": [ 195, 124 ],
+                                      "children": [
+                                        {
+                                          "name": "Corne G5",
+                                          "position": [ -5.707215E-07, -5.288481E-07, -2 ],
+                                          "offsetFromPivot": [ 0, 0, -2 ],
+                                          "size": [ 2, 3, 5 ],
+                                          "rotation": [ -34.60033, -2.794594, 1.587758 ],
+                                          "texOffset": [ 168, 131 ],
+                                          "children": [
+                                            {
+                                              "name": "Corne G6",
+                                              "position": [ -1.84081E-07, 2.999791E-07, -1 ],
+                                              "offsetFromPivot": [ 0, 0, -2 ],
+                                              "size": [ 2, 2, 5 ],
+                                              "rotation": [ -34.24986, 0.9201069, -0.5178673 ],
+                                              "texOffset": [ 168, 117 ],
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Corne D1",
+                          "position": [ -4, 3.138902, -0.9991918 ],
+                          "offsetFromPivot": [ 0, 0, -2 ],
+                          "size": [ 4, 4, 10 ],
+                          "rotation": [ 28.29965, 30.2206, 15.43754 ],
+                          "vertexCoords": [
+                            [ 2, 2, -5 ],
+                            [ -2, 2, -5 ],
+                            [ -2, -2, -5 ],
+                            [ 2, -2, -5 ],
+                            [ -2, 2, 5 ],
+                            [ 2, 2, 5 ],
+                            [ 2, -2, 5 ],
+                            [ -2, -2, 5 ]
+                          ],
+                          "texOffset": [ 174, 116 ],
+                          "children": [
+                            {
+                              "name": "Corne D2",
+                              "position": [ -3.832608E-07, -6.300802E-07, -4 ],
+                              "offsetFromPivot": [ 0, 0, -3 ],
+                              "size": [ 3, 4, 7 ],
+                              "rotation": [ -28.6929, -9.380481E-07, 2.480848E-07 ],
+                              "vertexCoords": [
+                                [ 1.5, 2, -3.5 ],
+                                [ -1.5, 2, -3.5 ],
+                                [ -1.5, -2, -3.5 ],
+                                [ 1.5, -2, -3.5 ],
+                                [ -1.5, 2, 3.5 ],
+                                [ 1.5, 2, 3.5 ],
+                                [ 1.5, -2, 3.5 ],
+                                [ -1.5, -2, 3.5 ]
+                              ],
+                              "texOffset": [ 168, 105 ],
+                              "children": [
+                                {
+                                  "name": "Corne D3",
+                                  "position": [ -4.397035E-07, -1.773457E-06, -2 ],
+                                  "offsetFromPivot": [ 0, 0, -3 ],
+                                  "size": [ 2, 4, 7 ],
+                                  "rotation": [ -40.35846, -2.112802E-06, -1.951212E-06 ],
+                                  "vertexCoords": [
+                                    [ 1, 2, -3.5 ],
+                                    [ -1, 2, -3.5 ],
+                                    [ -1, -2, -3.5 ],
+                                    [ 1, -2, -3.5 ],
+                                    [ -1, 2, 3.5 ],
+                                    [ 1, 2, 3.5 ],
+                                    [ 1, -2, 3.5 ],
+                                    [ -1, -2, 3.5 ]
+                                  ],
+                                  "texOffset": [ 196, 113 ],
+                                  "children": [
+                                    {
+                                      "name": "Corne D4",
+                                      "position": [ -1.169115E-06, -2.845276E-06, -2 ],
+                                      "offsetFromPivot": [ 0, 0, -3 ],
+                                      "size": [ 2, 3, 7 ],
+                                      "rotation": [ -35.8863, -2.693072, 1.579384 ],
+                                      "vertexCoords": [
+                                        [ 1, 1.5, -3.5 ],
+                                        [ -1, 1.5, -3.5 ],
+                                        [ -1, -1.5, -3.5 ],
+                                        [ 1, -1.5, -3.5 ],
+                                        [ -1, 1.5, 3.5 ],
+                                        [ 1, 1.5, 3.5 ],
+                                        [ 1, -1.5, 3.5 ],
+                                        [ -1, -1.5, 3.5 ]
+                                      ],
+                                      "texOffset": [ 195, 124 ],
+                                      "children": [
+                                        {
+                                          "name": "Corne D5",
+                                          "position": [ 5.707215E-07, -5.288481E-07, -2 ],
+                                          "offsetFromPivot": [ 0, 0, -2 ],
+                                          "size": [ 2, 3, 5 ],
+                                          "rotation": [ -34.62206, 1.57671, -0.8959765 ],
+                                          "vertexCoords": [
+                                            [ 1, 1.5, -2.5 ],
+                                            [ -1, 1.5, -2.5 ],
+                                            [ -1, -1.5, -2.5 ],
+                                            [ 1, -1.5, -2.5 ],
+                                            [ -1, 1.5, 2.5 ],
+                                            [ 1, 1.5, 2.5 ],
+                                            [ 1, -1.5, 2.5 ],
+                                            [ -1, -1.5, 2.5 ]
+                                          ],
+                                          "texOffset": [ 168, 131 ],
+                                          "children": [
+                                            {
+                                              "name": "Corne D6",
+                                              "position": [ 1.84081E-07, 2.999791E-07, -1 ],
+                                              "offsetFromPivot": [ 0, 0, -2 ],
+                                              "size": [ 2, 2, 5 ],
+                                              "rotation": [ -34.24011, 1.802034, -1.014167 ],
+                                              "vertexCoords": [
+                                                [ 1, 1, -2.5 ],
+                                                [ -1, 1, -2.5 ],
+                                                [ -1, -1, -2.5 ],
+                                                [ 1, -1, -2.5 ],
+                                                [ -1, 1, 2.5 ],
+                                                [ 1, 1, 2.5 ],
+                                                [ 1, -1, 2.5 ],
+                                                [ -1, -1, 2.5 ]
+                                              ],
+                                              "texOffset": [ 168, 117 ],
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Crette 1",
+                  "position": [ 0, 4.568107, 0.08014464 ],
+                  "offsetFromPivot": [ 0, 0, 0 ],
+                  "size": [ 1, 13, 8 ],
+                  "rotation": [ -63.77876, 0, 0 ],
+                  "texOffset": [ 238, 33 ],
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Crette 2",
+              "position": [ 0, 5.966101, -1 ],
+              "offsetFromPivot": [ 0, 0, 0 ],
+              "size": [ 1, 13, 8 ],
+              "rotation": [ -56.65558, 0, 0 ],
+              "texOffset": [ 238, 33 ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "Corp3",
+          "position": [ 0, -2, -31 ],
+          "offsetFromPivot": [ 0, 0, 0 ],
+          "size": [ 18, 18, 19 ],
+          "rotation": [ -2.281355, 0, 0 ],
+          "texOffset": [ 172, 140 ],
+          "children": [
+            {
+              "name": "Queue1",
+              "position": [ 0, 2, -8 ],
+              "offsetFromPivot": [ 0, 0, -5 ],
+              "size": [ 13, 14, 8 ],
+              "rotation": [ 0.6659851, 0, 0 ],
+              "texOffset": [ 164, 178 ],
+              "children": [
+                {
+                  "name": "Queue2",
+                  "position": [ 0, 2, -4 ],
+                  "offsetFromPivot": [ 0, -1, -5 ],
+                  "size": [ 10, 12, 14 ],
+                  "rotation": [ -1.160694, 0, 0 ],
+                  "texOffset": [ 206, 177 ],
+                  "children": [
+                    {
+                      "name": "Queue3",
+                      "position": [ 0, 2, -6 ],
+                      "offsetFromPivot": [ 0, -1, -8 ],
+                      "size": [ 8, 9, 14 ],
+                      "rotation": [ -4.019387, -0.4245569, 0.02975945 ],
+                      "texOffset": [ 150, 202 ],
+                      "children": [
+                        {
+                          "name": "Queue4",
+                          "position": [ 0, 2.000002, -5 ],
+                          "offsetFromPivot": [ 0, -1, -8 ],
+                          "size": [ 6, 7, 14 ],
+                          "rotation": [ -2.631835, 0, 0 ],
+                          "texOffset": [ 194, 203 ],
+                          "children": [
+                            {
+                              "name": "Queue5",
+                              "position": [ 0, 1.999995, -5 ],
+                              "offsetFromPivot": [ 0, -1, -8 ],
+                              "size": [ 4, 5, 14 ],
+                              "rotation": [ -0.03058504, 0, 0 ],
+                              "texOffset": [ 220, 210 ],
+                              "children": [
+                                {
+                                  "name": "Queue6",
+                                  "position": [ 0, 1.500005, -6 ],
+                                  "offsetFromPivot": [ 0, -1, -8 ],
+                                  "size": [ 4, 4, 14 ],
+                                  "rotation": [ -1.766136, 0, 0 ],
+                                  "texOffset": [ 220, 229 ],
+                                  "children": [
+                                    {
+                                      "name": "Queue7",
+                                      "position": [ 0, 1.000001, -5 ],
+                                      "offsetFromPivot": [ 0, -1, -9 ],
+                                      "size": [ 3, 3, 14 ],
+                                      "rotation": [ -3.908575, 0, 0 ],
+                                      "texOffset": [ 200, 224 ],
+                                      "children": [
+                                        {
+                                          "name": "Crette 12",
+                                          "position": [ -0.08999997, 1.087998, -4.024301 ],
+                                          "offsetFromPivot": [ 0, 0, 0 ],
+                                          "size": [ 1, 13, 5 ],
+                                          "rotation": [ -67.97205, 0.2672611, 0.1637284 ],
+                                          "texOffset": [ 241, 36 ],
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "name": "Crette 11",
+                                      "position": [ -0.08730779, 1.348922, -2.994474 ],
+                                      "offsetFromPivot": [ 0, 0, 0 ],
+                                      "size": [ 1, 13, 5 ],
+                                      "rotation": [ -59.55628, 0.3666071, 0.06453957 ],
+                                      "texOffset": [ 241, 36 ],
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "Crette 10",
+                                  "position": [ -0.08730782, 1.509915, -2.999726 ],
+                                  "offsetFromPivot": [ 0, 0, 0 ],
+                                  "size": [ 1, 13, 5 ],
+                                  "rotation": [ -61.32237, 0.3870896, 0.0409947 ],
+                                  "texOffset": [ 241, 36 ],
+                                  "children": []
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Crette 9",
+                              "position": [ -0.08730784, 2.504039, -2.942479 ],
+                              "offsetFromPivot": [ 0, 0, 0 ],
+                              "size": [ 1, 13, 5 ],
+                              "rotation": [ -61.35294, 0.3874678, 0.04056361 ],
+                              "texOffset": [ 241, 36 ],
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Crette 8",
+                          "position": [ -0.08730784, 4.1004, -3.811406 ],
+                          "offsetFromPivot": [ 0, 0, 0 ],
+                          "size": [ 1, 13, 8 ],
+                          "rotation": [ -63.98471, 0.4235127, -1.502742E-09 ],
+                          "texOffset": [ 238, 33 ],
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Crette 7",
+                      "position": [ 0, 4.264826, -1 ],
+                      "offsetFromPivot": [ 0, 0, 0 ],
+                      "size": [ 1, 13, 8 ],
+                      "rotation": [ -68.00421, 0, 0 ],
+                      "texOffset": [ 238, 33 ],
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Jambe G 1",
+              "position": [ -8, 1.941249, 0.0612529 ],
+              "offsetFromPivot": [ 0, -6, 0 ],
+              "size": [ 6, 20, 13 ],
+              "rotation": [ 12.40515, -5.766162E-08, -4.187479 ],
+              "texOffset": [ 0, 216 ],
+              "children": [
+                {
+                  "name": "Jambe G 24",
+                  "position": [ 0, -8, 1 ],
+                  "offsetFromPivot": [ 0, -4, 1 ],
+                  "size": [ 5, 22, 8 ],
+                  "rotation": [ -81.37072, 0, 0 ],
+                  "texOffset": [ 38, 217 ],
+                  "children": [
+                    {
+                      "name": "Patte GDansTonCulMonGars",
+                      "position": [ -9.536743E-07, -9, 2 ],
+                      "offsetFromPivot": [ 0, -5, 0 ],
+                      "size": [ 8, 10, 5 ],
+                      "rotation": [ 49.82677, 0, 0 ],
+                      "texOffset": [ 64, 216 ],
+                      "children": [
+                        {
+                          "name": "Doigt 115",
+                          "position": [ -3.3, -3, 0 ],
+                          "offsetFromPivot": [ 0, -2, 0 ],
+                          "size": [ 3, 7, 4 ],
+                          "rotation": [ 69.43449, -7.633441E-08, -3.192671 ],
+                          "texOffset": [ 65, 217 ],
+                          "children": [
+                            {
+                              "name": "Doigt 124",
+                              "position": [ 0, -1.799195, -1.587085E-06 ],
+                              "offsetFromPivot": [ 0, -2, 0 ],
+                              "size": [ 3, 5, 3 ],
+                              "rotation": [ 18.68956, 2.52309, 1.187656 ],
+                              "texOffset": [ 78, 223 ],
+                              "children": [
+                                {
+                                  "name": "Doigt 136",
+                                  "position": [ -9.386601E-07, -2, 2.893723E-06 ],
+                                  "offsetFromPivot": [ 0, -1, 0 ],
+                                  "size": [ 1, 4, 2 ],
+                                  "rotation": [ 45.39338, 3.221526E-07, 1.761976E-07 ],
+                                  "texOffset": [ 64, 239 ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Doigt 218",
+                          "position": [ 0, -2.999999, 1.565276E-06 ],
+                          "offsetFromPivot": [ 0, -2, 0 ],
+                          "size": [ 3, 7, 4 ],
+                          "rotation": [ 69.43449, 0, 0 ],
+                          "texOffset": [ 65, 217 ],
+                          "children": [
+                            {
+                              "name": "Doigt 229",
+                              "position": [ 0, -1.989176, -1.749227E-06 ],
+                              "offsetFromPivot": [ 0, -2, 0 ],
+                              "size": [ 3, 5, 3 ],
+                              "rotation": [ 18.8, 1.44, -1.274122E-08 ],
+                              "texOffset": [ 78, 223 ],
+                              "children": [
+                                {
+                                  "name": "Doigt 238",
+                                  "position": [ 0.3343311, -1.992396, -0.1466559 ],
+                                  "offsetFromPivot": [ 0, -1, 0 ],
+                                  "size": [ 1, 4, 2 ],
+                                  "rotation": [ 45.35126, -2.210411, -3.105502 ],
+                                  "texOffset": [ 64, 239 ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Doigt 315",
+                          "position": [ 3.3, -3, 0 ],
+                          "offsetFromPivot": [ 0, -2, 0 ],
+                          "size": [ 3, 7, 4 ],
+                          "rotation": [ 69.43, -3.799124E-08, 1.981351 ],
+                          "texOffset": [ 65, 217 ],
+                          "children": [
+                            {
+                              "name": "Doigt 326",
+                              "position": [ -1.042691E-07, -2, -1.239786E-06 ],
+                              "offsetFromPivot": [ 0, -2, 0 ],
+                              "size": [ 3, 5, 3 ],
+                              "rotation": [ 18.85166, -1.625271E-07, -1.054869E-06 ],
+                              "texOffset": [ 78, 223 ],
+                              "children": [
+                                {
+                                  "name": "Doigt 337",
+                                  "position": [ 0, -1.882363, -0.1897153 ],
+                                  "offsetFromPivot": [ 0, -1, 0 ],
+                                  "size": [ 1, 4, 2 ],
+                                  "rotation": [ 45.20541, -3.845515, -6.424582 ],
+                                  "texOffset": [ 64, 239 ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Jambe D 1",
+              "position": [ 8, 1.941249, 0.0612529 ],
+              "offsetFromPivot": [ 0, -6, 0 ],
+              "size": [ 6, 20, 13 ],
+              "rotation": [ 12.40515, 5.766162E-08, 4.187479 ],
+              "vertexCoords": [
+                [ 3, 10, -6.5 ],
+                [ -3, 10, -6.5 ],
+                [ -3, -10, -6.5 ],
+                [ 3, -10, -6.5 ],
+                [ -3, 10, 6.5 ],
+                [ 3, 10, 6.5 ],
+                [ 3, -10, 6.5 ],
+                [ -3, -10, 6.5 ]
+              ],
+              "texOffset": [ 0, 216 ],
+              "children": [
+                {
+                  "name": "Jambe G 2",
+                  "position": [ 0, -8, 1 ],
+                  "offsetFromPivot": [ 0, -4, 1 ],
+                  "size": [ 5, 22, 8 ],
+                  "rotation": [ -81.37072, 0, 0 ],
+                  "vertexCoords": [
+                    [ 2.5, 11, -4 ],
+                    [ -2.5, 11, -4 ],
+                    [ -2.5, -11, -4 ],
+                    [ 2.5, -11, -4 ],
+                    [ -2.5, 11, 4 ],
+                    [ 2.5, 11, 4 ],
+                    [ 2.5, -11, 4 ],
+                    [ -2.5, -11, 4 ]
+                  ],
+                  "texOffset": [ 38, 217 ],
+                  "children": [
+                    {
+                      "name": "Patte GToiAussiEncule",
+                      "position": [ 9.536743E-07, -9, 2 ],
+                      "offsetFromPivot": [ 0, -5, 0 ],
+                      "size": [ 8, 10, 5 ],
+                      "rotation": [ 49.82677, 0, 0 ],
+                      "vertexCoords": [
+                        [ 4, 5, -2.5 ],
+                        [ -4, 5, -2.5 ],
+                        [ -4, -5, -2.5 ],
+                        [ 4, -5, -2.5 ],
+                        [ -4, 5, 2.5 ],
+                        [ 4, 5, 2.5 ],
+                        [ 4, -5, 2.5 ],
+                        [ -4, -5, 2.5 ]
+                      ],
+                      "texOffset": [ 64, 216 ],
+                      "children": [
+                        {
+                          "name": "Doigt 11",
+                          "position": [ 3.3, -3, 0 ],
+                          "offsetFromPivot": [ 0, -2, 0 ],
+                          "size": [ 3, 7, 4 ],
+                          "rotation": [ 69.43449, 7.633441E-08, 3.192671 ],
+                          "vertexCoords": [
+                            [ 1.5, 3.5, -2 ],
+                            [ -1.5, 3.5, -2 ],
+                            [ -1.5, -3.5, -2 ],
+                            [ 1.5, -3.5, -2 ],
+                            [ -1.5, 3.5, 2 ],
+                            [ 1.5, 3.5, 2 ],
+                            [ 1.5, -3.5, 2 ],
+                            [ -1.5, -3.5, 2 ]
+                          ],
+                          "texOffset": [ 65, 217 ],
+                          "children": [
+                            {
+                              "name": "Doigt 12",
+                              "position": [ 0, -1.799195, -1.587085E-06 ],
+                              "offsetFromPivot": [ 0, -2, 0 ],
+                              "size": [ 3, 5, 3 ],
+                              "rotation": [ 18.68956, -2.52309, -1.187656 ],
+                              "vertexCoords": [
+                                [ 1.5, 2.5, -1.5 ],
+                                [ -1.5, 2.5, -1.5 ],
+                                [ -1.5, -2.5, -1.5 ],
+                                [ 1.5, -2.5, -1.5 ],
+                                [ -1.5, 2.5, 1.5 ],
+                                [ 1.5, 2.5, 1.5 ],
+                                [ 1.5, -2.5, 1.5 ],
+                                [ -1.5, -2.5, 1.5 ]
+                              ],
+                              "texOffset": [ 78, 223 ],
+                              "children": [
+                                {
+                                  "name": "Doigt 13",
+                                  "position": [ 9.386601E-07, -2, 2.893723E-06 ],
+                                  "offsetFromPivot": [ 0, -1, 0 ],
+                                  "size": [ 1, 4, 2 ],
+                                  "rotation": [ 45.39338, -3.221526E-07, -1.761976E-07 ],
+                                  "vertexCoords": [
+                                    [ 0.5, 2, -1 ],
+                                    [ -0.5, 2, -1 ],
+                                    [ -0.5, -2, -1 ],
+                                    [ 0.5, -2, -1 ],
+                                    [ -0.5, 2, 1 ],
+                                    [ 0.5, 2, 1 ],
+                                    [ 0.5, -2, 1 ],
+                                    [ -0.5, -2, 1 ]
+                                  ],
+                                  "texOffset": [ 64, 239 ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Doigt 21",
+                          "position": [ 0, -2.999999, 1.565276E-06 ],
+                          "offsetFromPivot": [ 0, -2, 0 ],
+                          "size": [ 3, 7, 4 ],
+                          "rotation": [ 69.43449, 0, 0 ],
+                          "vertexCoords": [
+                            [ 1.5, 3.5, -2 ],
+                            [ -1.5, 3.5, -2 ],
+                            [ -1.5, -3.5, -2 ],
+                            [ 1.5, -3.5, -2 ],
+                            [ -1.5, 3.5, 2 ],
+                            [ 1.5, 3.5, 2 ],
+                            [ 1.5, -3.5, 2 ],
+                            [ -1.5, -3.5, 2 ]
+                          ],
+                          "texOffset": [ 65, 217 ],
+                          "children": [
+                            {
+                              "name": "Doigt 22",
+                              "position": [ 0, -1.989176, -1.749227E-06 ],
+                              "offsetFromPivot": [ 0, -2, 0 ],
+                              "size": [ 3, 5, 3 ],
+                              "rotation": [ 18.8, -1.44, 1.274122E-08 ],
+                              "vertexCoords": [
+                                [ 1.5, 2.5, -1.5 ],
+                                [ -1.5, 2.5, -1.5 ],
+                                [ -1.5, -2.5, -1.5 ],
+                                [ 1.5, -2.5, -1.5 ],
+                                [ -1.5, 2.5, 1.5 ],
+                                [ 1.5, 2.5, 1.5 ],
+                                [ 1.5, -2.5, 1.5 ],
+                                [ -1.5, -2.5, 1.5 ]
+                              ],
+                              "texOffset": [ 78, 223 ],
+                              "children": [
+                                {
+                                  "name": "Doigt 23",
+                                  "position": [ -0.3343311, -1.992396, -0.1466559 ],
+                                  "offsetFromPivot": [ 0, -1, 0 ],
+                                  "size": [ 1, 4, 2 ],
+                                  "rotation": [ 45.35126, 2.210411, 3.105502 ],
+                                  "vertexCoords": [
+                                    [ 0.5, 2, -1 ],
+                                    [ -0.5, 2, -1 ],
+                                    [ -0.5, -2, -1 ],
+                                    [ 0.5, -2, -1 ],
+                                    [ -0.5, 2, 1 ],
+                                    [ 0.5, 2, 1 ],
+                                    [ 0.5, -2, 1 ],
+                                    [ -0.5, -2, 1 ]
+                                  ],
+                                  "texOffset": [ 64, 239 ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Doigt 31",
+                          "position": [ -3.3, -3, 0 ],
+                          "offsetFromPivot": [ 0, -2, 0 ],
+                          "size": [ 3, 7, 4 ],
+                          "rotation": [ 69.43, 3.799124E-08, -1.981351 ],
+                          "vertexCoords": [
+                            [ 1.5, 3.5, -2 ],
+                            [ -1.5, 3.5, -2 ],
+                            [ -1.5, -3.5, -2 ],
+                            [ 1.5, -3.5, -2 ],
+                            [ -1.5, 3.5, 2 ],
+                            [ 1.5, 3.5, 2 ],
+                            [ 1.5, -3.5, 2 ],
+                            [ -1.5, -3.5, 2 ]
+                          ],
+                          "texOffset": [ 65, 217 ],
+                          "children": [
+                            {
+                              "name": "Doigt 325624",
+                              "position": [ 1.042691E-07, -2, -1.239786E-06 ],
+                              "offsetFromPivot": [ 0, -2, 0 ],
+                              "size": [ 3, 5, 3 ],
+                              "rotation": [ 18.85166, 1.625271E-07, 1.054869E-06 ],
+                              "vertexCoords": [
+                                [ 1.5, 2.5, -1.5 ],
+                                [ -1.5, 2.5, -1.5 ],
+                                [ -1.5, -2.5, -1.5 ],
+                                [ 1.5, -2.5, -1.5 ],
+                                [ -1.5, 2.5, 1.5 ],
+                                [ 1.5, 2.5, 1.5 ],
+                                [ 1.5, -2.5, 1.5 ],
+                                [ -1.5, -2.5, 1.5 ]
+                              ],
+                              "texOffset": [ 78, 223 ],
+                              "children": [
+                                {
+                                  "name": "Doigt 335623",
+                                  "position": [ 0, -1.882363, -0.1897153 ],
+                                  "offsetFromPivot": [ 0, -1, 0 ],
+                                  "size": [ 1, 4, 2 ],
+                                  "rotation": [ 45.20541, 3.845515, 6.424582 ],
+                                  "vertexCoords": [
+                                    [ 0.5, 2, -1 ],
+                                    [ -0.5, 2, -1 ],
+                                    [ -0.5, -2, -1 ],
+                                    [ 0.5, -2, -1 ],
+                                    [ -0.5, 2, 1 ],
+                                    [ 0.5, 2, 1 ],
+                                    [ 0.5, -2, 1 ],
+                                    [ -0.5, -2, 1 ]
+                                  ],
+                                  "texOffset": [ 64, 239 ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Crette 6",
+              "position": [ 0, 7.481722, -5 ],
+              "offsetFromPivot": [ 0, 0, 0 ],
+              "size": [ 1, 13, 8 ],
+              "rotation": [ -68.49892, 0, 0 ],
+              "texOffset": [ 238, 33 ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "Aile2",
+          "position": [ -15, 9.184255E-07, -2.546989E-06 ],
+          "offsetFromPivot": [ -24, 0, 0 ],
+          "size": [ 50, 5, 8 ],
+          "rotation": [ -6.89, -22, 2.168892E-09 ],
+          "vertexCoords": [
+            [ 25, 2.5, -4 ],
+            [ -25, 2.5, -4 ],
+            [ -25, -2.5, -4 ],
+            [ 25, -2.5, -4 ],
+            [ -25, 2.5, 4 ],
+            [ 25, 2.5, 4 ],
+            [ 25, -2.5, 4 ],
+            [ -25, -2.5, 4 ]
+          ],
+          "texOffset": [ 58, 0 ],
+          "children": [
+            {
+              "name": "Aile 2.2",
+              "position": [ -21.31004, 0.0002365663, -0.0255119 ],
+              "offsetFromPivot": [ -24, 0, 0 ],
+              "size": [ 50, 5, 7 ],
+              "rotation": [ 0.2339692, 63.46978, 0.4686372 ],
+              "vertexCoords": [
+                [ 25, 2.5, -3.5 ],
+                [ -25, 2.5, -3.5 ],
+                [ -25, -2.5, -3.5 ],
+                [ 25, -2.5, -3.5 ],
+                [ -25, 2.5, 3.5 ],
+                [ 25, 2.5, 3.5 ],
+                [ 25, -2.5, 3.5 ],
+                [ -25, -2.5, 3.5 ]
+              ],
+              "texOffset": [ 74, 13 ],
+              "children": [
+                {
+                  "name": "AileBranche2.2",
+                  "position": [ -23.84916, 0.09999574, 2.215488 ],
+                  "offsetFromPivot": [ -44, 0, 0 ],
+                  "size": [ 86, 5, 3 ],
+                  "rotation": [ -1.543068E-05, -110.841, 8.969847E-06 ],
+                  "vertexCoords": [
+                    [ 43, 2.5, -1.5 ],
+                    [ -43, 2.5, -1.5 ],
+                    [ -43, -2.5, -1.5 ],
+                    [ 43, -2.5, -1.5 ],
+                    [ -43, 2.5, 1.5 ],
+                    [ 43, 2.5, 1.5 ],
+                    [ 43, -2.5, 1.5 ],
+                    [ -43, -2.5, 1.5 ]
+                  ],
+                  "texOffset": [ 74, 25 ],
+                  "children": [
+                    {
+                      "name": "AileToile2.2",
+                      "position": [ 34.94409, -0.1125191, -8.335443 ],
+                      "offsetFromPivot": [ -38, 0, -16 ],
+                      "size": [ 86, 0, 46 ],
+                      "rotation": [ -1.080418E-05, -1.636025E-05, 9.369185E-06 ],
+                      "vertexCoords": [
+                        [ 43, 0, -23 ],
+                        [ -43, 0, -23 ],
+                        [ -43, 0, -23 ],
+                        [ 43, 0, -23 ],
+                        [ -43, 0, 23 ],
+                        [ 43, 0, 23 ],
+                        [ 43, 0, 23 ],
+                        [ -43, 0, 23 ]
+                      ],
+                      "texOffset": [ -46, 140 ],
+                      "children": []
+                    },
+                    {
+                      "name": "griffes bout ailes2.2",
+                      "position": [ -39.18649, 0.2161948, -0.09094638 ],
+                      "offsetFromPivot": [ 0, 0, 5 ],
+                      "size": [ 3, 3, 9 ],
+                      "rotation": [ 0.5044933, -99.31251, -91.96687 ],
+                      "vertexCoords": [
+                        [ 1.5, 1.5, -4.5 ],
+                        [ -1.5, 1.5, -4.5 ],
+                        [ -1.5, -1.5, -4.5 ],
+                        [ 1.5, -1.5, -4.5 ],
+                        [ -1.5, 1.5, 4.5 ],
+                        [ 1.5, 1.5, 4.5 ],
+                        [ 1.5, -1.5, 4.5 ],
+                        [ -1.5, -1.5, 4.5 ]
+                      ],
+                      "texOffset": [ 174, 0 ],
+                      "children": [
+                        {
+                          "name": "griffes bout.2",
+                          "position": [ -0.3783033, 0.1637897, 3 ],
+                          "offsetFromPivot": [ 0, 0, 3 ],
+                          "size": [ 2, 2, 4 ],
+                          "rotation": [ 17.07758, -1.555225E-05, -9.53466E-06 ],
+                          "vertexCoords": [
+                            [ 1, 1, -2 ],
+                            [ -1, 1, -2 ],
+                            [ -1, -1, -2 ],
+                            [ 1, -1, -2 ],
+                            [ -1, 1, 2 ],
+                            [ 1, 1, 2 ],
+                            [ 1, -1, 2 ],
+                            [ -1, -1, 2 ]
+                          ],
+                          "texOffset": [ 189, 0 ],
+                          "children": [
+                            {
+                              "name": "griffes bou2.2",
+                              "position": [ -0.02169422, 0.2021261, 0.5993456 ],
+                              "offsetFromPivot": [ 0, 0, 3 ],
+                              "size": [ 2, 2, 4 ],
+                              "rotation": [ 9.424067, -5.280378E-06, 5.510787E-06 ],
+                              "vertexCoords": [
+                                [ 1, 1, -2 ],
+                                [ -1, 1, -2 ],
+                                [ -1, -1, -2 ],
+                                [ 1, -1, -2 ],
+                                [ -1, 1, 2 ],
+                                [ 1, 1, 2 ],
+                                [ 1, -1, 2 ],
+                                [ -1, -1, 2 ]
+                              ],
+                              "texOffset": [ 189, 0 ],
+                              "children": [
+                                {
+                                  "name": "griffes bou3.2",
+                                  "position": [ 0, 0.2, 0.5 ],
+                                  "offsetFromPivot": [ 0, 0, 3 ],
+                                  "size": [ 1, 2, 4 ],
+                                  "rotation": [ 8.012905, 5.684132E-06, -6.632725E-07 ],
+                                  "vertexCoords": [
+                                    [ 0.5, 1, -2 ],
+                                    [ -0.5, 1, -2 ],
+                                    [ -0.5, -1, -2 ],
+                                    [ 0.5, -1, -2 ],
+                                    [ -0.5, 1, 2 ],
+                                    [ 0.5, 1, 2 ],
+                                    [ 0.5, -1, 2 ],
+                                    [ -0.5, -1, 2 ]
+                                  ],
+                                  "texOffset": [ 189, 0 ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "AileBranche3.25622",
+                  "position": [ -23.84916, 0.0999957, 2.215488 ],
+                  "offsetFromPivot": [ -44, 0, 0 ],
+                  "size": [ 86, 5, 3 ],
+                  "rotation": [ -5.683263E-06, -141.5232, 2.130234E-05 ],
+                  "vertexCoords": [
+                    [ 43, 2.5, -1.5 ],
+                    [ -43, 2.5, -1.5 ],
+                    [ -43, -2.5, -1.5 ],
+                    [ 43, -2.5, -1.5 ],
+                    [ -43, 2.5, 1.5 ],
+                    [ 43, 2.5, 1.5 ],
+                    [ 43, -2.5, 1.5 ],
+                    [ -43, -2.5, 1.5 ]
+                  ],
+                  "texOffset": [ 74, 25 ],
+                  "children": [
+                    {
+                      "name": "griffes bout ailes2.25621",
+                      "position": [ -39.18649, 0.2161948, -0.09094638 ],
+                      "offsetFromPivot": [ 0, 0, 5 ],
+                      "size": [ 3, 3, 9 ],
+                      "rotation": [ 0.5044933, -99.31251, -91.96687 ],
+                      "vertexCoords": [
+                        [ 1.5, 1.5, -4.5 ],
+                        [ -1.5, 1.5, -4.5 ],
+                        [ -1.5, -1.5, -4.5 ],
+                        [ 1.5, -1.5, -4.5 ],
+                        [ -1.5, 1.5, 4.5 ],
+                        [ 1.5, 1.5, 4.5 ],
+                        [ 1.5, -1.5, 4.5 ],
+                        [ -1.5, -1.5, 4.5 ]
+                      ],
+                      "texOffset": [ 174, 0 ],
+                      "children": [
+                        {
+                          "name": "griffes bout.25620",
+                          "position": [ -0.4, 0, 3 ],
+                          "offsetFromPivot": [ 0, 0, 3 ],
+                          "size": [ 2, 2, 4 ],
+                          "rotation": [ 2.648026, -1.073253, 0.0176872 ],
+                          "vertexCoords": [
+                            [ 1, 1, -2 ],
+                            [ -1, 1, -2 ],
+                            [ -1, -1, -2 ],
+                            [ 1, -1, -2 ],
+                            [ -1, 1, 2 ],
+                            [ 1, 1, 2 ],
+                            [ 1, -1, 2 ],
+                            [ -1, -1, 2 ]
+                          ],
+                          "texOffset": [ 189, 0 ],
+                          "children": [
+                            {
+                              "name": "griffes bou2.25619",
+                              "position": [ -0.02169422, 0.2021261, 0.5993456 ],
+                              "offsetFromPivot": [ 0, 0, 3 ],
+                              "size": [ 2, 2, 4 ],
+                              "rotation": [ 9.424067, -5.280378E-06, 5.510787E-06 ],
+                              "vertexCoords": [
+                                [ 1, 1, -2 ],
+                                [ -1, 1, -2 ],
+                                [ -1, -1, -2 ],
+                                [ 1, -1, -2 ],
+                                [ -1, 1, 2 ],
+                                [ 1, 1, 2 ],
+                                [ 1, -1, 2 ],
+                                [ -1, -1, 2 ]
+                              ],
+                              "texOffset": [ 189, 0 ],
+                              "children": [
+                                {
+                                  "name": "griffes bou3.25618",
+                                  "position": [ 0, 0.2, 0.5 ],
+                                  "offsetFromPivot": [ 0, 0, 3 ],
+                                  "size": [ 1, 2, 4 ],
+                                  "rotation": [ 8.012905, 5.684132E-06, -6.632725E-07 ],
+                                  "vertexCoords": [
+                                    [ 0.5, 1, -2 ],
+                                    [ -0.5, 1, -2 ],
+                                    [ -0.5, -1, -2 ],
+                                    [ 0.5, -1, -2 ],
+                                    [ -0.5, 1, 2 ],
+                                    [ 0.5, 1, 2 ],
+                                    [ 0.5, -1, 2 ],
+                                    [ -0.5, -1, 2 ]
+                                  ],
+                                  "texOffset": [ 189, 0 ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "AileToile 1.3.25617",
+                      "position": [ 46.37394, 1.574688E-06, -11.22091 ],
+                      "offsetFromPivot": [ -55, 0, -5 ],
+                      "size": [ 82, 0, 30 ],
+                      "rotation": [ -5.072849E-06, -3.746575E-07, 1.22216E-05 ],
+                      "vertexCoords": [
+                        [ 41, 0, -15 ],
+                        [ -41, 0, -15 ],
+                        [ -41, 0, -15 ],
+                        [ 41, 0, -15 ],
+                        [ -41, 0, 15 ],
+                        [ 41, 0, 15 ],
+                        [ 41, 0, 15 ],
+                        [ -41, 0, 15 ]
+                      ],
+                      "texOffset": [ -30, 186 ],
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "AileBranche1.25616",
+                  "position": [ -23.84916, 0.1499978, 2.215489 ],
+                  "offsetFromPivot": [ -29, 0, 0 ],
+                  "size": [ 57, 5, 3 ],
+                  "rotation": [ -1.716231E-05, -83.72255, 2.268148E-07 ],
+                  "vertexCoords": [
+                    [ 28.5, 2.5, -1.5 ],
+                    [ -28.5, 2.5, -1.5 ],
+                    [ -28.5, -2.5, -1.5 ],
+                    [ 28.5, -2.5, -1.5 ],
+                    [ -28.5, 2.5, 1.5 ],
+                    [ 28.5, 2.5, 1.5 ],
+                    [ 28.5, -2.5, 1.5 ],
+                    [ -28.5, -2.5, 1.5 ]
+                  ],
+                  "texOffset": [ 86, 25 ],
+                  "children": [
+                    {
+                      "name": "AileToilebranche 1.25615",
+                      "position": [ 26.12369, -0.07595771, -7.794971 ],
+                      "offsetFromPivot": [ -36, 0, -13 ],
+                      "size": [ 84, 0, 42 ],
+                      "rotation": [ -1.325583E-05, -1.158159E-05, 2.358795E-06 ],
+                      "vertexCoords": [
+                        [ 42, 0, -21 ],
+                        [ -42, 0, -21 ],
+                        [ -42, 0, -21 ],
+                        [ 42, 0, -21 ],
+                        [ -42, 0, 21 ],
+                        [ 42, 0, 21 ],
+                        [ 42, 0, 21 ],
+                        [ -42, 0, 21 ]
+                      ],
+                      "texOffset": [ -42, 98 ],
+                      "children": []
+                    },
+                    {
+                      "name": "griffes bout ailes.25614",
+                      "position": [ -26.23009, 0.166191, -0.02326208 ],
+                      "offsetFromPivot": [ 0, 0, 5 ],
+                      "size": [ 3, 3, 9 ],
+                      "rotation": [ 1.228018, -103.6092, -91.61719 ],
+                      "vertexCoords": [
+                        [ 1.5, 1.5, -4.5 ],
+                        [ -1.5, 1.5, -4.5 ],
+                        [ -1.5, -1.5, -4.5 ],
+                        [ 1.5, -1.5, -4.5 ],
+                        [ -1.5, 1.5, 4.5 ],
+                        [ 1.5, 1.5, 4.5 ],
+                        [ 1.5, -1.5, 4.5 ],
+                        [ -1.5, -1.5, 4.5 ]
+                      ],
+                      "texOffset": [ 174, 0 ],
+                      "children": [
+                        {
+                          "name": "griffes bout.25613",
+                          "position": [ -0.3783033, 0.1637897, 3 ],
+                          "offsetFromPivot": [ 0, 0, 3 ],
+                          "size": [ 2, 2, 4 ],
+                          "rotation": [ 17.07758, -1.555225E-05, -9.53466E-06 ],
+                          "vertexCoords": [
+                            [ 1, 1, -2 ],
+                            [ -1, 1, -2 ],
+                            [ -1, -1, -2 ],
+                            [ 1, -1, -2 ],
+                            [ -1, 1, 2 ],
+                            [ 1, 1, 2 ],
+                            [ 1, -1, 2 ],
+                            [ -1, -1, 2 ]
+                          ],
+                          "texOffset": [ 189, 0 ],
+                          "children": [
+                            {
+                              "name": "griffes bou2.25612",
+                              "position": [ 0, 0.3, 0 ],
+                              "offsetFromPivot": [ 0, 0, 3 ],
+                              "size": [ 2, 2, 4 ],
+                              "rotation": [ 12.42268, 6.004402E-06, 4.675526E-08 ],
+                              "vertexCoords": [
+                                [ 1, 1, -2 ],
+                                [ -1, 1, -2 ],
+                                [ -1, -1, -2 ],
+                                [ 1, -1, -2 ],
+                                [ -1, 1, 2 ],
+                                [ 1, 1, 2 ],
+                                [ 1, -1, 2 ],
+                                [ -1, -1, 2 ]
+                              ],
+                              "texOffset": [ 189, 0 ],
+                              "children": [
+                                {
+                                  "name": "griffes bou3.25611",
+                                  "position": [ 4.170682E-06, -1.131516E-06, 1 ],
+                                  "offsetFromPivot": [ 0, 0, 3 ],
+                                  "size": [ 1, 2, 4 ],
+                                  "rotation": [ 8.012905, 5.684132E-06, -6.632725E-07 ],
+                                  "vertexCoords": [
+                                    [ 0.5, 1, -2 ],
+                                    [ -0.5, 1, -2 ],
+                                    [ -0.5, -1, -2 ],
+                                    [ 0.5, -1, -2 ],
+                                    [ -0.5, 1, 2 ],
+                                    [ 0.5, 1, 2 ],
+                                    [ 0.5, -1, 2 ],
+                                    [ -0.5, -1, 2 ]
+                                  ],
+                                  "texOffset": [ 189, 0 ],
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "griffes bout ailes_centre2.25610",
+                  "position": [ -18.87915, 0.3161964, 1.668767 ],
+                  "offsetFromPivot": [ 0, 0, 5 ],
+                  "size": [ 3, 3, 9 ],
+                  "rotation": [ 1.389458, -87.70206, -88.51917 ],
+                  "vertexCoords": [
+                    [ 1.5, 1.5, -4.5 ],
+                    [ -1.5, 1.5, -4.5 ],
+                    [ -1.5, -1.5, -4.5 ],
+                    [ 1.5, -1.5, -4.5 ],
+                    [ -1.5, 1.5, 4.5 ],
+                    [ 1.5, 1.5, 4.5 ],
+                    [ 1.5, -1.5, 4.5 ],
+                    [ -1.5, -1.5, 4.5 ]
+                  ],
+                  "texOffset": [ 174, 0 ],
+                  "children": [
+                    {
+                      "name": "griffes bout.2569",
+                      "position": [ -0.3783033, 0.1637897, 3 ],
+                      "offsetFromPivot": [ 0, 0, 3 ],
+                      "size": [ 2, 2, 4 ],
+                      "rotation": [ 17.07758, -1.555225E-05, -9.53466E-06 ],
+                      "vertexCoords": [
+                        [ 1, 1, -2 ],
+                        [ -1, 1, -2 ],
+                        [ -1, -1, -2 ],
+                        [ 1, -1, -2 ],
+                        [ -1, 1, 2 ],
+                        [ 1, 1, 2 ],
+                        [ 1, -1, 2 ],
+                        [ -1, -1, 2 ]
+                      ],
+                      "texOffset": [ 189, 0 ],
+                      "children": [
+                        {
+                          "name": "griffes bou2.2568",
+                          "position": [ 0, 0.3, 0 ],
+                          "offsetFromPivot": [ 0, 0, 3 ],
+                          "size": [ 2, 2, 4 ],
+                          "rotation": [ 12.42268, 6.004402E-06, 4.675526E-08 ],
+                          "vertexCoords": [
+                            [ 1, 1, -2 ],
+                            [ -1, 1, -2 ],
+                            [ -1, -1, -2 ],
+                            [ 1, -1, -2 ],
+                            [ -1, 1, 2 ],
+                            [ 1, 1, 2 ],
+                            [ 1, -1, 2 ],
+                            [ -1, -1, 2 ]
+                          ],
+                          "texOffset": [ 189, 0 ],
+                          "children": [
+                            {
+                              "name": "griffes bou3.2567",
+                              "position": [ 4.170682E-06, -1.131516E-06, 1 ],
+                              "offsetFromPivot": [ 0, 0, 3 ],
+                              "size": [ 1, 2, 4 ],
+                              "rotation": [ 8.012905, 5.684132E-06, -6.632725E-07 ],
+                              "vertexCoords": [
+                                [ 0.5, 1, -2 ],
+                                [ -0.5, 1, -2 ],
+                                [ -0.5, -1, -2 ],
+                                [ 0.5, -1, -2 ],
+                                [ -0.5, 1, 2 ],
+                                [ 0.5, 1, 2 ],
+                                [ 0.5, -1, 2 ],
+                                [ -0.5, -1, 2 ]
+                              ],
+                              "texOffset": [ 189, 0 ],
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "AileToile1.1.2566",
+              "position": [ 24, -3.476012E-06, 1.473967E-06 ],
+              "offsetFromPivot": [ -23, 0, -23 ],
+              "size": [ 53, 0, 42 ],
+              "rotation": [ -1.219527E-05, -1.112748E-05, -3.504153E-06 ],
+              "vertexCoords": [
+                [ 26.5, 0, -21 ],
+                [ -26.5, 0, -21 ],
+                [ -26.5, 0, -21 ],
+                [ 26.5, 0, -21 ],
+                [ -26.5, 0, 21 ],
+                [ 26.5, 0, 21 ],
+                [ 26.5, 0, 21 ],
+                [ -26.5, 0, 21 ]
+              ],
+              "texOffset": [ 52, 56 ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "Crette 3565",
+          "position": [ 6, 7.519951, -5.314118 ],
+          "offsetFromPivot": [ 0, 0, 0 ],
+          "size": [ 1, 13, 8 ],
+          "rotation": [ -60.43575, 0, 0 ],
+          "texOffset": [ 238, 33 ],
+          "children": []
+        },
+        {
+          "name": "Crette 4564",
+          "position": [ -6, 7.519951, -5.314118 ],
+          "offsetFromPivot": [ 0, 0, 0 ],
+          "size": [ 1, 13, 8 ],
+          "rotation": [ -60.43574, 0, 0 ],
+          "vertexCoords": [
+            [ 0.5, 6.5, -4 ],
+            [ -0.5, 6.5, -4 ],
+            [ -0.5, -6.5, -4 ],
+            [ 0.5, -6.5, -4 ],
+            [ -0.5, 6.5, 4 ],
+            [ 0.5, 6.5, 4 ],
+            [ 0.5, -6.5, 4 ],
+            [ -0.5, -6.5, 4 ]
+          ],
+          "texOffset": [ 238, 33 ],
+          "children": []
+        },
+        {
+          "name": "Crette Centre563",
+          "position": [ 0, 8, -5.314118 ],
+          "offsetFromPivot": [ 0, 0, 0 ],
+          "size": [ 1, 17, 9 ],
+          "rotation": [ -59.58637, 0, 0 ],
+          "texOffset": [ 60, 32 ],
+          "children": []
+        },
+        {
+          "name": "Corp2562",
+          "position": [ 0, -0.9999974, -18 ],
+          "offsetFromPivot": [ 0, 0, 0 ],
+          "size": [ 17, 16, 26 ],
+          "rotation": [ -2.281355, 0, 0 ],
+          "texOffset": [ 0, 32 ],
+          "children": [
+            {
+              "name": "Crette 5561",
+              "position": [ 0, 7, -0.6600574 ],
+              "offsetFromPivot": [ 0, 0, 0 ],
+              "size": [ 1, 13, 8 ],
+              "rotation": [ -68.49894, 0, 0 ],
+              "texOffset": [ 238, 33 ],
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

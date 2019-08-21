@@ -18,6 +18,7 @@ import org.apache.commons.io.Charsets;
 import javax.vecmath.Vector3f;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map.Entry;
 
@@ -56,6 +57,12 @@ public class CSJsonReader {
         IResource iResource = null;
         StringBuilder strBuilder = new StringBuilder();
         this.ress = resourceIn.toString();
+
+        try {
+            System.out.println(Minecraft.getInstance().getResourceManager().getResource(resourceIn).getLocation());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
         try {
             iResource = Minecraft.getInstance().getResourceManager().getResource(resourceIn);
