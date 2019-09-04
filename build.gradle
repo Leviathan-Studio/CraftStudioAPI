@@ -1,13 +1,12 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
-        mavenCentral()
+        maven { url = 'https://repo.leviathan-studio.com/libs-release' }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
@@ -17,6 +16,33 @@ group = 'com.leviathanstudio' // http://maven.apache.org/guides/mini/guide-namin
 archivesBaseName = 'CraftStudioAPI'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java/'
+        }
+        resources {
+            srcDirs 'src/main/resources/'
+        }
+    }
+    dev {
+        java {
+            srcDirs 'src/dev/java/'
+        }
+        resources {
+            srcDirs 'src/dev/resources/'
+        }
+    }
+    mod {
+        java {
+            srcDirs 'src/mod/java/'
+        }
+        resources {
+            srcDirs 'src/mod/resources/'
+        }
+    }
+}
 
 minecraft {
 
@@ -33,8 +59,13 @@ minecraft {
             property 'forge.logging.console.level', 'info'
 
             mods {
-                examplemod {
+                craftstudioapi {
+					ideaModule "${rootProject.name}.main"
                     source sourceSets.main
+                }
+                testmod {
+                    ideaModule "${rootProject.name}.mod"
+                    source sourceSets.mod
                 }
             }
         }
@@ -47,8 +78,13 @@ minecraft {
             property 'forge.logging.console.level', 'info'
 
             mods {
-                examplemod {
+                craftstudioapi {
+					ideaModule "${rootProject.name}.main"
                     source sourceSets.main
+                }
+                testmod {
+                    ideaModule "${rootProject.name}.mod"
+                    source sourceSets.mod
                 }
             }
         }
@@ -60,10 +96,10 @@ minecraft {
 
             property 'forge.logging.console.level', 'info'
 
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'craftstudioapi', '--all', '--output', file('src/generated/resources/')
 
             mods {
-                examplemod {
+                craftstudioapi {
                     source sourceSets.main
                 }
             }
@@ -75,16 +111,18 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.14.4-28.0.51'
 }
 
+
+
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
     manifest {
         attributes([
                 "Specification-Title": "crafstudio_api",
-                "Specification-Vendor": "examplemodsareus",
+                "Specification-Vendor": "LeviathanStudio",
                 "Specification-Version": "1", // We are version 1 of ourselves
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${version}",
-                "Implementation-Vendor" :"examplemodsareus",
+                "Implementation-Vendor" :"LeviathanStudio",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }

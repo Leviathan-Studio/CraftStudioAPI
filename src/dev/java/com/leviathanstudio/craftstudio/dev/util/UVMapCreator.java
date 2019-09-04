@@ -16,8 +16,8 @@ import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
 import com.leviathanstudio.craftstudio.dev.CraftStudioApiDev;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Object to help generate a UV Map for a model.
@@ -26,7 +26,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * 
  * @author Timmypote
  */
-@SideOnly(Side.CLIENT)
+
+@OnlyIn(Dist.CLIENT)
 public class UVMapCreator
 {
 
@@ -35,9 +36,8 @@ public class UVMapCreator
     private int           maxu = 0, maxv = 0;
 
     public UVMapCreator(ResourceLocation modelIn) {
-        this.rModel = RegistryHandler.modelRegistry.getObject(modelIn);
-        if (this.rModel == null)
-            throw new CSResourceNotRegisteredException(modelIn.toString());
+        this.rModel = RegistryHandler.modelRegistry.getValue(modelIn)
+        		.orElseThrow(() -> new CSResourceNotRegisteredException(modelIn.toString())); 
     }
 
     public boolean createUVMap() {

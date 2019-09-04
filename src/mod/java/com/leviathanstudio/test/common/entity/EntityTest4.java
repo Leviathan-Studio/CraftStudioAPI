@@ -16,7 +16,7 @@ public class EntityTest4 extends AnimatedEntity
     }
 
     public EntityTest4(World par1World) {
-        super(par1World);
+        super(null, par1World);
     }
 
     @Override
@@ -25,8 +25,8 @@ public class EntityTest4 extends AnimatedEntity
     }
 
     @Override
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
+    public void livingTick() {
+        super.livingTick();
 
         if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "rotation", this))
             this.getAnimationHandler().startAnimation(Mod_Test.MODID, "rotation", this);

@@ -16,7 +16,7 @@ public class TileEntityTest extends AnimatedTileEntity
     }
 
     public TileEntityTest() {
-        super();
+        super(null);
     }
 
     public TileEntityTest(World worldIn) {
@@ -30,8 +30,8 @@ public class TileEntityTest extends AnimatedTileEntity
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void tick() {
+        super.tick();
 
         if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "position", this))
             this.getAnimationHandler().startAnimation(Mod_Test.MODID, "position", this);

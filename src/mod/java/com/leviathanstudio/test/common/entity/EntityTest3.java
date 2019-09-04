@@ -5,8 +5,8 @@ import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.simpleImpl.AnimatedEntity;
 import com.leviathanstudio.test.common.Mod_Test;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumHand;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class EntityTest3 extends AnimatedEntity
@@ -20,7 +20,7 @@ public class EntityTest3 extends AnimatedEntity
     }
 
     public EntityTest3(World par1World) {
-        super(par1World);
+        super(null, par1World);
     }
 
     @Override
@@ -29,15 +29,15 @@ public class EntityTest3 extends AnimatedEntity
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, Hand hand) {
         if (!this.fly)
             this.fly = true;
         return true;
     }
 
     @Override
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
+    public void livingTick() {
+        super.livingTick();
 
         if (!this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "fly", this) && this.fly)
             this.getAnimationHandler().networkStartAnimation(Mod_Test.MODID, "fly", this);

@@ -1,15 +1,14 @@
 package com.leviathanstudio.craftstudio.dev;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.leviathanstudio.craftstudio.dev.command.CommandCSList;
 import com.leviathanstudio.craftstudio.dev.command.CommandCSUVMap;
 
-import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Main class of the dev mod of the CraftStudioAPI
@@ -18,9 +17,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
  * 
  * @author Timmypote
  */
-@Mod(modid = CraftStudioApiDev.API_ID, name = CraftStudioApiDev.NAME, clientSideOnly = true, 
-    version = "1.0.0", 
-    acceptedMinecraftVersions = "1.12")
+@Mod(CraftStudioApiDev.API_ID)
 public class CraftStudioApiDev
 {
 
@@ -28,10 +25,13 @@ public class CraftStudioApiDev
     public static final String  API_ID = "craftstudioapidev";
     public static final String  NAME   = "CraftStudio API Dev";
 
-    @EventHandler
-    public void init(FMLInitializationEvent event) {
-        ClientCommandHandler.instance.registerCommand(new CommandCSUVMap());
-        ClientCommandHandler.instance.registerCommand(new CommandCSList());
+    public CraftStudioApiDev() {
+    	FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStartingEvent);
+    }
+    
+ 	private void serverStartingEvent(FMLServerStartingEvent event) {
+ 		CommandCSUVMap.register(event.getCommandDispatcher());
+ 		CommandCSList.register(event.getCommandDispatcher());
     }
 
     public static Logger getLogger() {

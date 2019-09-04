@@ -6,10 +6,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 
-@Mod(name = "TestMod", modid = Mod_Test.MODID)
+@Mod(Mod_Test.MODID)
 public class Mod_Test
 {
-    public static final String MODID = "craftstudioapi";
+    public static final String MODID = "testmod";
 
     @SidedProxy(clientSide = "com.leviathanstudio.test.proxy.ClientProxy", serverSide = "com.leviathanstudio.test.proxy.CommonProxy")
     private static CommonProxy proxy;

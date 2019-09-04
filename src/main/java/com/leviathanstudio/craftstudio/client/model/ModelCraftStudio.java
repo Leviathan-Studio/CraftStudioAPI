@@ -26,7 +26,7 @@ import java.util.List;
  * @since 0.3.0
  */
 @OnlyIn(Dist.CLIENT)
-public class ModelCraftStudio extends EntityModel {
+public class ModelCraftStudio<T extends Entity> extends EntityModel<T> {
 
     private List<CSModelRenderer> parentBlocks = new ArrayList<>();
 
@@ -157,7 +157,7 @@ public class ModelCraftStudio extends EntityModel {
      * Render methods for an Entity
      */
     @Override
-    public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         ClientAnimationHandler.performAnimationInModel(this.parentBlocks, (IAnimated) entityIn);
         for (int i = 0; i < this.parentBlocks.size(); i++)

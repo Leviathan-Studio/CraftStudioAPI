@@ -3,14 +3,13 @@ package com.leviathanstudio.test.common.block;
 import com.leviathanstudio.test.common.tileEntity.TileEntityTest;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.world.World;
+import net.minecraft.world.IBlockReader;
 
-public class BlockTest extends Block implements ITileEntityProvider
+public class BlockTest extends Block
 {
 
     public BlockTest() {
@@ -20,23 +19,24 @@ public class BlockTest extends Block implements ITileEntityProvider
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(BlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
     @Override
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
+    
     @Override
-    public TileEntityTest createNewTileEntity(World worldIn, int meta) {
-        return new TileEntityTest(worldIn);
+    public TileEntityTest createTileEntity(BlockState state, IBlockReader world) {
+        return new TileEntityTest(world);
     }
 
 }
