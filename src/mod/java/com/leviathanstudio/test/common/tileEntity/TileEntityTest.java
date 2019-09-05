@@ -3,7 +3,7 @@ package com.leviathanstudio.test.common.tileEntity;
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.simpleImpl.AnimatedTileEntity;
-import com.leviathanstudio.test.common.Mod_Test;
+import com.leviathanstudio.test.common.ModTest;
 
 import net.minecraft.world.World;
 
@@ -12,7 +12,7 @@ public class TileEntityTest extends AnimatedTileEntity
     protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(TileEntityTest.class);
 
     static {
-        TileEntityTest.animHandler.addAnim(Mod_Test.MODID, "position", "craftstudio_api_test", true);
+        TileEntityTest.animHandler.addAnim(ModTest.MODID, "position", "craftstudio_api_test", true);
     }
 
     public TileEntityTest() {
@@ -33,8 +33,8 @@ public class TileEntityTest extends AnimatedTileEntity
     public void tick() {
         super.tick();
 
-        if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(Mod_Test.MODID, "position", this))
-            this.getAnimationHandler().startAnimation(Mod_Test.MODID, "position", this);
+        if (this.isWorldRemote() && !this.getAnimationHandler().isAnimationActive(ModTest.MODID, "position", this))
+            this.getAnimationHandler().startAnimation(ModTest.MODID, "position", this);
 
     }
 }

@@ -22,12 +22,13 @@ import java.util.List;
  */
 @OnlyIn(Dist.CLIENT)
 public class CSRegistryHelper {
-    private static List<LoadElement> loadModelList = new ArrayList();
-    private static List<LoadElement> loadAnimList = new ArrayList();
+    private static List<LoadElement> loadModelList = new ArrayList<>();
+    private static List<LoadElement> loadAnimList = new ArrayList<>();
     private String modid;
 
 
-    public CSRegistryHelper() {
+    public CSRegistryHelper(String modid) {
+    	this.modid = modid;
     }
 
     /**

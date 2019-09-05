@@ -1,7 +1,7 @@
 package com.leviathanstudio.test.client.entityRender;
 
 import com.leviathanstudio.craftstudio.client.model.ModelCraftStudio;
-import com.leviathanstudio.test.common.Mod_Test;
+import com.leviathanstudio.test.common.ModTest;
 import com.leviathanstudio.test.common.entity.EntityTest;
 
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -15,12 +15,12 @@ public class RenderTest<T extends EntityTest> extends LivingRenderer<T, ModelCra
     public static final Factory<EntityTest> FACTORY = new Factory<>();
 
     public RenderTest(EntityRendererManager manager) {
-    	super(manager, new ModelCraftStudio<T>(Mod_Test.MODID, "craftstudio_api_test", 64, 32), 0.5F);
+    	super(manager, new ModelCraftStudio<T>(ModTest.MODID, "craftstudio_api_test", 64, 32), 0.5F);
     }
 
     @Override
     protected ResourceLocation getEntityTexture(T entity) {
-        return new ResourceLocation(Mod_Test.MODID, "textures/entity/craftstudio_api_test.png");
+        return new ResourceLocation(ModTest.MODID, "textures/entity/craftstudio_api_test.png");
     }
 
     public static class Factory<T extends EntityTest> implements IRenderFactory<T>
