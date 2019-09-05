@@ -1,6 +1,7 @@
 package com.leviathanstudio.craftstudio.client.registry;
 
 import com.google.common.reflect.TypeToken;
+import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.exception.CSMalformedJsonException;
 import com.leviathanstudio.craftstudio.client.exception.CSResourceNotFoundException;
 import com.leviathanstudio.craftstudio.client.json.CSJsonReader;
@@ -24,10 +25,10 @@ public class AssetModel extends CSReadedModel implements IForgeRegistryEntry<Ass
         try {
             ResourceLocation parsedPath = new ResourceLocation(assetIn.getNamespace(), resourceType.getPath() + renderType.getFolderName() + assetIn.getPath() + resourceType.getExtension());
             jsonReader = new CSJsonReader(parsedPath);
-            //if (assetIn.getNamespace() != CraftStudioApi.API_ID) {
+            if (assetIn.getNamespace() != CraftStudioApi.API_ID) {
             jsonReader.readModel();
-            //} else
-            //    CraftStudioApi.getLogger().fatal("You're not allowed to use the \"craftstudioapi\" to register CraftStudio resources.");
+            } else
+             CraftStudioApi.getLogger().fatal("You're not allowed to use the \"craftstudioapi\" to register CraftStudio resources.");
         } catch (CSResourceNotFoundException | CSMalformedJsonException e) {
             e.printStackTrace();
         }

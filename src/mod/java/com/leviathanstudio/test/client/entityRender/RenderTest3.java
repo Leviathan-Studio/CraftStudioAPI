@@ -12,7 +12,7 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 public class RenderTest3<T extends EntityTest3> extends LivingRenderer<T, ModelCraftStudio<T>>
 {
-    public static final Factory FACTORY = new Factory();
+    public static final Factory<EntityTest3> FACTORY = new Factory<>();
 
     public RenderTest3(EntityRendererManager manager) {
         super(manager, new ModelCraftStudio<T>(ModTest.MODID, "dragon_brun", 256), 0.5F);

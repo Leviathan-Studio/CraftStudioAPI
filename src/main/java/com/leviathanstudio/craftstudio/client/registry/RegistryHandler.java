@@ -18,11 +18,8 @@ public class RegistryHandler {
     public static SimpleRegistry<CSReadedModel> modelRegistry;
     public static SimpleRegistry<CSReadedAnim> animationRegistry;
 
-    /**
-     * Initialize the registries.
-     */
-    public static void init() {
-        modelRegistry = new SimpleRegistry<>();
+    static {
+    	modelRegistry = new SimpleRegistry<>();
         animationRegistry = new SimpleRegistry<>();
     }
 

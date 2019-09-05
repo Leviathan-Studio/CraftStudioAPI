@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 public class EntityTest extends AnimatedEntity
 {
-    protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(EntityTest.class);
+    protected static AnimationHandler<EntityTest> animHandler = CraftStudioApi.getNewAnimationHandler(EntityTest.class);
 
     static {
         EntityTest.animHandler.addAnim(ModTest.MODID, "position", "craftstudio_api_test", true);
@@ -23,8 +23,9 @@ public class EntityTest extends AnimatedEntity
         super(type, par1World);
     }
 
-    @Override
-    public AnimationHandler getAnimationHandler() {
+    @SuppressWarnings("unchecked")
+	@Override
+    public AnimationHandler<EntityTest> getAnimationHandler() {
         return EntityTest.animHandler;
     }
 

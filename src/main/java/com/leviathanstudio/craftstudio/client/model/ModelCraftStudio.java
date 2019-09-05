@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.model.PositionTextureVertex;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.SimpleRegistry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -58,10 +59,9 @@ public class ModelCraftStudio<T extends Entity> extends EntityModel<T> {
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
 
-        //TODO Check ifPresent()
-        CSReadedModel rModel = RegistryHandler.modelRegistry.getValue(modelIn).get();
-        if (rModel == null)
-            throw new CSResourceNotRegisteredException(modelIn.toString());
+        CSReadedModel rModel = RegistryHandler.modelRegistry
+        		.getValue(modelIn)
+        		.orElseThrow(() -> new CSResourceNotRegisteredException(modelIn.toString()));
         CSModelRenderer modelRend;
 
         for (CSReadedModelBlock rBlock : rModel.getParents()) {

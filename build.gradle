@@ -96,7 +96,7 @@ minecraft {
 
             property 'forge.logging.console.level', 'info'
 
-            args '--mod', 'craftstudioapi', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'craftstudioapi', '--mod', 'testmod', '--all', '--output', file('src/generated/resources/')
 
             mods {
                 craftstudioapi {
@@ -111,7 +111,9 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.14.4-28.0.51'
 }
 
-
+repositories {
+    maven { url = 'https://repo.leviathan-studio.com/libs-release' }
+}
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {

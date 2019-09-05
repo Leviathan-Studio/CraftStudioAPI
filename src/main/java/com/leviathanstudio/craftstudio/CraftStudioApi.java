@@ -4,13 +4,12 @@ import com.leviathanstudio.craftstudio.client.registry.AssetAnimation;
 import com.leviathanstudio.craftstudio.client.registry.AssetModel;
 import com.leviathanstudio.craftstudio.client.registry.CSRegistryHelper;
 import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
-import com.leviathanstudio.craftstudio.client.util.EnumRenderType;
-import com.leviathanstudio.craftstudio.client.util.EnumResourceType;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.IAnimated;
 import com.leviathanstudio.craftstudio.proxy.CSClientProxy;
 import com.leviathanstudio.craftstudio.proxy.CSCommonProxy;
 import com.leviathanstudio.craftstudio.proxy.CSServerProxy;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -22,6 +21,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,7 +41,6 @@ public class CraftStudioApi {
 
     private static IForgeRegistry<AssetModel> modelRegistry = null;
     private static IForgeRegistry<AssetAnimation> animationRegistry = null;
-    AssetModel testModel = new AssetModel(EnumResourceType.MODEL, EnumRenderType.BLOCK, new ResourceLocation(API_ID, "craftstudio_api_test"));
 
     public CraftStudioApi() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
@@ -75,11 +74,6 @@ public class CraftStudioApi {
     }
 
     @SubscribeEvent
-    public void onRegisterModel(RegistryEvent.Register<AssetModel> event) {
-        event.getRegistry().register(testModel.setRegistryName("test", "test_model"));
-    }
-
-    @SubscribeEvent
     public void onCreateRegistry(RegistryEvent.NewRegistry event) {
         RegistryBuilder<AssetModel> modelBuilder = new RegistryBuilder<>();
         RegistryBuilder<AssetAnimation> animationBuilder = new RegistryBuilder<>();
@@ -96,10 +90,19 @@ public class CraftStudioApi {
     }
 
     public void loadCraftStudioLoaders(FMLClientSetupEvent event) {
-        RegistryHandler.init();
+        
         CSRegistryHelper.loadModels();
         CSRegistryHelper.loadAnims();
     }
 
+	public static IForgeRegistry<AssetModel> getModelRegistry() {
+		return modelRegistry;
+	}
+
+	public static IForgeRegistry<AssetAnimation> getAnimationRegistry() {
+		return animationRegistry;
+	}
+
+    
 
 }

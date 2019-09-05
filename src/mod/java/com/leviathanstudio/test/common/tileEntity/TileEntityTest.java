@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 
 public class TileEntityTest extends AnimatedTileEntity
 {
-    protected static AnimationHandler animHandler = CraftStudioApi.getNewAnimationHandler(TileEntityTest.class);
+    protected static AnimationHandler<TileEntityTest> animHandler = CraftStudioApi.getNewAnimationHandler(TileEntityTest.class);
 
     static {
         TileEntityTest.animHandler.addAnim(ModTest.MODID, "position", "craftstudio_api_test", true);
@@ -24,8 +24,9 @@ public class TileEntityTest extends AnimatedTileEntity
         this.world = worldIn;
     }
 
-    @Override
-    public AnimationHandler getAnimationHandler() {
+    @SuppressWarnings("unchecked")
+	@Override
+    public AnimationHandler<TileEntityTest> getAnimationHandler() {
         return TileEntityTest.animHandler;
     }
 
