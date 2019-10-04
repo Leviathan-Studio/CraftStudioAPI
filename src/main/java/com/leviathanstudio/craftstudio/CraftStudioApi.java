@@ -39,9 +39,6 @@ public class CraftStudioApi {
     private static final Logger LOGGER = LogManager.getLogger("CraftStudio");
     private static CSCommonProxy proxy = DistExecutor.runForDist(() -> CSClientProxy::new, () -> CSServerProxy::new);
 
-    private static IForgeRegistry<AssetModel> modelRegistry = null;
-    private static IForgeRegistry<AssetAnimation> animationRegistry = null;
-
     public CraftStudioApi() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
@@ -66,43 +63,11 @@ public class CraftStudioApi {
 
     public void clientSetup(FMLClientSetupEvent event) {
         CraftStudioApi.proxy.clientSetup(event);
-        loadCraftStudioLoaders(event);
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {
         CraftStudioApi.proxy.commonSetup(event);
     }
-
-    @SubscribeEvent
-    public void onCreateRegistry(RegistryEvent.NewRegistry event) {
-        RegistryBuilder<AssetModel> modelBuilder = new RegistryBuilder<>();
-        RegistryBuilder<AssetAnimation> animationBuilder = new RegistryBuilder<>();
-
-        modelBuilder.setName(new ResourceLocation(API_ID, "models"));
-        modelBuilder.setType(AssetModel.class);
-        modelBuilder.setIDRange(0, 10_000);
-        modelRegistry = modelBuilder.create();
-
-        animationBuilder.setName(new ResourceLocation(API_ID, "animations"));
-        animationBuilder.setType(AssetAnimation.class);
-        animationBuilder.setIDRange(0, 10_000);
-        animationRegistry = animationBuilder.create();
-    }
-
-    public void loadCraftStudioLoaders(FMLClientSetupEvent event) {
-        
-        CSRegistryHelper.loadModels();
-        CSRegistryHelper.loadAnims();
-    }
-
-	public static IForgeRegistry<AssetModel> getModelRegistry() {
-		return modelRegistry;
-	}
-
-	public static IForgeRegistry<AssetAnimation> getAnimationRegistry() {
-		return animationRegistry;
-	}
-
-    
+   
 
 }

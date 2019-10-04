@@ -1,6 +1,5 @@
 package com.leviathanstudio.test.common;
 
-import com.leviathanstudio.craftstudio.client.registry.AssetModel;
 import com.leviathanstudio.test.common.block.BlockTest;
 import com.leviathanstudio.test.common.entity.EntityTest;
 import com.leviathanstudio.test.common.entity.EntityTest2;
@@ -8,7 +7,6 @@ import com.leviathanstudio.test.common.entity.EntityTest3;
 import com.leviathanstudio.test.common.entity.EntityTest4;
 import com.leviathanstudio.test.common.item.ItemTest;
 import com.leviathanstudio.test.common.tileEntity.TileEntityTest;
-import com.leviathanstudio.test.proxy.ClientProxy;
 import com.mojang.datafixers.DataFixUtils;
 import com.mojang.datafixers.types.Type;
 
@@ -18,7 +16,6 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SharedConstants;
@@ -27,6 +24,7 @@ import net.minecraft.util.datafix.TypeReferences;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.registries.ObjectHolder;
 
 @EventBusSubscriber(modid = ModTest.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class RegistryHandler
