@@ -47,10 +47,13 @@ public class CSTileEntitySpecialRenderer<T extends TileEntity> extends TileEntit
         this.model = new ModelCraftStudio(modid, modelNameIn, textureWidth, textureHeigth);
         this.texture = texture;
     }
+    
+    
 
     @Override
     public void render(T te, double x, double y, double z, float partialTicks, int destroyStage) {
         super.render(te, x, y, z, partialTicks, destroyStage);
+      
         GlStateManager.pushMatrix();
         // Correction of the position.
         GlStateManager.translated(x + 0.5D, y + 1.5D, z + 0.5D);

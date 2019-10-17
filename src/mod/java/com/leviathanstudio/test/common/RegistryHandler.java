@@ -29,20 +29,17 @@ import net.minecraftforge.registries.ObjectHolder;
 @EventBusSubscriber(modid = ModTest.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class RegistryHandler
 {
-    public static final Block block_test = null;
-
-
+    public static final Block block_test = new BlockTest(Block.Properties.create(Material.ROCK));
+    public static final TileEntityType<?> tile_test = register("tileTest", TileEntityType.Builder.create(TileEntityTest::new, block_test));
     
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        event.getRegistry().register(new BlockTest(Block.Properties.create(Material.ROCK).variableOpacity()).setRegistryName("block_test"));
+        event.getRegistry().register(block_test.setRegistryName("block_test"));
     }
     
     @SubscribeEvent
     public static void registerTiles(RegistryEvent.Register<TileEntityType<?>> event) {
-    	TileEntityType<?> tileTest = register("tileTest", TileEntityType.Builder.create(TileEntityTest::new)).setRegistryName("tile_test");
-
-    	event.getRegistry().register(tileTest);
+    	event.getRegistry().register(tile_test.setRegistryName("tile_test"));
     }
 
     @SubscribeEvent

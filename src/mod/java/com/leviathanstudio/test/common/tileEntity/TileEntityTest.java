@@ -4,7 +4,9 @@ import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
 import com.leviathanstudio.craftstudio.common.animation.simpleImpl.AnimatedTileEntity;
 import com.leviathanstudio.test.common.ModTest;
+import com.leviathanstudio.test.common.RegistryHandler;
 
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.World;
 
 public class TileEntityTest extends AnimatedTileEntity
@@ -15,12 +17,16 @@ public class TileEntityTest extends AnimatedTileEntity
         TileEntityTest.animHandler.addAnim(ModTest.MODID, "position", "craftstudio_api_test", true);
     }
 
+    public TileEntityTest(TileEntityType<?> tileEntityTypeIn) {
+        super(tileEntityTypeIn);
+    }
+    
     public TileEntityTest() {
-        super(null);
+    	super(RegistryHandler.tile_test);
     }
 
     public TileEntityTest(World worldIn) {
-        this();
+        super(RegistryHandler.tile_test);
         this.world = worldIn;
     }
 
