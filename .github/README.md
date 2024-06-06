@@ -1,7 +1,9 @@
 # Important Note About CraftStudio Software from the creator of this beautiful soft ! 
 
-![image](https://github.com/Leviathan-Studio/CraftStudioAPI/assets/7621593/57193dad-cd58-4b56-b7a3-02b9eff6957c)
+Click on the image to see the post on x.com
 
+[![](https://github.com/Leviathan-Studio/CraftStudioAPI/assets/7621593/57193dad-cd58-4b56-b7a3-02b9eff6957c)
+](https://x.com/elisee/status/1797979485184377079)
 
 ![](/images/cs-api.png)
 
