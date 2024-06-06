@@ -1,10 +1,7 @@
-| Master | Dev |
-| ------ | ----------- |
-|![](https://travis-ci.com/Leviathan-Studio/CraftStudioAPI.svg?branch=master)|![](https://travis-ci.com/Leviathan-Studio/CraftStudioAPI.svg?branch=dev)|
+# Important Note About CraftStudio Software from the creator of this beautiful soft ! 
 
-| Quality | Maintainability | Reliability | Security |
-| ------- | --------------- | ----------- | -------- |
-| ![](https://sonar.leviathan-studio.com/api/project_badges/measure?project=com.leviathanstudio%3ACraftStudioAPI&metric=alert_status) | ![](https://sonar.leviathan-studio.com/api/project_badges/measure?project=com.leviathanstudio%3ACraftStudioAPI&metric=sqale_rating) | ![](https://sonar.leviathan-studio.com/api/project_badges/measure?project=com.leviathanstudio%3ACraftStudioAPI&metric=reliability_rating) | ![](https://sonar.leviathan-studio.com/api/project_badges/measure?project=com.leviathanstudio%3ACraftStudioAPI&metric=security_rating) |
+![image](https://github.com/Leviathan-Studio/CraftStudioAPI/assets/7621593/57193dad-cd58-4b56-b7a3-02b9eff6957c)
+
 
 ![](/images/cs-api.png)
 
