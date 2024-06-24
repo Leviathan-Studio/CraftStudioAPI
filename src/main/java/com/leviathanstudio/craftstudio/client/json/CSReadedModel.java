@@ -1,33 +1,31 @@
 package com.leviathanstudio.craftstudio.client.json;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Class that store information relative to a model.
  *
- * @since 0.3.0
- *
  * @author Timmypote
+ * @since 0.3.0
  */
-@SideOnly(Side.CLIENT)
-public class CSReadedModel
-{
-    private String                   name;
-    private int                      textureWidth, textureHeight;
+@OnlyIn(Dist.CLIENT)
+public class CSReadedModel {
+
+    private String name;
+    private int textureWidth, textureHeight;
     private List<CSReadedModelBlock> parents = new ArrayList<>();
 
     /**
      * Get a block from the model with this name.
      *
-     * @param name
-     *            The name of the block.
+     * @param name The name of the block.
      * @return A block with this name. <i>null</i>, if no block with this
-     *         name.</br>
-     *         If multiple block with the same name, return one of them.
+     * name.</br>
+     * If multiple block with the same name, return one of them.
      */
     public CSReadedModelBlock getBlockFromName(String name) {
         CSReadedModelBlock b;
@@ -98,4 +96,5 @@ public class CSReadedModel
     public void setParents(List<CSReadedModelBlock> parents) {
         this.parents = parents;
     }
+
 }

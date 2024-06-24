@@ -1,14 +1,5 @@
 package com.leviathanstudio.craftstudio.client.json;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.util.Map.Entry;
-
-import javax.vecmath.Vector3f;
-
-import org.apache.commons.io.Charsets;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -17,40 +8,46 @@ import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.exception.CSMalformedJsonException;
 import com.leviathanstudio.craftstudio.client.exception.CSResourceNotFoundException;
 import com.leviathanstudio.craftstudio.client.util.EnumFrameType;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.IResource;
+import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.apache.commons.io.Charsets;
+
+import javax.vecmath.Vector3f;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Map.Entry;
 
 /**
  * Class used to read json and extract a {@link CSReadedModel} or a
  * {@link CSReadedAnim}.
- * 
- * @since 0.3.0
  *
  * @author Timmypote
  * @author ZeAmateis
  * @author Phenix246
+ * @since 0.3.0
  */
-@SideOnly(Side.CLIENT)
-public class CSJsonReader
-{
-    /** The JsonObject that is the root of the file */
+@OnlyIn(Dist.CLIENT)
+public class CSJsonReader {
+    /**
+     * The JsonObject that is the root of the file
+     */
     private JsonObject root;
-    /** The resource location */
-    private String     ress;
+    /**
+     * The resource location
+     */
+    private String ress;
 
     /**
      * Create a {@link CSJsonReader} link to the resource.
      *
-     * @param resourceIn
-     *            Location of the <i>model.csjsmodel</i> or the
-     *            <i>anim.csjsmodelanim</i>.
-     * @throws CraftStudioModelNotFound
-     *             If the files doesn't exist.
-     *
+     * @param resourceIn Location of the <i>model.csjsmodel</i> or the
+     *                   <i>anim.csjsmodelanim</i>.
+     * @throws CSResourceNotFoundException If the files doesn't exist.
      * @see #readModel()
      * @see #readAnim()
      */
@@ -62,7 +59,13 @@ public class CSJsonReader
         this.ress = resourceIn.toString();
 
         try {
-            iResource = Minecraft.getMinecraft().getResourceManager().getResource(resourceIn);
+            System.out.println(Minecraft.getInstance().getResourceManager().getResource(resourceIn).getLocation());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            iResource = Minecraft.getInstance().getResourceManager().getResource(resourceIn);
             reader = new BufferedReader(new InputStreamReader(iResource.getInputStream(), Charsets.UTF_8));
             String s;
             while ((s = reader.readLine()) != null)
@@ -86,53 +89,11 @@ public class CSJsonReader
     }
 
     /**
-     * Extract a {@link CSReadedModel} from a .csjsmodel file.
-     *
-     * @return A new {@link CSReadedModel} containing the informations of the
-     *         file.
-     * @throws CSMalformedJsonException
-     *             If the json does match the model structure
-     */
-    public CSReadedModel readModel() throws CSMalformedJsonException {
-
-        CSReadedModel model = new CSReadedModel();
-        CSReadedModelBlock parent;
-        JsonObject jsonBlock;
-        JsonElement jsEl;
-
-        jsEl = this.root.get("title");
-        if (jsEl == null)
-            throw new CSMalformedJsonException("title", "String", this.ress);
-        model.setName(strNormalize(jsEl.getAsString()));
-
-        JsonArray tree = this.root.getAsJsonArray("tree");
-        if (tree == null)
-            throw new CSMalformedJsonException("tree", "Array", this.ress);
-        for (JsonElement element : tree)
-            if (element.isJsonObject()) {
-                jsonBlock = element.getAsJsonObject();
-
-                parent = new CSReadedModelBlock();
-                model.getParents().add(parent);
-
-                try {
-                    readModelBlock(jsonBlock, parent);
-                } catch (NullPointerException | ClassCastException | IllegalStateException e) {
-                    // e.printStackTrace();
-                    throw new CSMalformedJsonException(parent.getName() != null ? parent.getName() : "a parent block without name", this.ress);
-                }
-            }
-        return model;
-    }
-
-    /**
      * Extract a block (and all its children) from a {@link JsonObject} and
      * place it in the {@link CSReadedModelBlock}.
      *
-     * @param jsonBlock
-     *            The object to read the information.
-     * @param block
-     *            The block to place the information.
+     * @param jsonBlock The object to read the information.
+     * @param block     The block to place the information.
      */
     private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block) {
         readModelBlock(jsonBlock, block, null);
@@ -142,15 +103,12 @@ public class CSJsonReader
      * Extract a child block from a {@link JsonObject} and place it in the
      * {@link CSReadedModelBlock}.
      *
-     * @param jsonBlock
-     *            The object to read the information.
-     * @param block
-     *            The block to place the information.
-     * @param parentOffset
-     *            The offset from pivot of the parent block.
+     * @param jsonBlock    The object to read the information.
+     * @param block        The block to place the information.
+     * @param parentOffset The offset from pivot of the parent block.
      */
     private static void readModelBlock(JsonObject jsonBlock, CSReadedModelBlock block, Vector3f parentOffset) {
-        final int[] vertexOrderConvert = new int[] { 3, 2, 1, 0, 6, 7, 4, 5 };
+        final int[] vertexOrderConvert = new int[]{3, 2, 1, 0, 6, 7, 4, 5};
         JsonObject jsonChild;
         CSReadedModelBlock child;
 
@@ -199,8 +157,7 @@ public class CSJsonReader
             }
 
             block.setStretch(new Vector3f(stretchx, stretchy, stretchz));
-        }
-        else
+        } else
             block.setStretch(new Vector3f(1, 1, 1));
 
         if (parentOffset == null)
@@ -226,12 +183,110 @@ public class CSJsonReader
     }
 
     /**
+     * Extract a block's informations and place them in a
+     * {@link CSReadedAnimBlock}.
+     *
+     * @param entry The entry containing the informations.
+     * @param block The block to store the informations.
+     */
+    private static void readAnimBlock(Entry<String, JsonElement> entry, CSReadedAnimBlock block) {
+        block.setName(strNormalize(entry.getKey()));
+        JsonObject objBlock = entry.getValue().getAsJsonObject(), objField;
+
+        objField = objBlock.get("position").getAsJsonObject();
+        addKFElement(objField, block, EnumFrameType.POSITION);
+        objField = objBlock.get("offsetFromPivot").getAsJsonObject();
+        addKFElement(objField, block, EnumFrameType.OFFSET);
+        objField = objBlock.get("size").getAsJsonObject();
+        addKFElement(objField, block, EnumFrameType.SIZE);
+        objField = objBlock.get("rotation").getAsJsonObject();
+        addKFElement(objField, block, EnumFrameType.ROTATION);
+        objField = objBlock.get("stretch").getAsJsonObject();
+        addKFElement(objField, block, EnumFrameType.STRETCH);
+    }
+
+    /**
+     * Extract the element asked of all the keyframes.
+     *
+     * @param obj   The object with the keyframes.
+     * @param block The block to store the keyframes.
+     * @param type  type of element to add. See {@link CSReadedAnimBlock}.
+     */
+    private static void addKFElement(JsonObject obj, CSReadedAnimBlock block, EnumFrameType type) {
+        int keyFrame;
+        Vector3f value;
+        JsonArray array;
+
+        for (Entry<String, JsonElement> entry : obj.entrySet()) {
+            keyFrame = Integer.parseInt(entry.getKey());
+            array = entry.getValue().getAsJsonArray();
+            switch (type) {
+                case STRETCH:
+                case SIZE:
+                    value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
+                    break;
+                default:
+                    value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
+            }
+            block.addKFElement(keyFrame, type, value);
+        }
+    }
+
+    /**
+     * Normalize a String.
+     *
+     * @param str The String to normalize.
+     * @return The normalized String.
+     */
+    private static String strNormalize(String str) {
+        return str.replaceAll("[^\\dA-Za-z ]", "_").replaceAll("\\s+", "_").replaceAll("[^\\p{ASCII}]", "_");
+    }
+
+    /**
+     * Extract a {@link CSReadedModel} from a .csjsmodel file.
+     *
+     * @return A new {@link CSReadedModel} containing the informations of the
+     * file.
+     * @throws CSMalformedJsonException If the json does match the model structure
+     */
+    public CSReadedModel readModel() throws CSMalformedJsonException {
+
+        CSReadedModel model = new CSReadedModel();
+        CSReadedModelBlock parent;
+        JsonObject jsonBlock;
+        JsonElement jsEl;
+
+        jsEl = this.root.get("title");
+        if (jsEl == null)
+            throw new CSMalformedJsonException("title", "String", this.ress);
+        model.setName(strNormalize(jsEl.getAsString()));
+
+        JsonArray tree = this.root.getAsJsonArray("tree");
+        if (tree == null)
+            throw new CSMalformedJsonException("tree", "Array", this.ress);
+        for (JsonElement element : tree)
+            if (element.isJsonObject()) {
+                jsonBlock = element.getAsJsonObject();
+
+                parent = new CSReadedModelBlock();
+                model.getParents().add(parent);
+
+                try {
+                    readModelBlock(jsonBlock, parent);
+                } catch (NullPointerException | ClassCastException | IllegalStateException e) {
+                    // e.printStackTrace();
+                    throw new CSMalformedJsonException(parent.getName() != null ? parent.getName() : "a parent block without name", this.ress);
+                }
+            }
+        return model;
+    }
+
+    /**
      * Extract a {@link CSReadedAnim} from a .csjsmodelanim file.
      *
      * @return A new {@link CSReadedAnim} containing the informations of the
-     *         file.
-     * @throws CSMalformedJsonException
-     *             If the json does match the animation structure
+     * file.
+     * @throws CSMalformedJsonException If the json does match the animation structure
      */
     public CSReadedAnim readAnim() throws CSMalformedJsonException {
 
@@ -267,72 +322,6 @@ public class CSJsonReader
             }
         }
         return anim;
-    }
-
-    /**
-     * Extract a block's informations and place them in a
-     * {@link CSReadedAnimBlock}.
-     *
-     * @param entry
-     *            The entry containing the informations.
-     * @param block
-     *            The block to store the informations.
-     */
-    private static void readAnimBlock(Entry<String, JsonElement> entry, CSReadedAnimBlock block) {
-        block.setName(strNormalize(entry.getKey()));
-        JsonObject objBlock = entry.getValue().getAsJsonObject(), objField;
-
-        objField = objBlock.get("position").getAsJsonObject();
-        addKFElement(objField, block, EnumFrameType.POSITION);
-        objField = objBlock.get("offsetFromPivot").getAsJsonObject();
-        addKFElement(objField, block, EnumFrameType.OFFSET);
-        objField = objBlock.get("size").getAsJsonObject();
-        addKFElement(objField, block, EnumFrameType.SIZE);
-        objField = objBlock.get("rotation").getAsJsonObject();
-        addKFElement(objField, block, EnumFrameType.ROTATION);
-        objField = objBlock.get("stretch").getAsJsonObject();
-        addKFElement(objField, block, EnumFrameType.STRETCH);
-    }
-
-    /**
-     * Extract the element asked of all the keyframes.
-     *
-     * @param obj
-     *            The object with the keyframes.
-     * @param block
-     *            The block to store the keyframes.
-     * @param type
-     *            type of element to add. See {@link CSReadedAnimBlock}.
-     */
-    private static void addKFElement(JsonObject obj, CSReadedAnimBlock block, EnumFrameType type) {
-        int keyFrame;
-        Vector3f value;
-        JsonArray array;
-
-        for (Entry<String, JsonElement> entry : obj.entrySet()) {
-            keyFrame = Integer.parseInt(entry.getKey());
-            array = entry.getValue().getAsJsonArray();
-            switch (type) {
-                case STRETCH:
-                case SIZE:
-                    value = new Vector3f(array.get(0).getAsFloat(), array.get(1).getAsFloat(), array.get(2).getAsFloat());
-                    break;
-                default:
-                    value = new Vector3f(array.get(0).getAsFloat(), -array.get(1).getAsFloat(), -array.get(2).getAsFloat());
-            }
-            block.addKFElement(keyFrame, type, value);
-        }
-    }
-
-    /**
-     * Normalize a String.
-     *
-     * @param str
-     *            The String to normalize.
-     * @return The normalized String.
-     */
-    private static String strNormalize(String str) {
-        return str.replaceAll("[^\\dA-Za-z ]", "_").replaceAll("\\s+", "_").replaceAll("[^\\p{ASCII}]", "_");
     }
 
 }

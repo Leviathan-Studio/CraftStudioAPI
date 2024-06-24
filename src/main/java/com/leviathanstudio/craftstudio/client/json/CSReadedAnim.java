@@ -1,31 +1,28 @@
 package com.leviathanstudio.craftstudio.client.json;
 
+import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
 /**
  * Class that store the informations relative to an animation.
- * 
- * @since 0.3.0
  *
  * @author Timmypote
+ * @since 0.3.0
  */
-@SideOnly(Side.CLIENT)
-public class CSReadedAnim
-{
-    private String                  name;
-    private int                     duration;
-    private boolean                 holdLastK;
+@OnlyIn(Dist.CLIENT)
+public class CSReadedAnim {
+    private String name;
+    private int duration;
+    private boolean holdLastK;
     private List<CSReadedAnimBlock> blocks = new ArrayList<>();
-    private Integer[]               keyFrames;
+    private Integer[] keyFrames;
 
     /**
      * Get the keys of keyframes used in the animation.
@@ -77,5 +74,6 @@ public class CSReadedAnim
     public void setBlocks(List<CSReadedAnimBlock> blocks) {
         this.blocks = blocks;
     }
+
 
 }

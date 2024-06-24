@@ -1,26 +1,14 @@
 package com.leviathanstudio.craftstudio.dev.command;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
-import javax.annotation.Nullable;
+import com.mojang.brigadier.CommandDispatcher;
 
-import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
-
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.SyntaxErrorException;
-import net.minecraft.command.WrongUsageException;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.client.IClientCommand;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Command to list all the models or animations.
@@ -29,8 +17,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * 
  * @author Timmypote
  */
-@SideOnly(Side.CLIENT)
-public class CommandCSList extends CommandBase implements IClientCommand
+@OnlyIn(Dist.CLIENT)
+public class CommandCSList
 {
 
     private static String       name      = "cslist";
@@ -38,12 +26,14 @@ public class CommandCSList extends CommandBase implements IClientCommand
     private static int          permLevel = 0;
     private static List<String> autoC     = Arrays.<String> asList(new String[] { "models", "animations" });
 
-    @Override
-    public String getName() {
-        return CommandCSList.name;
+    public static void register(CommandDispatcher<CommandSource> dispatcher) {
+    	dispatcher.register(Commands.literal(name)
+    			.requires(src -> src.hasPermissionLevel(permLevel)));
+
     }
 
-    @Override
+
+    /*@Override
     public String getUsage(ICommandSender sender) {
         return CommandCSList.usage;
     }
@@ -71,17 +61,7 @@ public class CommandCSList extends CommandBase implements IClientCommand
     }
 
     @Override
-    public int getRequiredPermissionLevel() {
-        return CommandCSList.permLevel;
-    }
-
-    @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, CommandCSList.autoC) : Collections.<String> emptyList();
-    }
-
-    @Override
-    public boolean allowUsageWithoutPrefix(ICommandSender sender, String message) {
-        return false;
-    }
+    }*/
 }

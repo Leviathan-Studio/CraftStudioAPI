@@ -1,7 +1,6 @@
 package com.leviathanstudio.test.proxy;
 
 import com.leviathanstudio.craftstudio.client.registry.CSRegistryHelper;
-import com.leviathanstudio.craftstudio.client.registry.CraftStudioLoader;
 import com.leviathanstudio.craftstudio.client.util.EnumRenderType;
 import com.leviathanstudio.craftstudio.client.util.EnumResourceType;
 import com.leviathanstudio.craftstudio.common.animation.simpleImpl.CSTileEntitySpecialRenderer;
@@ -9,7 +8,7 @@ import com.leviathanstudio.test.client.entityRender.RenderTest;
 import com.leviathanstudio.test.client.entityRender.RenderTest2;
 import com.leviathanstudio.test.client.entityRender.RenderTest3;
 import com.leviathanstudio.test.client.entityRender.RenderTest4;
-import com.leviathanstudio.test.common.Mod_Test;
+import com.leviathanstudio.test.common.ModTest;
 import com.leviathanstudio.test.common.entity.EntityTest;
 import com.leviathanstudio.test.common.entity.EntityTest2;
 import com.leviathanstudio.test.common.entity.EntityTest3;
@@ -22,15 +21,14 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
-    @CraftStudioLoader
-    public static void registerCraftStudioAssets() {
-        CSRegistryHelper registry = new CSRegistryHelper(Mod_Test.MODID);
-        registry.register(EnumResourceType.MODEL, EnumRenderType.ENTITY, "model_dead_corpse");
+    public void registerCraftStudioAssets() {
+        CSRegistryHelper registry = new CSRegistryHelper(ModTest.MODID);
         registry.register(EnumResourceType.MODEL, EnumRenderType.BLOCK, "craftstudio_api_test2");
         registry.register(EnumResourceType.MODEL, EnumRenderType.BLOCK, "craftstudio_api_test");
+        registry.register(EnumResourceType.MODEL, EnumRenderType.ENTITY, "model_dead_corpse");
         registry.register(EnumResourceType.MODEL, EnumRenderType.ENTITY, "dragon_brun");
         registry.register(EnumResourceType.MODEL, EnumRenderType.ENTITY, "peacock");
-
+        
         registry.register(EnumResourceType.ANIM, EnumRenderType.BLOCK, "position");
         registry.register(EnumResourceType.ANIM, EnumRenderType.BLOCK, "rotation");
         registry.register(EnumResourceType.ANIM, EnumRenderType.BLOCK, "offset");
@@ -50,7 +48,7 @@ public class ClientProxy extends CommonProxy
 
     @Override
     public void bindTESR() {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTest.class, new CSTileEntitySpecialRenderer(Mod_Test.MODID, "craftstudio_api_test", 64,
-                32, new ResourceLocation(Mod_Test.MODID, "textures/entity/craftstudio_api_test.png")));
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTest.class, new CSTileEntitySpecialRenderer(ModTest.MODID, "craftstudio_api_test", 64,
+                32, new ResourceLocation(ModTest.MODID, "textures/entity/craftstudio_api_test.png")));
     }
 }

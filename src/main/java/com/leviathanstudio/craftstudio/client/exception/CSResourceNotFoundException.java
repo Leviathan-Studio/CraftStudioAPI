@@ -1,27 +1,24 @@
 package com.leviathanstudio.craftstudio.client.exception;
 
-import java.io.FileNotFoundException;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import java.io.FileNotFoundException;
 
 /**
  * Exception raised when opening a .csjsmodel or .csjsmodelanim file has failed.
- * 
- * @since 0.3.0
  *
  * @author Phenix246
+ * @since 0.3.0
  */
-@SideOnly(Side.CLIENT)
-public class CSResourceNotFoundException extends FileNotFoundException
-{
+@OnlyIn(Dist.CLIENT)
+public class CSResourceNotFoundException extends FileNotFoundException {
     private static final long serialVersionUID = -3495512420502088386L;
 
     /**
      * Create an exception for a resource not found.
      *
-     * @param resourceIn
-     *            The resource that wasn't found.
+     * @param resourceIn The resource that wasn't found.
      */
     public CSResourceNotFoundException(String resourceIn) {
         super("Resource not found: " + resourceIn);

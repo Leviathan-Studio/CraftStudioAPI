@@ -1,43 +1,44 @@
 package com.leviathanstudio.craftstudio.server.animation;
 
+import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
+import com.leviathanstudio.craftstudio.common.animation.Channel;
+import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
+import com.leviathanstudio.craftstudio.common.animation.IAnimated;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.WeakHashMap;
 
-import com.leviathanstudio.craftstudio.common.animation.AnimationHandler;
-import com.leviathanstudio.craftstudio.common.animation.Channel;
-import com.leviathanstudio.craftstudio.common.animation.CustomChannel;
-import com.leviathanstudio.craftstudio.common.animation.IAnimated;
-
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
 /**
  * An object that hold the informations about its animated objects and all their
  * animations. It also start/stop/update the animations. This is the server side
  * AnimationHandler.
- * 
- * @since 0.3.0
- * 
- * @author Timmypote
  *
- * @param <T>
- *            The class of the animated object.
+ * @param <T> The class of the animated object.
+ * @author Timmypote
+ * @since 0.3.0
  */
-@SideOnly(Side.SERVER)
-public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandler<T>
-{
-    /** Map with all the animations. */
-    private Map<String, Channel>          animChannels       = new HashMap<>();
+@OnlyIn(Dist.DEDICATED_SERVER)
+public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandler<T> {
+    /**
+     * Map with all the animations.
+     */
+    private Map<String, Channel> animChannels = new HashMap<>();
 
-    /** Map with the informations about animations. */
-    private Map<T, Map<String, AnimInfo>> currentAnimInfo    = new WeakHashMap<>();
+    /**
+     * Map with the informations about animations.
+     */
+    private Map<T, Map<String, AnimInfo>> currentAnimInfo = new WeakHashMap<>();
 
-    /** Map with the initialized animations and their starting frames. */
-    private Map<T, Map<String, Float>>    startingAnimations = new WeakHashMap<>();
+    /**
+     * Map with the initialized animations and their starting frames.
+     */
+    private Map<T, Map<String, Float>> startingAnimations = new WeakHashMap<>();
 
     @Override
     public void addAnim(String modid, String animNameIn, String modelNameIn, boolean looped) {
@@ -121,7 +122,7 @@ public class ServerAnimationHandler<T extends IAnimated> extends AnimationHandle
         if (animInfoMap == null)
             return;
 
-        for (Iterator<Entry<String, AnimInfo>> it = animInfoMap.entrySet().iterator(); it.hasNext();) {
+        for (Iterator<Entry<String, AnimInfo>> it = animInfoMap.entrySet().iterator(); it.hasNext(); ) {
             Entry<String, AnimInfo> animInfo = it.next();
             boolean animStatus = this.canUpdateAnimation(this.animChannels.get(animInfo.getKey()), animatedElement);
             if (!animStatus)

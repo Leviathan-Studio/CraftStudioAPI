@@ -1,34 +1,30 @@
 package com.leviathanstudio.craftstudio.client.json;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.vecmath.Vector3f;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.vecmath.Vector3f;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
 /**
  * Class that store information relative to a block in a model.
- * 
- * @since 0.3.0
  *
  * @author Timmypote
+ * @since 0.3.0
  */
-@SideOnly(Side.CLIENT)
-public class CSReadedModelBlock
-{
-    private String                   name;
-    private Vector3f                 rotationPoint, rotation, size, stretch, offset;
-    private float                    vertex[][];
-    private int[]                    texOffset = new int[2];
-    private List<CSReadedModelBlock> childs    = new ArrayList<>();
+@OnlyIn(Dist.CLIENT)
+public class CSReadedModelBlock {
+    private String name;
+    private Vector3f rotationPoint, rotation, size, stretch, offset;
+    private float vertex[][];
+    private int[] texOffset = new int[2];
+    private List<CSReadedModelBlock> childs = new ArrayList<>();
 
     /**
      * Create a new block with the specified name.
      *
-     * @param name
-     *            The name of the block.
+     * @param name The name of the block.
      * @return The new block.
      */
     CSReadedModelBlock getBlockFromName(String name) {
@@ -47,10 +43,9 @@ public class CSReadedModelBlock
      * Check if the block or one of it's child as a name already in the list or
      * not and complete the list.
      *
-     * @param names
-     *            A list of name.
+     * @param names A list of name.
      * @return null, if no block has duplicate name. One name that is
-     *         duplicated, otherwise.
+     * duplicated, otherwise.
      */
     String whyUnAnimable(List<String> names) {
         String str;

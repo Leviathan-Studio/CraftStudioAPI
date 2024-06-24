@@ -1,66 +1,21 @@
 buildscript {
     repositories {
-		maven {
-            url 'https://repo.leviathan-studio.com/libs-release/'
-            credentials {
-                username = "${artifactory_user}"
-                password = "${artifactory_password}"
-            }
-        }
+        maven { url = 'https://repo.leviathan-studio.com/libs-release' }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.0.0"
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
 
-// plugins
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.artifactory'
 
-// Maven
-version = "1.0.1"
-group= "com.leviathanstudio"
-archivesBaseName = "CraftStudioAPI"
-ext.suffix="alpha"
+version = '1.0.2'
+group = 'com.leviathanstudio' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'CraftStudioAPI'
 
-// Jenkins build
-ext.buildnumber = 0
-if (System.getenv().TRAVIS_BUILD_NUMBER) {
-    project.buildnumber = System.getenv().TRAVIS_BUILD_NUMBER
-} else {
-    logger.lifecycle "SETTING BUILDNUMBER TO 0"
-}
-
-// Java
-compileJava.options.encoding = 'UTF-8'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-minecraft {
-    version = "1.12-14.21.1.2387"
-    runDir = "run"
-    mappings = "snapshot_20170624"
-    replace "@VERSION@",  project.version
-}
-
-//Full version
-ext.fullVersion="${project.version}.${project.buildnumber}-mc${project.minecraft.version}"
-
-if(ext.suffix != "") {
-	ext.fullVersion += "-${project.ext.suffix}"
-}
-
-repositories {
-    maven {
-        url 'https://repo.leviathan-studio.com/libs-release/'
-        credentials {
-            username = "${artifactory_user}"
-            password = "${artifactory_password}"
-        }
-    }
-}
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 sourceSets {
     main {
@@ -89,75 +44,110 @@ sourceSets {
     }
 }
 
-dependencies {
-}
+minecraft {
 
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-    // resources
-    from(sourceSets.main.resources.srcDirs) {
-        include 'com/**/**'
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
+    mappings channel: 'snapshot', version: '20190719-1.14.3'
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
-jar {    
-    manifest {
-        attributes  'group':project.group
-    }
-    appendix = 'universal'
-    version = "${project.ext.fullVersion}"
-}
+    runs {
+        client {
+            workingDirectory project.file('run')
 
-task devJar(type: Jar) {
-    from(sourceSets.main.allSource) {
-        include 'com/**/**'
-    }
-    from(sourceSets.dev.allSource) {
-        include 'com/**/**'
-    }
-    from(sourceSets.main.output) {
-        include '**'
-    }
-    manifest {
-        attributes  'group':project.group
-    }
-    classifier = 'dev'
-    version = "${project.ext.fullVersion}"
-}
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
-// Publish the library
-artifactory {
-    contextUrl = "${artifactory_contextUrl}"
-    publish {
-        version = "${project.ext.fullVersion}"
-        repository {
-            repoKey = 'leviathan'
-            username = "${artifactory_user}"
-            password = "${artifactory_password}"
-            maven = true
+            property 'forge.logging.console.level', 'info'
+
+            mods {
+                craftstudioapi {
+					ideaModule "${rootProject.name}.main"
+                    source sourceSets.main
+                }
+                testmod {
+                    ideaModule "${rootProject.name}.mod"
+                    source sourceSets.mod
+                }
+            }
         }
-        defaults {
-            publications ('mavenJava')
-        }
-    }
-}
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifact (devJar) { 
-                classifier = 'dev'
+        server {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            property 'forge.logging.console.level', 'info'
+
+            mods {
+                craftstudioapi {
+					ideaModule "${rootProject.name}.main"
+                    source sourceSets.main
+                }
+                testmod {
+                    ideaModule "${rootProject.name}.mod"
+                    source sourceSets.mod
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            property 'forge.logging.console.level', 'info'
+
+            args '--mod', 'craftstudioapi', '--mod', 'testmod', '--all', '--output', file('src/generated/resources/')
+
+            mods {
+                craftstudioapi {
+                    source sourceSets.main
+                }
             }
         }
     }
 }
 
-build.dependsOn devJar
-artifactoryPublish.dependsOn build
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.14.4-28.0.51'
+}
+
+repositories {
+    maven { url = 'https://repo.leviathan-studio.com/libs-release' }
+}
+
+// Example for how to get properties into the manifest for reading by the runtime..
+jar {
+    manifest {
+        attributes([
+                "Specification-Title": "crafstudio_api",
+                "Specification-Vendor": "LeviathanStudio",
+                "Specification-Version": "1", // We are version 1 of ourselves
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor" :"LeviathanStudio",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+// Example configuration to allow publishing using the maven-publish task
+// we define a custom artifact that is sourced from the reobfJar output task
+// and then declare that to be published
+// Note you'll need to add a repository here
+def reobfFile = file("$buildDir/reobfJar/output.jar")
+def reobfArtifact = artifacts.add('default', reobfFile) {
+    type 'jar'
+    builtBy 'reobfJar'
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact reobfArtifact
+        }
+    }
+    repositories {
+        maven {
+            url "file:///${project.projectDir}/mcmodsrepo"
+        }
+    }
+}

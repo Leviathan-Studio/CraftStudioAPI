@@ -1,9 +1,8 @@
 package com.leviathanstudio.craftstudio.common.animation;
 
 import com.leviathanstudio.craftstudio.client.model.CSModelRenderer;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Class used to perform custom animations. For example, using in game data.
@@ -29,6 +28,6 @@ public abstract class CustomChannel extends InfoChannel
      * @param animated
      *            The animated object.
      */
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public abstract void update(CSModelRenderer part, IAnimated animated);
 }

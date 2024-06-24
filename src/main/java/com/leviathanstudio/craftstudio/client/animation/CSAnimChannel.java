@@ -1,50 +1,46 @@
 package com.leviathanstudio.craftstudio.client.animation;
 
-import java.util.Map.Entry;
-
-import javax.vecmath.Vector3f;
-
 import com.leviathanstudio.craftstudio.CraftStudioApi;
 import com.leviathanstudio.craftstudio.client.exception.CSResourceNotRegisteredException;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnim;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock;
 import com.leviathanstudio.craftstudio.client.json.CSReadedAnimBlock.ReadedKeyFrame;
-import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModel;
 import com.leviathanstudio.craftstudio.client.json.CSReadedModelBlock;
+import com.leviathanstudio.craftstudio.client.registry.RegistryHandler;
 import com.leviathanstudio.craftstudio.client.util.MathHelper;
-
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.vecmath.Vector3f;
+import java.util.Map.Entry;
 
 /**
  * Animation Channel for CraftStudio imported animation.
  *
- * @since 0.3.0
- *
  * @author Timmypote
+ * @since 0.3.0
  */
-@SideOnly(Side.CLIENT)
-public class CSAnimChannel extends ClientChannel
-{
-    /** The registered animation it represent */
-    private CSReadedAnim  rAnim;
-    /** The registered model it animate */
+@OnlyIn(Dist.CLIENT)
+public class CSAnimChannel extends ClientChannel {
+    /**
+     * The registered animation it represent
+     */
+    private CSReadedAnim rAnim;
+    /**
+     * The registered model it animate
+     */
     private CSReadedModel rModel;
 
     /**
      * Create a channel with the same name as the animation. Use the 60 fps by
      * default.
      *
-     * @param animNameIn
-     *            The name of the animation in the registry.
-     * @param modelNameIn
-     *            The name of the model bind to this animation in the registry.
-     * @param looped
-     *            If the animation is looped or not.
-     * @throws CSResourceNotRegisteredException
-     *             If the animation or model if not registered
+     * @param animIn  The name of the animation in the registry.
+     * @param modelIn The name of the model bind to this animation in the registry.
+     * @param looped  If the animation is looped or not.
+     * @throws CSResourceNotRegisteredException If the animation or model if not registered
      */
     public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, boolean looped) throws CSResourceNotRegisteredException {
         this(animIn, modelIn, 60.0F, looped);
@@ -53,25 +49,20 @@ public class CSAnimChannel extends ClientChannel
     /**
      * Create a channel.
      *
-     * @param animNameIn
-     *            The name of the animation in the registry.
-     * @param name
-     *            The name of the channel
-     * @param modelNameIn
-     *            The name of the model bind to this animation in the registry.
-     * @param fps
-     *            Keyframes per second of the animation.
-     * @param looped
-     *            If the animation is looped or not.
-     * @throws CSResourceNotRegisteredException
-     *             If the animation or model if not registered
+     * @param animIn  The name of the animation in the registry.
+     * @param modelIn The name of the model bind to this animation in the registry.
+     * @param fps     Keyframes per second of the animation.
+     * @param looped  If the animation is looped or not.
+     * @throws CSResourceNotRegisteredException If the animation or model if not registered
      */
     public CSAnimChannel(ResourceLocation animIn, ResourceLocation modelIn, float fps, boolean looped) throws CSResourceNotRegisteredException {
         super(animIn.toString(), false);
-        this.rAnim = RegistryHandler.animationRegistry.getObject(animIn);
+        //TODO Check ifPresent()
+        this.rAnim = RegistryHandler.animationRegistry.getValue(animIn).get();
         if (this.rAnim == null)
             throw new CSResourceNotRegisteredException(animIn.toString());
-        this.rModel = RegistryHandler.modelRegistry.getObject(modelIn);
+        //TODO Check ifPresent()
+        this.rModel = RegistryHandler.modelRegistry.getValue(modelIn).get();
         if (this.rModel == null)
             throw new CSResourceNotRegisteredException(modelIn.toString());
         if (!this.rModel.isAnimable()) {
